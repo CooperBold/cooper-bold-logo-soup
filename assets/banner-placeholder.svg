@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="772" height="250" viewBox="0 0 772 250" role="img" aria-label="Cooper Bold Logo Soup banner placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+  </defs>
+  <rect width="772" height="250" fill="url(#bg)"/>
+  <circle cx="120" cy="125" r="48" fill="#e94560" opacity="0.9"/>
+  <circle cx="170" cy="125" r="36" fill="#f5a623" opacity="0.85"/>
+  <circle cx="210" cy="125" r="28" fill="#4ecdc4" opacity="0.85"/>
+  <text x="280" y="118" fill="#ffffff" font-family="system-ui, sans-serif" font-size="36" font-weight="700">Cooper Bold Logo Soup</text>
+  <text x="280" y="158" fill="#c8d6e5" font-family="system-ui, sans-serif" font-size="18">Balanced partner logo strips for WordPress</text>
+</svg>

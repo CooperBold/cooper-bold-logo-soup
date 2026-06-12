@@ -135,6 +135,29 @@ Excluded (via `.distignore`): `src/`, `node_modules/`, AI/wiki docs, `.cursor/`,
 
 Add images under `.wordpress-org/` in the repo root. The deploy action copies that folder to the SVN `assets/` directory (not plugin trunk). See [10up’s asset-update action](https://github.com/10up/action-wordpress-plugin-asset-update) to refresh readme/assets between tagged releases.
 
+## WordPress.org release
+
+Automated deploy runs on tags matching `v*` (see `.github/workflows/deploy.yml`). Before the first deploy:
+
+1. Complete [docs/WORDPRESS-ORG-SUBMISSION.md](docs/WORDPRESS-ORG-SUBMISSION.md) — submit the plugin ZIP, pass review, receive SVN access.
+2. Add GitHub repository secrets **`SVN_USERNAME`** and **`SVN_PASSWORD`** (wordpress.org application password).
+3. Tag from `main` after `npm run build`:
+
+```bash
+git tag -a v1.0.0 -m "Release 1.0.0"
+git push origin v1.0.0
+```
+
+**Pre-approval:** The first listing requires manual WordPress.org review. Automated SVN deploy only works after your plugin is approved and secrets are set.
+
+Build a local submission ZIP (respects `.distignore`):
+
+```bash
+./scripts/build-release-zip.sh
+```
+
+**Plugin Check:** On a staging site, install the [Plugin Check](https://wordpress.org/plugins/plugin-check/) plugin and scan the release ZIP before tagging.
+
 ## License
 
 - Plugin: **GPL-2.0-or-later** (WordPress.org compatible)
