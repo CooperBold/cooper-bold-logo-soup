@@ -89,6 +89,52 @@ build/                       # Compiled JS/CSS (generated)
 readme.txt                   # WordPress.org readme
 ```
 
+## Releasing to WordPress.org
+
+Deployments run automatically from `main` when you push a **semver tag** (`v1.0.0`, `v1.0.1`, …) or **publish a GitHub Release** (not a pre-release). The workflow uses [10up/action-wordpress-plugin-deploy](https://github.com/10up/action-wordpress-plugin-deploy) and respects `.distignore` so dev scaffolding never ships to SVN.
+
+### Before the plugin is approved
+
+The workflow is safe to merge before WordPress.org grants SVN access. Until approval, runs will fail at the SVN step — that is expected. After approval, add the secrets below and cut a tag to deploy.
+
+New plugin submission: [WordPress.org plugin developer handbook](https://developer.wordpress.org/plugins/wordpress-org/).
+
+### GitHub secrets (repository → Settings → Secrets and variables → Actions)
+
+| Secret | Value |
+| --- | --- |
+| `SVN_USERNAME` | Your WordPress.org username |
+| `SVN_PASSWORD` | A [WordPress.org application password](https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/) (not your login password) |
+
+Do not commit these values. Each secret is write-once in GitHub; you cannot view them again after saving.
+
+### Cut a release
+
+1. Bump the version in **three** places so they stay aligned:
+   - `cooper-bold-logo-soup.php` plugin header `Version:` and `CB_LOGO_SOUP_VERSION`
+   - `readme.txt` `Stable tag:` and changelog section
+   - `src/block/block.json` `version` (rebuild updates `build/block/block.json`)
+2. Commit on `main`: `git commit -m "chore: release 1.0.1"`
+3. Tag and push:
+   ```bash
+   git tag v1.0.1
+   git push origin main
+   git push origin v1.0.1
+   ```
+4. Watch **Actions → Deploy to WordPress.org** on GitHub.
+
+**Tag convention:** `v` + semver (`v1.0.0`). The tag name becomes the WordPress.org plugin version tag in SVN.
+
+### What ships to WordPress.org
+
+Included: `cooper-bold-logo-soup.php`, `includes/`, `build/`, `readme.txt`, `LICENSE`.
+
+Excluded (via `.distignore`): `src/`, `node_modules/`, AI/wiki docs, `.cursor/`, SimpleMem, npm manifests, and other dev-only files. CI runs `npm ci && npm run build` before deploy so `build/` is fresh even though compiled assets are also committed on `main`.
+
+### WordPress.org assets (banners, icons, screenshots)
+
+Add images under `.wordpress-org/` in the repo root. The deploy action copies that folder to the SVN `assets/` directory (not plugin trunk). See [10up’s asset-update action](https://github.com/10up/action-wordpress-plugin-asset-update) to refresh readme/assets between tagged releases.
+
 ## License
 
 - Plugin: **GPL-2.0-or-later** (WordPress.org compatible)

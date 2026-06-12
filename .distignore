@@ -1,0 +1,55 @@
+# Git / GitHub (workflow stays in repo; not copied to SVN trunk)
+/.git
+/.github
+.gitignore
+.gitattributes
+.distignore
+
+# WordPress.org assets (handled separately by deploy action → SVN assets/)
+/.wordpress-org
+
+# AI, wiki, and dev scaffolding
+/wiki
+/crewai
+/docs
+/.cursor
+AI_SESSION_MEMORY.md
+AI_RUNBOOK.md
+AGENTS.md
+
+# SimpleMem
+/simplemem_cli.py
+/simplemem_client.py
+/requirements.txt
+
+# Node toolchain and source (ship compiled build/ only)
+/node_modules
+/package.json
+/package-lock.json
+/src
+
+# Environment and secrets
+/.env
+/.env.example
+/.env.*
+
+# Scratch and local-only paths
+/uncommitted
+
+# Python artifacts
+__pycache__
+*.py[cod]
+.python-version
+.venv
+venv
+crewai/.venv
+
+# OS / editor
+.DS_Store
+.idea
+.vscode
+
+# Tests (reserved for future PHPUnit/Jest)
+/tests
+/phpunit.xml
+/phpunit.xml.dist

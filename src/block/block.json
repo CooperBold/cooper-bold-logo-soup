@@ -30,6 +30,6 @@
 		"alignBy": { "type": "string", "default": "visual-center-y" },
 		"gap": { "type": "number", "default": 28 }
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor.scss"
+	"editorScript": "file:../index.js",
+	"editorStyle": "file:../index.css"
 }
