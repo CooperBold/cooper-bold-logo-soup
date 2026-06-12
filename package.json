@@ -1,0 +1,20 @@
+{
+	"name": "cooper-bold-logo-soup",
+	"version": "1.0.0",
+	"description": "WordPress plugin wrapping @sanity-labs/logo-soup for harmonious logo displays.",
+	"private": true,
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build src/block/index.js src/view.js src/view.scss",
+		"start": "wp-scripts start src/block/index.js src/view.js src/view.scss",
+		"lint:js": "wp-scripts lint-js",
+		"format": "wp-scripts format",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"dependencies": {
+		"@sanity-labs/logo-soup": "^1.2.2"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.10.0"
+	}
+}

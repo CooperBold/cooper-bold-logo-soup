@@ -1,0 +1,25 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Scratch (not SimpleMem — commit docs/simplemem/)
+uncommitted/
+
+# Python
+__pycache__/
+*.py[cod]
+.python-version
+.venv/
+venv/
+crewai/.venv/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# WordPress / Node build
+node_modules/
+vendor/
+*.log

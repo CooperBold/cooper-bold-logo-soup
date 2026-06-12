@@ -1,0 +1,18 @@
+---
+description: LLM Wiki — read wiki/SCHEMA.md before any wiki operation
+globs:
+  - "wiki/**"
+alwaysApply: false
+---
+
+# LLM Wiki
+
+This project has an LLM-maintained wiki at `wiki/`.
+
+Before creating, updating, or querying wiki pages, read `wiki/SCHEMA.md` for conventions.
+
+The wiki is an Obsidian vault. Use `[[wikilinks]]` for all internal links. Every page has YAML frontmatter.
+
+When the user says "ingest", "add to wiki", "lint wiki", or "query wiki", follow the workflows in SCHEMA.md.
+
+After significant work sessions, suggest filing key decisions and learnings into the wiki.

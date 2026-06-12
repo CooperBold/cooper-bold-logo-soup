@@ -1,0 +1,74 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "cooper-bold/logo-soup",
+  "version": "1.0.0",
+  "title": "Logo Soup",
+  "category": "media",
+  "icon": "images-alt2",
+  "description": "Display partner logos in a balanced, harmonious strip.",
+  "keywords": [
+    "logo",
+    "logos",
+    "partners",
+    "clients",
+    "brands"
+  ],
+  "textdomain": "cooper-bold-logo-soup",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full",
+      "center"
+    ],
+    "className": true
+  },
+  "attributes": {
+    "logos": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    },
+    "baseSize": {
+      "type": "number",
+      "default": 48
+    },
+    "scaleFactor": {
+      "type": "number",
+      "default": 0.5
+    },
+    "contrastThreshold": {
+      "type": "number",
+      "default": 10
+    },
+    "densityAware": {
+      "type": "boolean",
+      "default": true
+    },
+    "densityFactor": {
+      "type": "number",
+      "default": 0.5
+    },
+    "cropToContent": {
+      "type": "boolean",
+      "default": false
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "alignBy": {
+      "type": "string",
+      "default": "visual-center-y"
+    },
+    "gap": {
+      "type": "number",
+      "default": 28
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.scss"
+}

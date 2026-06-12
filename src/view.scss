@@ -1,0 +1,18 @@
+.cb-logo-soup {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	box-sizing: border-box;
+}
+
+.cb-logo-soup img {
+	max-width: 100%;
+	max-height: var( --cb-logo-size, 48px );
+	height: auto;
+	vertical-align: middle;
+}
+
+.cb-logo-soup a {
+	display: inline-flex;
+	line-height: 0;
+}

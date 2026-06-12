@@ -1,0 +1,20 @@
+# Context7 (up-to-date docs)
+
+## When to use
+
+Use the **Context7** MCP server to retrieve up-to-date documentation and code examples when:
+
+- Implementing or debugging WordPress plugin features (hooks, REST API, admin UI, blocks)
+- PHP, WordPress Coding Standards, or plugin packaging details are unclear
+- You need official patterns for shortcodes, Gutenberg blocks, or `register_post_type`
+
+## How to use
+
+1. **Prefer pre-resolved IDs** — Stack library IDs are in [.cursor/context7-libraries.md](../context7-libraries.md). Use those with **Query Documentation** when the library is listed.
+2. **Other libraries** — Call **Resolve Context7 Library ID** first, then **Query Documentation**.
+3. **Limit calls** — Do not call Context7 tools more than 3 times per question.
+
+## Query tips
+
+- Be specific: e.g. "WordPress plugin activation hook best practices" or "register REST route with permission callback".
+- Do not include secrets, API keys, or PII in queries.

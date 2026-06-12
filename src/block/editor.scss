@@ -1,0 +1,15 @@
+.cb-logo-soup-editor__list {
+	margin: 1em 0 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		padding: 0.25rem 0;
+		border-bottom: 1px solid #e0e0e0;
+		font-size: 12px;
+	}
+}

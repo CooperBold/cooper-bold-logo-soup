@@ -1,0 +1,14 @@
+# Logo Soup WP Plugin crew tasks
+
+plan_task:
+    description: >
+        Create an implementation plan for this Logo Soup WP Plugin task: {task_description}
+        Consider: WordPress hooks, security (nonces, capability checks), file layout, and verification on a local WP install.
+    expected_output: >
+        A markdown document suitable for .cursor/plans/PLAN.md with:
+        1. Goal (one sentence)
+        2. Plan as a checklist (- [ ] ...) with clear steps and file paths
+        3. Test / verification section (local WordPress, PHPUnit if applicable)
+        No preamble; start with the plan content.
+    agent: planner
+    output_file: plan_output.md
