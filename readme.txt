@@ -1,6 +1,6 @@
 === Cooper Bold Logo Soup ===
 Contributors: cooperbold
-Tags: logo, logos, partners, clients, brands, gallery, block
+Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
