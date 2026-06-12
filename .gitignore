@@ -22,4 +22,5 @@ crewai/.venv/
 # WordPress / Node build
 node_modules/
 vendor/
+dist/
 *.log
