@@ -6,6 +6,7 @@
 .distignore
 
 # WordPress.org assets (handled separately by deploy action → SVN assets/)
+/assets
 /.wordpress-org
 
 # AI, wiki, and dev scaffolding
@@ -13,6 +14,9 @@
 /crewai
 /docs
 /.cursor
+/README.md
+/scripts
+/dist
 AI_SESSION_MEMORY.md
 AI_RUNBOOK.md
 AGENTS.md
