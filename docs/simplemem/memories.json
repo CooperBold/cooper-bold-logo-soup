@@ -1,36 +1,72 @@
 [
-	{
-		"id": "local_1781281931482",
-		"text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `logo-soup-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
-		"metadata": {
-			"source": "ai_session_memory",
-			"date": "2026-06-12",
-			"session_title": "[2026-06-12] Bootstrap | Set up project for AI",
-			"session_number": 1
-		},
-		"namespace": "logo-soup-wp-plugin",
-		"timestamp": 1781281931.4820201
-	},
-	{
-		"id": "local_1781281931573",
-		"text": "AI bootstrap completed: SimpleMem local, wiki, CrewAI, Context7, AGENTS.md",
-		"metadata": {
-			"type": "bootstrap",
-			"date": "2026-06-12"
-		},
-		"namespace": "logo-soup-wp-plugin",
-		"timestamp": 1781281931.573196
-	},
-	{
-		"id": "local_1781281970432",
-		"text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `logo-soup-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
-		"metadata": {
-			"source": "ai_session_memory",
-			"date": "2026-06-12",
-			"session_title": "[2026-06-12] Bootstrap | Set up project for AI",
-			"session_number": 1
-		},
-		"namespace": "logo-soup-wp-plugin",
-		"timestamp": 1781281970.4322891
-	}
+  {
+    "id": "local_1781281931482",
+    "text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `logo-soup-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
+    "metadata": {
+      "source": "ai_session_memory",
+      "date": "2026-06-12",
+      "session_title": "[2026-06-12] Bootstrap | Set up project for AI",
+      "session_number": 1
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781281931.4820201
+  },
+  {
+    "id": "local_1781281931573",
+    "text": "AI bootstrap completed: SimpleMem local, wiki, CrewAI, Context7, AGENTS.md",
+    "metadata": {
+      "type": "bootstrap",
+      "date": "2026-06-12"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781281931.573196
+  },
+  {
+    "id": "local_1781281970432",
+    "text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `logo-soup-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
+    "metadata": {
+      "source": "ai_session_memory",
+      "date": "2026-06-12",
+      "session_title": "[2026-06-12] Bootstrap | Set up project for AI",
+      "session_number": 1
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781281970.4322891
+  },
+  {
+    "id": "local_1781346683447",
+    "text": "Wiki create: Wiki bootstrapped (2026-06-12)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-06-12",
+      "verb": "create",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781346683.447283
+  },
+  {
+    "id": "local_1781346683500",
+    "text": "Wiki migrate: No docs/ directory (2026-06-12)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-06-12",
+      "verb": "migrate",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781346683.5003421
+  },
+  {
+    "id": "local_1781346683552",
+    "text": "Wiki update: Plugin entity pages (2026-06-12)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-06-12",
+      "verb": "update",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781346683.552299
+  }
 ]
