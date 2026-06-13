@@ -142,7 +142,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							setAttributes( { baseSize: value } )
 						}
 						min={ 16 }
-						max={ 128 }
+						max={ 256 }
 						step={ 4 }
 					/>
 					<RangeControl
@@ -229,7 +229,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							setAttributes( { gap: value } )
 						}
 						min={ 0 }
-						max={ 48 }
+						max={ 96 }
 						step={ 4 }
 					/>
 				</PanelBody>

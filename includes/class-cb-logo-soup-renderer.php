@@ -99,7 +99,9 @@ final class CB_Logo_Soup_Renderer {
 			'scaleFactor'       => max( 0, min( 1, (float) $attrs['scaleFactor'] ) ),
 			'contrastThreshold' => max( 0, min( 255, (int) $attrs['contrastThreshold'] ) ),
 			'densityAware'      => (bool) $attrs['densityAware'],
-			'densityFactor'     => max( 0, min( 1, (float) $attrs['densityFactor'] ) ),
+			'densityFactor'     => $attrs['densityAware']
+				? max( 0, min( 1, (float) $attrs['densityFactor'] ) )
+				: 0,
 			'cropToContent'     => (bool) $attrs['cropToContent'],
 			'backgroundColor'   => $this->color( (string) $attrs['backgroundColor'] ),
 			'alignBy'           => $align_by,
@@ -122,13 +124,15 @@ final class CB_Logo_Soup_Renderer {
 			return '';
 		}
 
+		CB_Logo_Soup_Assets::enqueue_frontend();
+
 		$config = array(
 			'logos'             => $attrs['logos'],
 			'baseSize'          => $attrs['baseSize'],
 			'scaleFactor'       => $attrs['scaleFactor'],
 			'contrastThreshold' => $attrs['contrastThreshold'],
 			'densityAware'      => $attrs['densityAware'],
-			'densityFactor'     => $attrs['densityFactor'],
+			'densityFactor'     => $attrs['densityAware'] ? $attrs['densityFactor'] : 0,
 			'cropToContent'     => $attrs['cropToContent'],
 			'alignBy'           => $attrs['alignBy'],
 			'gap'               => $attrs['gap'],
@@ -225,7 +229,7 @@ final class CB_Logo_Soup_Renderer {
 		if ( $hex ) {
 			return $hex;
 		}
-		if ( preg_match( '/^(rgb|rgba|hsl|hsla)\([^)]+\)$/i', $color ) ) {
+		if ( preg_match( '/^(rgb|rgba|hsl|hsla)\(\s*[\d.%\s,-]+\s*\)$/i', $color ) ) {
 			return sanitize_text_field( $color );
 		}
 		$lower = strtolower( $color );

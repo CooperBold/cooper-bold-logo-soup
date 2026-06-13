@@ -40,9 +40,11 @@ No. Logo Soup normalizes logo sizing and alignment in a static strip.
 
 = Which shortcode should I use? =
 
-Both `[logo_soup]` and `[cooper-bold-logo-soup]` work. Example:
+Both `[logo_soup]` and `[cooper-bold-logo-soup]` work. Pipe-delimited example:
 
 `[logo_soup logos="/wp-content/uploads/acme.svg|Acme Corp" gap="28" base_size="48"]`
+
+For many logos, use comma-separated chunks: `url|alt|link,url2|alt2`. Raw JSON cannot be used in shortcode attributes (WordPress treats `]` as the end of the tag); use the `base64:` prefix instead: `logos="base64:W3sidXJsIjoiLi4uIn1d"`.
 
 = Does this work with page builders? =
 

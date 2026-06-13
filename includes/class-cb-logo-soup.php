@@ -25,11 +25,18 @@ final class CB_Logo_Soup {
 	}
 
 	public function register_block(): void {
-		$dir = CB_LOGO_SOUP_PATH . 'build/block';
-		if ( ! file_exists( $dir . '/block.json' ) ) {
-			$dir = CB_LOGO_SOUP_PATH . 'src/block';
+		$candidates = array(
+			CB_LOGO_SOUP_PATH . 'build/block',
+			CB_LOGO_SOUP_PATH . 'src/block',
+		);
+		$dir = '';
+		foreach ( $candidates as $candidate ) {
+			if ( file_exists( $candidate . '/block.json' ) ) {
+				$dir = $candidate;
+				break;
+			}
 		}
-		if ( ! file_exists( $dir . '/block.json' ) ) {
+		if ( '' === $dir ) {
 			return;
 		}
 		register_block_type( $dir, array( 'render_callback' => array( $this, 'render_block' ) ) );
@@ -40,7 +47,7 @@ final class CB_Logo_Soup {
 	}
 
 	/** @param array<string,string>|string $atts */
-	public function render_shortcode( $atts ): string {
+	public function render_shortcode( $atts, ?string $content = null, string $tag = 'logo_soup' ): string {
 		$a = shortcode_atts(
 			array(
 				'logos'              => '',
@@ -56,7 +63,7 @@ final class CB_Logo_Soup {
 				'class'              => '',
 			),
 			$atts,
-			'logo_soup'
+			$tag
 		);
 		return $this->renderer->render(
 			array(
@@ -76,6 +83,13 @@ final class CB_Logo_Soup {
 		$value = trim( $value );
 		if ( '' === $value ) {
 			return array();
+		}
+		if ( 0 === stripos( $value, 'base64:' ) ) {
+			$decoded = json_decode(
+				base64_decode( substr( $value, 7 ), true ) ?: '',
+				true
+			);
+			return is_array( $decoded ) ? $this->renderer->sanitize_logos( $decoded ) : array();
 		}
 		if ( '[' === $value[0] ) {
 			$decoded = json_decode( html_entity_decode( $value, ENT_QUOTES ), true );

@@ -52,7 +52,7 @@ export function sanitizeCssColor( color ) {
 	if ( /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test( trimmed ) ) {
 		return trimmed.toLowerCase();
 	}
-	if ( /^(rgb|rgba|hsl|hsla)\([^)]+\)$/i.test( trimmed ) ) {
+	if ( /^(rgb|rgba|hsl|hsla)\(\s*[\d.%\s,-]+\s*\)$/i.test( trimmed ) ) {
 		return trimmed;
 	}
 	const lower = trimmed.toLowerCase();
@@ -155,7 +155,7 @@ export function sanitizePreviewConfig( attributes ) {
 		densityAware,
 		densityFactor: densityAware
 			? clamp( attributes.densityFactor, 0, 1, 0.5 )
-			: 0.5,
+			: 0,
 		cropToContent: Boolean( attributes.cropToContent ),
 		alignBy,
 		gap,
@@ -197,6 +197,9 @@ export function toSoupProps( config ) {
 		gap: config.gap ?? 28,
 		renderImage: ( imageProps ) => {
 			const { src, alt, width, height, style } = imageProps;
+			if ( renderIndex >= config.logos.length ) {
+				renderIndex = 0;
+			}
 			const logo = config.logos[ renderIndex ] || {};
 			renderIndex += 1;
 			const img = (

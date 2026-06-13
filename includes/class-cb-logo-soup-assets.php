@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class CB_Logo_Soup_Assets {
 
 	public const VIEW_SCRIPT_HANDLE = 'cooper-bold-logo-soup-view';
-	public const VIEW_STYLE_HANDLE  = 'cooper-bold-logo-soup-view';
+	public const VIEW_STYLE_HANDLE  = 'cooper-bold-logo-soup-view-style';
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'register' ) );
@@ -26,15 +26,44 @@ final class CB_Logo_Soup_Assets {
 				true
 			);
 		}
-		$style = CB_LOGO_SOUP_PATH . 'build/view.scss.asset.php';
-		if ( file_exists( $style ) ) {
-			$asset = include $style;
+
+		$style_candidates = array(
+			array(
+				'path' => CB_LOGO_SOUP_PATH . 'build/view.scss.asset.php',
+				'url'  => CB_LOGO_SOUP_URL . 'build/view.scss.css',
+			),
+			array(
+				'path' => CB_LOGO_SOUP_PATH . 'build/view.asset.php',
+				'url'  => CB_LOGO_SOUP_URL . 'build/view.css',
+			),
+		);
+		foreach ( $style_candidates as $candidate ) {
+			if ( ! file_exists( $candidate['path'] ) ) {
+				continue;
+			}
+			$asset = include $candidate['path'];
 			wp_register_style(
 				self::VIEW_STYLE_HANDLE,
-				CB_LOGO_SOUP_URL . 'build/view.scss.css',
+				$candidate['url'],
 				$asset['dependencies'],
 				$asset['version']
 			);
+			break;
+		}
+	}
+
+	/**
+	 * Enqueue frontend assets when a block or shortcode renders (widgets, FSE, etc.).
+	 */
+	public static function enqueue_frontend(): void {
+		if ( is_admin() ) {
+			return;
+		}
+		if ( wp_script_is( self::VIEW_SCRIPT_HANDLE, 'registered' ) ) {
+			wp_enqueue_script( self::VIEW_SCRIPT_HANDLE );
+		}
+		if ( wp_style_is( self::VIEW_STYLE_HANDLE, 'registered' ) ) {
+			wp_enqueue_style( self::VIEW_STYLE_HANDLE );
 		}
 	}
 
@@ -53,11 +82,6 @@ final class CB_Logo_Soup_Assets {
 		if ( ! has_block( 'cooper-bold/logo-soup', $post ) && ! $has_shortcode ) {
 			return;
 		}
-		if ( wp_script_is( self::VIEW_SCRIPT_HANDLE, 'registered' ) ) {
-			wp_enqueue_script( self::VIEW_SCRIPT_HANDLE );
-		}
-		if ( wp_style_is( self::VIEW_STYLE_HANDLE, 'registered' ) ) {
-			wp_enqueue_style( self::VIEW_STYLE_HANDLE );
-		}
+		self::enqueue_frontend();
 	}
 }
