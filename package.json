@@ -9,12 +9,17 @@
 		"start": "wp-scripts start src/block/index.js src/view.js src/view.scss",
 		"lint:js": "wp-scripts lint-js",
 		"format": "wp-scripts format",
-		"packages-update": "wp-scripts packages-update"
+		"packages-update": "wp-scripts packages-update",
+		"wp-env": "wp-env",
+		"wp-env:start": "wp-env start",
+		"wp-env:stop": "wp-env stop",
+		"wp-env:clean": "wp-env clean"
 	},
 	"dependencies": {
 		"@sanity-labs/logo-soup": "^1.2.2"
 	},
 	"devDependencies": {
+		"@wordpress/env": "^10.39.0",
 		"@wordpress/scripts": "^30.10.0"
 	}
 }

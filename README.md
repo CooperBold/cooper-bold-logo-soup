@@ -40,6 +40,28 @@ npm run build   # production
 npm run start   # watch mode
 ```
 
+### Local testing with wp-env
+
+Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or another Docker engine wp-env can use).
+
+```bash
+npm ci
+npm run build
+npm run wp-env:start
+```
+
+- Site: [http://localhost:8888](http://localhost:8888)
+- Admin: [http://localhost:8888/wp-admin](http://localhost:8888/wp-admin) — user `admin`, password `password`
+- Activate **Cooper Bold Logo Soup** on the [Plugins](http://localhost:8888/wp-admin/plugins.php) screen, then create a page and insert the **Logo Soup** block to smoke-test the strip.
+
+Stop the environment:
+
+```bash
+npm run wp-env:stop
+```
+
+Reset containers and volumes: `npm run wp-env:clean`.
+
 ## Usage
 
 ### Gutenberg block
