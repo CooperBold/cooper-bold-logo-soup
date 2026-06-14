@@ -1,6 +1,6 @@
 {
 	"name": "cooper-bold-logo-soup",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "WordPress plugin wrapping @sanity-labs/logo-soup for harmonious logo displays.",
 	"private": true,
 	"license": "GPL-2.0-or-later",
@@ -13,7 +13,9 @@
 		"wp-env": "wp-env",
 		"wp-env:start": "wp-env start",
 		"wp-env:stop": "wp-env stop",
-		"wp-env:clean": "wp-env clean"
+		"wp-env:clean": "wp-env clean",
+		"test": "wp-scripts test-unit-js",
+		"test:php": "vendor/bin/phpunit"
 	},
 	"dependencies": {
 		"@sanity-labs/logo-soup": "^1.2.2"

@@ -1,0 +1,15 @@
+{
+	"name": "cooperbold/cooper-bold-logo-soup",
+	"description": "WordPress plugin wrapping @sanity-labs/logo-soup",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.6"
+	},
+	"scripts": {
+		"test": "phpunit"
+	}
+}

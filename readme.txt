@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,12 +61,19 @@ Up to 50 logos per block or shortcode instance.
 
 == Changelog ==
 
+= 1.0.1 =
+* PHPUnit tests for renderer sanitization (logos, colors, densityFactor parity)
+* Jest tests for editor preview config (`sanitizePreviewConfig` / `toSoupProps`)
+
 = 1.0.0 =
 * Initial release with Gutenberg block and shortcodes
 * Conditional frontend asset loading
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Adds automated test coverage; no user-facing behavior changes.
 
 = 1.0.0 =
 Initial public release.

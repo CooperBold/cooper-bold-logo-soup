@@ -22,5 +22,8 @@ crewai/.venv/
 # WordPress / Node build
 node_modules/
 vendor/
+composer.phar
+composer-setup.php
+.phpunit.result.cache
 dist/
 *.log
