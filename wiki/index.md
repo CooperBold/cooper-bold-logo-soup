@@ -2,7 +2,7 @@
 title: Wiki Index
 type: index
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-14
 ---
 
 # Logo Soup WP Plugin Wiki
@@ -13,7 +13,8 @@ updated: 2026-06-12
 
 | Page | Summary | Date |
 |------|---------|------|
-| | | |
+| [[sar-review]] | SAR spec-attack-repair run that defined the current architecture | 2026-06-12 |
+| [[adversarial-review]] | Multi-round adversary review of plugin diff (REQUEST_CHANGES) | 2026-06-13 |
 
 ## Entities
 
@@ -27,16 +28,16 @@ updated: 2026-06-12
 
 | Page | Summary |
 |------|---------|
-| | |
+|  |  |
 
 ## Decisions
 
 | # | Decision | Status |
 |---|----------|--------|
-| | | |
+|  |  |  |
 
 ## Guides
 
 | Page | Purpose |
 |------|---------|
-| | |
+| [[wordpress-org-submission]] | Publish the plugin to the WordPress.org directory |

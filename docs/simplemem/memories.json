@@ -68,5 +68,15 @@
     },
     "namespace": "logo-soup-wp-plugin",
     "timestamp": 1781346683.552299
+  },
+  {
+    "id": "local_1781438896973",
+    "text": "Wiki weekly maintenance 2026-06-14: ingested 3 docs/ files into wiki/. SAR + adversarial reviews became wiki/sources/ entries that document the security/architecture decisions baked into the plugin; WordPress.org submission doc became a wiki/guides/ runbook for the maintainer release flow. Lint clean after renaming sources to match doc stems and updating all wikilinks.",
+    "metadata": {
+      "source": "wiki-weekly-maintain",
+      "date": "2026-06-14"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781438896.973158
   }
 ]
