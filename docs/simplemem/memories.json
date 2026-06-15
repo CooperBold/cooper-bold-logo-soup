@@ -78,5 +78,29 @@
     },
     "namespace": "logo-soup-wp-plugin",
     "timestamp": 1781438896.973158
+  },
+  {
+    "id": "local_1781519440430",
+    "text": "Wiki ingest: SAR + Adversarial review docs (2026-06-14)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-06-14",
+      "verb": "ingest",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781519440.430529
+  },
+  {
+    "id": "local_1781519440491",
+    "text": "Wiki ingest: WordPress.org submission guide (2026-06-14)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-06-14",
+      "verb": "ingest",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781519440.491551
   }
 ]
