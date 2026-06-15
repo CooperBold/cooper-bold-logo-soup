@@ -1,16 +1,18 @@
 # wp-env smoke test — Cooper Bold Logo Soup
 
-**Date:** 2026-06-14  
+**Date:** 2026-06-15  
 **Environment:** macOS agent shell (`/Users/thedao/Repos/Logo Soup WP Plugin`)
 
 ## Summary
 
 | Step | Result |
 |------|--------|
-| Docker available | **Blocked** — `docker` not found on PATH |
+| Docker available | **Blocked** — `docker` not on PATH; Docker Desktop not installed |
+| `brew install --cask docker` | **Blocked** — cask downloaded but `sudo` link step failed (no interactive password) |
 | `npm ci && npm run build` | **Pass** |
-| PHPUnit (`vendor/bin/phpunit`) | **Pass** — 13 tests |
+| PHPUnit (`vendor/bin/phpunit`) | **Pass** — 13 tests, 24 assertions |
 | Jest (`npm test`) | **Pass** — 11 tests |
+| Release zip (`./scripts/build-release-zip.sh`) | **Pass** — 21 files, no tests/composer/vendor |
 | `npm run wp-env:start` | **Skipped** — requires Docker |
 | Plugin activation / page smoke test | **Skipped** — requires wp-env |
 | `npm run wp-env:stop` | N/A |
@@ -18,16 +20,23 @@
 ## Blocker
 
 ```text
-$ docker info
-command not found: docker
+$ which docker
+docker not found
+
+$ brew install --cask docker
+# Docker.app downloaded, but linking /usr/local/bin/docker requires sudo password.
+# Install rolled back; Docker.app removed.
 ```
 
-`@wordpress/env` (configured in `.wp-env.json`) needs Docker Desktop or an equivalent Docker engine. Without it, wp-env cannot start the WordPress + MySQL containers.
+`@wordpress/env` (configured in `.wp-env.json`) needs Docker Desktop running. Homebrew can install the cask, but the agent shell cannot complete the install without an interactive `sudo` prompt.
 
-## What was attempted
+## User action to unblock smoke test
 
-1. `docker info` — failed immediately (Docker CLI not installed or not on PATH).
-2. Did not run `npm run wp-env:start` because it would fail with the same dependency.
+1. Install Docker Desktop manually:
+   - `brew install --cask docker` (enter password when prompted), **or**
+   - Download from https://www.docker.com/products/docker-desktop/
+2. Open **Docker.app** and wait until the whale icon shows "Docker Desktop is running".
+3. Run the manual smoke test commands below.
 
 ## Manual smoke test (when Docker is available)
 
@@ -53,13 +62,26 @@ Shortcode alternative:
 
 **Pass criteria:** published page renders a `.cb-logo-soup` container with `data-cb-logo-soup` JSON, placeholder `<img>` tags, and `cooper-bold-logo-soup-view` script enqueued (view source or Network tab).
 
+## Release zip verification (2026-06-15)
+
+```bash
+./scripts/build-release-zip.sh
+unzip -l dist/cooper-bold-logo-soup-1.0.1.zip
+```
+
+**Pass criteria:**
+
+- Contains `build/` (index.js, view.js, block.json, CSS)
+- Contains `includes/`, `cooper-bold-logo-soup.php`, `readme.txt`, `LICENSE`
+- Does **not** contain `tests/`, `composer.json`, `composer.phar`, `vendor/`, `package.json`, `phpunit.xml.dist`
+
 ## Automated tests (no Docker)
 
 PHPUnit and Jest cover renderer sanitization parity without a live WordPress instance:
 
 ```bash
-composer install
-composer test
+composer install   # or use existing vendor/
+vendor/bin/phpunit
 npm test
 ```
 

@@ -54,7 +54,14 @@ crewai/.venv
 .idea
 .vscode
 
-# Tests (reserved for future PHPUnit/Jest)
+# PHP dev toolchain (not shipped to wp.org)
+/composer.json
+/composer.lock
+/composer.phar
+/vendor
+.phpunit.result.cache
+
+# Tests
 /tests
 /phpunit.xml
 /phpunit.xml.dist
