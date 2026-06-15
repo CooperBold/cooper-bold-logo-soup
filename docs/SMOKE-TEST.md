@@ -20,6 +20,22 @@
 | Release zip (`./scripts/build-release-zip.sh`) | **Pass** (prior run) — 21 files, no tests/composer/vendor |
 | `npm run wp-env:stop` | **Pass** (after smoke test) |
 
+## Path with spaces (committed fix)
+
+`@wordpress/env` splits plugin paths on spaces when `"plugins": [ "." ]`, so lifecycle activation fails for `Logo Soup WP Plugin`.
+
+**Fix:** create a no-spaces symlink and point `.wp-env.json` at it (committed on this machine as `/Users/thedao/Repos/logo-soup-wp-plugin`). WP-CLI slug is `logo-soup-wp-plugin`.
+
+```bash
+ln -sfn "/Users/thedao/Repos/Logo Soup WP Plugin" "/Users/thedao/Repos/logo-soup-wp-plugin"
+npm run wp-env:start   # no .wp-env.override.json
+```
+
+Remove any local `.wp-env.override.json` from earlier smoke runs — it overrides `.wp-env.json`.
+
+**Re-verify (2026-06-15):** `npm run wp-env:start` (default config), `logo-soup-wp-plugin` active, `curl` → HTTP 200, `npm run wp-env:stop`.
+
+
 ## wp-env smoke commands (2026-06-15)
 
 ```bash

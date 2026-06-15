@@ -30,3 +30,6 @@ dist/
 
 # wp-env local WordPress
 .wp-env/
+
+# Local wp-env overrides (machine-specific)
+.wp-env.override.json
