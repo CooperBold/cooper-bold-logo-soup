@@ -44,6 +44,14 @@ npm run start   # watch mode
 
 Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or another Docker engine wp-env can use).
 
+**Path with spaces:** `@wordpress/env` breaks when the repo directory name contains spaces. This checkout uses a **no-spaces symlink** in `.wp-env.json`. On your machine, create the same link once (adjust if your clone lives elsewhere):
+
+```bash
+ln -sfn "/path/to/Logo Soup WP Plugin" "/path/to/logo-soup-wp-plugin"
+```
+
+Or clone the repo into a directory **without** spaces and set `"plugins": [ "." ]` in `.wp-env.json`.
+
 ```bash
 npm ci
 npm run build

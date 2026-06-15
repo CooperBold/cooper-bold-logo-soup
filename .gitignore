@@ -27,3 +27,6 @@ composer-setup.php
 .phpunit.result.cache
 dist/
 *.log
+
+# wp-env local WordPress
+.wp-env/
