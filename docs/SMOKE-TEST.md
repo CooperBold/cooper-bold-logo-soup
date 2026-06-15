@@ -1,34 +1,47 @@
 # wp-env smoke test — Cooper Bold Logo Soup
 
 **Date:** 2026-06-15  
-**Machine:** macOS 26.5.1, `arm64` (Apple Silicon)  
-**Repo:** `/Users/thedao/Repos/Logo Soup WP Plugin`  
-**Docker:** Colima (`docker context`: `colima`, aarch64 Ubuntu 24.04)
+**Environment:** macOS Apple Silicon (`arm64`), macOS 26.5.1, plugin root `/Users/thedao/Repos/Logo Soup WP Plugin`
 
 ## Summary
 
-| Check | Result | Notes |
-|-------|--------|-------|
-| `uname -m` / `sw_vers` | **PASS** | `arm64`, macOS 26.5.1 |
-| Rosetta (`softwareupdate --install-rosetta`) | **BLOCKED** | `sudo` needs interactive password in agent shell |
-| Docker Desktop (`/Applications/Docker.app`) | **Present** | Daemon was down initially; Colima used for smoke |
-| `docker info` | **PASS** | Colima VM, Server 29.5.2, aarch64 |
-| `npm ci && npm run build` | **PASS** | After clean `node_modules` (sandbox tar errors without full permissions) |
-| `npm run wp-env:start` (default `.wp-env.json`) | **FAIL** | Repo path contains spaces; lifecycle script splits plugin path and exits 1 |
-| `npm run wp-env:start` (symlink workaround) | **PASS** | See [Path with spaces](#path-with-spaces) |
-| `wp plugin activate cooper-bold-logo-soup` | **FAIL** | WP-CLI slug is the **folder name**, not the main PHP file |
-| `wp plugin list --status=active` | **PASS** | Plugin active as `logo-soup-wp-plugin-smoke` (symlink) or `Logo Soup WP Plugin` (`.` mount) |
-| `wp post create` (logo-soup block) | **PASS** | Post created (e.g. ID 8) |
-| `curl http://localhost:8888/` | **PASS** | HTTP 200 |
-| `npm run wp-env:stop` | **PASS** | Stopped cleanly after smoke |
+| Step | Result |
+|------|--------|
+| Docker Desktop (`/Applications/Docker.app`) | **Installed** — Homebrew cask needs `sudo` for `/usr/local/bin` symlinks; app copied from official DMG instead |
+| Docker daemon | **Colima** — `DOCKER_HOST=unix:///Users/thedao/.colima/default/docker.sock` (Desktop socket not up during agent run) |
+| `docker version` (client / server) | **29.5.3** / **29.5.2** (Colima, `linux/arm64`) |
+| `npm ci && npm run build` | **Pass** |
+| `npm run wp-env:start` (default `"plugins": [ "." ]`) | **Fail** — lifecycle `wp plugin activate` splits folder name on spaces (`Logo`, `Soup`, …) |
+| `npm run wp-env:start` (symlink + `.wp-env.override.json`) | **Pass** |
+| Plugin active in wp-env | **Pass** — slug `logo-soup-wp-plugin-smoke` |
+| `wp post create` (logo-soup block) | **Pass** — post ID 4 |
+| Frontend HTML (`cb-logo-soup`, `data-cb-logo-soup`, `cooper-bold-logo-soup-view`) | **Pass** — `curl http://localhost:8888/?p=4` |
+| `npm run wp-env:stop` | **Pass** |
 
-**Overall wp-env smoke:** **PARTIAL PASS** — WordPress + plugin + post + HTTP work; default start and `cooper-bold-logo-soup` activation fail on this machine without workarounds.
+**Overall wp-env smoke:** **Pass** with symlink workaround and Colima. Default config from a spaced path still fails activation during `wp-env start`.
+
+## Docker install (agent run)
+
+```bash
+# brew install --cask docker  → fails without interactive sudo for /usr/local/bin links
+# Manual install from cached DMG:
+hdiutil attach ~/Library/Caches/Homebrew/Cask/Docker.dmg--*.dmg
+cp -R /Volumes/Docker/Docker.app /Applications/
+hdiutil detach /Volumes/Docker
+open -a Docker   # first-run may need Rosetta or "Continue without Rosetta"
+```
+
+**User one-liner if Homebrew is preferred:**
+
+```bash
+brew install --cask docker   # enter password when prompted for symlinks
+```
 
 ## Path with spaces
 
-`@wordpress/env` mounts `"plugins": [ "." ]` using the directory name as the plugin slug. Spaces in `/Users/thedao/Repos/Logo Soup WP Plugin` break the **lifecycle** `wp plugin activate` step (tokens split into `Logo`, `Soup`, `WP`, `Plugin`).
+`@wordpress/env` uses the repo **directory name** as the plugin folder and activation slug. Spaces in `Logo Soup WP Plugin` break the lifecycle activate step.
 
-**Workaround used for green `wp-env start`:**
+**Workaround (verified 2026-06-15):**
 
 ```bash
 ln -sfn "/Users/thedao/Repos/Logo Soup WP Plugin" "/Users/thedao/Repos/logo-soup-wp-plugin-smoke"
@@ -39,46 +52,39 @@ cat > .wp-env.override.json <<'JSON'
 }
 JSON
 
+export DOCKER_HOST="unix:///Users/thedao/.colima/default/docker.sock"
 npm run wp-env:start
 ```
 
-Remove `.wp-env.override.json` when not testing, or clone the repo to a path without spaces.
+`wp plugin activate cooper-bold-logo-soup` **does not work** — use `logo-soup-wp-plugin-smoke` (or quoted `Logo Soup WP Plugin` for default mount).
 
-## Activate plugin (WP-CLI)
-
-The installable slug follows the **plugin directory name**, not `cooper-bold-logo-soup.php`:
-
-```bash
-# Default mount (folder name with spaces)
-npx wp-env run cli wp plugin activate "Logo Soup WP Plugin"
-
-# Symlink workaround
-npx wp-env run cli wp plugin activate logo-soup-wp-plugin-smoke
-
-# This fails (plugin not found):
-npx wp-env run cli wp plugin activate cooper-bold-logo-soup
-```
-
-## Commands run (2026-06-15)
+## Commands run (2026-06-15, pass)
 
 ```bash
 cd "/Users/thedao/Repos/Logo Soup WP Plugin"
 npm ci && npm run build
-npm run wp-env:start          # fails with default config (spaces)
-# … symlink + .wp-env.override.json …
-npm run wp-env:start          # pass
+export DOCKER_HOST="unix:///Users/thedao/.colima/default/docker.sock"
+npm run wp-env:start
 npx wp-env run cli wp plugin list --status=active
-npx wp-env run cli wp post create --post_title='Logo Soup Test' --post_status=publish \
-  --post_content='<!-- wp:cooper-bold/logo-soup /-->'
-curl -s -o /dev/null -w "%{http_code}" http://localhost:8888/
+npx wp-env run cli wp post create --post_title='Logo Soup Smoke Test' --post_status=publish \
+  --post_content='<!-- wp:cooper-bold/logo-soup {"logos":[{"url":"https://via.placeholder.com/120x48.png","alt":"Placeholder"}]} /-->'
+curl -sS "http://localhost:8888/?p=4" | grep -E 'cb-logo-soup|cooper-bold-logo-soup-view'
 npm run wp-env:stop
 ```
 
-## User actions still needed
+## Pass criteria (frontend)
 
-1. **Rosetta** (optional, for Docker Desktop x86 paths): run in Terminal — `sudo softwareupdate --install-rosetta --agree-to-license`
-2. **Docker Desktop** vs **Colima**: smoke used Colima because Desktop daemon/socket was not ready; either stack is fine if `docker info` succeeds.
-3. **Rename or symlink** the repo if you want default `wp-env start` without override.
+Published page renders a `.cb-logo-soup` container with `data-cb-logo-soup` JSON, placeholder `<img>` tags, and `cooper-bold-logo-soup-view` script enqueued.
+
+Shortcode alternative:
+
+```text
+[logo_soup logos="https://via.placeholder.com/120x48.png|Placeholder"]
+```
+
+## Colima vs Docker Desktop
+
+Colima works without Rosetta on Apple Silicon. If using Docker Desktop instead, install Rosetta when prompted (`sudo softwareupdate --install-rosetta --agree-to-license`) or choose **Continue without Rosetta**. Do not run Desktop and Colima against the same wp-env stack at once.
 
 ## Automated tests (no Docker)
 
@@ -88,9 +94,7 @@ vendor/bin/phpunit
 npm test
 ```
 
-See `tests/CB_Logo_Soup_Renderer_Test.php` and `src/shared/to-soup-props.test.js`.
-
-## Release zip
+## Release zip verification
 
 ```bash
 ./scripts/build-release-zip.sh
