@@ -30,7 +30,7 @@ Dated log for session context and handoffs.
 **Decisions:**
 
 - SimpleMem: local-only (`SIMPLEMEM_BACKEND=local`), store at `docs/simplemem`.
-- SimpleMem namespace `logo-soup-wp-plugin` (repo slug); plugin brand is Cooper Bold.
+- SimpleMem namespace `logo-soup-wp-plugin` (repo slug); user-facing plugin name is **Logo Soup** (vendor: Cooper Bold).
 
 **Next steps:**
 

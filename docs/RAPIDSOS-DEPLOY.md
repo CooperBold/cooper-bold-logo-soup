@@ -1,4 +1,4 @@
-# RapidSOS deploy — Cooper Bold Logo Soup
+# RapidSOS deploy — Logo Soup
 
 **Staging:** https://wordpress-1533060-6135168.cloudwaysapps.com/
 
@@ -20,7 +20,7 @@ Pick one:
 2. **SFTP** — Upload ZIP to server, unzip into `wp-content/plugins/cooper-bold-logo-soup/` (overwrite existing).
 3. **SSH** — `wp plugin install /path/to/cooper-bold-logo-soup-1.1.0.zip --activate` (if WP-CLI available).
 
-Activate **Cooper Bold Logo Soup** if not already active.
+Activate **Logo Soup** if not already active.
 
 ## Logo Collections (primary workflow)
 

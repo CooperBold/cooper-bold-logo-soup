@@ -12,7 +12,7 @@ status: active
 
 # Submit to WordPress.org Plugin Directory
 
-Step-by-step procedure for publishing **Cooper Bold Logo Soup** on the WordPress plugin directory. Tasks that need the maintainer's account or secrets are marked **(you)**. Source: `docs/WORDPRESS-ORG-SUBMISSION.md`.
+Step-by-step procedure for publishing **Logo Soup** on the WordPress plugin directory. Tasks that need the maintainer's account or secrets are marked **(you)**. Source: `docs/WORDPRESS-ORG-SUBMISSION.md`.
 
 ## 1. Create a WordPress.org account **(you)**
 

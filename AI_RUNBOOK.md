@@ -6,7 +6,7 @@
 
 ## What this project is
 
-**Cooper Bold Logo Soup** is a WordPress plugin that displays client and partner logos in a balanced strip using [**@sanity-labs/logo-soup**](https://www.npmjs.com/package/@sanity-labs/logo-soup) for normalization and layout.
+**Logo Soup** is a WordPress plugin that displays client and partner logos in a balanced strip using [**@sanity-labs/logo-soup**](https://www.npmjs.com/package/@sanity-labs/logo-soup) for normalization and layout.
 
 Editors can use:
 

@@ -1,10 +1,10 @@
-=== Cooper Bold Logo Soup ===
+=== Logo Soup ===
 Contributors: cooperbold
 Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Display partner and client logos in a balanced, harmonious strip using Sanity La
 
 == Description ==
 
-Cooper Bold Logo Soup wraps the open-source [Logo Soup](https://github.com/sanity-labs/logo-soup) library for WordPress. Logo Soup analyzes each logo image and normalizes visual weight, density, and alignment so mixed brand assets look intentional together — not a scrolling marquee.
+Logo Soup wraps the open-source [Logo Soup](https://github.com/sanity-labs/logo-soup) library for WordPress. Logo Soup analyzes each logo image and normalizes visual weight, density, and alignment so mixed brand assets look intentional together — not a scrolling marquee.
 
 **Features**
 
@@ -67,6 +67,9 @@ Up to 50 logos per block or shortcode instance.
 
 == Changelog ==
 
+= 1.1.3 =
+* User-facing plugin name is now **Logo Soup** (folder slug, text domain, and block name unchanged)
+
 = 1.1.2 =
 * Simplified Logo Collections admin UI — sparse settings, single primary shortcode with discreet ID alternative, compact list-table copy
 
@@ -90,6 +93,9 @@ Up to 50 logos per block or shortcode instance.
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Display name only — no migration required.
 
 = 1.1.2 =
 Cleaner Logo Collections admin — fewer visible options by default, streamlined shortcode copy.

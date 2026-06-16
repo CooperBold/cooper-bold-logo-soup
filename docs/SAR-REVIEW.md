@@ -1,4 +1,4 @@
-# SAR Review — Cooper Bold Logo Soup
+# SAR Review — Logo Soup
 
 **Date:** 2026-06-12  
 **SAR log:** `~/.hermes/spec-attack-repair/logs/20260612T164702`  

@@ -1,4 +1,4 @@
-# Cooper Bold Logo Soup
+# Logo Soup
 
 WordPress plugin that wraps [@sanity-labs/logo-soup](https://github.com/sanity-labs/logo-soup) for harmonious partner/client logo displays. Built for sites like [RapidSOS](https://rapidsos.com) and distributed as a free Cooper Bold plugin.
 
@@ -29,7 +29,7 @@ The React component is bundled rather than ported to vanilla JS to preserve upst
 ### Site install (built assets included)
 
 1. Copy the plugin folder to `wp-content/plugins/cooper-bold-logo-soup/`.
-2. Activate **Cooper Bold Logo Soup** in **Plugins**.
+2. Activate **Logo Soup** in **Plugins**.
 
 ### Development
 
@@ -60,7 +60,7 @@ npm run wp-env:start
 
 - Site: [http://localhost:8888](http://localhost:8888)
 - Admin: [http://localhost:8888/wp-admin](http://localhost:8888/wp-admin) — user `admin`, password `password`
-- Activate **Cooper Bold Logo Soup** on the [Plugins](http://localhost:8888/wp-admin/plugins.php) screen, then create a page and insert the **Logo Soup** block to smoke-test the strip.
+- Activate **Logo Soup** on the [Plugins](http://localhost:8888/wp-admin/plugins.php) screen, then create a page and insert the **Logo Soup** block to smoke-test the strip.
 
 Stop the environment:
 

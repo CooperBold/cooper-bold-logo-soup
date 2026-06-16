@@ -1,4 +1,4 @@
-# wp-env smoke test — Cooper Bold Logo Soup
+# wp-env smoke test — Logo Soup
 
 **Date:** 2026-06-15  
 **Environment:** macOS, Docker via Colima (`docker context`: colima), plugin root `/Users/thedao/Repos/Logo Soup WP Plugin`

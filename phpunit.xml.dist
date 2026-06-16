@@ -7,7 +7,7 @@
 	verbose="true"
 >
 	<testsuites>
-		<testsuite name="Cooper Bold Logo Soup">
+		<testsuite name="Logo Soup">
 			<directory>tests</directory>
 		</testsuite>
 	</testsuites>

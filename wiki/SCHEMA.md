@@ -5,7 +5,7 @@
 ## Project
 
 - **Name**: Logo Soup WP Plugin
-- **Domain**: WordPress plugin **Cooper Bold Logo Soup** — Gutenberg block and `[logo_soup]` shortcode that render partner logos using `@sanity-labs/logo-soup`. Main file: `cooper-bold-logo-soup.php`.
+- **Domain**: WordPress plugin **Logo Soup** — Gutenberg block and `[logo_soup]` shortcode that render partner logos using `@sanity-labs/logo-soup`. Main file: `cooper-bold-logo-soup.php`.
 
 ## Directory structure
 

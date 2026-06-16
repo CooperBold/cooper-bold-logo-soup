@@ -1,4 +1,4 @@
-# Adversarial Review — Cooper Bold Logo Soup
+# Adversarial Review — Logo Soup
 
 **Date:** 2026-06-13  
 **Backend:** Nous (`anthropic/claude-opus-4.8`)  

@@ -20,7 +20,7 @@ updated: 2026-06-14
 
 | Page | What it is |
 |------|------------|
-| [[wordpress-plugin]] | Cooper Bold Logo Soup — main plugin |
+| [[wordpress-plugin]] | Logo Soup — main plugin |
 | [[sanity-logo-soup]] | `@sanity-labs/logo-soup` npm package |
 | [[gutenberg-block-logo-soup]] | Block `cooper-bold/logo-soup` |
 

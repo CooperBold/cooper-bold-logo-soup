@@ -1,4 +1,4 @@
-# Cooper Bold Logo Soup — Agent Notes
+# Logo Soup — Agent Notes
 
 ## What this plugin does
 

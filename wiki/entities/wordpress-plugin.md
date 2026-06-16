@@ -1,5 +1,5 @@
 ---
-title: Cooper Bold Logo Soup Plugin
+title: Logo Soup Plugin
 type: entity
 created: 2026-06-12
 updated: 2026-06-12
@@ -8,7 +8,7 @@ aliases: [logo-soup-plugin, cooper-bold-logo-soup]
 status: active
 ---
 
-# Cooper Bold Logo Soup Plugin
+# Logo Soup Plugin
 
 WordPress plugin in this repository for displaying normalized logo strips on the front end.
 

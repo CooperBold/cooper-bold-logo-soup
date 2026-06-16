@@ -1,6 +1,6 @@
 # WordPress.org submission guide
 
-Step-by-step checklist for publishing **Cooper Bold Logo Soup** on the WordPress plugin directory. Steps that need your account or secrets are marked **(you)**.
+Step-by-step checklist for publishing **Logo Soup** on the WordPress plugin directory. Steps that need your account or secrets are marked **(you)**.
 
 ## 1. Create a WordPress.org account **(you)**
 
