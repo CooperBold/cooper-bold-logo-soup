@@ -1,0 +1,47 @@
+.cb-logo-soup-logo-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	max-width: 720px;
+}
+
+.cb-logo-soup-logo-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 12px;
+	margin-bottom: 8px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+}
+
+.cb-logo-soup-logo-handle {
+	cursor: move;
+	margin-top: 28px;
+	color: #787c82;
+}
+
+.cb-logo-soup-logo-thumb {
+	width: 64px;
+	height: 64px;
+	object-fit: contain;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 2px;
+	flex-shrink: 0;
+}
+
+.cb-logo-soup-logo-fields {
+	flex: 1;
+	min-width: 0;
+}
+
+.cb-logo-soup-logo-fields label {
+	display: block;
+	margin-bottom: 8px;
+}
+
+.cb-logo-soup-settings-table th {
+	width: 180px;
+}

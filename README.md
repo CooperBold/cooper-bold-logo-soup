@@ -72,13 +72,34 @@ Reset containers and volumes: `npm run wp-env:clean`.
 
 ## Usage
 
+### Logo Collections (recommended)
+
+1. In wp-admin, open **Logo Soup → Add New**.
+2. Name the collection (e.g. "Homepage Partners"), add logos from the Media Library, and tune normalization settings.
+3. **Publish** the collection.
+4. Copy the shortcode from the collection editor or list table, or pick the collection in the block sidebar.
+
+```text
+[logo_soup collection="homepage-partners"]
+[logo_soup id="123"]
+```
+
+Collections are the primary workflow for Bricks and other page builders — no hand-built logo URL strings.
+
 ### Gutenberg block
 
 1. Insert the **Logo Soup** block (`cooper-bold/logo-soup`).
-2. Click **Add logos** and pick images from the media library.
-3. Adjust normalization and layout in the block sidebar.
+2. Choose a **collection** from the sidebar, or click **Add logos** for a one-off strip.
+3. Adjust normalization and layout in the block sidebar (manual mode only).
 
 ### Shortcode
+
+```text
+[logo_soup collection="homepage-partners"]
+[logo_soup id="123" gap="32"]
+```
+
+Legacy inline logos still work:
 
 ```text
 [logo_soup logos="/wp-content/uploads/acme.svg|Acme,/wp-content/uploads/globex.svg|Globex" gap="28" base_size="48"]
@@ -88,31 +109,38 @@ Reset containers and volumes: `npm run wp-env:clean`.
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `logos` | *(required)* | Comma-separated `url\|alt` pairs |
-| `base_size` | `48` | Target logo height in px |
-| `scale_factor` | `0.5` | Normalization strength (0–1) |
-| `contrast_threshold` | `10` | Background detection sensitivity |
-| `density_aware` | `true` | Adjust for visual density |
-| `density_factor` | `0.5` | Density adjustment strength |
-| `crop_to_content` | `false` | Crop to detected content bounds |
-| `background_color` | *(empty)* | CSS color for measurement context |
-| `align_by` | `visual-center-y` | `bounds`, `visual-center`, `visual-center-x`, `visual-center-y` |
-| `gap` | `28` | Spacing between logos in px |
+| `collection` | *(empty)* | Collection slug (from the collection post slug) |
+| `id` | *(empty)* | Collection post ID |
+| `logos` | *(empty)* | Comma-separated `url\|alt\|link` chunks (legacy / one-off) |
+| `base_size` | collection default | Target logo height in px |
+| `scale_factor` | collection default | Normalization strength (0–1) |
+| `contrast_threshold` | collection default | Background detection sensitivity |
+| `density_aware` | collection default | Adjust for visual density |
+| `density_factor` | collection default | Density adjustment strength |
+| `crop_to_content` | collection default | Crop to detected content bounds |
+| `background_color` | collection default | CSS color for measurement context |
+| `align_by` | collection default | `bounds`, `visual-center`, `visual-center-x`, `visual-center-y` |
+| `gap` | collection default | Spacing between logos in px |
 | `class` | *(empty)* | Extra CSS class on the wrapper |
+
+When `collection` or `id` is set, logos and defaults come from the collection. Explicit shortcode attributes override collection settings.
 
 ### RapidSOS example
 
-Add partner logos via the block on a landing page, or drop in a shortcode inside a Bricks/HTML module:
+Create a **Logo Collection** in wp-admin for partner logos, then drop the shortcode into a Bricks Shortcode element:
 
 ```text
-[logo_soup logos="/wp-content/uploads/2025/01/partner-a.svg|Partner A,/wp-content/uploads/2025/01/partner-b.svg|Partner B" base_size="40" gap="32" class="rapidsos-partner-logos"]
+[logo_soup collection="rapidsos-partners"]
 ```
+
+Optional overrides: `[logo_soup collection="rapidsos-partners" base_size="40" gap="32" class="rapidsos-partner-logos"]`
 
 ## Project layout
 
 ```text
 cooper-bold-logo-soup.php    # Plugin bootstrap
-includes/                    # PHP classes (assets, block, shortcode, renderer)
+includes/                    # PHP classes (assets, collections, renderer, shortcode)
+admin/                       # Collection editor JS/CSS (wp-admin)
 src/block/                   # Gutenberg block source
 src/view.js                  # Frontend React mount script
 build/                       # Compiled JS/CSS (generated)

@@ -6,12 +6,16 @@ import {
 } from '@wordpress/block-editor';
 import {
 	Button,
+	ExternalLink,
 	PanelBody,
 	RangeControl,
 	SelectControl,
+	Spinner,
 	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
+import { useEffect, useMemo, useState } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
 import {
@@ -37,9 +41,110 @@ const ALIGN_OPTIONS = [
 	},
 ];
 
+const SETTING_KEYS = [
+	'baseSize',
+	'scaleFactor',
+	'contrastThreshold',
+	'densityAware',
+	'densityFactor',
+	'cropToContent',
+	'backgroundColor',
+	'alignBy',
+	'gap',
+];
+
+function pickCollectionSettings( collection ) {
+	if ( ! collection ) {
+		return {};
+	}
+	return SETTING_KEYS.reduce( ( acc, key ) => {
+		if ( Object.prototype.hasOwnProperty.call( collection, key ) ) {
+			acc[ key ] = collection[ key ];
+		}
+		return acc;
+	}, {} );
+}
+
 export default function Edit( { attributes, setAttributes } ) {
-	const { logos } = attributes;
+	const { logos, collectionId } = attributes;
 	const blockProps = useBlockProps( { className: 'cb-logo-soup-editor' } );
+	const [ collections, setCollections ] = useState( [] );
+	const [ loadingCollections, setLoadingCollections ] = useState( true );
+
+	useEffect( () => {
+		let mounted = true;
+		apiFetch( { path: '/cb-logo-soup/v1/collections' } )
+			.then( ( items ) => {
+				if ( mounted ) {
+					setCollections( Array.isArray( items ) ? items : [] );
+				}
+			} )
+			.catch( () => {
+				if ( mounted ) {
+					setCollections( [] );
+				}
+			} )
+			.finally( () => {
+				if ( mounted ) {
+					setLoadingCollections( false );
+				}
+			} );
+		return () => {
+			mounted = false;
+		};
+	}, [] );
+
+	const selectedCollection = useMemo(
+		() =>
+			collections.find(
+				( item ) => Number( item.id ) === Number( collectionId )
+			) || null,
+		[ collections, collectionId ]
+	);
+
+	const usingCollection = Number( collectionId ) > 0;
+
+	const previewAttributes = useMemo( () => {
+		if ( usingCollection && selectedCollection ) {
+			return {
+				...attributes,
+				...pickCollectionSettings( selectedCollection ),
+				logos: selectedCollection.logos || [],
+			};
+		}
+		return attributes;
+	}, [ attributes, selectedCollection, usingCollection ] );
+
+	const collectionOptions = [
+		{
+			label: __( 'Manual logos', 'cooper-bold-logo-soup' ),
+			value: '0',
+		},
+		...collections.map( ( item ) => ( {
+			label: item.title,
+			value: String( item.id ),
+		} ) ),
+	];
+
+	const onSelectCollection = ( value ) => {
+		const nextId = parseInt( value, 10 ) || 0;
+		if ( nextId === 0 ) {
+			setAttributes( { collectionId: 0 } );
+			return;
+		}
+		const collection = collections.find(
+			( item ) => Number( item.id ) === nextId
+		);
+		if ( ! collection ) {
+			setAttributes( { collectionId: nextId } );
+			return;
+		}
+		setAttributes( {
+			collectionId: nextId,
+			...pickCollectionSettings( collection ),
+			logos: [],
+		} );
+	};
 
 	const onSelectLogos = ( mediaItems ) => {
 		const items = Array.isArray( mediaItems ) ? mediaItems : [ mediaItems ];
@@ -49,7 +154,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			alt: item.alt || item.title || '',
 			link: '',
 		} ) );
-		setAttributes( { logos: next } );
+		setAttributes( { logos: next, collectionId: 0 } );
 	};
 
 	const removeLogo = ( index ) => {
@@ -70,144 +175,206 @@ export default function Edit( { attributes, setAttributes } ) {
 		setAttributes( { logos: next } );
 	};
 
+	const previewConfig = sanitizePreviewConfig( previewAttributes );
+	const previewLogos = previewConfig.logos || [];
+
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Logos', 'cooper-bold-logo-soup' ) }
+					title={ __( 'Collection', 'cooper-bold-logo-soup' ) }
 					initialOpen={ true }
 				>
-					<MediaUploadCheck>
-						<MediaUpload
-							onSelect={ onSelectLogos }
-							allowedTypes={ [ 'image' ] }
-							multiple
-							gallery
-							value={ logos.map( ( logo ) => logo.id ) }
-							render={ ( { open } ) => (
-								<Button variant="primary" onClick={ open }>
-									{ logos.length
-										? __(
-												'Edit logos',
-												'cooper-bold-logo-soup'
-										  )
-										: __(
-												'Add logos',
-												'cooper-bold-logo-soup'
-										  ) }
-								</Button>
+					{ loadingCollections ? (
+						<Spinner />
+					) : (
+						<SelectControl
+							label={ __(
+								'Use collection',
+								'cooper-bold-logo-soup'
 							) }
+							value={ String( collectionId || 0 ) }
+							options={ collectionOptions }
+							onChange={ onSelectCollection }
+							help={
+								collections.length === 0
+									? __(
+											'Create collections under Logo Soup in the admin menu.',
+											'cooper-bold-logo-soup'
+									  )
+									: __(
+											'Choose a saved collection or add logos manually.',
+											'cooper-bold-logo-soup'
+									  )
+							}
 						/>
-					</MediaUploadCheck>
-					{ logos.map( ( logo, index ) => (
-						<div key={ logo.id || logo.url }>
-							<TextControl
-								label={ __(
-									'Alt text',
-									'cooper-bold-logo-soup'
-								) }
-								value={ logo.alt }
-								onChange={ ( value ) =>
-									updateLogo( index, 'alt', value )
-								}
-							/>
-							<TextControl
-								label={ __(
-									'Link URL',
-									'cooper-bold-logo-soup'
-								) }
-								value={ logo.link || '' }
-								onChange={ ( value ) =>
-									updateLogo( index, 'link', value )
-								}
-							/>
-							<Button
-								isDestructive
-								variant="link"
-								onClick={ () => removeLogo( index ) }
+					) }
+					{ usingCollection && selectedCollection && (
+						<p>
+							<ExternalLink
+								href={ `/wp-admin/post.php?post=${ selectedCollection.id }&action=edit` }
 							>
-								{ __( 'Remove', 'cooper-bold-logo-soup' ) }
-							</Button>
-						</div>
-					) ) }
+								{ __(
+									'Edit this collection',
+									'cooper-bold-logo-soup'
+								) }
+							</ExternalLink>
+						</p>
+					) }
 				</PanelBody>
+				{ ! usingCollection && (
+					<PanelBody
+						title={ __( 'Logos', 'cooper-bold-logo-soup' ) }
+						initialOpen={ true }
+					>
+						<MediaUploadCheck>
+							<MediaUpload
+								onSelect={ onSelectLogos }
+								allowedTypes={ [ 'image' ] }
+								multiple
+								gallery
+								value={ logos.map( ( logo ) => logo.id ) }
+								render={ ( { open } ) => (
+									<Button variant="primary" onClick={ open }>
+										{ logos.length
+											? __(
+													'Edit logos',
+													'cooper-bold-logo-soup'
+											  )
+											: __(
+													'Add logos',
+													'cooper-bold-logo-soup'
+											  ) }
+									</Button>
+								) }
+							/>
+						</MediaUploadCheck>
+						{ logos.map( ( logo, index ) => (
+							<div key={ logo.id || logo.url }>
+								<TextControl
+									label={ __(
+										'Alt text',
+										'cooper-bold-logo-soup'
+									) }
+									value={ logo.alt }
+									onChange={ ( value ) =>
+										updateLogo( index, 'alt', value )
+									}
+								/>
+								<TextControl
+									label={ __(
+										'Link URL',
+										'cooper-bold-logo-soup'
+									) }
+									value={ logo.link || '' }
+									onChange={ ( value ) =>
+										updateLogo( index, 'link', value )
+									}
+								/>
+								<Button
+									isDestructive
+									variant="link"
+									onClick={ () => removeLogo( index ) }
+								>
+									{ __( 'Remove', 'cooper-bold-logo-soup' ) }
+								</Button>
+							</div>
+						) ) }
+					</PanelBody>
+				) }
 				<PanelBody
 					title={ __( 'Normalization', 'cooper-bold-logo-soup' ) }
 					initialOpen={ false }
 				>
+					{ usingCollection && (
+						<p className="description">
+							{ __(
+								'Settings come from the selected collection. Edit the collection to change them.',
+								'cooper-bold-logo-soup'
+							) }
+						</p>
+					) }
 					<RangeControl
 						label={ __( 'Base size', 'cooper-bold-logo-soup' ) }
-						value={ attributes.baseSize }
+						value={ previewAttributes.baseSize }
 						onChange={ ( value ) =>
 							setAttributes( { baseSize: value } )
 						}
 						min={ 16 }
 						max={ 256 }
 						step={ 4 }
+						disabled={ usingCollection }
 					/>
 					<RangeControl
 						label={ __( 'Scale factor', 'cooper-bold-logo-soup' ) }
-						value={ attributes.scaleFactor }
+						value={ previewAttributes.scaleFactor }
 						onChange={ ( value ) =>
 							setAttributes( { scaleFactor: value } )
 						}
 						min={ 0 }
 						max={ 1 }
 						step={ 0.1 }
+						disabled={ usingCollection }
 					/>
 					<RangeControl
 						label={ __(
 							'Contrast threshold',
 							'cooper-bold-logo-soup'
 						) }
-						value={ attributes.contrastThreshold }
+						value={ previewAttributes.contrastThreshold }
 						onChange={ ( value ) =>
 							setAttributes( { contrastThreshold: value } )
 						}
 						min={ 0 }
 						max={ 255 }
 						step={ 1 }
+						disabled={ usingCollection }
 					/>
 					<ToggleControl
 						label={ __( 'Density aware', 'cooper-bold-logo-soup' ) }
-						checked={ attributes.densityAware }
+						checked={ previewAttributes.densityAware }
 						onChange={ ( value ) =>
 							setAttributes( { densityAware: value } )
 						}
+						disabled={ usingCollection }
 					/>
 					<RangeControl
 						label={ __(
 							'Density factor',
 							'cooper-bold-logo-soup'
 						) }
-						value={ attributes.densityFactor }
+						value={ previewAttributes.densityFactor }
 						onChange={ ( value ) =>
 							setAttributes( { densityFactor: value } )
 						}
 						min={ 0 }
 						max={ 1 }
 						step={ 0.1 }
-						disabled={ ! attributes.densityAware }
+						disabled={
+							usingCollection || ! previewAttributes.densityAware
+						}
 					/>
 					<ToggleControl
 						label={ __(
 							'Crop to content',
 							'cooper-bold-logo-soup'
 						) }
-						checked={ attributes.cropToContent }
+						checked={ previewAttributes.cropToContent }
 						onChange={ ( value ) =>
 							setAttributes( { cropToContent: value } )
 						}
+						disabled={ usingCollection }
 					/>
 					<TextControl
 						label={ __(
 							'Background color',
 							'cooper-bold-logo-soup'
 						) }
-						value={ attributes.backgroundColor }
+						value={ previewAttributes.backgroundColor }
 						onChange={ ( value ) =>
 							setAttributes( { backgroundColor: value } )
 						}
+						disabled={ usingCollection }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -216,36 +383,43 @@ export default function Edit( { attributes, setAttributes } ) {
 				>
 					<SelectControl
 						label={ __( 'Align by', 'cooper-bold-logo-soup' ) }
-						value={ attributes.alignBy }
+						value={ previewAttributes.alignBy }
 						options={ ALIGN_OPTIONS }
 						onChange={ ( value ) =>
 							setAttributes( { alignBy: value } )
 						}
+						disabled={ usingCollection }
 					/>
 					<RangeControl
 						label={ __( 'Gap', 'cooper-bold-logo-soup' ) }
-						value={ attributes.gap }
+						value={ previewAttributes.gap }
 						onChange={ ( value ) =>
 							setAttributes( { gap: value } )
 						}
 						min={ 0 }
 						max={ 96 }
 						step={ 4 }
+						disabled={ usingCollection }
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
-				{ logos.length === 0 ? (
+				{ previewLogos.length === 0 ? (
 					<p>
-						{ __(
-							'Add at least one logo',
-							'cooper-bold-logo-soup'
-						) }
+						{ usingCollection
+							? __(
+									'Selected collection has no logos yet.',
+									'cooper-bold-logo-soup'
+							  )
+							: __(
+									'Add at least one logo or choose a collection.',
+									'cooper-bold-logo-soup'
+							  ) }
 					</p>
 				) : (
 					<LogoSoup
 						{ ...toSoupProps(
-							sanitizePreviewConfig( attributes )
+							sanitizePreviewConfig( previewAttributes )
 						) }
 					/>
 				) }

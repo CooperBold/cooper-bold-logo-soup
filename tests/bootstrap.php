@@ -106,4 +106,78 @@ if ( ! function_exists( 'absint' ) ) {
 	}
 }
 
+if ( ! class_exists( 'WP_Post' ) ) {
+	/**
+	 * Minimal WP_Post stub for unit tests.
+	 */
+	class WP_Post {
+		/** @var object */
+		public $filter;
+
+		/**
+		 * @param object $data Post data.
+		 */
+		public function __construct( $data ) {
+			foreach ( get_object_vars( $data ) as $key => $value ) {
+				$this->$key = $value;
+			}
+		}
+	}
+}
+
+if ( ! function_exists( 'get_post' ) ) {
+	/**
+	 * @param int $post_id Post ID.
+	 */
+	function get_post( $post_id ) {
+		$id = (int) $post_id;
+		return $GLOBALS['cb_test_posts'][ $id ] ?? null;
+	}
+}
+
+if ( ! function_exists( 'get_post_meta' ) ) {
+	/**
+	 * @param int    $post_id Post ID.
+	 * @param string $key Meta key.
+	 * @param bool   $single Single value.
+	 * @return mixed
+	 */
+	function get_post_meta( $post_id, $key, $single = false ) {
+		$id = (int) $post_id;
+		if ( ! isset( $GLOBALS['cb_test_post_meta'][ $id ][ $key ] ) ) {
+			return $single ? '' : array();
+		}
+		$value = $GLOBALS['cb_test_post_meta'][ $id ][ $key ];
+		return $single ? $value : array( $value );
+	}
+}
+
+if ( ! function_exists( 'get_posts' ) ) {
+	/**
+	 * @param array<string, mixed> $args Query args.
+	 * @return array<int, WP_Post>
+	 */
+	function get_posts( $args = array() ): array {
+		if ( isset( $args['name'] ) ) {
+			$slug = (string) $args['name'];
+			if ( isset( $GLOBALS['cb_test_posts_by_slug'][ $slug ] ) ) {
+				return array( $GLOBALS['cb_test_posts_by_slug'][ $slug ] );
+			}
+			return array();
+		}
+		return array_values( $GLOBALS['cb_test_posts'] ?? array() );
+	}
+}
+
+if ( ! function_exists( 'sanitize_title' ) ) {
+	/**
+	 * @param string $title Raw title.
+	 */
+	function sanitize_title( $title ): string {
+		$title = strtolower( trim( (string) $title ) );
+		return preg_replace( '/[^a-z0-9-]+/', '-', $title ) ?? '';
+	}
+}
+
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
+require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';

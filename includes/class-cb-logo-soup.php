@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-assets.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
+require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';
 
 final class CB_Logo_Soup {
 
@@ -18,6 +19,7 @@ final class CB_Logo_Soup {
 
 	private function __construct() {
 		new CB_Logo_Soup_Assets();
+		new CB_Logo_Soup_Collections();
 		$this->renderer = new CB_Logo_Soup_Renderer();
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_shortcode( 'logo_soup', array( $this, 'render_shortcode' ) );
@@ -43,40 +45,90 @@ final class CB_Logo_Soup {
 	}
 
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
+		$attributes = $this->prepare_block_attributes( $attributes );
 		return $this->renderer->render( $attributes, get_block_wrapper_attributes( array( 'class' => 'cb-logo-soup' ) ) );
+	}
+
+	/**
+	 * When a block uses a collection, only pass the collection reference so
+	 * settings are loaded fresh from the collection post (not block defaults).
+	 *
+	 * @param array<string, mixed> $attributes Block attributes.
+	 * @return array<string, mixed>
+	 */
+	private function prepare_block_attributes( array $attributes ): array {
+		$collection_id = isset( $attributes['collectionId'] ) ? absint( $attributes['collectionId'] ) : 0;
+		if ( $collection_id > 0 ) {
+			$prepared = array( 'collectionId' => $collection_id );
+			if ( ! empty( $attributes['className'] ) ) {
+				$prepared['className'] = (string) $attributes['className'];
+			}
+			return $prepared;
+		}
+		return $attributes;
 	}
 
 	/** @param array<string,string>|string $atts */
 	public function render_shortcode( $atts, ?string $content = null, string $tag = 'logo_soup' ): string {
 		$a = shortcode_atts(
 			array(
+				'collection'         => '',
+				'id'                 => '',
 				'logos'              => '',
-				'base_size'          => '48',
-				'scale_factor'       => '0.5',
-				'contrast_threshold' => '10',
-				'density_aware'      => 'true',
-				'density_factor'     => '0.5',
-				'crop_to_content'    => 'false',
+				'base_size'          => '',
+				'scale_factor'       => '',
+				'contrast_threshold' => '',
+				'density_aware'      => '',
+				'density_factor'     => '',
+				'crop_to_content'    => '',
 				'background_color'   => '',
-				'align_by'           => 'visual-center-y',
-				'gap'                => '28',
+				'align_by'           => '',
+				'gap'                => '',
 				'class'              => '',
 			),
 			$atts,
 			$tag
 		);
-		return $this->renderer->render(
-			array(
-				'logos' => $this->parse_logos( (string) $a['logos'] ),
-				'baseSize' => $a['base_size'], 'scaleFactor' => $a['scale_factor'],
-				'contrastThreshold' => $a['contrast_threshold'],
-				'densityAware' => filter_var( $a['density_aware'], FILTER_VALIDATE_BOOLEAN ),
-				'densityFactor' => $a['density_factor'],
-				'cropToContent' => filter_var( $a['crop_to_content'], FILTER_VALIDATE_BOOLEAN ),
-				'backgroundColor' => $a['background_color'], 'alignBy' => $a['align_by'],
-				'gap' => $a['gap'], 'className' => $a['class'],
-			)
+
+		$attributes = array();
+
+		$collection_id = absint( $a['id'] );
+		if ( $collection_id > 0 ) {
+			$attributes['collectionId'] = $collection_id;
+		} elseif ( '' !== trim( (string) $a['collection'] ) ) {
+			$attributes['collection'] = sanitize_title( (string) $a['collection'] );
+		}
+
+		$parsed_logos = $this->parse_logos( (string) $a['logos'] );
+		if ( ! empty( $parsed_logos ) ) {
+			$attributes['logos'] = $parsed_logos;
+		}
+
+		$scalar_map = array(
+			'base_size'          => 'baseSize',
+			'scale_factor'       => 'scaleFactor',
+			'contrast_threshold' => 'contrastThreshold',
+			'density_factor'     => 'densityFactor',
+			'background_color'   => 'backgroundColor',
+			'align_by'           => 'alignBy',
+			'gap'                => 'gap',
+			'class'              => 'className',
 		);
+
+		foreach ( $scalar_map as $shortcode_key => $attr_key ) {
+			if ( '' !== $a[ $shortcode_key ] ) {
+				$attributes[ $attr_key ] = $a[ $shortcode_key ];
+			}
+		}
+
+		if ( '' !== $a['density_aware'] ) {
+			$attributes['densityAware'] = filter_var( $a['density_aware'], FILTER_VALIDATE_BOOLEAN );
+		}
+		if ( '' !== $a['crop_to_content'] ) {
+			$attributes['cropToContent'] = filter_var( $a['crop_to_content'], FILTER_VALIDATE_BOOLEAN );
+		}
+
+		return $this->renderer->render( $attributes );
 	}
 
 	private function parse_logos( string $value ): array {

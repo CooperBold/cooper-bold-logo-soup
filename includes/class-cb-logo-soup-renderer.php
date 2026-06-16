@@ -111,6 +111,72 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
+	 * Merge collection data with block or shortcode attributes.
+	 *
+	 * Collection logos always win when a collection is resolved. Scalar settings from
+	 * overrides replace collection values when explicitly provided.
+	 *
+	 * @param array<string, mixed> $attributes Raw attributes (may include collectionId).
+	 * @return array<string, mixed>
+	 */
+	public function resolve_attributes( array $attributes ): array {
+		$collection_id   = isset( $attributes['collectionId'] ) ? absint( $attributes['collectionId'] ) : 0;
+		$collection_slug = isset( $attributes['collection'] ) ? sanitize_title( (string) $attributes['collection'] ) : '';
+
+		$from_collection = null;
+		if ( $collection_id > 0 ) {
+			$from_collection = CB_Logo_Soup_Collections::get_attributes( $collection_id );
+		} elseif ( '' !== $collection_slug ) {
+			$from_collection = CB_Logo_Soup_Collections::get_attributes( $collection_slug );
+		}
+
+		if ( null === $from_collection ) {
+			unset( $attributes['collection'], $attributes['collectionId'] );
+			return $attributes;
+		}
+
+		$merged = $from_collection;
+		unset( $merged['collectionId'] );
+
+		$override_keys = array(
+			'baseSize',
+			'scaleFactor',
+			'contrastThreshold',
+			'densityAware',
+			'densityFactor',
+			'cropToContent',
+			'backgroundColor',
+			'alignBy',
+			'gap',
+			'className',
+		);
+
+		foreach ( $override_keys as $key ) {
+			if ( ! array_key_exists( $key, $attributes ) ) {
+				continue;
+			}
+			$value = $attributes[ $key ];
+			if ( 'className' === $key ) {
+				if ( '' !== trim( (string) $value ) ) {
+					$merged['className'] = (string) $value;
+				}
+				continue;
+			}
+			if ( in_array( $key, array( 'densityAware', 'cropToContent' ), true ) ) {
+				if ( null !== $value ) {
+					$merged[ $key ] = (bool) $value;
+				}
+				continue;
+			}
+			if ( '' !== $value && null !== $value ) {
+				$merged[ $key ] = $value;
+			}
+		}
+
+		return $merged;
+	}
+
+	/**
 	 * Render the mount point HTML for the frontend script.
 	 *
 	 * @param array<string, mixed> $attributes         Raw or sanitized attributes.
@@ -118,7 +184,7 @@ final class CB_Logo_Soup_Renderer {
 	 * @return string
 	 */
 	public function render( array $attributes, string $wrapper_attributes = '' ): string {
-		$attrs = $this->sanitize_attributes( $attributes );
+		$attrs = $this->sanitize_attributes( $this->resolve_attributes( $attributes ) );
 
 		if ( empty( $attrs['logos'] ) ) {
 			return '';
