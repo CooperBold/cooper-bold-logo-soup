@@ -224,60 +224,65 @@ final class CB_Logo_Soup_Collections {
 			'visual-center-y'   => __( 'Visual center (Y)', 'cooper-bold-logo-soup' ),
 		);
 		?>
-		<table class="form-table cb-logo-soup-settings-table" role="presentation">
+		<table class="form-table cb-logo-soup-settings-table cb-logo-soup-settings-essential" role="presentation">
 			<tr>
-				<th scope="row"><label for="cb_logo_soup_base_size"><?php esc_html_e( 'Base size', 'cooper-bold-logo-soup' ); ?></label></th>
+				<th scope="row"><label for="cb_logo_soup_base_size"><?php esc_html_e( 'Size', 'cooper-bold-logo-soup' ); ?></label></th>
 				<td><input type="number" id="cb_logo_soup_base_size" name="cb_logo_soup_settings[baseSize]" value="<?php echo esc_attr( (string) $settings['baseSize'] ); ?>" min="16" max="256" step="4" class="small-text" /> px</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="cb_logo_soup_scale_factor"><?php esc_html_e( 'Scale factor', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td><input type="number" id="cb_logo_soup_scale_factor" name="cb_logo_soup_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="cb_logo_soup_contrast_threshold"><?php esc_html_e( 'Contrast threshold', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td><input type="number" id="cb_logo_soup_contrast_threshold" name="cb_logo_soup_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><?php esc_html_e( 'Density aware', 'cooper-bold-logo-soup' ); ?></th>
-				<td>
-					<label>
-						<input type="checkbox" name="cb_logo_soup_settings[densityAware]" value="1" <?php checked( $settings['densityAware'] ); ?> />
-						<?php esc_html_e( 'Adjust for visual density', 'cooper-bold-logo-soup' ); ?>
-					</label>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="cb_logo_soup_density_factor"><?php esc_html_e( 'Density factor', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td><input type="number" id="cb_logo_soup_density_factor" name="cb_logo_soup_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><?php esc_html_e( 'Crop to content', 'cooper-bold-logo-soup' ); ?></th>
-				<td>
-					<label>
-						<input type="checkbox" name="cb_logo_soup_settings[cropToContent]" value="1" <?php checked( $settings['cropToContent'] ); ?> />
-						<?php esc_html_e( 'Crop to detected content bounds', 'cooper-bold-logo-soup' ); ?>
-					</label>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="cb_logo_soup_background_color"><?php esc_html_e( 'Background color', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td><input type="text" id="cb_logo_soup_background_color" name="cb_logo_soup_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#ffffff or cornflowerblue" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="cb_logo_soup_align_by"><?php esc_html_e( 'Align by', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td>
-					<select id="cb_logo_soup_align_by" name="cb_logo_soup_settings[alignBy]">
-						<?php foreach ( $align_options as $value => $label ) : ?>
-							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $settings['alignBy'], $value ); ?>><?php echo esc_html( $label ); ?></option>
-						<?php endforeach; ?>
-					</select>
-				</td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="cb_logo_soup_gap"><?php esc_html_e( 'Gap', 'cooper-bold-logo-soup' ); ?></label></th>
 				<td><input type="number" id="cb_logo_soup_gap" name="cb_logo_soup_settings[gap]" value="<?php echo esc_attr( (string) $settings['gap'] ); ?>" min="0" max="96" step="4" class="small-text" /> px</td>
 			</tr>
+			<tr>
+				<th scope="row"><label for="cb_logo_soup_background_color"><?php esc_html_e( 'Background', 'cooper-bold-logo-soup' ); ?></label></th>
+				<td><input type="text" id="cb_logo_soup_background_color" name="cb_logo_soup_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" /></td>
+			</tr>
 		</table>
+		<details class="cb-logo-soup-advanced-settings">
+			<summary><?php esc_html_e( 'Advanced settings', 'cooper-bold-logo-soup' ); ?></summary>
+			<table class="form-table cb-logo-soup-settings-table cb-logo-soup-settings-advanced" role="presentation">
+				<tr>
+					<th scope="row"><label for="cb_logo_soup_scale_factor"><?php esc_html_e( 'Scale factor', 'cooper-bold-logo-soup' ); ?></label></th>
+					<td><input type="number" id="cb_logo_soup_scale_factor" name="cb_logo_soup_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" /></td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="cb_logo_soup_contrast_threshold"><?php esc_html_e( 'Contrast threshold', 'cooper-bold-logo-soup' ); ?></label></th>
+					<td><input type="number" id="cb_logo_soup_contrast_threshold" name="cb_logo_soup_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" /></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Density aware', 'cooper-bold-logo-soup' ); ?></th>
+					<td>
+						<label>
+							<input type="checkbox" name="cb_logo_soup_settings[densityAware]" value="1" <?php checked( $settings['densityAware'] ); ?> />
+							<?php esc_html_e( 'Adjust for visual density', 'cooper-bold-logo-soup' ); ?>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="cb_logo_soup_density_factor"><?php esc_html_e( 'Density factor', 'cooper-bold-logo-soup' ); ?></label></th>
+					<td><input type="number" id="cb_logo_soup_density_factor" name="cb_logo_soup_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" /></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Crop to content', 'cooper-bold-logo-soup' ); ?></th>
+					<td>
+						<label>
+							<input type="checkbox" name="cb_logo_soup_settings[cropToContent]" value="1" <?php checked( $settings['cropToContent'] ); ?> />
+							<?php esc_html_e( 'Crop to detected content bounds', 'cooper-bold-logo-soup' ); ?>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="cb_logo_soup_align_by"><?php esc_html_e( 'Align by', 'cooper-bold-logo-soup' ); ?></label></th>
+					<td>
+						<select id="cb_logo_soup_align_by" name="cb_logo_soup_settings[alignBy]">
+							<?php foreach ( $align_options as $value => $label ) : ?>
+								<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $settings['alignBy'], $value ); ?>><?php echo esc_html( $label ); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</details>
 		<?php
 	}
 
@@ -298,15 +303,13 @@ final class CB_Logo_Soup_Collections {
 		$slug_snippet = self::get_shortcode_snippet( $post );
 		$id_snippet   = sprintf( '[logo_soup id="%d"]', (int) $post->ID );
 		?>
-		<p><?php esc_html_e( 'Copy a shortcode to use this collection in Bricks, widgets, or classic content.', 'cooper-bold-logo-soup' ); ?></p>
-		<p>
-			<label for="cb-logo-soup-shortcode-slug"><strong><?php esc_html_e( 'By slug', 'cooper-bold-logo-soup' ); ?></strong></label>
+		<div class="cb-logo-soup-shortcode-panel">
 			<?php self::render_shortcode_field( $slug_snippet, 'cb-logo-soup-shortcode-slug', true ); ?>
-		</p>
-		<p>
-			<label for="cb-logo-soup-shortcode-id"><strong><?php esc_html_e( 'By ID', 'cooper-bold-logo-soup' ); ?></strong></label>
-			<?php self::render_shortcode_field( $id_snippet, 'cb-logo-soup-shortcode-id', true ); ?>
-		</p>
+			<details class="cb-logo-soup-shortcode-advanced">
+				<summary><?php esc_html_e( 'By ID', 'cooper-bold-logo-soup' ); ?></summary>
+				<?php self::render_shortcode_field( $id_snippet, 'cb-logo-soup-shortcode-id', true ); ?>
+			</details>
+		</div>
 		<?php
 	}
 
@@ -374,7 +377,9 @@ final class CB_Logo_Soup_Collections {
 			if ( $post instanceof WP_Post ) {
 				self::render_shortcode_field(
 					self::get_shortcode_snippet( $post ),
-					'cb-logo-soup-shortcode-list-' . (int) $post_id
+					'cb-logo-soup-shortcode-list-' . (int) $post_id,
+					false,
+					true
 				);
 			}
 		}
@@ -552,14 +557,30 @@ final class CB_Logo_Soup_Collections {
 	 * @param string $snippet Shortcode text.
 	 * @param string $input_id Optional input element ID.
 	 * @param bool   $widefat Whether to apply the widefat class (meta box).
+	 * @param bool   $compact Compact list-table layout (truncated text, icon-only copy).
 	 */
-	public static function render_shortcode_field( string $snippet, string $input_id = '', bool $widefat = false ): void {
+	public static function render_shortcode_field( string $snippet, string $input_id = '', bool $widefat = false, bool $compact = false ): void {
+		$row_classes = 'cb-logo-soup-shortcode-row';
+		if ( $compact ) {
+			$row_classes .= ' cb-logo-soup-shortcode-row--compact';
+		}
+
 		$input_classes = 'code cb-logo-soup-shortcode-input';
 		if ( $widefat ) {
 			$input_classes .= ' widefat';
 		}
+		if ( $compact ) {
+			$input_classes .= ' screen-reader-text';
+		}
+
+		$copy_label = __( 'Copy shortcode', 'cooper-bold-logo-soup' );
 		?>
-		<div class="cb-logo-soup-shortcode-row">
+		<div class="<?php echo esc_attr( $row_classes ); ?>">
+			<?php if ( $compact ) : ?>
+				<code class="cb-logo-soup-shortcode-display" title="<?php echo esc_attr( $snippet ); ?>">
+					<?php echo esc_html( self::truncate_shortcode_display( $snippet ) ); ?>
+				</code>
+			<?php endif; ?>
 			<input
 				type="text"
 				<?php if ( '' !== $input_id ) : ?>
@@ -568,18 +589,33 @@ final class CB_Logo_Soup_Collections {
 				class="<?php echo esc_attr( $input_classes ); ?>"
 				readonly
 				value="<?php echo esc_attr( $snippet ); ?>"
-				onclick="this.select();"
+				<?php if ( ! $compact ) : ?>
+					onclick="this.select();"
+				<?php endif; ?>
 			/>
 			<button
 				type="button"
 				class="button cb-logo-soup-copy-shortcode"
-				aria-label="<?php esc_attr_e( 'Copy shortcode', 'cooper-bold-logo-soup' ); ?>"
+				title="<?php echo esc_attr( $copy_label ); ?>"
+				aria-label="<?php echo esc_attr( $copy_label ); ?>"
 			>
 				<span class="dashicons dashicons-clipboard" aria-hidden="true"></span>
-				<?php esc_html_e( 'Copy', 'cooper-bold-logo-soup' ); ?>
+				<span class="cb-logo-soup-copy-label screen-reader-text"><?php echo esc_html( $copy_label ); ?></span>
 			</button>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Truncate a shortcode string for compact admin display.
+	 *
+	 * @param string $snippet Full shortcode.
+	 */
+	public static function truncate_shortcode_display( string $snippet, int $max = 28 ): string {
+		if ( strlen( $snippet ) <= $max ) {
+			return $snippet;
+		}
+		return substr( $snippet, 0, $max - 1 ) . '…';
 	}
 
 	public static function get_shortcode_snippet( WP_Post $post ): string {

@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,9 @@ Up to 50 logos per block or shortcode instance.
 
 == Changelog ==
 
+= 1.1.2 =
+* Simplified Logo Collections admin UI — sparse settings, single primary shortcode with discreet ID alternative, compact list-table copy
+
 = 1.1.1 =
 * Live Logo Soup preview in the collection admin editor (updates as logos and settings change)
 * One-click **Copy** buttons for shortcodes on the collection edit screen and All Collections list
@@ -87,6 +90,9 @@ Up to 50 logos per block or shortcode instance.
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Cleaner Logo Collections admin — fewer visible options by default, streamlined shortcode copy.
 
 = 1.1.1 =
 Adds a live preview and one-click shortcode copy buttons when editing Logo Collections in wp-admin.

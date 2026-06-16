@@ -46,8 +46,9 @@
 
 				copyToClipboard( shortcode )
 					.then( function () {
-						$button.text( 'Copied!' );
+						$button.addClass( 'is-copied' );
 						setTimeout( function () {
+							$button.removeClass( 'is-copied' );
 							$button.html( originalHtml );
 						}, 2000 );
 					} )
