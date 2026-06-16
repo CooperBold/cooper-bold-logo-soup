@@ -157,11 +157,13 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 	}
 
 	public function test_preview_meta_box_outputs_mount_root(): void {
-		$collections = new CB_Logo_Soup_Collections();
-		$post        = $this->make_post( 1, 'preview-test', array() );
+		$reflection = new ReflectionClass( CB_Logo_Soup_Collections::class );
+		$method     = $reflection->getMethod( 'render_preview_meta_box' );
+		$instance   = $reflection->newInstanceWithoutConstructor();
+		$post       = $this->make_post( 1, 'preview-test', array() );
 
 		ob_start();
-		$collections->render_preview_meta_box( $post );
+		$method->invoke( $instance, $post );
 		$html = ob_get_clean();
 
 		$this->assertStringContainsString( 'id="cb-logo-soup-preview-root"', $html );

@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-tag-names */
 /**
  * @jest-environment jsdom
  */
@@ -22,15 +23,19 @@ describe( 'collection preview DOM readers', () => {
 				</ul>
 			</div>
 			<table class="cb-logo-soup-settings-table">
-				<input id="cb_logo_soup_base_size" value="64" />
-				<input id="cb_logo_soup_scale_factor" value="0.4" />
-				<input id="cb_logo_soup_contrast_threshold" value="12" />
-				<input name="cb_logo_soup_settings[densityAware]" type="checkbox" checked />
-				<input id="cb_logo_soup_density_factor" value="0.3" />
-				<input name="cb_logo_soup_settings[cropToContent]" type="checkbox" />
-				<input id="cb_logo_soup_background_color" value="#ffffff" />
-				<select id="cb_logo_soup_align_by"><option value="bounds" selected>Bounds</option></select>
-				<input id="cb_logo_soup_gap" value="36" />
+				<tr>
+					<td>
+						<input id="cb_logo_soup_base_size" value="64" />
+						<input id="cb_logo_soup_scale_factor" value="0.4" />
+						<input id="cb_logo_soup_contrast_threshold" value="12" />
+						<input name="cb_logo_soup_settings[densityAware]" type="checkbox" checked="checked" />
+						<input id="cb_logo_soup_density_factor" value="0.3" />
+						<input name="cb_logo_soup_settings[cropToContent]" type="checkbox" />
+						<input id="cb_logo_soup_background_color" value="#ffffff" />
+						<select id="cb_logo_soup_align_by"><option value="bounds" selected>Bounds</option></select>
+						<input id="cb_logo_soup_gap" value="36" />
+					</td>
+				</tr>
 			</table>
 		`;
 	} );

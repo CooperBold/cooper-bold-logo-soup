@@ -16,8 +16,7 @@ import { sanitizePreviewConfig, toSoupProps } from '../shared/to-soup-props';
 export const PREVIEW_UPDATE_EVENT = 'cb-logo-soup-preview-update';
 
 /**
- * @param {Object} props Component props.
- * @return {JSX.Element}
+ * @return {JSX.Element} Live preview or empty-state message.
  */
 export function CollectionPreview() {
 	const [ attributes, setAttributes ] = useState( readAttributesFromDom );

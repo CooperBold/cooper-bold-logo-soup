@@ -3,9 +3,9 @@
  */
 
 /**
- * @param {HTMLInputElement|null} input Input element.
- * @param {number}                  fallback Fallback when missing or invalid.
- * @return {number}
+ * @param {HTMLInputElement|null} input    Input element.
+ * @param {number}                fallback Fallback when missing or invalid.
+ * @return {number} Parsed number or fallback.
  */
 function readNumber( input, fallback ) {
 	if ( ! input ) {
@@ -37,8 +37,7 @@ export function readLogosFromDom() {
 				id,
 				url,
 				alt:
-					item.querySelector( '.cb-logo-soup-logo-alt' )?.value ||
-					'',
+					item.querySelector( '.cb-logo-soup-logo-alt' )?.value || '',
 				link:
 					item.querySelector( '.cb-logo-soup-logo-link' )?.value ||
 					'',
@@ -83,8 +82,8 @@ export function readSettingsFromDom() {
 		),
 		cropToContent: checkbox( 'cropToContent' ),
 		backgroundColor:
-			document.getElementById( 'cb_logo_soup_background_color' )
-				?.value || '',
+			document.getElementById( 'cb_logo_soup_background_color' )?.value ||
+			'',
 		alignBy:
 			document.getElementById( 'cb_logo_soup_align_by' )?.value ||
 			'visual-center-y',
