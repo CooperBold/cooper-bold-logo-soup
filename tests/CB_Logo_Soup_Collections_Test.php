@@ -156,6 +156,18 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 		$this->assertSame( 96, $settings['gap'] );
 	}
 
+	public function test_preview_meta_box_outputs_mount_root(): void {
+		$collections = new CB_Logo_Soup_Collections();
+		$post        = $this->make_post( 1, 'preview-test', array() );
+
+		ob_start();
+		$collections->render_preview_meta_box( $post );
+		$html = ob_get_clean();
+
+		$this->assertStringContainsString( 'id="cb-logo-soup-preview-root"', $html );
+		$this->assertStringContainsString( 'cb-logo-soup-preview-wrap', $html );
+	}
+
 	/**
 	 * @param int                  $id Post ID.
 	 * @param string               $slug Post slug.

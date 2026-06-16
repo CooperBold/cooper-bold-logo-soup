@@ -126,6 +126,15 @@ final class CB_Logo_Soup_Collections {
 		);
 
 		add_meta_box(
+			'cb-logo-soup-collection-preview',
+			__( 'Live preview', 'cooper-bold-logo-soup' ),
+			array( $this, 'render_preview_meta_box' ),
+			self::POST_TYPE,
+			'normal',
+			'low'
+		);
+
+		add_meta_box(
 			'cb-logo-soup-collection-shortcode',
 			__( 'Shortcode', 'cooper-bold-logo-soup' ),
 			array( $this, 'render_shortcode_meta_box' ),
@@ -275,6 +284,16 @@ final class CB_Logo_Soup_Collections {
 	/**
 	 * @param WP_Post $post Current post.
 	 */
+	public function render_preview_meta_box( WP_Post $post ): void {
+		unset( $post );
+		?>
+		<div id="cb-logo-soup-preview-root" class="cb-logo-soup-preview-wrap" aria-live="polite"></div>
+		<?php
+	}
+
+	/**
+	 * @param WP_Post $post Current post.
+	 */
 	public function render_shortcode_meta_box( WP_Post $post ): void {
 		$slug_snippet = self::get_shortcode_snippet( $post );
 		$id_snippet   = sprintf( '[logo_soup id="%d"]', (int) $post->ID );
@@ -282,11 +301,11 @@ final class CB_Logo_Soup_Collections {
 		<p><?php esc_html_e( 'Copy a shortcode to use this collection in Bricks, widgets, or classic content.', 'cooper-bold-logo-soup' ); ?></p>
 		<p>
 			<label for="cb-logo-soup-shortcode-slug"><strong><?php esc_html_e( 'By slug', 'cooper-bold-logo-soup' ); ?></strong></label>
-			<input type="text" id="cb-logo-soup-shortcode-slug" class="widefat code" readonly value="<?php echo esc_attr( $slug_snippet ); ?>" onclick="this.select();" />
+			<?php self::render_shortcode_field( $slug_snippet, 'cb-logo-soup-shortcode-slug', true ); ?>
 		</p>
 		<p>
 			<label for="cb-logo-soup-shortcode-id"><strong><?php esc_html_e( 'By ID', 'cooper-bold-logo-soup' ); ?></strong></label>
-			<input type="text" id="cb-logo-soup-shortcode-id" class="widefat code" readonly value="<?php echo esc_attr( $id_snippet ); ?>" onclick="this.select();" />
+			<?php self::render_shortcode_field( $id_snippet, 'cb-logo-soup-shortcode-id', true ); ?>
 		</p>
 		<?php
 	}
@@ -353,10 +372,9 @@ final class CB_Logo_Soup_Collections {
 		if ( 'cb_shortcode' === $column ) {
 			$post = get_post( $post_id );
 			if ( $post instanceof WP_Post ) {
-				$snippet = self::get_shortcode_snippet( $post );
-				printf(
-					'<input type="text" class="code" readonly value="%s" onclick="this.select();" style="width:100%%;max-width:320px;" />',
-					esc_attr( $snippet )
+				self::render_shortcode_field(
+					self::get_shortcode_snippet( $post ),
+					'cb-logo-soup-shortcode-list-' . (int) $post_id
 				);
 			}
 		}
@@ -370,25 +388,53 @@ final class CB_Logo_Soup_Collections {
 		if ( ! $screen || self::POST_TYPE !== $screen->post_type ) {
 			return;
 		}
-		if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
+
+		$is_edit_screen = in_array( $hook, array( 'post.php', 'post-new.php' ), true );
+		$is_list_screen = 'edit.php' === $hook;
+
+		if ( ! $is_edit_screen && ! $is_list_screen ) {
 			return;
 		}
 
-		wp_enqueue_media();
-		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_style(
 			'cb-logo-soup-collection-editor',
 			CB_LOGO_SOUP_URL . 'admin/css/collection-editor.css',
 			array(),
 			CB_LOGO_SOUP_VERSION
 		);
+
+		$script_deps = array( 'jquery' );
+		if ( $is_edit_screen ) {
+			wp_enqueue_media();
+			wp_enqueue_script( 'jquery-ui-sortable' );
+			$script_deps = array( 'jquery', 'jquery-ui-sortable', 'wp-util' );
+		}
+
 		wp_enqueue_script(
 			'cb-logo-soup-collection-editor',
 			CB_LOGO_SOUP_URL . 'admin/js/collection-editor.js',
-			array( 'jquery', 'jquery-ui-sortable', 'wp-util' ),
+			$script_deps,
 			CB_LOGO_SOUP_VERSION,
 			true
 		);
+
+		if ( $is_edit_screen ) {
+			$preview_asset_file = CB_LOGO_SOUP_PATH . 'build/collection-preview.asset.php';
+			$preview_asset      = file_exists( $preview_asset_file )
+				? require $preview_asset_file
+				: array(
+					'dependencies' => array( 'react', 'react-jsx-runtime', 'wp-element', 'wp-i18n' ),
+					'version'      => CB_LOGO_SOUP_VERSION,
+				);
+
+			wp_enqueue_script(
+				'cb-logo-soup-collection-preview',
+				CB_LOGO_SOUP_URL . 'build/collection-preview.js',
+				$preview_asset['dependencies'],
+				$preview_asset['version'],
+				true
+			);
+		}
 	}
 
 	public function register_rest_routes(): void {
@@ -501,8 +547,41 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
-	 * @param WP_Post $post Collection post.
+	 * Render a readonly shortcode field with a one-click Copy button.
+	 *
+	 * @param string $snippet Shortcode text.
+	 * @param string $input_id Optional input element ID.
+	 * @param bool   $widefat Whether to apply the widefat class (meta box).
 	 */
+	public static function render_shortcode_field( string $snippet, string $input_id = '', bool $widefat = false ): void {
+		$input_classes = 'code cb-logo-soup-shortcode-input';
+		if ( $widefat ) {
+			$input_classes .= ' widefat';
+		}
+		?>
+		<div class="cb-logo-soup-shortcode-row">
+			<input
+				type="text"
+				<?php if ( '' !== $input_id ) : ?>
+					id="<?php echo esc_attr( $input_id ); ?>"
+				<?php endif; ?>
+				class="<?php echo esc_attr( $input_classes ); ?>"
+				readonly
+				value="<?php echo esc_attr( $snippet ); ?>"
+				onclick="this.select();"
+			/>
+			<button
+				type="button"
+				class="button cb-logo-soup-copy-shortcode"
+				aria-label="<?php esc_attr_e( 'Copy shortcode', 'cooper-bold-logo-soup' ); ?>"
+			>
+				<span class="dashicons dashicons-clipboard" aria-hidden="true"></span>
+				<?php esc_html_e( 'Copy', 'cooper-bold-logo-soup' ); ?>
+			</button>
+		</div>
+		<?php
+	}
+
 	public static function get_shortcode_snippet( WP_Post $post ): string {
 		$slug = $post->post_name;
 		if ( '' === $slug && '' !== $post->post_title ) {
