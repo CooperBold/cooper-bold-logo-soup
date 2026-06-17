@@ -2,7 +2,7 @@
 title: Wiki Index
 type: index
 created: 2026-06-12
-updated: 2026-06-14
+updated: 2026-06-17
 ---
 
 # Logo Soup WP Plugin Wiki
@@ -41,3 +41,5 @@ updated: 2026-06-14
 | Page | Purpose |
 |------|---------|
 | [[wordpress-org-submission]] | Publish the plugin to the WordPress.org directory |
+| [[wp-env-smoke-test]] | End-to-end wp-env smoke test (build, activate, shortcode, assets) |
+| [[rapidsos-deploy]] | Deploy Logo Soup to RapidSOS Cloudways staging (Bricks + collections) |

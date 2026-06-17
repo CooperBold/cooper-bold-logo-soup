@@ -102,5 +102,16 @@
     },
     "namespace": "logo-soup-wp-plugin",
     "timestamp": 1781519440.491551
+  },
+  {
+    "id": "local_1781697980808",
+    "text": "Wiki weekly maintenance 2026-06-17: ingested two new guides \u2014 wp-env smoke test runbook (docs/SMOKE-TEST.md, Colima + path-with-spaces symlink fix, PHPUnit/Jest/release-zip verification) and RapidSOS Cloudways deploy runbook (docs/RAPIDSOS-DEPLOY.md, Bricks + Logo Collections + cache purge + rollback). Both placed in wiki/guides/ alongside existing wordpress-org-submission.md. Lint clean; no dead wikilinks. docs/WORDPRESS-ORG-SUBMISSION.md already mirrored to wiki/guides/ on 2026-06-14.",
+    "metadata": {
+      "source": "wiki-weekly",
+      "type": "maintenance",
+      "date": "2026-06-17"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781697980.808486
   }
 ]
