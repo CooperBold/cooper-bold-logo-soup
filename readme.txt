@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,9 @@ Up to 50 logos per block or shortcode instance.
 
 == Changelog ==
 
+= 1.1.4 =
+* Fix duplicate **All Collections** entry in the wp-admin Logo Soup menu
+
 = 1.1.3 =
 * User-facing plugin name is now **Logo Soup** (folder slug, text domain, and block name unchanged)
 
@@ -93,6 +96,9 @@ Up to 50 logos per block or shortcode instance.
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Fixes a duplicate menu item under **Logo Soup** in wp-admin.
 
 = 1.1.3 =
 Display name only — no migration required.

@@ -16,10 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class CB_Logo_Soup_Collections {
 
-	public const POST_TYPE   = 'cb_logo_collection';
-	public const META_LOGOS  = '_cb_logo_soup_logos';
+	public const POST_TYPE     = 'cb_logo_collection';
+	public const META_LOGOS    = '_cb_logo_soup_logos';
 	public const META_SETTINGS = '_cb_logo_soup_settings';
-	public const MENU_SLUG   = 'cb-logo-soup';
 
 	/** @var CB_Logo_Soup_Renderer|null */
 	private static ?CB_Logo_Soup_Renderer $renderer = null;
@@ -27,6 +26,7 @@ final class CB_Logo_Soup_Collections {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'prune_admin_submenus' ), 99 );
 		add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ) );
 		add_action( 'save_post_' . self::POST_TYPE, array( $this, 'save_post' ), 10, 2 );
 		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', array( $this, 'list_columns' ) );
@@ -55,7 +55,7 @@ final class CB_Logo_Soup_Collections {
 				),
 				'public'              => false,
 				'show_ui'             => true,
-				'show_in_menu'        => self::MENU_SLUG,
+				'show_in_menu'        => self::parent_menu_slug(),
 				'show_in_rest'        => false,
 				'capability_type'     => 'post',
 				'map_meta_cap'        => true,
@@ -71,39 +71,32 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	public function register_admin_menu(): void {
+		$parent_slug = self::parent_menu_slug();
+
 		add_menu_page(
 			__( 'Logo Soup', 'cooper-bold-logo-soup' ),
 			__( 'Logo Soup', 'cooper-bold-logo-soup' ),
 			'edit_posts',
-			self::MENU_SLUG,
-			array( $this, 'render_menu_landing' ),
+			$parent_slug,
+			'',
 			'dashicons-images-alt2',
 			58
 		);
-
-		add_submenu_page(
-			self::MENU_SLUG,
-			__( 'All Collections', 'cooper-bold-logo-soup' ),
-			__( 'All Collections', 'cooper-bold-logo-soup' ),
-			'edit_posts',
-			'edit.php?post_type=' . self::POST_TYPE
-		);
-
-		add_submenu_page(
-			self::MENU_SLUG,
-			__( 'Add New Collection', 'cooper-bold-logo-soup' ),
-			__( 'Add New', 'cooper-bold-logo-soup' ),
-			'edit_posts',
-			'post-new.php?post_type=' . self::POST_TYPE
-		);
 	}
 
-	public function render_menu_landing(): void {
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'cooper-bold-logo-soup' ) );
-		}
-		wp_safe_redirect( admin_url( 'edit.php?post_type=' . self::POST_TYPE ) );
-		exit;
+	/**
+	 * Remove WordPress's auto-duplicated first submenu (same slug as parent).
+	 */
+	public function prune_admin_submenus(): void {
+		$parent_slug = self::parent_menu_slug();
+		remove_submenu_page( $parent_slug, $parent_slug );
+	}
+
+	/**
+	 * Admin parent menu slug — CPT list screen URL (WordPress standard).
+	 */
+	public static function parent_menu_slug(): string {
+		return 'edit.php?post_type=' . self::POST_TYPE;
 	}
 
 	public function register_meta_boxes(): void {
