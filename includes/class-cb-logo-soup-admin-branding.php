@@ -31,6 +31,7 @@ final class CB_Logo_Soup_Admin_Branding {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_filter( 'admin_footer_text', array( $this, 'filter_footer_text' ) );
+		add_filter( 'update_footer', array( $this, 'filter_update_footer' ), 999 );
 	}
 
 	/**
@@ -64,5 +65,18 @@ final class CB_Logo_Soup_Admin_Branding {
 			esc_url( $logo_url ),
 			esc_attr__( 'Cooper Bold', 'cooper-bold-logo-soup' )
 		);
+	}
+
+	/**
+	 * Clears the right wp-admin footer (e.g. theme/plugin update nags) on Logo Soup screens.
+	 *
+	 * @param string $text Default right footer text.
+	 */
+	public function filter_update_footer( string $text ): string {
+		if ( ! is_logo_soup_admin_screen() ) {
+			return $text;
+		}
+
+		return '';
 	}
 }
