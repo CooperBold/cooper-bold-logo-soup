@@ -113,5 +113,17 @@
     },
     "namespace": "logo-soup-wp-plugin",
     "timestamp": 1781697980.808486
+  },
+  {
+    "id": "local_1781778652998",
+    "text": "Wiki ingest: wp-env smoke test + RapidSOS deploy (2026-06-17)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-06-17",
+      "verb": "ingest",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "logo-soup-wp-plugin",
+    "timestamp": 1781778652.998969
   }
 ]
