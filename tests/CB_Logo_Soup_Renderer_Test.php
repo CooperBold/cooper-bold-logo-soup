@@ -225,6 +225,42 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 		);
 	}
 
+	public function test_render_strip_placeholder_matches_hydrated_dom_structure(): void {
+		$html = $this->renderer->render(
+			array(
+				'logos' => array(
+					array(
+						'url' => 'https://example.com/a.png',
+						'alt' => 'Alpha',
+					),
+				),
+				'gap' => 32,
+			)
+		);
+
+		$this->assertMatchesRegularExpression(
+			'/<div[^>]*cb-logo-soup-inner[^>]*>[\s\S]*<div[^>]*text-align:center[^>]*>[\s\S]*<span[^>]*padding:16px[^>]*>[\s\S]*<img[^>]*alt="Alpha"/',
+			$html
+		);
+
+		$linked = $this->renderer->render(
+			array(
+				'logos' => array(
+					array(
+						'url'  => 'https://example.com/b.png',
+						'alt'  => 'Beta',
+						'link' => 'https://beta.test',
+					),
+				),
+			)
+		);
+
+		$this->assertMatchesRegularExpression(
+			'/<span[^>]*>[\s\S]*<a href="https:\/\/beta\.test"[^>]*>[\s\S]*<img[^>]*alt="Beta"/',
+			$linked
+		);
+	}
+
 	public function test_render_carousel_full_wrapper_outputs_splide_markup(): void {
 		$html = $this->renderer->render(
 			array(

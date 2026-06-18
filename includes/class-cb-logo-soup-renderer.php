@@ -258,17 +258,7 @@ final class CB_Logo_Soup_Renderer {
 			)
 			: '';
 
-		$imgs = '';
-		foreach ( $attrs['logos'] as $logo ) {
-			$img = sprintf(
-				'<img src="%s" alt="%s" loading="lazy" decoding="async" />',
-				esc_url( $logo['url'] ),
-				esc_attr( $logo['alt'] )
-			);
-			$imgs .= '' !== $logo['link']
-				? sprintf( '<a href="%s" rel="noopener noreferrer">%s</a>', esc_url( $logo['link'] ), $img )
-				: $img;
-		}
+		$imgs = $this->render_strip_placeholder_logos( $attrs['logos'], $attrs['gap'] );
 
 		$inner_attributes = sprintf(
 			'class="cb-logo-soup cb-logo-soup-inner" data-cb-logo-soup="%s" style="%s"%s',
@@ -298,6 +288,48 @@ final class CB_Logo_Soup_Renderer {
 			$wrapper_attributes,
 			$inner_attributes,
 			$imgs
+		);
+	}
+
+	/**
+	 * SSR placeholder logos matching LogoSoup post-hydration DOM (div > span > img).
+	 *
+	 * Bricks builder preview often skips view.js; Melanie's grid CSS targets
+	 * `.cb-logo-soup-inner > div > span`. Mirrors @sanity-labs/logo-soup/react structure.
+	 *
+	 * @param array<int, array<string, mixed>> $logos Sanitized logo rows.
+	 * @param int                               $gap   Gap in pixels.
+	 * @return string
+	 */
+	private function render_strip_placeholder_logos( array $logos, int $gap ): string {
+		$half_gap = (int) round( $gap / 2 );
+		$spans    = '';
+
+		foreach ( $logos as $logo ) {
+			$img = sprintf(
+				'<img src="%s" alt="%s" loading="lazy" decoding="async" style="display:block;object-fit:contain" />',
+				esc_url( $logo['url'] ),
+				esc_attr( $logo['alt'] )
+			);
+
+			$inner = '' !== $logo['link']
+				? sprintf(
+					'<a href="%s" rel="noopener noreferrer">%s</a>',
+					esc_url( $logo['link'] ),
+					$img
+				)
+				: $img;
+
+			$spans .= sprintf(
+				'<span style="display:inline-block;vertical-align:middle;padding:%1$dpx">%2$s</span>',
+				$half_gap,
+				$inner
+			);
+		}
+
+		return sprintf(
+			'<div style="text-align:center;text-wrap:balance">%s</div>',
+			$spans
 		);
 	}
 

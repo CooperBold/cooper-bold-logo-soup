@@ -10,7 +10,7 @@ From plugin repo root:
 npm ci && npm run build && ./scripts/build-release-zip.sh
 ```
 
-Output: `dist/cooper-bold-logo-soup-1.2.0.zip` (version follows `cooper-bold-logo-soup.php`).
+Output: `dist/cooper-bold-logo-soup-1.2.1.zip` (version follows `cooper-bold-logo-soup.php`).
 
 ## Install on Cloudways
 
@@ -18,7 +18,7 @@ Pick one:
 
 1. **WP Admin** — Plugins → Add New → Upload Plugin → choose the ZIP → Replace/update if prompted.
 2. **SFTP** — Upload ZIP to server, unzip into `wp-content/plugins/cooper-bold-logo-soup/` (overwrite existing).
-3. **SSH** — `wp plugin install /path/to/cooper-bold-logo-soup-1.2.0.zip --activate` (if WP-CLI available).
+3. **SSH** — `wp plugin install /path/to/cooper-bold-logo-soup-1.2.1.zip --activate` (if WP-CLI available).
 
 Activate **Logo Soup** if not already active.
 
@@ -91,6 +91,17 @@ Default strip layout for a single normalized row:
 ```text
 [logo_soup collection="rapidsos-partners" base_size="40" gap="32" class="rapidsos-partner-logos"]
 ```
+
+### Builder preview (strip)
+
+Bricks builder iframe often does **not** run `view.js`, so the strip shows **server-rendered** placeholder markup instead of the hydrated LogoSoup React tree. As of **1.2.1**, that SSR output mirrors the hydrated DOM:
+
+- `.cb-logo-soup-inner` → inner `div` (LogoSoup row) → `span` per logo → `img` (or `a` > `img` when linked)
+- Melanie can target **`.cb-logo-soup-inner > div > span`** in Bricks custom CSS for grid layout — works in builder preview and on the live site (before and after hydration).
+
+**Optional workaround:** set the Bricks shortcode element to **Don't render in builder** if you only need accurate normalization in the canvas (live site still hydrates normally).
+
+Carousel mode uses separate slide markup; see carousel section above.
 
 ## Verify after deploy
 
