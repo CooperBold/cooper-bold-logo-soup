@@ -292,14 +292,15 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
-	 * SSR placeholder logos matching LogoSoup post-hydration DOM (div > span > img).
+	 * Server-side placeholder markup matching LogoSoup post-hydration DOM (div > span > img).
 	 *
-	 * Bricks builder preview often skips view.js; Melanie's grid CSS targets
-	 * `.cb-logo-soup-inner > div > span`. Mirrors @sanity-labs/logo-soup/react structure.
+	 * Page builders that skip view.js still need a stable inner structure so theme
+	 * CSS targeting `.cb-logo-soup-inner > div > span` applies before hydration.
+	 * Mirrors the @sanity-labs/logo-soup/react output structure.
 	 *
 	 * @param array<int, array<string, mixed>> $logos Sanitized logo rows.
 	 * @param int                               $gap   Gap in pixels.
-	 * @return string
+	 * @return string Placeholder HTML.
 	 */
 	private function render_strip_placeholder_logos( array $logos, int $gap ): string {
 		$half_gap = (int) round( $gap / 2 );
@@ -415,6 +416,8 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
+	 * Build Logo Soup config array for data-cb-logo-soup JSON attributes.
+	 *
 	 * @param array<string, mixed> $attrs Sanitized attributes.
 	 * @return array<string, mixed>
 	 */
@@ -443,6 +446,7 @@ final class CB_Logo_Soup_Renderer {
 	 *
 	 * @param string $wrapper_attributes Attribute string from get_block_wrapper_attributes().
 	 * @param string $class              Class to add.
+	 * @return string Updated attribute string.
 	 */
 	private function ensure_wrapper_class( string $wrapper_attributes, string $class ): string {
 		$sanitized = sanitize_html_class( $class );
@@ -471,8 +475,11 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
+	 * Resolve alt text from user input or the logo filename.
+	 *
 	 * @param string $alt User alt text.
 	 * @param string $url Logo URL.
+	 * @return string Non-empty alt text.
 	 */
 	private function resolve_alt( string $alt, string $url ): string {
 		$alt = trim( sanitize_text_field( $alt ) );
@@ -486,7 +493,10 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
+	 * Sanitize a CSS color value (hex, functional notation, or named color).
+	 *
 	 * @param string $color Raw CSS color.
+	 * @return string Safe color string or empty when invalid.
 	 */
 	private function color( string $color ): string {
 		$color = trim( $color );
@@ -511,7 +521,10 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
+	 * Whether a lowercase string is a valid CSS named color.
+	 *
 	 * @param string $name Lowercase color name.
+	 * @return bool
 	 */
 	private function is_named_css_color( string $name ): bool {
 		static $names = null;
@@ -523,7 +536,10 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
+	 * Clamp gap to a pixel value; reject non-numeric CSS units.
+	 *
 	 * @param mixed $value Gap in pixels.
+	 * @return int Clamped gap.
 	 */
 	private function gap( $value ): int {
 		if ( is_string( $value ) && preg_match( '/[a-z%]/i', $value ) ) {

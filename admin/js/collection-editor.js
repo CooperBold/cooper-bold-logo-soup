@@ -1,3 +1,6 @@
+/* global jQuery, navigator */
+
+// Collection editor admin UI: logo list, media picker, and shortcode copy.
 ( function ( $ ) {
 	'use strict';
 
@@ -16,7 +19,11 @@
 			textarea.select();
 
 			try {
-				document.execCommand( 'copy' ) ? resolve() : reject();
+				if ( document.execCommand( 'copy' ) ) {
+					resolve();
+				} else {
+					reject();
+				}
 			} catch ( error ) {
 				reject( error );
 			} finally {

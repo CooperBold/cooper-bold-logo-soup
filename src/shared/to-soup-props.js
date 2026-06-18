@@ -1,5 +1,5 @@
 /**
- * Shared Logo Soup adapter — mirrors PHP sanitization for editor preview (AC 2).
+ * Shared Logo Soup adapter — mirrors PHP attribute sanitization for JS previews.
  */
 
 const ALIGN_BY_VALUES = [
@@ -89,7 +89,7 @@ export function resolveAlt( alt, url ) {
 			return name;
 		}
 	} catch ( error ) {
-		// Fall through.
+		// Filename fallback unavailable; use generic alt below.
 	}
 	return 'Logo';
 }
@@ -212,7 +212,7 @@ export function toSoupProps( config ) {
 					loading="lazy"
 					decoding="async"
 					onError={ ( event ) => {
-						// eslint-disable-next-line no-console -- spec requires warn on broken logo URLs.
+						// eslint-disable-next-line no-console -- surface broken logo URLs during development.
 						console.warn( 'Logo Soup: failed to load image', src );
 						event.currentTarget.remove();
 					} }

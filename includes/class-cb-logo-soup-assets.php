@@ -1,9 +1,18 @@
 <?php
+/**
+ * Frontend script and style registration and conditional enqueue.
+ *
+ * @package CooperBoldLogoSoup
+ */
+
 declare(strict_types=1);
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Registers and enqueues view.js and view styles when Logo Soup renders.
+ */
 final class CB_Logo_Soup_Assets {
 
 	public const VIEW_SCRIPT_HANDLE = 'cooper-bold-logo-soup-view';
@@ -14,6 +23,9 @@ final class CB_Logo_Soup_Assets {
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
 	}
 
+	/**
+	 * Register frontend script and style handles on init.
+	 */
 	public function register(): void {
 		$script = CB_LOGO_SOUP_PATH . 'build/view.asset.php';
 		if ( file_exists( $script ) ) {
@@ -67,6 +79,9 @@ final class CB_Logo_Soup_Assets {
 		}
 	}
 
+	/**
+	 * Enqueue on singular posts that contain the block or shortcode.
+	 */
 	public function maybe_enqueue(): void {
 		if ( is_admin() ) {
 			return;

@@ -50,8 +50,8 @@ export function readLogosFromDom() {
  * @return {Object} Collection settings from the settings meta box.
  */
 export function readSettingsFromDom() {
-	// Essential + advanced settings live in separate `.cb-logo-soup-settings-table`
-	// nodes; query the document so checkboxes in the advanced table are found.
+	// Essential and advanced settings use separate tables; query the document
+	// so checkboxes in the advanced section are included.
 	if ( ! document.getElementById( 'cb_logo_soup_base_size' ) ) {
 		return {};
 	}

@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Whether the current wp-admin screen belongs to Logo Soup.
+ *
+ * @return bool
  */
 function is_logo_soup_admin_screen(): bool {
 	$screen = get_current_screen();
@@ -24,7 +26,7 @@ function is_logo_soup_admin_screen(): bool {
 }
 
 /**
- * Replaces the left wp-admin footer text with a CooperBold link on Logo Soup screens.
+ * Sparse Cooper Bold branding on Logo Soup admin screens.
  */
 final class CB_Logo_Soup_Admin_Branding {
 
@@ -35,7 +37,10 @@ final class CB_Logo_Soup_Admin_Branding {
 	}
 
 	/**
+	 * Enqueue admin branding stylesheet on Logo Soup screens.
+	 *
 	 * @param string $hook Current admin hook.
+	 * @return void
 	 */
 	public function enqueue_styles( string $hook ): void {
 		if ( ! is_logo_soup_admin_screen() ) {
@@ -51,7 +56,10 @@ final class CB_Logo_Soup_Admin_Branding {
 	}
 
 	/**
+	 * Replace the left wp-admin footer with a CooperBold link on Logo Soup screens.
+	 *
 	 * @param string $text Default left footer text.
+	 * @return string Filtered footer HTML.
 	 */
 	public function filter_footer_text( string $text ): string {
 		if ( ! is_logo_soup_admin_screen() ) {
@@ -65,9 +73,10 @@ final class CB_Logo_Soup_Admin_Branding {
 	}
 
 	/**
-	 * Clears the right wp-admin footer (e.g. theme/plugin update nags) on Logo Soup screens.
+	 * Clear the right wp-admin footer on Logo Soup screens.
 	 *
 	 * @param string $text Default right footer text.
+	 * @return string Filtered footer text.
 	 */
 	public function filter_update_footer( string $text ): string {
 		if ( ! is_logo_soup_admin_screen() ) {

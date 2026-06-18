@@ -1,5 +1,12 @@
 <?php
+/**
+ * Plugin bootstrap: block registration, shortcodes, and render delegation.
+ *
+ * @package CooperBoldLogoSoup
+ */
+
 declare(strict_types=1);
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -9,11 +16,17 @@ require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-admin-branding.php';
 
+/**
+ * Singleton that wires assets, collections, branding, block, and shortcode output.
+ */
 final class CB_Logo_Soup {
 
 	private static ?CB_Logo_Soup $instance = null;
 	private CB_Logo_Soup_Renderer $renderer;
 
+	/**
+	 * @return CB_Logo_Soup Plugin singleton.
+	 */
 	public static function instance(): CB_Logo_Soup {
 		return self::$instance ?? ( self::$instance = new self() );
 	}
@@ -28,6 +41,9 @@ final class CB_Logo_Soup {
 		add_shortcode( 'cooper-bold-logo-soup', array( $this, 'render_shortcode' ) );
 	}
 
+	/**
+	 * Register the Gutenberg block from build/ or src/ block.json.
+	 */
 	public function register_block(): void {
 		$candidates = array(
 			CB_LOGO_SOUP_PATH . 'build/block',
@@ -46,6 +62,14 @@ final class CB_Logo_Soup {
 		register_block_type( $dir, array( 'render_callback' => array( $this, 'render_block' ) ) );
 	}
 
+	/**
+	 * Server-side render callback for cooper-bold/logo-soup.
+	 *
+	 * @param array<string, mixed> $attributes Block attributes.
+	 * @param string               $content    Inner block content (unused).
+	 * @param WP_Block             $block      Block instance.
+	 * @return string Rendered HTML.
+	 */
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
 		$attributes = $this->prepare_block_attributes( $attributes );
 		return $this->renderer->render( $attributes, get_block_wrapper_attributes( array( 'class' => 'cb-logo-soup cb-logo-soup-wrapper' ) ) );
@@ -76,7 +100,14 @@ final class CB_Logo_Soup {
 		return $attributes;
 	}
 
-	/** @param array<string,string>|string $atts */
+	/**
+	 * Render [logo_soup] and legacy [cooper-bold-logo-soup] shortcodes.
+	 *
+	 * @param array<string, string>|string $atts    Shortcode attributes.
+	 * @param string|null                  $content Enclosed content (unused).
+	 * @param string                       $tag     Shortcode tag name.
+	 * @return string Rendered HTML.
+	 */
 	public function render_shortcode( $atts, ?string $content = null, string $tag = 'logo_soup' ): string {
 		$a = shortcode_atts(
 			array(
@@ -147,6 +178,12 @@ final class CB_Logo_Soup {
 		return $this->renderer->render( $attributes );
 	}
 
+	/**
+	 * Parse logos from shortcode attribute (comma list, JSON, or base64 JSON).
+	 *
+	 * @param string $value Raw logos attribute.
+	 * @return array<int, array<string, mixed>> Sanitized logo rows.
+	 */
 	private function parse_logos( string $value ): array {
 		$value = trim( $value );
 		if ( '' === $value ) {

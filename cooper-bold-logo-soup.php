@@ -29,6 +29,8 @@ define( 'CB_LOGO_SOUP_URL', plugin_dir_url( __FILE__ ) );
 if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	/**
 	 * Admin notice when PHP is too old (includes are not loaded).
+	 *
+	 * @return void
 	 */
 	function cb_logo_soup_php_version_notice(): void {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
@@ -45,6 +47,8 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 
 	/**
 	 * Refuse activation on PHP below 7.4.
+	 *
+	 * @return void
 	 */
 	function cb_logo_soup_activate_legacy(): void {
 		deactivate_plugins( plugin_basename( CB_LOGO_SOUP_FILE ) );
@@ -64,7 +68,9 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup.php';
 
 /**
- * Bootstrap the plugin.
+ * Bootstrap the plugin singleton.
+ *
+ * @return void
  */
 function cb_logo_soup_init(): void {
 	CB_Logo_Soup::instance();
@@ -73,6 +79,8 @@ add_action( 'plugins_loaded', 'cb_logo_soup_init' );
 
 /**
  * Refuse activation on PHP below 7.4.
+ *
+ * @return void
  */
 function cb_logo_soup_activate(): void {
 	if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {

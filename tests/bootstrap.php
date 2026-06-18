@@ -287,6 +287,9 @@ if ( ! function_exists( 'wp_json_encode' ) ) {
 }
 
 if ( ! function_exists( 'is_admin' ) ) {
+	/**
+	 * @return bool
+	 */
 	function is_admin(): bool {
 		return false;
 	}

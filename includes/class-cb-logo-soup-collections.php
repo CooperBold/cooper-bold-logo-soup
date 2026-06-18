@@ -35,6 +35,9 @@ final class CB_Logo_Soup_Collections {
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 	}
 
+	/**
+	 * Register the cb_logo_collection custom post type.
+	 */
 	public function register_post_type(): void {
 		register_post_type(
 			self::POST_TYPE,
@@ -70,6 +73,9 @@ final class CB_Logo_Soup_Collections {
 		);
 	}
 
+	/**
+	 * Add the top-level Logo Soup admin menu.
+	 */
 	public function register_admin_menu(): void {
 		$parent_slug = self::parent_menu_slug();
 
@@ -99,6 +105,9 @@ final class CB_Logo_Soup_Collections {
 		return 'edit.php?post_type=' . self::POST_TYPE;
 	}
 
+	/**
+	 * Register collection editor meta boxes.
+	 */
 	public function register_meta_boxes(): void {
 		add_meta_box(
 			'cb-logo-soup-collection-logos',
@@ -138,6 +147,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Output the logos repeater meta box.
+	 *
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_logos_meta_box( WP_Post $post ): void {
@@ -206,6 +217,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Output collection normalization settings.
+	 *
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_settings_meta_box( WP_Post $post ): void {
@@ -311,6 +324,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Output the React live-preview mount point.
+	 *
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_preview_meta_box( WP_Post $post ): void {
@@ -321,6 +336,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Output copyable shortcode snippets for this collection.
+	 *
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_shortcode_meta_box( WP_Post $post ): void {
@@ -338,8 +355,10 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
-	 * @param int $post_id Post ID.
-	 * @param WP_Post $post Post object.
+	 * Persist logos and settings from the collection editor.
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
 	 */
 	public function save_post( int $post_id, WP_Post $post ): void {
 		if ( ! isset( $_POST['cb_logo_soup_collection_nonce'] ) ) {
@@ -372,6 +391,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Add logo count and shortcode columns to the collections list table.
+	 *
 	 * @param array<int, mixed> $columns List columns.
 	 * @return array<int, mixed>
 	 */
@@ -388,7 +409,9 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
-	 * @param string $column Column key.
+	 * Render custom list-table column cells.
+	 *
+	 * @param string $column  Column key.
 	 * @param int    $post_id Post ID.
 	 */
 	public function render_list_column( string $column, int $post_id ): void {
@@ -410,6 +433,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Enqueue collection editor scripts and styles on admin screens.
+	 *
 	 * @param string $hook Current admin hook.
 	 */
 	public function enqueue_admin_assets( string $hook ): void {
@@ -466,6 +491,9 @@ final class CB_Logo_Soup_Collections {
 		}
 	}
 
+	/**
+	 * Register REST routes for block editor collection picker.
+	 */
 	public function register_rest_routes(): void {
 		register_rest_route(
 			'cb-logo-soup/v1',
@@ -481,6 +509,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * REST handler: list published collections with logos and settings.
+	 *
 	 * @return WP_REST_Response
 	 */
 	public function rest_list_collections(): WP_REST_Response {
@@ -551,8 +581,10 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Build block-style attributes from a collection post.
+	 *
 	 * @param WP_Post $post Collection post.
-	 * @return array<string, mixed>|null
+	 * @return array<string, mixed>|null Null when post is invalid or has no logos.
 	 */
 	public static function build_attributes_from_post( WP_Post $post ): ?array {
 		if ( self::POST_TYPE !== $post->post_type || 'publish' !== $post->post_status ) {
@@ -578,10 +610,11 @@ final class CB_Logo_Soup_Collections {
 	/**
 	 * Render a readonly shortcode field with a one-click Copy button.
 	 *
-	 * @param string $snippet Shortcode text.
+	 * @param string $snippet  Shortcode text.
 	 * @param string $input_id Optional input element ID.
-	 * @param bool   $widefat Whether to apply the widefat class (meta box).
-	 * @param bool   $compact Compact list-table layout (truncated text, icon-only copy).
+	 * @param bool   $widefat  Whether to apply the widefat class (meta box).
+	 * @param bool   $compact  Compact list-table layout (truncated text, icon-only copy).
+	 * @return void
 	 */
 	public static function render_shortcode_field( string $snippet, string $input_id = '', bool $widefat = false, bool $compact = false ): void {
 		$row_classes = 'cb-logo-soup-shortcode-row';
@@ -634,6 +667,8 @@ final class CB_Logo_Soup_Collections {
 	 * Truncate a shortcode string for compact admin display.
 	 *
 	 * @param string $snippet Full shortcode.
+	 * @param int    $max     Maximum visible length.
+	 * @return string Truncated shortcode with ellipsis when needed.
 	 */
 	public static function truncate_shortcode_display( string $snippet, int $max = 28 ): string {
 		if ( strlen( $snippet ) <= $max ) {
@@ -642,6 +677,12 @@ final class CB_Logo_Soup_Collections {
 		return substr( $snippet, 0, $max - 1 ) . '…';
 	}
 
+	/**
+	 * Preferred shortcode for a collection (slug when available, otherwise ID).
+	 *
+	 * @param WP_Post $post Collection post.
+	 * @return string Shortcode string.
+	 */
 	public static function get_shortcode_snippet( WP_Post $post ): string {
 		$slug = $post->post_name;
 		if ( '' === $slug && '' !== $post->post_title ) {
@@ -656,6 +697,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Sanitized logos stored on a collection post.
+	 *
 	 * @param int $post_id Post ID.
 	 * @return array<int, array<string, mixed>>
 	 */
@@ -668,6 +711,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Sanitized normalization settings stored on a collection post.
+	 *
 	 * @param int $post_id Post ID.
 	 * @return array<string, mixed>
 	 */
@@ -680,6 +725,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Sanitize collection settings from POST or post meta.
+	 *
 	 * @param array<string, mixed> $raw Raw settings from POST or meta.
 	 * @return array<string, mixed>
 	 */
@@ -708,6 +755,8 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
+	 * Normalize raw logo rows from the collection editor POST payload.
+	 *
 	 * @param array<int, mixed> $raw Raw logo rows from POST.
 	 * @return array<int, array<string, mixed>>
 	 */
@@ -727,6 +776,11 @@ final class CB_Logo_Soup_Collections {
 		return $rows;
 	}
 
+	/**
+	 * Lazy renderer instance for sanitization helpers.
+	 *
+	 * @return CB_Logo_Soup_Renderer
+	 */
 	private static function renderer(): CB_Logo_Soup_Renderer {
 		if ( null === self::$renderer ) {
 			self::$renderer = new CB_Logo_Soup_Renderer();

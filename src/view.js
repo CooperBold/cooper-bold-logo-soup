@@ -1,3 +1,8 @@
+/* global MutationObserver, Splide */
+/**
+ * Frontend hydration: mount LogoSoup on strip and carousel markup.
+ */
+
 import { createRoot } from '@wordpress/element';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
 import { toSoupProps } from './shared/to-soup-props';
@@ -6,7 +11,9 @@ const mounted = new WeakMap();
 const carouselGroups = new WeakSet();
 
 /**
- * @param {HTMLElement} container Mount node.
+ * Mount LogoSoup on a strip container (idempotent per node).
+ *
+ * @param {HTMLElement} container Mount node with data-cb-logo-soup.
  */
 function mountLogoSoup( container ) {
 	if ( mounted.has( container ) ) {
@@ -37,8 +44,10 @@ function mountLogoSoup( container ) {
 }
 
 /**
+ * Render a hidden reference strip and clone normalized logos into carousel slides.
+ *
  * @param {HTMLElement} refContainer Hidden reference strip mount.
- * @param {string}      groupId      Carousel group id.
+ * @param {string}      groupId      Carousel group id shared with slide nodes.
  */
 function mountCarouselReference( refContainer, groupId ) {
 	if ( carouselGroups.has( refContainer ) ) {
@@ -80,7 +89,8 @@ function mountCarouselReference( refContainer, groupId ) {
 			refContainer.firstElementChild;
 		const logoNodes = row
 			? Array.from( row.children ).filter(
-					( node ) => node.querySelector( 'img' ) || node.matches( 'img, a' )
+					( node ) =>
+						node.querySelector( 'img' ) || node.matches( 'img, a' )
 			  )
 			: [];
 
@@ -161,11 +171,16 @@ function maybeInitStandaloneSplide( carouselRoot ) {
 	splide.mount( extensions || undefined );
 }
 
+/**
+ * Initialize hidden reference strips and standalone Splide carousels.
+ */
 function initCarousels() {
 	document
 		.querySelectorAll( '[data-cb-logo-soup-ref]' )
 		.forEach( ( refContainer ) => {
-			const groupId = refContainer.getAttribute( 'data-cb-logo-soup-ref' );
+			const groupId = refContainer.getAttribute(
+				'data-cb-logo-soup-ref'
+			);
 			if ( ! groupId ) {
 				return;
 			}
@@ -177,6 +192,9 @@ function initCarousels() {
 		.forEach( maybeInitStandaloneSplide );
 }
 
+/**
+ * Mount all strip containers, then initialize carousels.
+ */
 function init() {
 	document.querySelectorAll( '[data-cb-logo-soup]' ).forEach( ( el ) => {
 		if ( el.hasAttribute( 'data-cb-logo-soup-ref' ) ) {
