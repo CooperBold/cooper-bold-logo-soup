@@ -48,7 +48,7 @@ final class CB_Logo_Soup {
 
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
 		$attributes = $this->prepare_block_attributes( $attributes );
-		return $this->renderer->render( $attributes, get_block_wrapper_attributes( array( 'class' => 'cb-logo-soup' ) ) );
+		return $this->renderer->render( $attributes, get_block_wrapper_attributes( array( 'class' => 'cb-logo-soup cb-logo-soup-wrapper' ) ) );
 	}
 
 	/**

@@ -220,15 +220,24 @@ final class CB_Logo_Soup_Collections {
 		<table class="form-table cb-logo-soup-settings-table cb-logo-soup-settings-essential" role="presentation">
 			<tr>
 				<th scope="row"><label for="cb_logo_soup_base_size"><?php esc_html_e( 'Size', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td><input type="number" id="cb_logo_soup_base_size" name="cb_logo_soup_settings[baseSize]" value="<?php echo esc_attr( (string) $settings['baseSize'] ); ?>" min="16" max="256" step="4" class="small-text" /> px</td>
+				<td>
+					<input type="number" id="cb_logo_soup_base_size" name="cb_logo_soup_settings[baseSize]" value="<?php echo esc_attr( (string) $settings['baseSize'] ); ?>" min="16" max="256" step="4" class="small-text" /> px
+					<p class="description"><?php esc_html_e( 'Base height for each logo before normalization.', 'cooper-bold-logo-soup' ); ?></p>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="cb_logo_soup_gap"><?php esc_html_e( 'Gap', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td><input type="number" id="cb_logo_soup_gap" name="cb_logo_soup_settings[gap]" value="<?php echo esc_attr( (string) $settings['gap'] ); ?>" min="0" max="96" step="4" class="small-text" /> px</td>
+				<td>
+					<input type="number" id="cb_logo_soup_gap" name="cb_logo_soup_settings[gap]" value="<?php echo esc_attr( (string) $settings['gap'] ); ?>" min="0" max="96" step="4" class="small-text" /> px
+					<p class="description"><?php esc_html_e( 'Space between logos in pixels.', 'cooper-bold-logo-soup' ); ?></p>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="cb_logo_soup_background_color"><?php esc_html_e( 'Background', 'cooper-bold-logo-soup' ); ?></label></th>
-				<td><input type="text" id="cb_logo_soup_background_color" name="cb_logo_soup_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" /></td>
+				<td>
+					<input type="text" id="cb_logo_soup_background_color" name="cb_logo_soup_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" />
+					<p class="description"><?php esc_html_e( 'Strip background color (helps contrast detection for light logos).', 'cooper-bold-logo-soup' ); ?></p>
+				</td>
 			</tr>
 		</table>
 		<details class="cb-logo-soup-advanced-settings">
@@ -236,11 +245,17 @@ final class CB_Logo_Soup_Collections {
 			<table class="form-table cb-logo-soup-settings-table cb-logo-soup-settings-advanced" role="presentation">
 				<tr>
 					<th scope="row"><label for="cb_logo_soup_scale_factor"><?php esc_html_e( 'Scale factor', 'cooper-bold-logo-soup' ); ?></label></th>
-					<td><input type="number" id="cb_logo_soup_scale_factor" name="cb_logo_soup_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" /></td>
+					<td>
+						<input type="number" id="cb_logo_soup_scale_factor" name="cb_logo_soup_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
+						<p class="description"><?php esc_html_e( 'How much smaller logos can be relative to the largest mark (0–1).', 'cooper-bold-logo-soup' ); ?></p>
+					</td>
 				</tr>
 				<tr>
 					<th scope="row"><label for="cb_logo_soup_contrast_threshold"><?php esc_html_e( 'Contrast threshold', 'cooper-bold-logo-soup' ); ?></label></th>
-					<td><input type="number" id="cb_logo_soup_contrast_threshold" name="cb_logo_soup_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" /></td>
+					<td>
+						<input type="number" id="cb_logo_soup_contrast_threshold" name="cb_logo_soup_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" />
+						<p class="description"><?php esc_html_e( 'Minimum contrast used when detecting logo edges (0–255).', 'cooper-bold-logo-soup' ); ?></p>
+					</td>
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Density aware', 'cooper-bold-logo-soup' ); ?></th>
@@ -249,11 +264,15 @@ final class CB_Logo_Soup_Collections {
 							<input type="checkbox" name="cb_logo_soup_settings[densityAware]" value="1" <?php checked( $settings['densityAware'] ); ?> />
 							<?php esc_html_e( 'Adjust for visual density', 'cooper-bold-logo-soup' ); ?>
 						</label>
+						<p class="description"><?php esc_html_e( 'Scale logos based on how visually dense each mark appears.', 'cooper-bold-logo-soup' ); ?></p>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row"><label for="cb_logo_soup_density_factor"><?php esc_html_e( 'Density factor', 'cooper-bold-logo-soup' ); ?></label></th>
-					<td><input type="number" id="cb_logo_soup_density_factor" name="cb_logo_soup_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" /></td>
+					<td>
+						<input type="number" id="cb_logo_soup_density_factor" name="cb_logo_soup_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
+						<p class="description"><?php esc_html_e( 'Strength of density-based scaling when density aware is on (0–1).', 'cooper-bold-logo-soup' ); ?></p>
+					</td>
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Crop to content', 'cooper-bold-logo-soup' ); ?></th>
@@ -262,6 +281,7 @@ final class CB_Logo_Soup_Collections {
 							<input type="checkbox" name="cb_logo_soup_settings[cropToContent]" value="1" <?php checked( $settings['cropToContent'] ); ?> />
 							<?php esc_html_e( 'Crop to detected content bounds', 'cooper-bold-logo-soup' ); ?>
 						</label>
+						<p class="description"><?php esc_html_e( 'Trim transparent padding around each logo before sizing.', 'cooper-bold-logo-soup' ); ?></p>
 					</td>
 				</tr>
 				<tr>
@@ -272,6 +292,7 @@ final class CB_Logo_Soup_Collections {
 								<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $settings['alignBy'], $value ); ?>><?php echo esc_html( $label ); ?></option>
 							<?php endforeach; ?>
 						</select>
+						<p class="description"><?php esc_html_e( 'How logos are vertically aligned in the strip.', 'cooper-bold-logo-soup' ); ?></p>
 					</td>
 				</tr>
 			</table>

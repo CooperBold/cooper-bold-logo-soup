@@ -37,6 +37,15 @@ if ( ! function_exists( 'esc_url' ) ) {
 	}
 }
 
+if ( ! function_exists( 'esc_attr' ) ) {
+	/**
+	 * @param string $text Text.
+	 */
+	function esc_attr( $text ): string {
+		return htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' );
+	}
+}
+
 if ( ! function_exists( 'esc_attr__' ) ) {
 	/**
 	 * @param string $text Text.
@@ -257,6 +266,71 @@ if ( ! function_exists( 'sanitize_title' ) ) {
 	}
 }
 
+if ( ! function_exists( 'sanitize_html_class' ) ) {
+	/**
+	 * @param string $class CSS class name.
+	 */
+	function sanitize_html_class( $class, $fallback = '' ): string {
+		$class = preg_replace( '/[^A-Za-z0-9_-]/', '', (string) $class ) ?? '';
+		return '' !== $class ? $class : (string) $fallback;
+	}
+}
+
+if ( ! function_exists( 'wp_json_encode' ) ) {
+	/**
+	 * @param mixed $data Data to encode.
+	 * @return string|false
+	 */
+	function wp_json_encode( $data, $options = 0, $depth = 512 ) {
+		return json_encode( $data, $options, $depth );
+	}
+}
+
+if ( ! function_exists( 'is_admin' ) ) {
+	function is_admin(): bool {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'wp_script_is' ) ) {
+	/**
+	 * @param string $handle Script handle.
+	 */
+	function wp_script_is( $handle, $status = 'enqueued' ): bool {
+		unset( $handle, $status );
+		return false;
+	}
+}
+
+if ( ! function_exists( 'wp_style_is' ) ) {
+	/**
+	 * @param string $handle Style handle.
+	 */
+	function wp_style_is( $handle, $status = 'enqueued' ): bool {
+		unset( $handle, $status );
+		return false;
+	}
+}
+
+if ( ! function_exists( 'wp_enqueue_script' ) ) {
+	/**
+	 * @param string $handle Script handle.
+	 */
+	function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $args = false ): void {
+		unset( $handle, $src, $deps, $ver, $args );
+	}
+}
+
+if ( ! function_exists( 'wp_enqueue_style' ) ) {
+	/**
+	 * @param string $handle Style handle.
+	 */
+	function wp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $media = 'all' ): void {
+		unset( $handle, $src, $deps, $ver, $media );
+	}
+}
+
+require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-assets.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-admin-branding.php';

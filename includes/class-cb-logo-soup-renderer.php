@@ -236,8 +236,15 @@ final class CB_Logo_Soup_Renderer {
 				: $img;
 		}
 
+		$inner_attributes = sprintf(
+			'class="cb-logo-soup cb-logo-soup-inner" data-cb-logo-soup="%s" style="%s"%s',
+			esc_attr( $json ),
+			esc_attr( $style ),
+			$aria ? ' aria-label="' . esc_attr( $aria ) . '"' : ''
+		);
+
 		if ( '' === $wrapper_attributes ) {
-			$classes = array( 'cb-logo-soup' );
+			$classes = array( 'cb-logo-soup', 'cb-logo-soup-wrapper' );
 			foreach ( preg_split( '/\s+/', $attrs['className'] ) ?: array() as $part ) {
 				$class = sanitize_html_class( $part );
 				if ( '' !== $class ) {
@@ -245,27 +252,51 @@ final class CB_Logo_Soup_Renderer {
 				}
 			}
 			$wrapper_attributes = sprintf(
-				'class="%s" data-cb-logo-soup="%s" style="%s"%s',
-				esc_attr( implode( ' ', array_unique( $classes ) ) ),
-				esc_attr( $json ),
-				esc_attr( $style ),
-				$aria ? ' aria-label="' . esc_attr( $aria ) . '"' : ''
+				'class="%s"',
+				esc_attr( implode( ' ', array_unique( $classes ) ) )
 			);
 		} else {
-			$merged = $style;
-			if ( preg_match( '/\sstyle="([^"]*)"/', $wrapper_attributes, $matches ) ) {
-				$merged             = rtrim( $matches[1], ';' ) . ';' . $style;
-				$wrapper_attributes = preg_replace( '/\sstyle="[^"]*"/', '', $wrapper_attributes ) ?? $wrapper_attributes;
-			}
-			$wrapper_attributes = trim( $wrapper_attributes ) . sprintf(
-				' data-cb-logo-soup="%s" style="%s"%s',
-				esc_attr( $json ),
-				esc_attr( $merged ),
-				$aria ? ' aria-label="' . esc_attr( $aria ) . '"' : ''
-			);
+			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-logo-soup-wrapper' );
 		}
 
-		return sprintf( '<div %s>%s</div>', $wrapper_attributes, $imgs );
+		return sprintf(
+			'<div %s><div %s>%s</div></div>',
+			$wrapper_attributes,
+			$inner_attributes,
+			$imgs
+		);
+	}
+
+	/**
+	 * Ensure a class is present on pre-built wrapper attributes (block output).
+	 *
+	 * @param string $wrapper_attributes Attribute string from get_block_wrapper_attributes().
+	 * @param string $class              Class to add.
+	 */
+	private function ensure_wrapper_class( string $wrapper_attributes, string $class ): string {
+		$sanitized = sanitize_html_class( $class );
+		if ( '' === $sanitized ) {
+			return $wrapper_attributes;
+		}
+
+		if ( preg_match( '/class="([^"]*)"/', $wrapper_attributes, $matches ) ) {
+			$classes = array_unique(
+				array_filter(
+					array_merge(
+						preg_split( '/\s+/', $matches[1] ) ?: array(),
+						array( $sanitized )
+					)
+				)
+			);
+
+			return preg_replace(
+				'/class="[^"]*"/',
+				'class="' . esc_attr( implode( ' ', $classes ) ) . '"',
+				$wrapper_attributes
+			) ?? $wrapper_attributes;
+		}
+
+		return trim( $wrapper_attributes ) . sprintf( ' class="%s"', esc_attr( $sanitized ) );
 	}
 
 	/**

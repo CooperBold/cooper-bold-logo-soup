@@ -203,4 +203,25 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 
 		$this->assertCount( 60, $logos );
 	}
+
+	public function test_render_outputs_wrapper_and_inner_classes(): void {
+		$html = $this->renderer->render(
+			array(
+				'logos' => array(
+					array(
+						'url' => 'https://example.com/logo.png',
+						'alt' => 'Example',
+					),
+				),
+			)
+		);
+
+		$this->assertStringContainsString( 'cb-logo-soup-wrapper', $html );
+		$this->assertStringContainsString( 'cb-logo-soup-inner', $html );
+		$this->assertStringContainsString( 'data-cb-logo-soup="', $html );
+		$this->assertMatchesRegularExpression(
+			'/<div[^>]*cb-logo-soup-wrapper[^>]*><div[^>]*cb-logo-soup-inner[^>]*data-cb-logo-soup=/',
+			$html
+		);
+	}
 }

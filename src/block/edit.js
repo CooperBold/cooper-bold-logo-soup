@@ -296,6 +296,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 					<RangeControl
 						label={ __( 'Base size', 'cooper-bold-logo-soup' ) }
+						help={ __(
+							'Base height for each logo before normalization.',
+							'cooper-bold-logo-soup'
+						) }
 						value={ previewAttributes.baseSize }
 						onChange={ ( value ) =>
 							setAttributes( { baseSize: value } )
@@ -307,6 +311,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<RangeControl
 						label={ __( 'Scale factor', 'cooper-bold-logo-soup' ) }
+						help={ __(
+							'How much smaller logos can be relative to the largest mark (0–1).',
+							'cooper-bold-logo-soup'
+						) }
 						value={ previewAttributes.scaleFactor }
 						onChange={ ( value ) =>
 							setAttributes( { scaleFactor: value } )
@@ -321,6 +329,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Contrast threshold',
 							'cooper-bold-logo-soup'
 						) }
+						help={ __(
+							'Minimum contrast used when detecting logo edges (0–255).',
+							'cooper-bold-logo-soup'
+						) }
 						value={ previewAttributes.contrastThreshold }
 						onChange={ ( value ) =>
 							setAttributes( { contrastThreshold: value } )
@@ -332,6 +344,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToggleControl
 						label={ __( 'Density aware', 'cooper-bold-logo-soup' ) }
+						help={ __(
+							'Scale logos based on how visually dense each mark appears.',
+							'cooper-bold-logo-soup'
+						) }
 						checked={ previewAttributes.densityAware }
 						onChange={ ( value ) =>
 							setAttributes( { densityAware: value } )
@@ -341,6 +357,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					<RangeControl
 						label={ __(
 							'Density factor',
+							'cooper-bold-logo-soup'
+						) }
+						help={ __(
+							'Strength of density-based scaling when density aware is on (0–1).',
 							'cooper-bold-logo-soup'
 						) }
 						value={ previewAttributes.densityFactor }
@@ -359,6 +379,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Crop to content',
 							'cooper-bold-logo-soup'
 						) }
+						help={ __(
+							'Trim transparent padding around each logo before sizing.',
+							'cooper-bold-logo-soup'
+						) }
 						checked={ previewAttributes.cropToContent }
 						onChange={ ( value ) =>
 							setAttributes( { cropToContent: value } )
@@ -368,6 +392,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					<TextControl
 						label={ __(
 							'Background color',
+							'cooper-bold-logo-soup'
+						) }
+						help={ __(
+							'Strip background color (helps contrast detection for light logos).',
 							'cooper-bold-logo-soup'
 						) }
 						value={ previewAttributes.backgroundColor }
@@ -383,6 +411,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				>
 					<SelectControl
 						label={ __( 'Align by', 'cooper-bold-logo-soup' ) }
+						help={ __(
+							'How logos are vertically aligned in the strip.',
+							'cooper-bold-logo-soup'
+						) }
 						value={ previewAttributes.alignBy }
 						options={ ALIGN_OPTIONS }
 						onChange={ ( value ) =>
@@ -392,6 +424,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<RangeControl
 						label={ __( 'Gap', 'cooper-bold-logo-soup' ) }
+						help={ __(
+							'Space between logos in pixels.',
+							'cooper-bold-logo-soup'
+						) }
 						value={ previewAttributes.gap }
 						onChange={ ( value ) =>
 							setAttributes( { gap: value } )

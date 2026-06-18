@@ -16,7 +16,8 @@ Wraps `@sanity-labs/logo-soup` for WordPress. Logo Soup **normalizes** mixed log
 - Block name: `cooper-bold/logo-soup`
 - Shortcode: `[logo_soup]` — prefer `collection="slug"` or `id="123"` from Logo Collections CPT
 - Collections CPT: `cb_logo_collection` — admin menu **Logo Soup**
-- Frontend mount selector: `[data-cb-logo-soup]`
+- Frontend mount selector: `[data-cb-logo-soup]` on `.cb-logo-soup-inner`
+- Frontend CSS targeting: `.cb-logo-soup-wrapper` for outer spacing/margins; `.cb-logo-soup-inner` for the logo row
 - View script handle: `cooper-bold-logo-soup-view`
 - Assets enqueue only when block `render_callback` or shortcode runs
 
