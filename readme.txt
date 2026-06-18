@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Logo Soup scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.2.2 =
+* Docs-only: professionalize plugin code comments (no behavior changes)
 
 = 1.2.1 =
 * Strip layout SSR placeholders mirror LogoSoup hydrated DOM (`div` > `span` > `img`) so Bricks builder preview matches frontend grid CSS without running view.js
