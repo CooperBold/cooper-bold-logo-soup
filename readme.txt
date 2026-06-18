@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 
 == Changelog ==
 
+= 1.1.7 =
+* Fix Cooper Bold admin footer credit — small wordmark bottom-right on Logo Collections screens only, no overlap with core wp-admin footer
+
 = 1.1.6 =
 * Add Cooper Bold wordmark footer on Logo Collections admin list and edit screens
 * Subtle cooperbold.com credit in the block editor sidebar
@@ -103,6 +106,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.7 =
+Fixes oversized admin footer branding on Logo Collections screens — no migration required.
 
 = 1.1.6 =
 Adds a Cooper Bold wordmark in Logo Collections wp-admin and a credit link in the block sidebar — no migration required.

@@ -44,9 +44,9 @@ final class CB_Logo_Soup_Admin_Branding {
 
 		$logo_url = CB_LOGO_SOUP_URL . 'admin/images/cooper-bold-wordmark.png';
 		?>
-		<div class="cb-logo-soup-admin-branding">
+		<div class="cb-logo-soup-admin-credit">
 			<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer">
-				<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php esc_attr_e( 'Cooper Bold', 'cooper-bold-logo-soup' ); ?>" width="156" height="84" />
+				<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php esc_attr_e( 'Cooper Bold', 'cooper-bold-logo-soup' ); ?>" />
 			</a>
 		</div>
 		<?php
