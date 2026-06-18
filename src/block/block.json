@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "cooper-bold/logo-soup",
-	"version": "1.1.12",
+	"version": "1.2.0",
 	"title": "Logo Soup",
 	"category": "media",
 	"icon": "images-alt2",
@@ -29,6 +29,16 @@
 		"backgroundColor": { "type": "string", "default": "" },
 		"alignBy": { "type": "string", "default": "visual-center-y" },
 		"gap": { "type": "number", "default": 28 },
+		"layout": {
+			"type": "string",
+			"default": "strip",
+			"enum": [ "strip", "carousel" ]
+		},
+		"wrapper": {
+			"type": "string",
+			"default": "full",
+			"enum": [ "full", "slides" ]
+		},
 		"collectionId": { "type": "number", "default": 0 }
 	},
 	"editorScript": "file:../index.js",

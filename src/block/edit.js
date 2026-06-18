@@ -51,6 +51,24 @@ const SETTING_KEYS = [
 	'backgroundColor',
 	'alignBy',
 	'gap',
+	'layout',
+	'wrapper',
+];
+
+const LAYOUT_OPTIONS = [
+	{ label: __( 'Strip', 'cooper-bold-logo-soup' ), value: 'strip' },
+	{ label: __( 'Carousel', 'cooper-bold-logo-soup' ), value: 'carousel' },
+];
+
+const WRAPPER_OPTIONS = [
+	{
+		label: __( 'Full Splide carousel', 'cooper-bold-logo-soup' ),
+		value: 'full',
+	},
+	{
+		label: __( 'Slides only (Bricks nested)', 'cooper-bold-logo-soup' ),
+		value: 'slides',
+	},
 ];
 
 function pickCollectionSettings( collection ) {
@@ -66,7 +84,7 @@ function pickCollectionSettings( collection ) {
 }
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { logos, collectionId } = attributes;
+	const { logos, collectionId, layout, wrapper } = attributes;
 	const blockProps = useBlockProps( { className: 'cb-logo-soup-editor' } );
 	const [ collections, setCollections ] = useState( [] );
 	const [ loadingCollections, setLoadingCollections ] = useState( true );
@@ -110,10 +128,12 @@ export default function Edit( { attributes, setAttributes } ) {
 				...attributes,
 				...pickCollectionSettings( selectedCollection ),
 				logos: selectedCollection.logos || [],
+				layout: layout || selectedCollection.layout || 'strip',
+				wrapper: wrapper || selectedCollection.wrapper || 'full',
 			};
 		}
 		return attributes;
-	}, [ attributes, selectedCollection, usingCollection ] );
+	}, [ attributes, layout, selectedCollection, usingCollection, wrapper ] );
 
 	const collectionOptions = [
 		{
@@ -409,6 +429,45 @@ export default function Edit( { attributes, setAttributes } ) {
 					title={ __( 'Layout', 'cooper-bold-logo-soup' ) }
 					initialOpen={ false }
 				>
+					<SelectControl
+						label={ __( 'Display layout', 'cooper-bold-logo-soup' ) }
+						help={ __(
+							'Carousel outputs one Splide slide per normalized logo. Use slides-only mode inside Bricks nested sliders.',
+							'cooper-bold-logo-soup'
+						) }
+						value={
+							layout ||
+							previewAttributes.layout ||
+							'strip'
+						}
+						options={ LAYOUT_OPTIONS }
+						onChange={ ( value ) =>
+							setAttributes( { layout: value } )
+						}
+					/>
+					{ ( layout ||
+						previewAttributes.layout ||
+						'strip' ) === 'carousel' && (
+						<SelectControl
+							label={ __(
+								'Carousel wrapper',
+								'cooper-bold-logo-soup'
+							) }
+							help={ __(
+								'Slides only nests inside an existing Splide list. Full outputs a standalone carousel.',
+								'cooper-bold-logo-soup'
+							) }
+							value={
+								wrapper ||
+								previewAttributes.wrapper ||
+								'full'
+							}
+							options={ WRAPPER_OPTIONS }
+							onChange={ ( value ) =>
+								setAttributes( { wrapper: value } )
+							}
+						/>
+					) }
 					<SelectControl
 						label={ __( 'Align by', 'cooper-bold-logo-soup' ) }
 						help={ __(

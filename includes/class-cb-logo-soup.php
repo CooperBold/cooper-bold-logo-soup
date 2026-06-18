@@ -65,6 +65,12 @@ final class CB_Logo_Soup {
 			if ( ! empty( $attributes['className'] ) ) {
 				$prepared['className'] = (string) $attributes['className'];
 			}
+			if ( ! empty( $attributes['layout'] ) ) {
+				$prepared['layout'] = (string) $attributes['layout'];
+			}
+			if ( ! empty( $attributes['wrapper'] ) ) {
+				$prepared['wrapper'] = (string) $attributes['wrapper'];
+			}
 			return $prepared;
 		}
 		return $attributes;
@@ -86,6 +92,8 @@ final class CB_Logo_Soup {
 				'background_color'   => '',
 				'align_by'           => '',
 				'gap'                => '',
+				'layout'             => '',
+				'wrapper'            => '',
 				'class'              => '',
 			),
 			$atts,
@@ -128,6 +136,12 @@ final class CB_Logo_Soup {
 		}
 		if ( '' !== $a['crop_to_content'] ) {
 			$attributes['cropToContent'] = filter_var( $a['crop_to_content'], FILTER_VALIDATE_BOOLEAN );
+		}
+		if ( '' !== $a['layout'] ) {
+			$attributes['layout'] = sanitize_key( (string) $a['layout'] );
+		}
+		if ( '' !== $a['wrapper'] ) {
+			$attributes['wrapper'] = sanitize_key( (string) $a['wrapper'] );
 		}
 
 		return $this->renderer->render( $attributes );

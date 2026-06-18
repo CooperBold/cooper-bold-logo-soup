@@ -16,3 +16,32 @@
 	display: inline-flex;
 	line-height: 0;
 }
+
+.cb-logo-soup-carousel-ref {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	clip: rect( 0, 0, 0, 0 );
+	white-space: nowrap;
+}
+
+.cb-logo-soup-slide {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: auto;
+	box-sizing: border-box;
+}
+
+.cb-logo-soup-slide img {
+	max-height: var( --cb-logo-size, 48px );
+	height: auto;
+	width: auto;
+	max-width: none;
+}
+
+.cb-logo-soup-slide a {
+	display: inline-flex;
+	line-height: 0;
+}

@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.12
+Stable tag: 1.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,12 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Logo Soup scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.2.0 =
+* Carousel layout mode — one normalized logo per Splide slide for Bricks nested sliders
+* Collection setting and block/shortcode `layout` attribute (`strip` default, `carousel` for sliders)
+* Shortcode `wrapper="slides"` outputs slide fragments for nesting inside existing Splide lists; `wrapper="full"` outputs a standalone carousel
+* RapidSOS-compatible `logo-slider-slide` class on carousel slides
 
 = 1.1.12 =
 * One-line help text under each collection and block setting explaining what it does

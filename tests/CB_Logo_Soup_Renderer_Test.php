@@ -224,4 +224,59 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 			$html
 		);
 	}
+
+	public function test_render_carousel_full_wrapper_outputs_splide_markup(): void {
+		$html = $this->renderer->render(
+			array(
+				'layout' => 'carousel',
+				'logos'  => array(
+					array(
+						'url' => 'https://example.com/a.png',
+						'alt' => 'A',
+					),
+					array(
+						'url' => 'https://example.com/b.png',
+						'alt' => 'B',
+					),
+				),
+			)
+		);
+
+		$this->assertStringContainsString( 'cb-logo-soup-carousel', $html );
+		$this->assertStringContainsString( 'splide__slide', $html );
+		$this->assertStringContainsString( 'logo-slider-slide', $html );
+		$this->assertStringContainsString( 'data-cb-logo-soup-ref=', $html );
+		$this->assertStringContainsString( 'splide__track', $html );
+		$this->assertStringContainsString( 'splide__list', $html );
+	}
+
+	public function test_render_carousel_slides_wrapper_outputs_fragments(): void {
+		$html = $this->renderer->render(
+			array(
+				'layout'  => 'carousel',
+				'wrapper' => 'slides',
+				'logos'   => array(
+					array(
+						'url' => 'https://example.com/a.png',
+						'alt' => 'A',
+					),
+				),
+			)
+		);
+
+		$this->assertStringContainsString( 'cb-logo-soup-carousel-host', $html );
+		$this->assertStringContainsString( 'splide__slide', $html );
+		$this->assertStringNotContainsString( 'splide__track', $html );
+	}
+
+	public function test_sanitize_layout_rejects_invalid_values(): void {
+		$result = $this->renderer->sanitize_attributes(
+			array(
+				'logos'  => array(),
+				'layout' => 'marquee',
+			)
+		);
+
+		$this->assertSame( 'strip', $result['layout'] );
+	}
 }

@@ -79,6 +79,39 @@ export function CollectionPreview() {
 		previewStyle.backgroundColor = previewConfig.backgroundColor;
 	}
 
+	const isCarousel = ( attributes.layout || 'strip' ) === 'carousel';
+
+	if ( isCarousel ) {
+		return (
+			<div
+				className="cb-logo-soup cb-logo-soup-preview-inner cb-logo-soup-preview-carousel"
+				style={ previewStyle }
+			>
+				<ul className="cb-logo-soup-preview-slides">
+					{ previewConfig.logos.map( ( logo, index ) => (
+						<li
+							key={ logo.id || logo.url || index }
+							className="cb-logo-soup-slide logo-slider-slide"
+						>
+							<LogoSoup
+								{ ...toSoupProps( {
+									...previewConfig,
+									logos: [ logo ],
+								} ) }
+							/>
+						</li>
+					) ) }
+				</ul>
+				<p className="description">
+					{ __(
+						'Preview shows one slide per logo. Frontend uses cross-logo normalization before distributing into slides.',
+						'cooper-bold-logo-soup'
+					) }
+				</p>
+			</div>
+		);
+	}
+
 	return (
 		<div
 			className="cb-logo-soup cb-logo-soup-preview-inner"

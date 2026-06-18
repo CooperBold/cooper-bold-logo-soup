@@ -233,6 +233,16 @@ final class CB_Logo_Soup_Collections {
 				</td>
 			</tr>
 			<tr>
+				<th scope="row"><label for="cb_logo_soup_layout"><?php esc_html_e( 'Layout', 'cooper-bold-logo-soup' ); ?></label></th>
+				<td>
+					<select id="cb_logo_soup_layout" name="cb_logo_soup_settings[layout]">
+						<option value="strip" <?php selected( $settings['layout'], 'strip' ); ?>><?php esc_html_e( 'Strip', 'cooper-bold-logo-soup' ); ?></option>
+						<option value="carousel" <?php selected( $settings['layout'], 'carousel' ); ?>><?php esc_html_e( 'Carousel', 'cooper-bold-logo-soup' ); ?></option>
+					</select>
+					<p class="description"><?php esc_html_e( 'Strip renders one normalized row. Carousel outputs one Splide slide per logo for Bricks sliders.', 'cooper-bold-logo-soup' ); ?></p>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row"><label for="cb_logo_soup_background_color"><?php esc_html_e( 'Background', 'cooper-bold-logo-soup' ); ?></label></th>
 				<td>
 					<input type="text" id="cb_logo_soup_background_color" name="cb_logo_soup_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" />
@@ -637,10 +647,12 @@ final class CB_Logo_Soup_Collections {
 		if ( '' === $slug && '' !== $post->post_title ) {
 			$slug = sanitize_title( $post->post_title );
 		}
+		$settings = self::get_settings_for_post( (int) $post->ID );
+		$layout   = 'carousel' === ( $settings['layout'] ?? 'strip' ) ? ' layout="carousel"' : '';
 		if ( '' === $slug ) {
-			return sprintf( '[logo_soup id="%d"]', (int) $post->ID );
+			return sprintf( '[logo_soup id="%d"%s]', (int) $post->ID, $layout );
 		}
-		return sprintf( '[logo_soup collection="%s"]', $slug );
+		return sprintf( '[logo_soup collection="%s"%s]', $slug, $layout );
 	}
 
 	/**
@@ -685,6 +697,8 @@ final class CB_Logo_Soup_Collections {
 			'backgroundColor'     => $raw['backgroundColor'] ?? '',
 			'alignBy'             => $raw['alignBy'] ?? $defaults['alignBy'],
 			'gap'                 => $raw['gap'] ?? $defaults['gap'],
+			'layout'              => $raw['layout'] ?? $defaults['layout'],
+			'wrapper'             => $raw['wrapper'] ?? $defaults['wrapper'],
 		);
 
 		$sanitized = self::renderer()->sanitize_attributes( array_merge( $attrs, array( 'logos' => array() ) ) );

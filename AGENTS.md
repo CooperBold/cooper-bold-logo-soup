@@ -30,6 +30,12 @@ Wraps `@sanity-labs/logo-soup` for WordPress. Logo Soup **normalizes** mixed log
 
 No built-in cap on logos per collection, block, or shortcode. Admin users manage performance tradeoffs themselves.
 
+## Layout modes
+
+- `layout="strip"` (default) — one normalized row (`.cb-logo-soup-wrapper` > `.cb-logo-soup-inner`)
+- `layout="carousel"` — one Splide slide per logo; use `wrapper="slides"` to nest inside Bricks nested sliders, or `wrapper="full"` for standalone Splide markup
+- Carousel slides use class `logo-slider-slide` for RapidSOS Splide Auto Scroll compatibility
+
 ## Do not
 
 - Commit `node_modules/` or secrets

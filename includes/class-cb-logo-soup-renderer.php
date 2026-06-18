@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class CB_Logo_Soup_Renderer {
 
+	/** @var int Carousel group id sequence for unique data attributes per render. */
+	private static int $carousel_seq = 0;
+
 	/**
 	 * Default attribute values aligned with @sanity-labs/logo-soup.
 	 *
@@ -33,6 +36,8 @@ final class CB_Logo_Soup_Renderer {
 			'backgroundColor'     => '',
 			'alignBy'             => 'visual-center-y',
 			'gap'                 => 28,
+			'layout'              => 'strip',
+			'wrapper'             => 'full',
 			'className'           => '',
 		);
 	}
@@ -93,6 +98,16 @@ final class CB_Logo_Soup_Renderer {
 			? (string) $attrs['alignBy']
 			: $defaults['alignBy'];
 
+		$layout_options = array( 'strip', 'carousel' );
+		$layout         = in_array( (string) $attrs['layout'], $layout_options, true )
+			? (string) $attrs['layout']
+			: $defaults['layout'];
+
+		$wrapper_options = array( 'full', 'slides' );
+		$wrapper         = in_array( (string) $attrs['wrapper'], $wrapper_options, true )
+			? (string) $attrs['wrapper']
+			: $defaults['wrapper'];
+
 		return array(
 			'logos'             => $logos,
 			'baseSize'          => max( 16, min( 256, (int) $attrs['baseSize'] ) ),
@@ -106,6 +121,8 @@ final class CB_Logo_Soup_Renderer {
 			'backgroundColor'   => $this->color( (string) $attrs['backgroundColor'] ),
 			'alignBy'           => $align_by,
 			'gap'               => $this->gap( $attrs['gap'] ),
+			'layout'            => $layout,
+			'wrapper'           => 'carousel' === $layout ? $wrapper : 'full',
 			'className'         => sanitize_text_field( (string) $attrs['className'] ),
 		);
 	}
@@ -148,6 +165,8 @@ final class CB_Logo_Soup_Renderer {
 			'backgroundColor',
 			'alignBy',
 			'gap',
+			'layout',
+			'wrapper',
 			'className',
 		);
 
@@ -190,6 +209,21 @@ final class CB_Logo_Soup_Renderer {
 			return '';
 		}
 
+		if ( 'carousel' === $attrs['layout'] ) {
+			return $this->render_carousel( $attrs, $wrapper_attributes );
+		}
+
+		return $this->render_strip( $attrs, $wrapper_attributes );
+	}
+
+	/**
+	 * Render a normalized logo strip (default layout).
+	 *
+	 * @param array<string, mixed> $attrs              Sanitized attributes.
+	 * @param string               $wrapper_attributes Optional pre-built wrapper attributes.
+	 * @return string
+	 */
+	private function render_strip( array $attrs, string $wrapper_attributes = '' ): string {
 		CB_Logo_Soup_Assets::enqueue_frontend();
 
 		$config = array(
@@ -265,6 +299,111 @@ final class CB_Logo_Soup_Renderer {
 			$inner_attributes,
 			$imgs
 		);
+	}
+
+	/**
+	 * Render carousel slides for Splide / Bricks nested sliders.
+	 *
+	 * Uses a hidden reference strip for cross-logo normalization, then distributes
+	 * each normalized logo into its own splide__slide (see view.js).
+	 *
+	 * @param array<string, mixed> $attrs              Sanitized attributes.
+	 * @param string               $wrapper_attributes Optional pre-built wrapper attributes.
+	 * @return string
+	 */
+	private function render_carousel( array $attrs, string $wrapper_attributes = '' ): string {
+		CB_Logo_Soup_Assets::enqueue_frontend();
+
+		$config     = $this->build_soup_config( $attrs );
+		$json       = wp_json_encode( $config );
+		$group_id   = 'cb-ls-' . (string) ++self::$carousel_seq;
+		$slide_html = '';
+
+		foreach ( array_keys( $attrs['logos'] ) as $index ) {
+			$slide_html .= sprintf(
+				'<li class="splide__slide logo-slider-slide cb-logo-soup-slide" data-cb-logo-soup-slide="%1$d" data-cb-logo-soup-carousel="%2$s" aria-label="%3$s"></li>',
+				(int) $index,
+				esc_attr( $group_id ),
+				esc_attr( $attrs['logos'][ $index ]['alt'] ?? __( 'Logo', 'cooper-bold-logo-soup' ) )
+			);
+		}
+
+		$ref_style = sprintf(
+			'--cb-logo-size:%dpx;gap:%dpx;%s',
+			$attrs['baseSize'],
+			$attrs['gap'],
+			'' !== $attrs['backgroundColor'] ? 'background-color:' . $attrs['backgroundColor'] . ';' : ''
+		);
+
+		$ref_host = sprintf(
+			'<div class="cb-logo-soup-carousel-ref" aria-hidden="true"><div class="cb-logo-soup cb-logo-soup-inner" data-cb-logo-soup-ref="%1$s" data-cb-logo-soup="%2$s" style="%3$s"></div></div>',
+			esc_attr( $group_id ),
+			esc_attr( (string) $json ),
+			esc_attr( $ref_style )
+		);
+
+		if ( 'slides' === $attrs['wrapper'] ) {
+			return sprintf(
+				'<div class="cb-logo-soup-carousel-host" data-cb-logo-soup-carousel="%1$s" hidden>%2$s</div>%3$s',
+				esc_attr( $group_id ),
+				$ref_host,
+				$slide_html
+			);
+		}
+
+		$classes = array( 'cb-logo-soup-carousel', 'splide', 'cb-logo-soup-wrapper' );
+		foreach ( preg_split( '/\s+/', $attrs['className'] ) ?: array() as $part ) {
+			$class = sanitize_html_class( $part );
+			if ( '' !== $class ) {
+				$classes[] = $class;
+			}
+		}
+
+		if ( '' !== $wrapper_attributes ) {
+			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-logo-soup-carousel' );
+			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'splide' );
+			$outer_attributes   = trim( $wrapper_attributes ) . sprintf(
+				' data-cb-logo-soup-carousel="%s" data-cb-logo-soup-splide="1"',
+				esc_attr( $group_id )
+			);
+		} else {
+			$outer_attributes = sprintf(
+				'class="%s" data-cb-logo-soup-carousel="%s" data-cb-logo-soup-splide="1"',
+				esc_attr( implode( ' ', array_unique( $classes ) ) ),
+				esc_attr( $group_id )
+			);
+		}
+
+		return sprintf(
+			'<div %1$s>%2$s<div class="splide__track"><ul class="splide__list">%3$s</ul></div></div>',
+			$outer_attributes,
+			$ref_host,
+			$slide_html
+		);
+	}
+
+	/**
+	 * @param array<string, mixed> $attrs Sanitized attributes.
+	 * @return array<string, mixed>
+	 */
+	private function build_soup_config( array $attrs ): array {
+		$config = array(
+			'logos'             => $attrs['logos'],
+			'baseSize'          => $attrs['baseSize'],
+			'scaleFactor'       => $attrs['scaleFactor'],
+			'contrastThreshold' => $attrs['contrastThreshold'],
+			'densityAware'      => $attrs['densityAware'],
+			'densityFactor'     => $attrs['densityAware'] ? $attrs['densityFactor'] : 0,
+			'cropToContent'     => $attrs['cropToContent'],
+			'alignBy'           => $attrs['alignBy'],
+			'gap'               => $attrs['gap'],
+		);
+
+		if ( '' !== $attrs['backgroundColor'] ) {
+			$config['backgroundColor'] = $attrs['backgroundColor'];
+		}
+
+		return $config;
 	}
 
 	/**

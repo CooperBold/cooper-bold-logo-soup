@@ -87,6 +87,8 @@ export function readSettingsFromDom() {
 			document.getElementById( 'cb_logo_soup_align_by' )?.value ||
 			'visual-center-y',
 		gap: readNumber( document.getElementById( 'cb_logo_soup_gap' ), 28 ),
+		layout:
+			document.getElementById( 'cb_logo_soup_layout' )?.value || 'strip',
 	};
 }
 
