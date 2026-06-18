@@ -77,15 +77,34 @@
 	font-weight: 400;
 }
 
-/* Preview — minimal chrome */
+/* Preview — match frontend strip layout (see build/view.scss.css) */
 .cb-logo-soup-preview-wrap {
 	padding: 12px 0 0;
-	max-width: 100%;
+	width: 100%;
+	max-width: none;
 	overflow-x: auto;
 }
 
-.cb-logo-soup-preview-inner {
+.cb-logo-soup-preview-inner.cb-logo-soup {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	box-sizing: border-box;
 	min-height: 48px;
+	width: max-content;
+	min-width: 100%;
+}
+
+.cb-logo-soup-preview-inner.cb-logo-soup img {
+	max-width: 100%;
+	max-height: var(--cb-logo-size, 48px);
+	height: auto;
+	vertical-align: middle;
+}
+
+.cb-logo-soup-preview-inner.cb-logo-soup a {
+	display: inline-flex;
+	line-height: 0;
 }
 
 .cb-logo-soup-preview-empty {

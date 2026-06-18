@@ -31,19 +31,23 @@ export function CollectionPreview() {
 		const editor = document.getElementById(
 			'cb-logo-soup-collection-editor'
 		);
-		const settings = document.querySelector(
+		editor?.addEventListener( 'input', refresh );
+
+		const settingsTables = document.querySelectorAll(
 			'.cb-logo-soup-settings-table'
 		);
-
-		editor?.addEventListener( 'input', refresh );
-		settings?.addEventListener( 'input', refresh );
-		settings?.addEventListener( 'change', refresh );
+		settingsTables.forEach( ( table ) => {
+			table.addEventListener( 'input', refresh );
+			table.addEventListener( 'change', refresh );
+		} );
 
 		return () => {
 			document.removeEventListener( PREVIEW_UPDATE_EVENT, refresh );
 			editor?.removeEventListener( 'input', refresh );
-			settings?.removeEventListener( 'input', refresh );
-			settings?.removeEventListener( 'change', refresh );
+			settingsTables.forEach( ( table ) => {
+				table.removeEventListener( 'input', refresh );
+				table.removeEventListener( 'change', refresh );
+			} );
 		};
 	}, [ refresh ] );
 
@@ -67,8 +71,19 @@ export function CollectionPreview() {
 		);
 	}
 
+	const previewStyle = {
+		'--cb-logo-size': `${ previewConfig.baseSize }px`,
+		gap: `${ previewConfig.gap }px`,
+	};
+	if ( previewConfig.backgroundColor ) {
+		previewStyle.backgroundColor = previewConfig.backgroundColor;
+	}
+
 	return (
-		<div className="cb-logo-soup-preview-inner">
+		<div
+			className="cb-logo-soup cb-logo-soup-preview-inner"
+			style={ previewStyle }
+		>
 			<LogoSoup { ...soupProps } />
 		</div>
 	);

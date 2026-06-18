@@ -8,6 +8,7 @@ import {
 	readLogosFromDom,
 	readSettingsFromDom,
 } from './collection-form-data';
+import { sanitizePreviewConfig, toSoupProps } from '../shared/to-soup-props';
 
 describe( 'collection preview DOM readers', () => {
 	beforeEach( () => {
@@ -22,18 +23,24 @@ describe( 'collection preview DOM readers', () => {
 					</li>
 				</ul>
 			</div>
-			<table class="cb-logo-soup-settings-table">
+			<table class="cb-logo-soup-settings-table cb-logo-soup-settings-essential">
 				<tr>
 					<td>
 						<input id="cb_logo_soup_base_size" value="64" />
+						<input id="cb_logo_soup_gap" value="36" />
+						<input id="cb_logo_soup_background_color" value="#ffffff" />
+					</td>
+				</tr>
+			</table>
+			<table class="cb-logo-soup-settings-table cb-logo-soup-settings-advanced">
+				<tr>
+					<td>
 						<input id="cb_logo_soup_scale_factor" value="0.4" />
 						<input id="cb_logo_soup_contrast_threshold" value="12" />
 						<input name="cb_logo_soup_settings[densityAware]" type="checkbox" checked="checked" />
 						<input id="cb_logo_soup_density_factor" value="0.3" />
 						<input name="cb_logo_soup_settings[cropToContent]" type="checkbox" />
-						<input id="cb_logo_soup_background_color" value="#ffffff" />
 						<select id="cb_logo_soup_align_by"><option value="bounds" selected>Bounds</option></select>
-						<input id="cb_logo_soup_gap" value="36" />
 					</td>
 				</tr>
 			</table>
@@ -70,5 +77,24 @@ describe( 'collection preview DOM readers', () => {
 		expect( attrs.logos ).toHaveLength( 1 );
 		expect( attrs.baseSize ).toBe( 64 );
 		expect( attrs.gap ).toBe( 36 );
+	} );
+
+	it( 'reads densityAware from the advanced settings table', () => {
+		expect( readSettingsFromDom().densityAware ).toBe( true );
+	} );
+
+	it( 'builds the same toSoupProps path as frontend hydration', () => {
+		const config = sanitizePreviewConfig( readAttributesFromDom() );
+		const props = toSoupProps( config );
+
+		expect( props ).not.toBeNull();
+		expect( props.densityAware ).toBe( true );
+		expect( props.densityFactor ).toBe( 0.3 );
+		expect( props.baseSize ).toBe( 64 );
+		expect( props.gap ).toBe( 36 );
+		expect( props.alignBy ).toBe( 'bounds' );
+		expect( props.logos ).toEqual( [
+			{ src: 'https://example.com/a.png', alt: 'Alpha' },
+		] );
 	} );
 } );

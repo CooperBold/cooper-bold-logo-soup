@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.10
+Stable tag: 1.1.11
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,10 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 
 == Changelog ==
 
+= 1.1.11 =
+* Fix collection admin Live Preview — read density-aware and crop settings from the advanced settings table so preview matches frontend output
+* Match preview strip layout to frontend (full-width scroll, shared CSS variables for size/gap/background)
+
 = 1.1.10 =
 * Replace wp-admin footer wordmark with plain CooperBold text link on Logo Collections screens
 * Match block editor sidebar credit to plain CooperBold text
@@ -117,6 +121,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.11 =
+Fixes collection Live Preview not matching the frontend strip — no migration required.
 
 = 1.1.10 =
 Plain CooperBold footer text on Logo Collections screens and in the block sidebar — no migration required.

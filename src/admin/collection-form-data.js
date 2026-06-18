@@ -50,15 +50,14 @@ export function readLogosFromDom() {
  * @return {Object} Collection settings from the settings meta box.
  */
 export function readSettingsFromDom() {
-	const settingsTable = document.querySelector(
-		'.cb-logo-soup-settings-table'
-	);
-	if ( ! settingsTable ) {
+	// Essential + advanced settings live in separate `.cb-logo-soup-settings-table`
+	// nodes; query the document so checkboxes in the advanced table are found.
+	if ( ! document.getElementById( 'cb_logo_soup_base_size' ) ) {
 		return {};
 	}
 
 	const checkbox = ( name ) =>
-		settingsTable.querySelector(
+		document.querySelector(
 			`input[name="cb_logo_soup_settings[${ name }]"]`
 		)?.checked || false;
 
