@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 
 == Changelog ==
 
+= 1.1.9 =
+* Release tag for Cooper Bold wordmark in wp-admin left footer on Logo Collections screens via `admin_footer_text` (removes redundant meta box text credit from 1.1.8)
+
 = 1.1.8 =
 * Replace wp-admin left footer text with Cooper Bold wordmark on Logo Collections screens via `admin_footer_text` (no overlap with version nags)
 
@@ -109,6 +112,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.9 =
+Cooper Bold wordmark replaces the default wp-admin footer text on Logo Collections screens — no migration required.
 
 = 1.1.8 =
 Cooper Bold wordmark replaces the default wp-admin footer text on Logo Collections screens — no migration required.
