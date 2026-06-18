@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class CB_Logo_Soup_Admin_Branding_Test extends TestCase {
 
-	public function test_filter_footer_text_returns_wordmark_on_logo_soup_screen(): void {
+	public function test_filter_footer_text_returns_plain_text_link_on_logo_soup_screen(): void {
 		$GLOBALS['cb_test_current_screen'] = (object) array(
 			'post_type' => CB_Logo_Soup_Collections::POST_TYPE,
 		);
@@ -26,11 +26,9 @@ final class CB_Logo_Soup_Admin_Branding_Test extends TestCase {
 		$this->assertStringContainsString( 'href="https://cooperbold.com"', $html );
 		$this->assertStringContainsString( 'target="_blank"', $html );
 		$this->assertStringContainsString( 'rel="noopener noreferrer"', $html );
-		$this->assertStringContainsString( 'alt="Cooper Bold"', $html );
-		$this->assertStringContainsString( 'cooper-bold-wordmark.png', $html );
-		$this->assertStringContainsString( '<img', $html );
-		$this->assertStringNotContainsString( 'width=', $html );
-		$this->assertStringNotContainsString( 'height=', $html );
+		$this->assertStringContainsString( '>CooperBold</a>', $html );
+		$this->assertStringNotContainsString( '<img', $html );
+		$this->assertStringNotContainsString( 'cooper-bold-wordmark.png', $html );
 		$this->assertStringNotContainsString( 'Thank you for creating with WordPress.', $html );
 	}
 

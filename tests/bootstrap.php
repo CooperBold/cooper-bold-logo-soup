@@ -46,6 +46,15 @@ if ( ! function_exists( 'esc_attr__' ) ) {
 	}
 }
 
+if ( ! function_exists( 'esc_html__' ) ) {
+	/**
+	 * @param string $text Text.
+	 */
+	function esc_html__( $text, $domain = 'default' ): string {
+		return htmlspecialchars( (string) $text, ENT_NOQUOTES, 'UTF-8' );
+	}
+}
+
 if ( ! function_exists( 'add_action' ) ) {
 	/**
 	 * @param string   $hook Hook name.

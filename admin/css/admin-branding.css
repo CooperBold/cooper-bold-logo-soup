@@ -1,18 +1,9 @@
 .cb-logo-soup-footer-brand {
-	display: inline-flex;
-	align-items: center;
-	line-height: 0;
+	color: #646970;
 	text-decoration: none;
 }
 
-.cb-logo-soup-footer-brand:hover img,
-.cb-logo-soup-footer-brand:focus img {
-	opacity: 0.85;
-}
-
-.cb-logo-soup-footer-brand img {
-	display: block;
-	max-height: 20px;
-	width: auto;
-	height: auto;
+.cb-logo-soup-footer-brand:hover,
+.cb-logo-soup-footer-brand:focus {
+	color: #2271b1;
 }

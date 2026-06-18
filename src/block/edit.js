@@ -403,10 +403,8 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 				<p className="cb-logo-soup-editor-credit">
-					{ __( 'A Cooper Bold plugin', 'cooper-bold-logo-soup' ) }
-					{ ' · ' }
 					<ExternalLink href="https://cooperbold.com">
-						cooperbold.com
+						CooperBold
 					</ExternalLink>
 				</p>
 			</InspectorControls>

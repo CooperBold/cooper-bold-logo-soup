@@ -68,7 +68,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 == Changelog ==
 
 = 1.1.10 =
-* Clear wp-admin right footer (theme/plugin update nags) on Logo Collections screens for a clean Cooper Bold wordmark footer
+* Replace wp-admin footer wordmark with plain CooperBold text link on Logo Collections screens
+* Match block editor sidebar credit to plain CooperBold text
+* Clear wp-admin right footer (theme/plugin update nags) on Logo Collections screens
 
 = 1.1.9 =
 * Release tag for Cooper Bold wordmark in wp-admin left footer on Logo Collections screens via `admin_footer_text` (removes redundant meta box text credit from 1.1.8)
@@ -117,7 +119,7 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 == Upgrade Notice ==
 
 = 1.1.10 =
-Removes the right-side wp-admin footer text on Logo Collections screens — no migration required.
+Plain CooperBold footer text on Logo Collections screens and in the block sidebar — no migration required.
 
 = 1.1.9 =
 Cooper Bold wordmark replaces the default wp-admin footer text on Logo Collections screens — no migration required.

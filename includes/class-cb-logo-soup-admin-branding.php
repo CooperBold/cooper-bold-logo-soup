@@ -24,7 +24,7 @@ function is_logo_soup_admin_screen(): bool {
 }
 
 /**
- * Replaces the left wp-admin footer text with a Cooper Bold wordmark on Logo Soup screens.
+ * Replaces the left wp-admin footer text with a CooperBold link on Logo Soup screens.
  */
 final class CB_Logo_Soup_Admin_Branding {
 
@@ -58,12 +58,9 @@ final class CB_Logo_Soup_Admin_Branding {
 			return $text;
 		}
 
-		$logo_url = CB_LOGO_SOUP_URL . 'admin/images/cooper-bold-wordmark.png';
-
 		return sprintf(
-			'<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer" class="cb-logo-soup-footer-brand"><img src="%s" alt="%s" /></a>',
-			esc_url( $logo_url ),
-			esc_attr__( 'Cooper Bold', 'cooper-bold-logo-soup' )
+			'<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer" class="cb-logo-soup-footer-brand">%s</a>',
+			esc_html__( 'CooperBold', 'cooper-bold-logo-soup' )
 		);
 	}
 
