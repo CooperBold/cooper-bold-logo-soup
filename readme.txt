@@ -68,7 +68,8 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 == Changelog ==
 
 = 1.1.6 =
-* Add subtle Cooper Bold credit (cooperbold.com) in wp-admin and block sidebar
+* Add Cooper Bold wordmark footer on Logo Collections admin list and edit screens
+* Subtle cooperbold.com credit in the block editor sidebar
 
 = 1.1.5 =
 * Remove the 50-logo cap from collections, block editor, and frontend rendering
@@ -104,7 +105,7 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 == Upgrade Notice ==
 
 = 1.1.6 =
-Minor admin and editor credit line only — no migration required.
+Adds a Cooper Bold wordmark in Logo Collections wp-admin and a credit link in the block sidebar — no migration required.
 
 = 1.1.5 =
 Removes the previous 50-logo limit — large collections now render in full.

@@ -7,6 +7,8 @@
 
 # WordPress.org assets (handled separately by deploy action → SVN assets/)
 /assets
+
+# Plugin admin branding ships in the release ZIP (admin/images/cooper-bold-wordmark.png).
 /.wordpress-org
 
 # AI, wiki, and dev scaffolding

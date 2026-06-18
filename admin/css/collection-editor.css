@@ -172,21 +172,3 @@
 .column-cb_shortcode .cb-logo-soup-shortcode-row--compact {
 	max-width: 220px;
 }
-
-.cb-logo-soup-admin-credit {
-	margin: 2rem 0 1rem;
-	padding-top: 1rem;
-	border-top: 1px solid #dcdcde;
-	color: #646970;
-	font-size: 12px;
-	text-align: center;
-}
-
-.cb-logo-soup-admin-credit a {
-	color: #646970;
-	text-decoration: none;
-}
-
-.cb-logo-soup-admin-credit a:hover {
-	color: #2271b1;
-}

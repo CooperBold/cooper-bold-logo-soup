@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-assets.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';
+require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-admin-branding.php';
 
 final class CB_Logo_Soup {
 
@@ -20,6 +21,7 @@ final class CB_Logo_Soup {
 	private function __construct() {
 		new CB_Logo_Soup_Assets();
 		new CB_Logo_Soup_Collections();
+		new CB_Logo_Soup_Admin_Branding();
 		$this->renderer = new CB_Logo_Soup_Renderer();
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_shortcode( 'logo_soup', array( $this, 'render_shortcode' ) );
