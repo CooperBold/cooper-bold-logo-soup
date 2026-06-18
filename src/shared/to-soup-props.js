@@ -114,7 +114,7 @@ export function sanitizeLink( link ) {
  */
 export function sanitizePreviewConfig( attributes ) {
 	const logosIn = Array.isArray( attributes.logos ) ? attributes.logos : [];
-	const logos = logosIn.slice( 0, 50 ).reduce( ( acc, logo, index ) => {
+	const logos = logosIn.reduce( ( acc, logo, index ) => {
 		if ( ! logo || typeof logo !== 'object' ) {
 			return acc;
 		}

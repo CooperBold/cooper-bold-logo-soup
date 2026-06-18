@@ -128,12 +128,6 @@
 				if ( existingIds.has( data.id ) ) {
 					return;
 				}
-				if (
-					$( '#cb-logo-soup-logo-list .cb-logo-soup-logo-item' )
-						.length >= 50
-				) {
-					return;
-				}
 				appendLogoItem( {
 					id: data.id,
 					url: data.url,

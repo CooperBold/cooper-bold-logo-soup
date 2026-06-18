@@ -193,7 +193,7 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 		$this->assertSame( 'Acme Corp', $logos[0]['alt'] );
 	}
 
-	public function test_sanitize_logos_caps_at_fifty_entries(): void {
+	public function test_sanitize_logos_accepts_unlimited_entries(): void {
 		$raw = array();
 		for ( $i = 0; $i < 60; $i++ ) {
 			$raw[] = array( 'url' => 'https://example.com/' . $i . '.png' );
@@ -201,6 +201,6 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 
 		$logos = $this->renderer->sanitize_logos( $raw );
 
-		$this->assertCount( 50, $logos );
+		$this->assertCount( 60, $logos );
 	}
 }

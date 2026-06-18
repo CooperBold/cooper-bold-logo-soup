@@ -148,7 +148,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const onSelectLogos = ( mediaItems ) => {
 		const items = Array.isArray( mediaItems ) ? mediaItems : [ mediaItems ];
-		const next = items.slice( 0, 50 ).map( ( item ) => ( {
+		const next = items.map( ( item ) => ( {
 			id: item.id,
 			url: item.url,
 			alt: item.alt || item.title || '',

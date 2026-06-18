@@ -25,6 +25,10 @@ Wraps `@sanity-labs/logo-soup` for WordPress. Logo Soup **normalizes** mixed log
 - `block.json` declares **editor** assets only (`editorScript`, `editorStyle`). Do **not** add `viewScript` or `style` — frontend JS/CSS is registered and enqueued from `CB_Logo_Soup_Assets::maybe_enqueue()` when `has_block()` or `[logo_soup]` / `[cooper-bold-logo-soup]` is present.
 - Build entries: `npm run build` compiles `src/block/index.js`, `src/view.js`, and `src/view.scss` (no custom `webpack.config.js`).
 
+## Logo count
+
+No built-in cap on logos per collection, block, or shortcode. Admin users manage performance tradeoffs themselves.
+
 ## Do not
 
 - Commit `node_modules/` or secrets

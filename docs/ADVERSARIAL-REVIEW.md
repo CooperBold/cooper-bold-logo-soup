@@ -67,7 +67,6 @@ No automated tests exist. Highest-priority gaps documented for future work:
 
 - Sanitization parity (PHP `sanitize_attributes` vs JS `sanitizePreviewConfig`).
 - `javascript:` / `data:` link schemes.
-- Max-50 logo cap.
 - `maybe_enqueue` + render-time enqueue paths.
 - `view.js` mount / malformed JSON handling.
 

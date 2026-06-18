@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,7 +58,7 @@ Go to **Logo Soup → Add New** in wp-admin. Name the collection, add logos from
 
 = How many logos can I add? =
 
-Up to 50 logos per block or shortcode instance.
+There is no built-in limit. Add as many logos as your collection or block needs; very large sets may affect page load time.
 
 == Screenshots ==
 
@@ -66,6 +66,9 @@ Up to 50 logos per block or shortcode instance.
 2. Frontend — normalized logo strip after Logo Soup scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.1.5 =
+* Remove the 50-logo cap from collections, block editor, and frontend rendering
 
 = 1.1.4 =
 * Fix duplicate **All Collections** entry in the wp-admin Logo Soup menu
@@ -96,6 +99,9 @@ Up to 50 logos per block or shortcode instance.
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+Removes the previous 50-logo limit — large collections now render in full.
 
 = 1.1.4 =
 Fixes a duplicate menu item under **Logo Soup** in wp-admin.

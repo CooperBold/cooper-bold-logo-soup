@@ -60,7 +60,7 @@ final class CB_Logo_Soup_Renderer {
 		$logos = array();
 
 		if ( is_array( $attrs['logos'] ) ) {
-			foreach ( array_slice( $attrs['logos'], 0, 50 ) as $index => $logo ) {
+			foreach ( $attrs['logos'] as $index => $logo ) {
 				if ( ! is_array( $logo ) ) {
 					continue;
 				}
