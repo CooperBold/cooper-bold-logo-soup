@@ -202,7 +202,6 @@ final class CB_Logo_Soup_Collections {
 				</li>
 			</script>
 		</div>
-		<?php CB_Logo_Soup_Admin_Branding::render_credit(); ?>
 		<?php
 	}
 

@@ -12,40 +12,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Renders a one-line text credit inside collection edit screens (not wp-admin footer).
+ * Whether the current wp-admin screen belongs to Logo Soup.
+ */
+function is_logo_soup_admin_screen(): bool {
+	$screen = get_current_screen();
+	if ( ! $screen ) {
+		return false;
+	}
+
+	return CB_Logo_Soup_Collections::POST_TYPE === $screen->post_type;
+}
+
+/**
+ * Replaces the left wp-admin footer text with a Cooper Bold wordmark on Logo Soup screens.
  */
 final class CB_Logo_Soup_Admin_Branding {
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-	}
-
-	/**
-	 * One-line text credit for the collection edit logos meta box.
-	 */
-	public static function render_credit(): void {
-		?>
-		<p class="cb-logo-soup-admin-credit">
-			<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer">
-				<?php esc_html_e( 'Cooper Bold', 'cooper-bold-logo-soup' ); ?>
-			</a>
-			<span class="cb-logo-soup-admin-credit-sep" aria-hidden="true">&middot;</span>
-			<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer">
-				cooperbold.com
-			</a>
-		</p>
-		<?php
+		add_filter( 'admin_footer_text', array( $this, 'filter_footer_text' ) );
 	}
 
 	/**
 	 * @param string $hook Current admin hook.
 	 */
 	public function enqueue_styles( string $hook ): void {
-		if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
-			return;
-		}
-
-		if ( ! $this->is_collection_edit_screen() ) {
+		if ( ! is_logo_soup_admin_screen() ) {
 			return;
 		}
 
@@ -57,12 +49,20 @@ final class CB_Logo_Soup_Admin_Branding {
 		);
 	}
 
-	private function is_collection_edit_screen(): bool {
-		$screen = get_current_screen();
-		if ( ! $screen || CB_Logo_Soup_Collections::POST_TYPE !== $screen->post_type ) {
-			return false;
+	/**
+	 * @param string $text Default left footer text.
+	 */
+	public function filter_footer_text( string $text ): string {
+		if ( ! is_logo_soup_admin_screen() ) {
+			return $text;
 		}
 
-		return 'post' === $screen->base;
+		$logo_url = CB_LOGO_SOUP_URL . 'admin/images/cooper-bold-wordmark.png';
+
+		return sprintf(
+			'<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer" class="cb-logo-soup-footer-brand"><img src="%s" alt="%s" /></a>',
+			esc_url( $logo_url ),
+			esc_attr__( 'Cooper Bold', 'cooper-bold-logo-soup' )
+		);
 	}
 }

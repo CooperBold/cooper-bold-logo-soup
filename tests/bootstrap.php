@@ -46,6 +46,26 @@ if ( ! function_exists( 'esc_attr__' ) ) {
 	}
 }
 
+if ( ! function_exists( 'add_action' ) ) {
+	/**
+	 * @param string   $hook Hook name.
+	 * @param callable $callback Callback.
+	 */
+	function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ): void {
+		unset( $hook, $callback, $priority, $accepted_args );
+	}
+}
+
+if ( ! function_exists( 'add_filter' ) ) {
+	/**
+	 * @param string   $hook Hook name.
+	 * @param callable $callback Callback.
+	 */
+	function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ): void {
+		unset( $hook, $callback, $priority, $accepted_args );
+	}
+}
+
 if ( ! function_exists( 'esc_url_raw' ) ) {
 	/**
 	 * @param string $url Raw URL.

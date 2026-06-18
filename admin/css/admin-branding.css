@@ -1,25 +1,18 @@
-.cb-logo-soup-admin-credit {
-	clear: both;
-	margin: 16px 0 0;
-	padding-top: 12px;
-	border-top: 1px solid #dcdcde;
-	font-size: 12px;
-	line-height: 1.5;
-	color: #646970;
-	text-align: right;
-}
-
-.cb-logo-soup-admin-credit a {
-	color: #646970;
+.cb-logo-soup-footer-brand {
+	display: inline-flex;
+	align-items: center;
+	line-height: 0;
 	text-decoration: none;
 }
 
-.cb-logo-soup-admin-credit a:hover,
-.cb-logo-soup-admin-credit a:focus {
-	color: #2271b1;
-	text-decoration: underline;
+.cb-logo-soup-footer-brand:hover img,
+.cb-logo-soup-footer-brand:focus img {
+	opacity: 0.85;
 }
 
-.cb-logo-soup-admin-credit-sep {
-	margin: 0 0.35em;
+.cb-logo-soup-footer-brand img {
+	display: block;
+	max-height: 20px;
+	width: auto;
+	height: auto;
 }
