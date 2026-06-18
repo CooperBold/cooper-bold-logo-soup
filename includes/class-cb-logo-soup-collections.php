@@ -32,6 +32,7 @@ final class CB_Logo_Soup_Collections {
 		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', array( $this, 'list_columns' ) );
 		add_action( 'manage_' . self::POST_TYPE . '_posts_custom_column', array( $this, 'render_list_column' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
+		add_action( 'admin_footer', array( $this, 'render_admin_footer_credit' ) );
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 	}
 
@@ -376,6 +377,22 @@ final class CB_Logo_Soup_Collections {
 				);
 			}
 		}
+	}
+
+	/**
+	 * Subtle Cooper Bold credit on Logo Soup admin screens.
+	 */
+	public function render_admin_footer_credit(): void {
+		$screen = get_current_screen();
+		if ( ! $screen || self::POST_TYPE !== $screen->post_type ) {
+			return;
+		}
+		?>
+		<p class="cb-logo-soup-admin-credit">
+			<?php esc_html_e( 'A Cooper Bold plugin ·', 'cooper-bold-logo-soup' ); ?>
+			<a href="<?php echo esc_url( 'https://cooperbold.com' ); ?>" target="_blank" rel="noopener noreferrer">cooperbold.com</a>
+		</p>
+		<?php
 	}
 
 	/**

@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ Logo Soup wraps the open-source [Logo Soup](https://github.com/sanity-labs/logo-
 
 **Credits**
 
-Logo normalization powered by [@sanity-labs/logo-soup](https://www.npmjs.com/package/@sanity-labs/logo-soup) (MIT). The WordPress plugin is GPL-2.0-or-later.
+Logo normalization powered by [@sanity-labs/logo-soup](https://www.npmjs.com/package/@sanity-labs/logo-soup) (MIT). Built by [Cooper Bold](https://cooperbold.com). The WordPress plugin is GPL-2.0-or-later.
 
 == Installation ==
 
@@ -67,6 +67,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 
 == Changelog ==
 
+= 1.1.6 =
+* Add subtle Cooper Bold credit (cooperbold.com) in wp-admin and block sidebar
+
 = 1.1.5 =
 * Remove the 50-logo cap from collections, block editor, and frontend rendering
 
@@ -99,6 +102,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.1.6 =
+Minor admin and editor credit line only — no migration required.
 
 = 1.1.5 =
 Removes the previous 50-logo limit — large collections now render in full.

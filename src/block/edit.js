@@ -402,6 +402,13 @@ export default function Edit( { attributes, setAttributes } ) {
 						disabled={ usingCollection }
 					/>
 				</PanelBody>
+				<p className="cb-logo-soup-editor-credit">
+					{ __( 'A Cooper Bold plugin', 'cooper-bold-logo-soup' ) }
+					{ ' · ' }
+					<ExternalLink href="https://cooperbold.com">
+						cooperbold.com
+					</ExternalLink>
+				</p>
 			</InspectorControls>
 			<div { ...blockProps }>
 				{ previewLogos.length === 0 ? (
