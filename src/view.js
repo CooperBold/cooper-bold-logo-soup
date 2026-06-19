@@ -72,18 +72,45 @@ function mountCarouselReference( refContainer, groupId ) {
 		return;
 	}
 
+	// Cache slide nodes before Splide loop clones duplicate data attributes.
+	const slides = Array.from(
+		document.querySelectorAll(
+			`[data-cb-logo-soup-slide][data-cb-logo-soup-carousel="${ groupId }"]`
+		)
+	);
+	if ( ! slides.length ) {
+		return;
+	}
+
 	refContainer.replaceChildren();
 	const root = createRoot( refContainer );
 	root.render( <LogoSoup { ...soupProps } /> );
 
-	const distribute = () => {
-		const slides = document.querySelectorAll(
-			`[data-cb-logo-soup-slide][data-cb-logo-soup-carousel="${ groupId }"]`
-		);
-		if ( ! slides.length ) {
-			return false;
+	const finishCarouselHydration = () => {
+		const carouselRoot =
+			refContainer.closest( '[data-cb-logo-soup-splide]' ) ||
+			document.querySelector(
+				`[data-cb-logo-soup-carousel="${ groupId }"][data-cb-logo-soup-splide]`
+			);
+		if ( ! carouselRoot ) {
+			return;
 		}
 
+		if (
+			carouselRoot.splide &&
+			typeof carouselRoot.splide.refresh === 'function'
+		) {
+			carouselRoot.splide.refresh();
+		} else {
+			maybeInitStandaloneSplide( carouselRoot );
+		}
+
+		carouselRoot.dispatchEvent(
+			new CustomEvent( 'cb-logo-soup-hydrated', { bubbles: true } )
+		);
+	};
+
+	const distribute = () => {
 		const row =
 			refContainer.querySelector( '[class*="logo-soup"]' ) ||
 			refContainer.firstElementChild;
@@ -106,23 +133,31 @@ function mountCarouselReference( refContainer, groupId ) {
 			slide.appendChild( item.cloneNode( true ) );
 		} );
 
-		return slides.length > 0 && slides[ 0 ].children.length > 0;
+		return slides[ 0 ].children.length > 0;
+	};
+
+	const tryDistribute = () => {
+		if ( ! distribute() ) {
+			return false;
+		}
+		finishCarouselHydration();
+		return true;
 	};
 
 	const observer = new MutationObserver( () => {
-		if ( distribute() ) {
+		if ( tryDistribute() ) {
 			observer.disconnect();
 		}
 	} );
 	observer.observe( refContainer, { childList: true, subtree: true } );
 
 	window.setTimeout( () => {
-		if ( distribute() ) {
+		if ( tryDistribute() ) {
 			observer.disconnect();
 		}
 	}, 50 );
 	window.setTimeout( () => {
-		distribute();
+		tryDistribute();
 		observer.disconnect();
 	}, 2000 );
 }
@@ -186,10 +221,6 @@ function initCarousels() {
 			}
 			mountCarouselReference( refContainer, groupId );
 		} );
-
-	document
-		.querySelectorAll( '[data-cb-logo-soup-splide="1"]' )
-		.forEach( maybeInitStandaloneSplide );
 }
 
 /**
