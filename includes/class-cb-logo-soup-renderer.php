@@ -345,7 +345,7 @@ final class CB_Logo_Soup_Renderer {
 	 * @return string
 	 */
 	private function render_carousel( array $attrs, string $wrapper_attributes = '' ): string {
-		CB_Logo_Soup_Assets::enqueue_frontend();
+		CB_Logo_Soup_Assets::enqueue_frontend( 'slides' !== $attrs['wrapper'] );
 
 		$config     = $this->build_soup_config( $attrs );
 		$json       = wp_json_encode( $config );

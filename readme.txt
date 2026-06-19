@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.2.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,14 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Logo Soup scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.2.4 =
+* Fix standalone carousel Splide enqueue when Bricks registers an empty `splide` script handle (load Splide 4.1.4 from CDN instead)
+* Detect `[logo_soup]` shortcodes in Bricks `_bricks_page_content_2` meta for early asset enqueue
+
+= 1.2.3 =
+* Standalone carousel layout (`wrapper="full"`) enqueues Splide 4.1.4 core CSS/JS before view.js when Bricks/theme Splide is absent
+* Conditional detection for block, shortcode, and collection-backed carousel markup
 
 = 1.2.2 =
 * Docs-only: professionalize plugin code comments (no behavior changes)

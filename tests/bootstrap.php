@@ -266,6 +266,24 @@ if ( ! function_exists( 'sanitize_title' ) ) {
 	}
 }
 
+if ( ! function_exists( 'sanitize_key' ) ) {
+	/**
+	 * @param string $key Raw key.
+	 */
+	function sanitize_key( $key ): string {
+		return strtolower( preg_replace( '/[^a-z0-9_-]/', '', (string) $key ) ?? '' );
+	}
+}
+
+if ( ! function_exists( 'absint' ) ) {
+	/**
+	 * @param mixed $value Value.
+	 */
+	function absint( $value ): int {
+		return abs( (int) $value );
+	}
+}
+
 if ( ! function_exists( 'sanitize_html_class' ) ) {
 	/**
 	 * @param string $class CSS class name.
@@ -330,6 +348,40 @@ if ( ! function_exists( 'wp_enqueue_style' ) ) {
 	 */
 	function wp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $media = 'all' ): void {
 		unset( $handle, $src, $deps, $ver, $media );
+	}
+}
+
+if ( ! function_exists( 'shortcode_parse_atts' ) ) {
+	/**
+	 * @param string $text Shortcode attribute string.
+	 * @return array<string, string>
+	 */
+	function shortcode_parse_atts( $text ): array {
+		$atts = array();
+		$text = trim( (string) $text );
+		if ( '' === $text ) {
+			return $atts;
+		}
+		if ( preg_match_all( '/([\w-]+)\s*=\s*"([^"]*)"/', $text, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$atts[ $match[1] ] = $match[2];
+			}
+		}
+		return $atts;
+	}
+}
+
+if ( ! function_exists( 'wp_scripts' ) ) {
+	/**
+	 * @return object
+	 */
+	function wp_scripts() {
+		if ( ! isset( $GLOBALS['cb_test_wp_scripts'] ) ) {
+			$GLOBALS['cb_test_wp_scripts'] = (object) array(
+				'registered' => array(),
+			);
+		}
+		return $GLOBALS['cb_test_wp_scripts'];
 	}
 }
 
