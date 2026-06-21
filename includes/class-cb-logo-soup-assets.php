@@ -17,9 +17,11 @@ final class CB_Logo_Soup_Assets {
 
 	public const VIEW_SCRIPT_HANDLE  = 'cooper-bold-logo-soup-view';
 	public const VIEW_STYLE_HANDLE   = 'cooper-bold-logo-soup-view-style';
-	public const SPLIDE_SCRIPT_HANDLE = 'cooper-bold-logo-soup-splide';
-	public const SPLIDE_STYLE_HANDLE  = 'cooper-bold-logo-soup-splide';
-	public const SPLIDE_VERSION       = '4.1.4';
+	public const SPLIDE_SCRIPT_HANDLE          = 'cooper-bold-logo-soup-splide';
+	public const SPLIDE_STYLE_HANDLE           = 'cooper-bold-logo-soup-splide';
+	public const SPLIDE_AUTOSCROLL_SCRIPT_HANDLE = 'cooper-bold-logo-soup-splide-autoscroll';
+	public const SPLIDE_VERSION                = '4.1.4';
+	public const SPLIDE_AUTOSCROLL_VERSION     = '0.5.3';
 
 	/** @var bool Whether a standalone Splide carousel (wrapper=full) is on the page. */
 	private static bool $needs_standalone_splide = false;
@@ -73,7 +75,7 @@ final class CB_Logo_Soup_Assets {
 	}
 
 	/**
-	 * Register Splide 4.x core assets (CDN) under plugin-owned handles.
+	 * Register Splide 4.x core assets (bundled under lib/splide/) under plugin-owned handles.
 	 */
 	private function register_splide_assets(): void {
 		if ( wp_style_is( self::SPLIDE_STYLE_HANDLE, 'registered' )
@@ -81,20 +83,28 @@ final class CB_Logo_Soup_Assets {
 			return;
 		}
 
-		$base = 'https://cdn.jsdelivr.net/npm/@splidejs/splide@' . self::SPLIDE_VERSION;
+		$splide_base = CB_LOGO_SOUP_URL . 'lib/splide/';
 
 		wp_register_style(
 			self::SPLIDE_STYLE_HANDLE,
-			$base . '/dist/css/splide.min.css',
+			$splide_base . 'css/splide.min.css',
 			array(),
 			self::SPLIDE_VERSION
 		);
 
 		wp_register_script(
 			self::SPLIDE_SCRIPT_HANDLE,
-			$base . '/dist/js/splide.min.js',
+			$splide_base . 'js/splide.min.js',
 			array(),
 			self::SPLIDE_VERSION,
+			true
+		);
+
+		wp_register_script(
+			self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE,
+			$splide_base . 'js/splide-extension-auto-scroll.min.js',
+			array( self::SPLIDE_SCRIPT_HANDLE ),
+			self::SPLIDE_AUTOSCROLL_VERSION,
 			true
 		);
 	}
@@ -137,7 +147,7 @@ final class CB_Logo_Soup_Assets {
 	 * Enqueue Splide core for standalone carousels.
 	 *
 	 * Bricks registers a `splide` handle without a src on every page; prefer that
-	 * handle only when it points at a real script. Otherwise load Splide 4.x from CDN.
+	 * handle only when it points at a real script. Otherwise load bundled Splide 4.x.
 	 */
 	private static function enqueue_splide_assets(): void {
 		$script_handle = self::resolve_splide_script_handle();
@@ -145,6 +155,37 @@ final class CB_Logo_Soup_Assets {
 
 		wp_enqueue_style( $style_handle );
 		wp_enqueue_script( $script_handle );
+		self::enqueue_splide_autoscroll_extension( $script_handle );
+	}
+
+	/**
+	 * Enqueue Auto Scroll extension when not already registered with a src.
+	 *
+	 * @param string $splide_script_handle Resolved Splide core handle.
+	 */
+	private static function enqueue_splide_autoscroll_extension( string $splide_script_handle ): void {
+		if ( self::registered_script_has_src( 'splide-extension-auto-scroll' ) ) {
+			wp_enqueue_script( 'splide-extension-auto-scroll' );
+			return;
+		}
+
+		if ( self::page_already_loads_autoscroll_extension() ) {
+			return;
+		}
+
+		if ( ! wp_script_is( self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE, 'registered' ) ) {
+			return;
+		}
+
+		$wp_scripts = wp_scripts();
+		if ( isset( $wp_scripts->registered[ self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE ] ) ) {
+			$deps = $wp_scripts->registered[ self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE ]->deps;
+			if ( ! in_array( $splide_script_handle, $deps, true ) ) {
+				$wp_scripts->registered[ self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE ]->deps[] = $splide_script_handle;
+			}
+		}
+
+		wp_enqueue_script( self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE );
 	}
 
 	/**
@@ -169,6 +210,24 @@ final class CB_Logo_Soup_Assets {
 		}
 
 		return self::SPLIDE_STYLE_HANDLE;
+	}
+
+	/**
+	 * Theme/header may inject Auto Scroll before wp_footer (duplicate enqueue guard).
+	 */
+	private static function page_already_loads_autoscroll_extension(): bool {
+		$wp_scripts = wp_scripts();
+		foreach ( $wp_scripts->registered as $script ) {
+			if ( ! $script instanceof _WP_Dependency ) {
+				continue;
+			}
+			$src = (string) $script->src;
+			if ( '' !== $src && str_contains( $src, 'splide-extension-auto-scroll' ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -208,10 +267,16 @@ final class CB_Logo_Soup_Assets {
 			return;
 		}
 
-		$splide_handle = self::resolve_splide_script_handle();
-		$deps          = $wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ]->deps;
-		if ( ! in_array( $splide_handle, $deps, true ) ) {
-			$wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ]->deps[] = $splide_handle;
+		$splide_handle    = self::resolve_splide_script_handle();
+		$autoscroll_handle = self::registered_script_has_src( 'splide-extension-auto-scroll' )
+			? 'splide-extension-auto-scroll'
+			: self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE;
+		$deps             = $wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ]->deps;
+
+		foreach ( array( $splide_handle, $autoscroll_handle ) as $handle ) {
+			if ( ! in_array( $handle, $deps, true ) ) {
+				$wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ]->deps[] = $handle;
+			}
 		}
 	}
 

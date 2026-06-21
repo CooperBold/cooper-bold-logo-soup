@@ -19,6 +19,7 @@
 /README.md
 /scripts
 /dist
+*.zip
 AI_SESSION_MEMORY.md
 AI_RUNBOOK.md
 AGENTS.md
@@ -60,6 +61,7 @@ crewai/.venv
 /composer.json
 /composer.lock
 /composer.phar
+/composer-setup.php
 /vendor
 .phpunit.result.cache
 

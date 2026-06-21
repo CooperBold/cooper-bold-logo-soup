@@ -45,3 +45,19 @@
 	display: inline-flex;
 	line-height: 0;
 }
+
+.cb-logo-soup-carousel.splide .splide__list,
+.cb-logo-soup-carousel.splide .splide__slide {
+	transition: none !important;
+}
+
+.cb-logo-soup-carousel.splide .splide__list {
+	will-change: transform;
+	backface-visibility: hidden;
+}
+
+// Splide hides the root until mount; show hydrated slides while waiting.
+.cb-logo-soup-carousel.splide.cb-logo-soup-hydrating,
+.cb-logo-soup-carousel.splide.cb-logo-soup-hydrating .splide__track {
+	visibility: visible;
+}

@@ -2,6 +2,24 @@
 
 Step-by-step checklist for publishing **Logo Soup** on the WordPress plugin directory. Steps that need your account or secrets are marked **(you)**.
 
+**Current prep state (2026-06-21):** version **1.2.12**, Splide vendored under `lib/splide/`, directory PNGs in `assets/`, release zip via `scripts/build-release-zip.sh`.
+
+## Checklist
+
+| Step | Status | Notes |
+| --- | --- | --- |
+| Version aligned (`cooper-bold-logo-soup.php`, `package.json`, `readme.txt`, `block.json`) | ✅ Done | **1.2.12** |
+| `readme.txt` — Stable tag, Tested up to, GPL header | ✅ Done | Tested up to **6.9**; changelog de-cliented |
+| Directory PNGs (`assets/banner-772x250.png`, icon, screenshots) | ✅ Done | Branded placeholders; replace with design exports before launch if desired |
+| Splide bundled locally (no jsDelivr on frontend) | ✅ Done | `lib/splide/` ships in release ZIP |
+| Release ZIP builds cleanly (`.distignore`) | ⬜ Run locally | `./scripts/build-release-zip.sh` after `npm run build` |
+| PHPUnit / Jest | ⬜ Run locally | `vendor/bin/phpunit`, `npm test` |
+| Plugin Check on staging WP | ⬜ **(you)** | Install [Plugin Check](https://wordpress.org/plugins/plugin-check/) on WP 6.4+ |
+| WordPress.org account + 2FA | ⬜ **(you)** | Contributor slug: `cooperbold` |
+| Submit ZIP for review | ⬜ **(you)** | [Add your plugin](https://wordpress.org/plugins/developers/add/) |
+| SVN credentials + GitHub secrets | ⬜ **(you)** | `SVN_USERNAME`, `SVN_PASSWORD` after approval |
+| Tag + deploy (`v1.2.12`) | ⬜ **(you)** | After SVN access; triggers `.github/workflows/deploy.yml` |
+
 ## 1. Create a WordPress.org account **(you)**
 
 1. Register at [wordpress.org](https://wordpress.org/support/register.php) if you do not have an account.
@@ -18,9 +36,13 @@ chmod +x scripts/build-release-zip.sh
 ./scripts/build-release-zip.sh
 ```
 
-The ZIP is written to `dist/cooper-bold-logo-soup-1.0.0.zip`. It respects `.distignore` (no `node_modules`, `src/`, dev docs, etc.).
+The ZIP is written to `dist/cooper-bold-logo-soup-1.2.12.zip`. It respects `.distignore` (no `node_modules`, `src/`, dev docs, etc.) and **includes** `lib/splide/` (bundled carousel assets).
 
-Alternatively, zip manually after reviewing `.distignore`.
+Regenerate directory PNG placeholders (optional):
+
+```bash
+python3 scripts/generate-wporg-assets.py
+```
 
 ## 3. Submit for review **(you)**
 
@@ -51,22 +73,18 @@ git checkout main
 git pull --rebase
 npm ci && npm run build
 git status   # ensure build/ is committed if changed
-git tag -a v1.0.0 -m "Release 1.0.0"
+git tag -a v1.2.12 -m "Release 1.2.12"
 git push origin main
-git push origin v1.0.0
+git push origin v1.2.12
 ```
 
-The `v1.0.0` tag triggers deploy to `tags/1.0.0` and updates `trunk` on WordPress.org SVN.
+The tag triggers deploy to `tags/1.2.12` and updates `trunk` on WordPress.org SVN.
 
-## 6. Directory assets **(you)**
+## 6. Directory assets
 
-Before or shortly after launch, add PNGs under `assets/` (see `assets/README.md`):
+PNG files live in `assets/` (see `assets/README.md`). They deploy to the SVN **`assets/`** directory (sibling to `trunk/`), not inside the plugin ZIP. The deploy action uploads them when present.
 
-- `banner-772x250.png`
-- `icon-256x256.png`
-- `screenshot-1.png`, `screenshot-2.png`
-
-Commit to `main`, then tag again (e.g. `v1.0.1`) or deploy assets via SVN manually.
+Replace placeholders with design-approved screenshots before promoting the plugin page, if desired.
 
 ## 7. Plugin Check **(you)**
 
@@ -76,7 +94,7 @@ On a staging WordPress site (6.4+):
 2. Upload the release ZIP or clone from SVN trunk.
 3. Run **Plugin Check → Check a plugin** and fix any reported issues before promoting to production.
 
-This repo follows WordPress coding practices (ABSPATH guards, escaping, sanitization, text domain `cooper-bold-logo-soup`). No `eval` or obfuscated JavaScript in source.
+This repo follows WordPress coding practices (ABSPATH guards, escaping, sanitization, text domain `cooper-bold-logo-soup`). No `eval` or obfuscated JavaScript in source. Splide is bundled under `lib/splide/` (MIT) for standalone carousels.
 
 ## 8. After release
 
@@ -91,4 +109,4 @@ This repo follows WordPress coding practices (ABSPATH guards, escaping, sanitiza
 | Plugin directory submission | WordPress.org account + review |
 | SVN deploy | `SVN_USERNAME` / `SVN_PASSWORD` secrets |
 | Plugin Check on live site | Staging WordPress install |
-| Marketing screenshots | Design-approved PNG exports |
+| Marketing screenshots | Design-approved PNG exports (optional upgrade from placeholders) |

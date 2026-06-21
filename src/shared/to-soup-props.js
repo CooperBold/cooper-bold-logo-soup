@@ -209,7 +209,7 @@ export function toSoupProps( config ) {
 					width={ width }
 					height={ height }
 					style={ style }
-					loading="lazy"
+					loading={ config.eagerLoad ? 'eager' : 'lazy' }
 					decoding="async"
 					onError={ ( event ) => {
 						// eslint-disable-next-line no-console -- surface broken logo URLs during development.
