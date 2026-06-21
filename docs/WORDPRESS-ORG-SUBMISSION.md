@@ -12,8 +12,8 @@ Step-by-step checklist for publishing **Logo Soup** on the WordPress plugin dire
 | `readme.txt` — Stable tag, Tested up to, GPL header | ✅ Done | Tested up to **6.9**; changelog de-cliented |
 | Directory PNGs (`assets/banner-772x250.png`, icon, screenshots) | ✅ Done | Branded placeholders; replace with design exports before launch if desired |
 | Splide bundled locally (no jsDelivr on frontend) | ✅ Done | `lib/splide/` ships in release ZIP |
-| Release ZIP builds cleanly (`.distignore`) | ⬜ Run locally | `./scripts/build-release-zip.sh` after `npm run build` |
-| PHPUnit / Jest | ⬜ Run locally | `vendor/bin/phpunit`, `npm test` |
+| Release ZIP builds cleanly (`.distignore`) | ✅ Done | `dist/cooper-bold-logo-soup-1.2.12.zip` (41 files; excludes `composer-setup.php`, dev docs) |
+| PHPUnit / Jest | ✅ Done | 38 PHPUnit, 16 Jest (2026-06-21) |
 | Plugin Check on staging WP | ⬜ **(you)** | Install [Plugin Check](https://wordpress.org/plugins/plugin-check/) on WP 6.4+ |
 | WordPress.org account + 2FA | ⬜ **(you)** | Contributor slug: `cooperbold` |
 | Submit ZIP for review | ⬜ **(you)** | [Add your plugin](https://wordpress.org/plugins/developers/add/) |
