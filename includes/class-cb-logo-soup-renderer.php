@@ -253,6 +253,7 @@ final class CB_Logo_Soup_Renderer {
 
 		$aria = count( $attrs['logos'] ) > 1
 			? sprintf(
+				/* translators: %s: comma-separated logo alt text for aria-label. */
 				__( 'Logos: %s', 'cooper-bold-logo-soup' ),
 				implode( ', ', wp_list_pluck( $attrs['logos'], 'alt' ) )
 			)
