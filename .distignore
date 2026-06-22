@@ -43,6 +43,7 @@ AGENTS.md
 
 # Scratch and local-only paths
 /uncommitted
+.wp-seed-logos
 
 # Python artifacts
 __pycache__
