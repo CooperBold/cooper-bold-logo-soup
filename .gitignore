@@ -33,3 +33,6 @@ dist/
 
 # Local wp-env overrides (machine-specific)
 .wp-env.override.json
+
+# Local wp-env seed logos (not shipped)
+.wp-seed-logos/
