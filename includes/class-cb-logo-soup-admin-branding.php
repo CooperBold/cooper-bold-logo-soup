@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return bool
  */
-function is_logo_soup_admin_screen(): bool {
+function cb_is_logo_soup_admin_screen(): bool {
 	$screen = get_current_screen();
 	if ( ! $screen ) {
 		return false;
@@ -43,7 +43,7 @@ final class CB_Logo_Soup_Admin_Branding {
 	 * @return void
 	 */
 	public function enqueue_styles( string $hook ): void {
-		if ( ! is_logo_soup_admin_screen() ) {
+		if ( ! cb_is_logo_soup_admin_screen() ) {
 			return;
 		}
 
@@ -62,7 +62,7 @@ final class CB_Logo_Soup_Admin_Branding {
 	 * @return string Filtered footer HTML.
 	 */
 	public function filter_footer_text( string $text ): string {
-		if ( ! is_logo_soup_admin_screen() ) {
+		if ( ! cb_is_logo_soup_admin_screen() ) {
 			return $text;
 		}
 
@@ -79,7 +79,7 @@ final class CB_Logo_Soup_Admin_Branding {
 	 * @return string Filtered footer text.
 	 */
 	public function filter_update_footer( string $text ): string {
-		if ( ! is_logo_soup_admin_screen() ) {
+		if ( ! cb_is_logo_soup_admin_screen() ) {
 			return $text;
 		}
 

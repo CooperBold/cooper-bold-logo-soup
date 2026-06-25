@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.2.12
+Stable tag: 1.2.13
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Logo Soup scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.2.13 =
+* Plugin Check: sanitize collection editor POST arrays; prefix admin screen helper for PHPCS
 
 = 1.2.12 =
 * Vendor Splide core and Auto Scroll extension locally for standalone carousels (no external CDN scripts)
@@ -180,6 +183,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.2.13 =
+Plugin Check compliance — no behavior change for collections or frontend output.
 
 = 1.2.12 =
 Vendors Splide locally for carousel mode — recommended before WordPress.org directory release.

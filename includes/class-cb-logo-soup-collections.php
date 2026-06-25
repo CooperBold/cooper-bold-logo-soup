@@ -375,13 +375,13 @@ final class CB_Logo_Soup_Collections {
 		}
 
 		$raw_logos = isset( $_POST['cb_logo_soup_logos'] ) && is_array( $_POST['cb_logo_soup_logos'] )
-			? wp_unslash( $_POST['cb_logo_soup_logos'] )
+			? map_deep( wp_unslash( $_POST['cb_logo_soup_logos'] ), 'sanitize_text_field' )
 			: array();
 
 		$logos = self::renderer()->sanitize_logos( self::normalize_logo_rows( $raw_logos ) );
 
 		$raw_settings = isset( $_POST['cb_logo_soup_settings'] ) && is_array( $_POST['cb_logo_soup_settings'] )
-			? wp_unslash( $_POST['cb_logo_soup_settings'] )
+			? map_deep( wp_unslash( $_POST['cb_logo_soup_settings'] ), 'sanitize_text_field' )
 			: array();
 
 		$settings = self::sanitize_settings( $raw_settings );

@@ -385,6 +385,23 @@ if ( ! function_exists( 'wp_scripts' ) ) {
 	}
 }
 
+if ( ! function_exists( 'map_deep' ) ) {
+	/**
+	 * @param mixed    $value  Value to map.
+	 * @param callable $callback Callback.
+	 * @return mixed
+	 */
+	function map_deep( $value, $callback ) {
+		if ( is_array( $value ) ) {
+			foreach ( $value as $index => $item ) {
+				$value[ $index ] = map_deep( $item, $callback );
+			}
+			return $value;
+		}
+		return is_callable( $callback ) ? $callback( $value ) : $value;
+	}
+}
+
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-assets.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
 require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';

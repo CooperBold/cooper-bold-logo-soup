@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Name:       Logo Soup by Cooper Bold
  * Plugin URI:        https://github.com/CooperBold/cooper-bold-logo-soup
  * Description:       Display client and partner logos in a balanced strip using Sanity Labs Logo Soup normalization.
- * Version:           1.2.12
+ * Version:           1.2.13
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            Cooper Bold
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CB_LOGO_SOUP_VERSION', '1.2.12' );
+define( 'CB_LOGO_SOUP_VERSION', '1.2.13' );
 define( 'CB_LOGO_SOUP_FILE', __FILE__ );
 define( 'CB_LOGO_SOUP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CB_LOGO_SOUP_URL', plugin_dir_url( __FILE__ ) );
