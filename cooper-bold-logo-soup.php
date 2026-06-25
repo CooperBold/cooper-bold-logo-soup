@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Plugin Name:       Logo Soup
+ * Plugin Name:       Logo Soup by Cooper Bold
  * Plugin URI:        https://github.com/CooperBold/cooper-bold-logo-soup
  * Description:       Display client and partner logos in a balanced strip using Sanity Labs Logo Soup normalization.
  * Version:           1.2.12
@@ -38,7 +38,7 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 		}
 		echo '<div class="notice notice-error"><p>';
 		echo esc_html__(
-			'Logo Soup requires PHP 7.4 or newer.',
+			'Logo Soup by Cooper Bold requires PHP 7.4 or newer.',
 			'cooper-bold-logo-soup'
 		);
 		echo '</p></div>';
@@ -54,7 +54,7 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 		deactivate_plugins( plugin_basename( CB_LOGO_SOUP_FILE ) );
 		wp_die(
 			esc_html__(
-				'Logo Soup requires PHP 7.4 or newer.',
+				'Logo Soup by Cooper Bold requires PHP 7.4 or newer.',
 				'cooper-bold-logo-soup'
 			),
 			esc_html__( 'Plugin activation failed', 'cooper-bold-logo-soup' ),
@@ -87,7 +87,7 @@ function cb_logo_soup_activate(): void {
 		deactivate_plugins( plugin_basename( CB_LOGO_SOUP_FILE ) );
 		wp_die(
 			esc_html__(
-				'Logo Soup requires PHP 7.4 or newer.',
+				'Logo Soup by Cooper Bold requires PHP 7.4 or newer.',
 				'cooper-bold-logo-soup'
 			),
 			esc_html__( 'Plugin activation failed', 'cooper-bold-logo-soup' ),

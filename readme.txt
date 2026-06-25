@@ -1,4 +1,4 @@
-=== Logo Soup ===
+=== Logo Soup by Cooper Bold ===
 Contributors: cooperbold
 Tags: logo, logos, partners, brands, block
 Requires at least: 6.4

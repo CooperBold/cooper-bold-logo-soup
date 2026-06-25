@@ -1,6 +1,8 @@
 # WordPress.org submission guide
 
-Step-by-step checklist for publishing **Logo Soup** on the WordPress plugin directory. Steps that need your account or secrets are marked **(you)**.
+Step-by-step checklist for publishing **Logo Soup by Cooper Bold** on the WordPress plugin directory. Steps that need your account or secrets are marked **(you)**.
+
+**Display name (chosen 2026-06-25):** **Logo Soup by Cooper Bold** — set in the `Plugin Name` header (`cooper-bold-logo-soup.php`) and `readme.txt` title. WordPress.org derives the directory slug from that header (expected: `logo-soup-by-cooper-bold`). The install folder slug, text domain, and block name stay `cooper-bold-logo-soup` / `cooper-bold/logo-soup` (no text-domain change).
 
 **Current prep state (2026-06-21):** version **1.2.12**, Splide vendored under `lib/splide/`, directory PNGs in `assets/`, release zip via `scripts/build-release-zip.sh`.
 
