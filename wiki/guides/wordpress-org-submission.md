@@ -12,7 +12,7 @@ status: active
 
 # Submit to WordPress.org Plugin Directory
 
-Step-by-step procedure for publishing **Logo Soup** on the WordPress plugin directory. Tasks that need the maintainer's account or secrets are marked **(you)**. Source: `docs/WORDPRESS-ORG-SUBMISSION.md`.
+Step-by-step procedure for publishing **Balanced Logos** on the WordPress plugin directory. Tasks that need the maintainer's account or secrets are marked **(you)**. Source: `docs/WORDPRESS-ORG-SUBMISSION.md`.
 
 ## 1. Create a WordPress.org account **(you)**
 
@@ -30,14 +30,14 @@ chmod +x scripts/build-release-zip.sh
 ./scripts/build-release-zip.sh
 ```
 
-The ZIP is written to `dist/cooper-bold-logo-soup-1.0.0.zip`. It respects `.distignore` (no `node_modules`, `src/`, dev docs, etc.). See [[adversarial-review]] for verification that `build/block/block.json` and `view.scss.css` end up in the ZIP.
+The ZIP is written to `dist/balanced-logos-1.0.0.zip`. It respects `.distignore` (no `node_modules`, `src/`, dev docs, etc.). See [[adversarial-review]] for verification that `build/block/block.json` and `view.scss.css` end up in the ZIP.
 
 ## 3. Submit for review **(you)**
 
 1. Go to [Add your plugin](https://wordpress.org/plugins/developers/add/).
 2. Upload the ZIP from step 2.
 3. Wait for the review team email (often a few days to two weeks).
-4. When approved, you receive **SVN credentials** for `https://plugins.svn.wordpress.org/cooper-bold-logo-soup/`.
+4. When approved, you receive **SVN credentials** for `https://plugins.svn.wordpress.org/balanced-logos/`.
 
 > **Pre-approval:** the first submission is reviewed manually. Plugin Check (step 7) and escaping/sanitization in this repo are aligned with common review feedback, but approval is not guaranteed until a human reviewer accepts the plugin.
 
@@ -45,7 +45,7 @@ The ZIP is written to `dist/cooper-bold-logo-soup-1.0.0.zip`. It respects `.dist
 
 After SVN access is granted:
 
-1. Open **GitHub → CooperBold/cooper-bold-logo-soup → Settings → Secrets and variables → Actions**.
+1. Open **GitHub → CooperBold/balanced-logos → Settings → Secrets and variables → Actions**.
 2. Add repository secrets:
    - `SVN_USERNAME` — your wordpress.org username.
    - `SVN_PASSWORD` — your [application password](https://make.wordpress.org/core/handbook/tutorials/generate-a-password-for-svn/) (not your login password).
@@ -86,13 +86,13 @@ On a staging WordPress site (6.4+):
 2. Upload the release ZIP or clone from SVN trunk.
 3. Run **Plugin Check → Check a plugin** and fix any reported issues before promoting to production.
 
-This repo follows WordPress coding practices: `ABSPATH` guards, escaping, sanitization, text domain `cooper-bold-logo-soup`. No `eval` or obfuscated JavaScript in source.
+This repo follows WordPress coding practices: `ABSPATH` guards, escaping, sanitization, text domain `balanced-logos`. No `eval` or obfuscated JavaScript in source.
 
 ## 8. After release
 
 - Update `Stable tag` and changelog in `readme.txt` for each release.
-- Bump `Version` in `cooper-bold-logo-soup.php`, `CB_LOGO_SOUP_VERSION`, and `src/block/block.json` (`version`); run `npm run build`; then tag `v*`.
-- Monitor the [plugin support forum](https://wordpress.org/support/plugin/cooper-bold-logo-soup/) once live.
+- Bump `Version` in `balanced-logos.php`, `CB_BALANCED_LOGOS_VERSION`, and `src/block/block.json` (`version`); run `npm run build`; then tag `v*`.
+- Monitor the [plugin support forum](https://wordpress.org/support/plugin/balanced-logos/) once live.
 
 ## What cannot be automated
 

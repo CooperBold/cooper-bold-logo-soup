@@ -4,8 +4,8 @@
 
 ## Project
 
-- **Name**: Logo Soup WP Plugin
-- **Domain**: WordPress plugin **Logo Soup** — Gutenberg block and `[logo_soup]` shortcode that render partner logos using `@sanity-labs/logo-soup`. Main file: `cooper-bold-logo-soup.php`.
+- **Name**: Balanced Logos WP Plugin
+- **Domain**: WordPress plugin **Balanced Logos** — Gutenberg block and `[balanced_logos]` shortcode that render partner logos using `@sanity-labs/logo-soup`. Main file: `balanced-logos.php`.
 
 ## Directory structure
 
@@ -103,4 +103,4 @@ Follow workflows in `~/.cursor/skills/llm-wiki/SKILL.md`. After plugin code exis
 - **AI_SESSION_MEMORY.md**: Session breadcrumbs; wiki is compiled long-form knowledge.
 - **AI_RUNBOOK.md**: Operational procedures; may graduate into `wiki/guides/`.
 - **AGENTS.md**: Always-on agent instructions.
-- **SimpleMem**: Fast recall (`logo-soup-wp-plugin` namespace); wiki is structured reference.
+- **SimpleMem**: Fast recall (`balanced-logos-wp-plugin` namespace); wiki is structured reference.

@@ -5,7 +5,7 @@ created: 2026-06-12
 updated: 2026-06-17
 ---
 
-# Logo Soup WP Plugin Wiki
+# Balanced Logos WP Plugin Wiki
 
 > Content catalog. The LLM reads this first when answering queries.
 
@@ -20,9 +20,9 @@ updated: 2026-06-17
 
 | Page | What it is |
 |------|------------|
-| [[wordpress-plugin]] | Logo Soup — main plugin |
+| [[wordpress-plugin]] | Balanced Logos — main plugin |
 | [[sanity-logo-soup]] | `@sanity-labs/logo-soup` npm package |
-| [[gutenberg-block-logo-soup]] | Block `cooper-bold/logo-soup` |
+| [[gutenberg-block-balanced-logos]] | Block `cooper-bold/balanced-logos` |
 
 ## Concepts
 
@@ -42,4 +42,4 @@ updated: 2026-06-17
 |------|---------|
 | [[wordpress-org-submission]] | Publish the plugin to the WordPress.org directory |
 | [[wp-env-smoke-test]] | End-to-end wp-env smoke test (build, activate, shortcode, assets) |
-| [[rapidsos-deploy]] | Deploy Logo Soup to RapidSOS Cloudways staging (Bricks + collections) |
+| [[rapidsos-deploy]] | Deploy Balanced Logos to RapidSOS Cloudways staging (Bricks + collections) |

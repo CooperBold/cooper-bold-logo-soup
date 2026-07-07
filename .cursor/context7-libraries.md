@@ -1,4 +1,4 @@
-# Context7 library IDs — Logo Soup WP Plugin
+# Context7 library IDs — Balanced Logos WP Plugin
 
 Pre-resolved IDs for stack docs. Use **`resolve-library-id`** if an ID fails or the topic is outside this table (limit ~3 resolve/query rounds per question).
 

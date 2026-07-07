@@ -12,7 +12,7 @@ status: active
 
 # Adversarial Review (2026-06-13)
 
-Summary of the multi-round adversarial review (Nous, `anthropic/claude-opus-4.8`) of the plugin diff against the spec at `/tmp/cb-logo-soup-spec.md`. Source: `docs/ADVERSARIAL-REVIEW.md`.
+Summary of the multi-round adversarial review (Nous, `anthropic/claude-opus-4.8`) of the plugin diff against the spec at `/tmp/cb-balanced-logos-spec.md`. Source: `docs/ADVERSARIAL-REVIEW.md`.
 
 ## Headline
 
@@ -23,15 +23,15 @@ Three rounds of `diff` mode and one round of `tests` mode. **Verdict: REQUEST_CH
 | Issue | File(s) | Fix |
 |-------|---------|-----|
 | Editor `RangeControl` max values below spec | `src/block/edit.js` | `baseSize` max 256, `gap` max 96 |
-| `densityFactor` parity (editor/frontend) | `includes/class-cb-logo-soup-renderer.php`, `src/shared/to-soup-props.js` | Emit `0` when `densityAware` is false |
-| `shortcode_atts` filter tag hardcoded | `includes/class-cb-logo-soup.php` | Pass actual `$tag` to `shortcode_atts` |
-| Permissive `rgb()`/`hsl()` regex | renderer + `to-soup-props.js` | Tighter character class |
-| Widget / FSE enqueue gap | `class-cb-logo-soup-assets.php`, renderer | `enqueue_frontend()` at render time |
-| Style handle collision | `class-cb-logo-soup-assets.php` | Distinct `VIEW_STYLE_HANDLE` |
-| Style path fallback | `class-cb-logo-soup-assets.php` | Try `view.scss.*` then `view.css` |
-| JSON in shortcodes | `class-cb-logo-soup.php`, `readme.txt` | `base64:` prefix + readme note |
-| PHP bootstrap | `cooper-bold-logo-soup.php` | Early PHP version gate; `declare(strict_types=1)` first |
-| Block registration dirs | `class-cb-logo-soup.php` | Candidate dir loop for `block.json` |
+| `densityFactor` parity (editor/frontend) | `includes/class-cb-balanced-logos-renderer.php`, `src/shared/to-balanced-logos-props.js` | Emit `0` when `densityAware` is false |
+| `shortcode_atts` filter tag hardcoded | `includes/class-cb-balanced-logos.php` | Pass actual `$tag` to `shortcode_atts` |
+| Permissive `rgb()`/`hsl()` regex | renderer + `to-balanced-logos-props.js` | Tighter character class |
+| Widget / FSE enqueue gap | `class-cb-balanced-logos-assets.php`, renderer | `enqueue_frontend()` at render time |
+| Style handle collision | `class-cb-balanced-logos-assets.php` | Distinct `VIEW_STYLE_HANDLE` |
+| Style path fallback | `class-cb-balanced-logos-assets.php` | Try `view.scss.*` then `view.css` |
+| JSON in shortcodes | `class-cb-balanced-logos.php`, `readme.txt` | `base64:` prefix + readme note |
+| PHP bootstrap | `balanced-logos.php` | Early PHP version gate; `declare(strict_types=1)` first |
+| Block registration dirs | `class-cb-balanced-logos.php` | Candidate dir loop for `block.json` |
 
 ## False positives verified locally
 
@@ -52,13 +52,13 @@ Three rounds of `diff` mode and one round of `tests` mode. **Verdict: REQUEST_CH
 ```bash
 npm run build                # pass
 npm run lint:js              # pass
-php -l cooper-bold-logo-soup.php  # pass
+php -l balanced-logos.php  # pass
 bash scripts/build-release-zip.sh # build/block/block.json + view.scss.css in ZIP
 ```
 
 ## Recommended before 1.0.1
 
-Add PHPUnit tests for `CB_Logo_Soup_Renderer` sanitization and a minimal Jest test for `sanitizePreviewConfig` / `toSoupProps` parity.
+Add PHPUnit tests for `CB_Balanced_Logos_Renderer` sanitization and a minimal Jest test for `sanitizePreviewConfig` / `toBalancedLogosProps` parity.
 
 ## Related
 

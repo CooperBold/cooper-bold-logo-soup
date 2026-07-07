@@ -1,43 +1,43 @@
 ---
-title: Logo Soup Plugin
+title: Balanced Logos Plugin
 type: entity
 created: 2026-06-12
 updated: 2026-06-12
 tags: [wordpress, plugin, logo-soup, cooper-bold]
-aliases: [logo-soup-plugin, cooper-bold-logo-soup]
+aliases: [logo-soup-plugin, balanced-logos]
 status: active
 ---
 
-# Logo Soup Plugin
+# Balanced Logos Plugin
 
 WordPress plugin in this repository for displaying normalized logo strips on the front end.
 
 ## What it is
 
-- **Main file:** `cooper-bold-logo-soup.php`
-- **Package:** `CooperBoldLogoSoup` / prefix `CB_Logo_Soup_*`
-- **Version:** 1.0.0 (`CB_LOGO_SOUP_VERSION`)
-- **Text domain:** `cooper-bold-logo-soup`
+- **Main file:** `balanced-logos.php`
+- **Package:** `CooperBoldBalancedLogos` / prefix `CB_Balanced_Logos_*`
+- **Version:** 1.0.0 (`CB_BALANCED_LOGOS_VERSION`)
+- **Text domain:** `balanced-logos`
 - **Upstream:** Wraps `@sanity-labs/logo-soup` npm package
 
 ## How it's used in this project
 
 | Surface | Identifier | PHP class |
 | --- | --- | --- |
-| Block | `cooper-bold/logo-soup` | `CB_Logo_Soup_Block` |
-| Shortcode | `logo_soup` | `CB_Logo_Soup_Shortcode` |
-| Render | shared | `CB_Logo_Soup_Renderer` |
-| Assets | `build/view.js` | `CB_Logo_Soup_Assets` |
+| Block | `cooper-bold/balanced-logos` | `CB_Balanced_Logos_Block` |
+| Shortcode | `balanced_logos` | `CB_Balanced_Logos` |
+| Render | shared | `CB_Balanced_Logos_Renderer` |
+| Assets | `build/view.js` | `CB_Balanced_Logos_Assets` |
 
-Bootstrap: `plugins_loaded` → `CB_Logo_Soup::instance()`.
+Bootstrap: `plugins_loaded` → `CB_Balanced_Logos::instance()`.
 
 ## Key details
 
 - Block metadata: `src/block/block.json`
 - Build output: `build/` via `npm run build`
-- Repo remote (header): `github.com/CooperBold/cooper-bold-logo-soup`
+- Repo remote (header): `github.com/CooperBold/balanced-logos`
 
 ## Related
 
 - [[sanity-logo-soup]]
-- [[gutenberg-block-logo-soup]]
+- [[gutenberg-block-balanced-logos]]

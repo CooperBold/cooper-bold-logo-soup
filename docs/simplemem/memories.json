@@ -1,14 +1,14 @@
 [
   {
     "id": "local_1781281931482",
-    "text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `logo-soup-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
+    "text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `balanced-logos-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
     "metadata": {
       "source": "ai_session_memory",
       "date": "2026-06-12",
       "session_title": "[2026-06-12] Bootstrap | Set up project for AI",
       "session_number": 1
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781281931.4820201
   },
   {
@@ -18,19 +18,19 @@
       "type": "bootstrap",
       "date": "2026-06-12"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781281931.573196
   },
   {
     "id": "local_1781281970432",
-    "text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `logo-soup-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
+    "text": "AI Session: [2026-06-12] Bootstrap | Set up project for AI\n\n**Branch:** (initial, no commits yet)\n\n**Completed:**\n\n- Initialized git repository and `.gitignore` (`.env`, Python cache, `uncommitted/`).\n- Bootstrapped **SimpleMem** (`simplemem_client.py`, `simplemem_cli.py`, `docs/simplemem/`, namespace `balanced-logos-wp-plugin`, local backend).\n- Bootstrapped **LLM Wiki** (`wiki/` with SCHEMA, index, log, stub entity `wordpress-plugin`).\n- Added **Context7** (`.cursor/context7-libraries.md`, `.cursor/rules/context7.mdc`).\n- Created **CrewAI** planner in `crewai/`.\n- Wrote **AGENTS.md**, **AI_RUNBOOK.md**, and this file.\n- **Legacy docs:** No `docs/` directory \u2014 ingest skipped.\n- **Obsidian:** Already installed on macOS.\n\n**State:**\n",
     "metadata": {
       "source": "ai_session_memory",
       "date": "2026-06-12",
       "session_title": "[2026-06-12] Bootstrap | Set up project for AI",
       "session_number": 1
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781281970.4322891
   },
   {
@@ -42,7 +42,7 @@
       "verb": "create",
       "source": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781346683.447283
   },
   {
@@ -54,7 +54,7 @@
       "verb": "migrate",
       "source": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781346683.5003421
   },
   {
@@ -66,7 +66,7 @@
       "verb": "update",
       "source": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781346683.552299
   },
   {
@@ -76,7 +76,7 @@
       "source": "wiki-weekly-maintain",
       "date": "2026-06-14"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781438896.973158
   },
   {
@@ -88,7 +88,7 @@
       "verb": "ingest",
       "source": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781519440.430529
   },
   {
@@ -100,7 +100,7 @@
       "verb": "ingest",
       "source": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781519440.491551
   },
   {
@@ -111,7 +111,7 @@
       "type": "maintenance",
       "date": "2026-06-17"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781697980.808486
   },
   {
@@ -123,30 +123,30 @@
       "verb": "ingest",
       "source": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1781778652.998969
   },
   {
     "id": "local_1782153856669",
-    "text": "WP.org submission prep v1.2.12 complete (2026-06-22). Splide vendored under lib/splide/, directory PNGs, readme polish. Local wp-env Docker verified: strip post 4 with demo-50-logos collection, carousel page 62 with vendored Splide (no CDN). Plugin Check passes on release-shaped run with --slug=cooper-bold-logo-soup and dev-dir excludes. Key lesson: logo URLs must be same-origin (Media Library) for hydration; external URLs fail CORS. Branch main ahead 2 commits unpushed; uncommitted Plugin Check micro-fixes in readme.txt and renderer translators comment. Next: push main, upload release ZIP to WP.org, add SVN secrets after approval, tag v1.2.12.",
+    "text": "WP.org submission prep v1.2.12 complete (2026-06-22). Splide vendored under lib/splide/, directory PNGs, readme polish. Local wp-env Docker verified: strip post 4 with demo-50-logos collection, carousel page 62 with vendored Splide (no CDN). Plugin Check passes on release-shaped run with --slug=balanced-logos and dev-dir excludes. Key lesson: logo URLs must be same-origin (Media Library) for hydration; external URLs fail CORS. Branch main ahead 2 commits unpushed; uncommitted Plugin Check micro-fixes in readme.txt and renderer translators comment. Next: push main, upload release ZIP to WP.org, add SVN secrets after approval, tag v1.2.12.",
     "metadata": {
       "source": "mark-where-you-are",
       "date": "2026-06-22",
       "branch": "main"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1782153856.669274
   },
   {
     "id": "local_1782210623558",
-    "text": "AI Session: [2026-06-22] WP.org prep v1.2.12 | Carousel + Plugin Check verified\n\n**Branch:** `main` (ahead of `origin/main` by 2 commits)\n\n**Git status (close-out):**\n\n- Uncommitted: `readme.txt` (Tested up to **7.0**), `includes/class-cb-logo-soup-renderer.php` (translators comment from Plugin Check)\n- Untracked: `.wp-seed-logos/`, local verification screenshots\n- Two WP.org prep commits on `main` not yet pushed\n\n**Completed:**\n\n- WordPress.org submission prep for **v1.2.12**: Splide vendored under `lib/splide/`, directory PNGs in `assets/`, readme polish\n- Local **wp-env** Docker verified (Colima + `WP_ENV_CORE` local core checkout)\n- Strip smoke test: post **4** with collection `demo-50-logos` (50 logos)\n- Carousel smoke test: page **62** (`Logo Soup Carousel Test`) \u2014 vendored Splide only, no CDN\n- **Plugin Check** pass on release-shaped run (`--slug=cooper-bold-logo-soup` with dev-dir excludes)",
+    "text": "AI Session: [2026-06-22] WP.org prep v1.2.12 | Carousel + Plugin Check verified\n\n**Branch:** `main` (ahead of `origin/main` by 2 commits)\n\n**Git status (close-out):**\n\n- Uncommitted: `readme.txt` (Tested up to **7.0**), `includes/class-cb-balanced-logos-renderer.php` (translators comment from Plugin Check)\n- Untracked: `.wp-seed-logos/`, local verification screenshots\n- Two WP.org prep commits on `main` not yet pushed\n\n**Completed:**\n\n- WordPress.org submission prep for **v1.2.12**: Splide vendored under `lib/splide/`, directory PNGs in `assets/`, readme polish\n- Local **wp-env** Docker verified (Colima + `WP_ENV_CORE` local core checkout)\n- Strip smoke test: post **4** with collection `demo-50-logos` (50 logos)\n- Carousel smoke test: page **62** (`Logo Soup Carousel Test`) \u2014 vendored Splide only, no CDN\n- **Plugin Check** pass on release-shaped run (`--slug=balanced-logos` with dev-dir excludes)",
     "metadata": {
       "source": "ai_session_memory",
       "date": "2026-06-22",
       "session_title": "[2026-06-22] WP.org prep v1.2.12 | Carousel + Plugin Check verified",
       "imported_by": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1782210623.558282
   },
   {
@@ -158,7 +158,7 @@
       "verb": "session",
       "source": "maintain_all_simplemem"
     },
-    "namespace": "logo-soup-wp-plugin",
+    "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1782210623.611289
   }
 ]

@@ -23,7 +23,7 @@ Legacy docs ingest skipped: no `docs/` folder with markdown files at bootstrap t
 
 ## [2026-06-12] update | Plugin entity pages
 
-Added wiki entities for the existing plugin: [[wordpress-plugin]], [[sanity-logo-soup]], [[gutenberg-block-logo-soup]].
+Added wiki entities for the existing plugin: [[wordpress-plugin]], [[sanity-logo-soup]], [[gutenberg-block-balanced-logos]].
 
 ## [2026-06-14] ingest | SAR + Adversarial review docs
 

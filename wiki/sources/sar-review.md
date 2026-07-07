@@ -47,7 +47,7 @@ The `sar` CLI run completed in stages after partial failures:
 
 ## Judge verdict
 
-**Winner: Candidate C** — dynamic PHP block + shortcode, shared renderer with SSR placeholder `<img>`s, thin React adapter, `has_block()` / `has_shortcode()` asset detection, `src/shared/to-soup-props.js` for editor/frontend parity, `WeakMap` re-mount guard in `view.js`.
+**Winner: Candidate C** — dynamic PHP block + shortcode, shared renderer with SSR placeholder `<img>`s, thin React adapter, `has_block()` / `has_shortcode()` asset detection, `src/shared/to-balanced-logos-props.js` for editor/frontend parity, `WeakMap` re-mount guard in `view.js`.
 
 Candidate A and B were rejected (missing JS color sanitization in repair; no WeakMap guard).
 
@@ -55,12 +55,12 @@ Candidate A and B were rejected (missing JS color sanitization in repair; no Wea
 
 | Area | Change |
 |------|--------|
-| Architecture | Consolidated bootstrap in `includes/class-cb-logo-soup.php`; renderer + assets split retained |
+| Architecture | Consolidated bootstrap in `includes/class-cb-balanced-logos.php`; renderer + assets split retained |
 | Security | `sanitize_logos()`, `javascript:` link rejection, named-color allowlist, JSON shortcode sanitization |
 | Accessibility | Alt basename fallback, `aria-label` when multiple logos, per-logo alt in inspector |
-| Editor parity | `src/shared/to-soup-props.js` — `sanitizePreviewConfig()` + `toSoupProps()` |
+| Editor parity | `src/shared/to-balanced-logos-props.js` — `sanitizePreviewConfig()` + `toBalancedLogosProps()` |
 | Frontend | Placeholder images, `view.scss`, `WeakMap` mount guard, conditional enqueue |
-| Shortcodes | `[logo_soup]` (primary) + `[cooper-bold-logo-soup]` alias |
+| Shortcodes | `[balanced_logos]` (primary) + `[balanced-logos]` alias |
 | Build | Multi-entry via `package.json` scripts (no `webpack.config.js`) |
 | Docs | `LICENSE`, PHP 7.4 activation hook, `AGENTS.md` enqueue convention |
 | Defaults | Restored upstream logo-soup values after SAR repair drift |

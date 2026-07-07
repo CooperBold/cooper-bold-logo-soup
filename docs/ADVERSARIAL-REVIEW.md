@@ -1,9 +1,9 @@
-# Adversarial Review — Logo Soup
+# Adversarial Review — Balanced Logos
 
 **Date:** 2026-06-13  
 **Backend:** Nous (`anthropic/claude-opus-4.8`)  
 **Artifact:** Full plugin diff from initial commit + uncommitted fixes  
-**Spec:** `/tmp/cb-logo-soup-spec.md` (purpose, security, enqueue, WP.org readiness)
+**Spec:** `/tmp/cb-balanced-logos-spec.md` (purpose, security, enqueue, WP.org readiness)
 
 ## Summary
 
@@ -22,7 +22,7 @@ The loop did **not** converge to APPROVE after three diff rounds. Concrete, repr
 
 - Editor `RangeControl` max values below spec (`baseSize` 128 vs 256, `gap` 48 vs 96).
 - `densityFactor` emitted when `densityAware` is false — PHP/JS/preview mismatch.
-- `shortcode_atts` always used tag `logo_soup` even for `cooper-bold-logo-soup`.
+- `shortcode_atts` always used tag `logo_soup` even for `balanced-logos`.
 - Permissive `rgb()`/`hsl()` regex.
 
 **False positives (verified locally):**
@@ -41,7 +41,7 @@ The loop did **not** converge to APPROVE after three diff rounds. Concrete, repr
 
 **Fixes applied:**
 
-- Render-time `CB_Logo_Soup_Assets::enqueue_frontend()` from renderer.
+- Render-time `CB_Balanced_Logos_Assets::enqueue_frontend()` from renderer.
 - `base64:` prefix for JSON logos in shortcodes; readme updated.
 - Separate style handle; style registration fallback candidates.
 - `renderIndex` with wrap-reset on re-render.
@@ -75,15 +75,15 @@ No automated tests exist. Highest-priority gaps documented for future work:
 | Issue | File(s) | Fix |
 |-------|---------|-----|
 | Editor range limits | `src/block/edit.js` | `baseSize` max 256, `gap` max 96 |
-| `densityFactor` parity | `includes/class-cb-logo-soup-renderer.php`, `src/shared/to-soup-props.js` | Emit `0` when `densityAware` false |
-| Shortcode filter tag | `includes/class-cb-logo-soup.php` | Pass actual `$tag` to `shortcode_atts` |
-| Color regex | renderer + `to-soup-props.js` | Tighter `rgb`/`hsl` character class |
-| Widget/FSE enqueue | `class-cb-logo-soup-assets.php`, renderer | `enqueue_frontend()` on render |
-| Style handle collision | `class-cb-logo-soup-assets.php` | Distinct `VIEW_STYLE_HANDLE` |
-| Style path fallback | `class-cb-logo-soup-assets.php` | Try `view.scss.*` then `view.css` |
-| JSON shortcodes | `class-cb-logo-soup.php`, `readme.txt` | `base64:` prefix + docs |
-| PHP bootstrap | `cooper-bold-logo-soup.php` | Early PHP version gate; `declare` first |
-| Block registration | `class-cb-logo-soup.php` | Candidate dir loop |
+| `densityFactor` parity | `includes/class-cb-balanced-logos-renderer.php`, `src/shared/to-balanced-logos-props.js` | Emit `0` when `densityAware` false |
+| Shortcode filter tag | `includes/class-cb-balanced-logos.php` | Pass actual `$tag` to `shortcode_atts` |
+| Color regex | renderer + `to-balanced-logos-props.js` | Tighter `rgb`/`hsl` character class |
+| Widget/FSE enqueue | `class-cb-balanced-logos-assets.php`, renderer | `enqueue_frontend()` on render |
+| Style handle collision | `class-cb-balanced-logos-assets.php` | Distinct `VIEW_STYLE_HANDLE` |
+| Style path fallback | `class-cb-balanced-logos-assets.php` | Try `view.scss.*` then `view.css` |
+| JSON shortcodes | `class-cb-balanced-logos.php`, `readme.txt` | `base64:` prefix + docs |
+| PHP bootstrap | `balanced-logos.php` | Early PHP version gate; `declare` first |
+| Block registration | `class-cb-balanced-logos.php` | Candidate dir loop |
 
 ## Issues deferred
 
@@ -100,7 +100,7 @@ No automated tests exist. Highest-priority gaps documented for future work:
 ```bash
 npm run build      # pass
 npm run lint:js    # pass
-php -l cooper-bold-logo-soup.php  # pass
+php -l balanced-logos.php  # pass
 bash scripts/build-release-zip.sh # build/block/block.json + view.scss.css in ZIP
 ```
 
@@ -110,4 +110,4 @@ bash scripts/build-release-zip.sh # build/block/block.json + view.scss.css in ZI
 
 The plugin is **safer to ship** after fixes: sanitization parity improved, enqueue works when blocks render outside main post content, PHP bootstrap is valid, and release artifacts were verified. Ship readiness for WP.org is acceptable given committed `build/` output and deploy workflow.
 
-**Recommended before 1.0.1:** Add PHPUnit tests for `CB_Logo_Soup_Renderer` sanitization and a minimal Jest test for `sanitizePreviewConfig` / `toSoupProps` parity.
+**Recommended before 1.0.1:** Add PHPUnit tests for `CB_Balanced_Logos_Renderer` sanitization and a minimal Jest test for `sanitizePreviewConfig` / `toBalancedLogosProps` parity.
