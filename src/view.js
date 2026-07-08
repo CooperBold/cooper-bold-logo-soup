@@ -5,30 +5,30 @@
 
 import { createRoot } from '@wordpress/element';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
-import { toSoupProps } from './shared/to-soup-props';
+import { toBalancedLogosProps } from './shared/to-balanced-logos-props';
 
 const mounted = new WeakMap();
 const carouselGroups = new WeakSet();
 const hydratedCarousels = new WeakSet();
 const AUTOSCROLL_MARKER = 'logoSliderAutoscroll';
-const HYDRATING_CLASS = 'cb-logo-soup-hydrating';
+const HYDRATING_CLASS = 'cb-balanced-logos-hydrating';
 const STANDALONE_SPLIDE_RETRY_MS = [ 0, 100, 500, 1500, 3000 ];
 const HYDRATION_FAIL_OPEN_MS = 800;
 const MIN_SLIDES_BEFORE_SPLIDE = 3;
 const SPLIDE_REFRESH_DEBOUNCE_MS = 150;
-const DEBUG_STORAGE_KEY = 'cb-logo-soup-debug';
-const LOG_PREFIX = '[Logo Soup]';
+const DEBUG_STORAGE_KEY = 'cb-balanced-logos-debug';
+const LOG_PREFIX = '[Balanced Logos]';
 
 /**
  * Whether opt-in frontend debug logging is enabled.
  *
  * @return {boolean}
  */
-function isLogoSoupDebugEnabled() {
+function isBalancedLogosDebugEnabled() {
 	if ( typeof window === 'undefined' ) {
 		return false;
 	}
-	if ( window.CB_LOGO_SOUP_DEBUG === true ) {
+	if ( window.CB_BALANCED_LOGOS_DEBUG === true ) {
 		return true;
 	}
 	try {
@@ -41,7 +41,7 @@ function isLogoSoupDebugEnabled() {
 	try {
 		return (
 			new URLSearchParams( window.location.search ).get(
-				'cb_logo_soup_debug'
+				'cb_balanced_logos_debug'
 			) === '1'
 		);
 	} catch ( error ) {
@@ -52,8 +52,8 @@ function isLogoSoupDebugEnabled() {
 /**
  * @param {...*} args Log arguments when debug is enabled.
  */
-function logoSoupLog( ...args ) {
-	if ( ! isLogoSoupDebugEnabled() ) {
+function balancedLogosLog( ...args ) {
+	if ( ! isBalancedLogosDebugEnabled() ) {
 		return;
 	}
 	// eslint-disable-next-line no-console
@@ -63,8 +63,8 @@ function logoSoupLog( ...args ) {
 /**
  * @param {...*} args Error when debug is enabled.
  */
-function logoSoupDebugError( ...args ) {
-	if ( ! isLogoSoupDebugEnabled() ) {
+function balancedLogosDebugError( ...args ) {
+	if ( ! isBalancedLogosDebugEnabled() ) {
 		return;
 	}
 	// eslint-disable-next-line no-console
@@ -78,7 +78,7 @@ function logoSoupDebugError( ...args ) {
  * @param {string}        context Caller label for the check.
  */
 function logSlidesImageStatus( slides, context ) {
-	if ( ! isLogoSoupDebugEnabled() ) {
+	if ( ! isBalancedLogosDebugEnabled() ) {
 		return;
 	}
 
@@ -99,7 +99,7 @@ function logSlidesImageStatus( slides, context ) {
 			fail++;
 		}
 	} );
-	logoSoupLog( 'slidesHaveLoadedImages', {
+	balancedLogosLog( 'slidesHaveLoadedImages', {
 		context,
 		pass,
 		fail,
@@ -155,7 +155,7 @@ function standaloneSplideMounted( carouselRoot ) {
  */
 function slidesHaveLoadedImages( slides ) {
 	if ( ! slides.length ) {
-		logoSoupLog( 'slidesHaveLoadedImages', {
+		balancedLogosLog( 'slidesHaveLoadedImages', {
 			slideCount: 0,
 			ready: false,
 		} );
@@ -174,7 +174,7 @@ function slidesHaveLoadedImages( slides ) {
 		return typeof img.src === 'string' && img.src.startsWith( 'blob:' );
 	} );
 
-	logoSoupLog( 'slidesHaveLoadedImages', {
+	balancedLogosLog( 'slidesHaveLoadedImages', {
 		slideCount: slides.length,
 		ready,
 	} );
@@ -209,14 +209,14 @@ function carouselSplideInitialized( carouselRoot ) {
 /**
  * Mount LogoSoup on a strip container (idempotent per node).
  *
- * @param {HTMLElement} container Mount node with data-cb-logo-soup.
+ * @param {HTMLElement} container Mount node with data-cb-balanced-logos.
  */
 function mountLogoSoup( container ) {
 	if ( mounted.has( container ) ) {
 		return;
 	}
 
-	const raw = container.getAttribute( 'data-cb-logo-soup' );
+	const raw = container.getAttribute( 'data-cb-balanced-logos' );
 	if ( ! raw ) {
 		return;
 	}
@@ -225,13 +225,13 @@ function mountLogoSoup( container ) {
 	try {
 		config = JSON.parse( raw );
 	} catch ( error ) {
-		logoSoupDebugError( 'mountLogoSoup JSON parse failed', {
+		balancedLogosDebugError( 'mountLogoSoup JSON parse failed', {
 			error: error instanceof Error ? error.message : String( error ),
 		} );
 		return;
 	}
 
-	const soupProps = toSoupProps( config );
+	const soupProps = toBalancedLogosProps( config );
 	if ( ! soupProps ) {
 		return;
 	}
@@ -254,7 +254,7 @@ function mountCarouselReference( refContainer, groupId ) {
 	}
 	carouselGroups.add( refContainer );
 
-	const raw = refContainer.getAttribute( 'data-cb-logo-soup' );
+	const raw = refContainer.getAttribute( 'data-cb-balanced-logos' );
 	if ( ! raw ) {
 		return;
 	}
@@ -263,14 +263,14 @@ function mountCarouselReference( refContainer, groupId ) {
 	try {
 		config = JSON.parse( raw );
 	} catch ( error ) {
-		logoSoupDebugError( 'mountCarouselReference JSON parse failed', {
+		balancedLogosDebugError( 'mountCarouselReference JSON parse failed', {
 			groupId,
 			error: error instanceof Error ? error.message : String( error ),
 		} );
 		return;
 	}
 
-	const soupProps = toSoupProps( { ...config, eagerLoad: true } );
+	const soupProps = toBalancedLogosProps( { ...config, eagerLoad: true } );
 	if ( ! soupProps ) {
 		return;
 	}
@@ -278,18 +278,18 @@ function mountCarouselReference( refContainer, groupId ) {
 	// Cache slide nodes before Splide loop clones duplicate data attributes.
 	const slides = Array.from(
 		document.querySelectorAll(
-			`[data-cb-logo-soup-slide][data-cb-logo-soup-carousel="${ groupId }"]`
+			`[data-cb-balanced-logos-slide][data-cb-balanced-logos-carousel="${ groupId }"]`
 		)
 	);
 	if ( ! slides.length ) {
-		logoSoupLog( 'mountCarouselReference: no slides', { groupId } );
+		balancedLogosLog( 'mountCarouselReference: no slides', { groupId } );
 		return;
 	}
 
 	const configLogoCount = Array.isArray( config.logos )
 		? config.logos.length
 		: 0;
-	logoSoupLog( 'mountCarouselReference', {
+	balancedLogosLog( 'mountCarouselReference', {
 		groupId,
 		slideCount: slides.length,
 		configLogoCount,
@@ -300,9 +300,9 @@ function mountCarouselReference( refContainer, groupId ) {
 	root.render( <LogoSoup { ...soupProps } /> );
 
 	const carouselRoot =
-		refContainer.closest( '[data-cb-logo-soup-splide]' ) ||
+		refContainer.closest( '[data-cb-balanced-logos-splide]' ) ||
 		document.querySelector(
-			`[data-cb-logo-soup-carousel="${ groupId }"][data-cb-logo-soup-splide]`
+			`[data-cb-balanced-logos-carousel="${ groupId }"][data-cb-balanced-logos-splide]`
 		);
 	if ( carouselRoot ) {
 		carouselRoot.classList.add( HYDRATING_CLASS );
@@ -314,7 +314,7 @@ function mountCarouselReference( refContainer, groupId ) {
 		}
 
 		const snippetOwns = externalAutoscrollOwnsSplide( carouselRoot );
-		logoSoupLog( 'externalAutoscrollOwnsSplide', {
+		balancedLogosLog( 'externalAutoscrollOwnsSplide', {
 			groupId,
 			owns: snippetOwns,
 			snippetScriptPresent: !! document.getElementById(
@@ -330,9 +330,9 @@ function mountCarouselReference( refContainer, groupId ) {
 
 		hydratedCarousels.add( carouselRoot );
 		carouselRoot.dispatchEvent(
-			new CustomEvent( 'cb-logo-soup-hydrated', { bubbles: true } )
+			new CustomEvent( 'cb-balanced-logos-hydrated', { bubbles: true } )
 		);
-		logoSoupLog( 'cb-logo-soup-hydrated fired', { groupId } );
+		balancedLogosLog( 'cb-balanced-logos-hydrated fired', { groupId } );
 	};
 
 	const distribute = () => {
@@ -359,7 +359,7 @@ function mountCarouselReference( refContainer, groupId ) {
 			logoNodes.length >= slides.length &&
 			slides.every( ( slide ) => slide.children.length > 0 );
 
-		logoSoupLog( 'distribute', {
+		balancedLogosLog( 'distribute', {
 			groupId,
 			logoNodes: logoNodes.length,
 			slides: slides.length,
@@ -387,11 +387,11 @@ function mountCarouselReference( refContainer, groupId ) {
 			refreshTimer = null;
 			try {
 				carouselRoot.splide.refresh();
-				logoSoupLog( 'splide refresh after progressive fill', {
+				balancedLogosLog( 'splide refresh after progressive fill', {
 					groupId,
 				} );
 			} catch ( error ) {
-				logoSoupDebugError( 'splide refresh failed', {
+				balancedLogosDebugError( 'splide refresh failed', {
 					groupId,
 					error:
 						error instanceof Error
@@ -421,7 +421,7 @@ function mountCarouselReference( refContainer, groupId ) {
 			return;
 		}
 
-		logoSoupLog( 'completeHydration (early start)', {
+		balancedLogosLog( 'completeHydration (early start)', {
 			groupId,
 			filled: result.filled,
 			minSlides,
@@ -446,7 +446,7 @@ function mountCarouselReference( refContainer, groupId ) {
 			return;
 		}
 
-		logoSoupLog( 'completeHydration (all slides)', { groupId } );
+		balancedLogosLog( 'completeHydration (all slides)', { groupId } );
 		hydrationComplete = true;
 		if ( failOpenTimer ) {
 			window.clearTimeout( failOpenTimer );
@@ -492,7 +492,7 @@ function mountCarouselReference( refContainer, groupId ) {
 	observer.observe( refContainer, { childList: true, subtree: true } );
 
 	failOpenTimer = window.setTimeout( () => {
-		logoSoupLog( 'fail-open timeout', {
+		balancedLogosLog( 'fail-open timeout', {
 			groupId,
 			ms: HYDRATION_FAIL_OPEN_MS,
 		} );
@@ -529,7 +529,7 @@ function externalAutoscrollOwnsSplide( carouselRoot ) {
  * @param {HTMLElement} carouselRoot Splide root element.
  */
 function scheduleStandaloneSplideFallback( carouselRoot ) {
-	logoSoupLog( 'scheduleStandaloneSplideFallback', {
+	balancedLogosLog( 'scheduleStandaloneSplideFallback', {
 		retries: STANDALONE_SPLIDE_RETRY_MS,
 	} );
 	STANDALONE_SPLIDE_RETRY_MS.forEach( ( delay ) => {
@@ -538,14 +538,14 @@ function scheduleStandaloneSplideFallback( carouselRoot ) {
 				! carouselRoot.isConnected ||
 				carouselSplideInitialized( carouselRoot )
 			) {
-				logoSoupLog( 'standalone Splide fallback retry skipped', {
+				balancedLogosLog( 'standalone Splide fallback retry skipped', {
 					delay,
 					connected: carouselRoot.isConnected,
 					initialized: carouselSplideInitialized( carouselRoot ),
 				} );
 				return;
 			}
-			logoSoupLog( 'standalone Splide fallback retry', { delay } );
+			balancedLogosLog( 'standalone Splide fallback retry', { delay } );
 			maybeInitStandaloneSplide( carouselRoot );
 		}, delay );
 	} );
@@ -563,20 +563,20 @@ function maybeInitStandaloneSplide( carouselRoot ) {
 	const hasAutoScroll = !! ( extensions && extensions.AutoScroll );
 
 	if ( carouselRoot.closest( '.brxe-slider-nested' ) ) {
-		logoSoupLog( 'maybeInitStandaloneSplide skipped (nested slider)', {
+		balancedLogosLog( 'maybeInitStandaloneSplide skipped (nested slider)', {
 			splideAvailable,
 			hasAutoScroll,
 		} );
 		return false;
 	}
 	if ( ! splideAvailable ) {
-		logoSoupLog( 'maybeInitStandaloneSplide: Splide unavailable', {
+		balancedLogosLog( 'maybeInitStandaloneSplide: Splide unavailable', {
 			hasAutoScroll,
 		} );
 		return false;
 	}
 	if ( carouselSplideInitialized( carouselRoot ) ) {
-		logoSoupLog( 'maybeInitStandaloneSplide: already initialized', {
+		balancedLogosLog( 'maybeInitStandaloneSplide: already initialized', {
 			hasAutoScroll,
 		} );
 		return true;
@@ -589,7 +589,7 @@ function maybeInitStandaloneSplide( carouselRoot ) {
 		try {
 			carouselRoot.splide.destroy();
 		} catch ( error ) {
-			logoSoupDebugError( 'splide destroy failed', {
+			balancedLogosDebugError( 'splide destroy failed', {
 				error: error instanceof Error ? error.message : String( error ),
 			} );
 		}
@@ -631,7 +631,7 @@ function maybeInitStandaloneSplide( carouselRoot ) {
 		list.style.transition = 'none';
 	}
 	carouselRoot.classList.remove( HYDRATING_CLASS );
-	logoSoupLog( 'maybeInitStandaloneSplide: mounted', {
+	balancedLogosLog( 'maybeInitStandaloneSplide: mounted', {
 		splideAvailable,
 		hasAutoScroll,
 		mounted: true,
@@ -643,10 +643,10 @@ function maybeInitStandaloneSplide( carouselRoot ) {
  * Initialize hidden reference strips and standalone Splide carousels.
  */
 function initCarousels() {
-	const refs = document.querySelectorAll( '[data-cb-logo-soup-ref]' );
-	logoSoupLog( 'carousel groups found', refs.length );
+	const refs = document.querySelectorAll( '[data-cb-balanced-logos-ref]' );
+	balancedLogosLog( 'carousel groups found', refs.length );
 	refs.forEach( ( refContainer ) => {
-		const groupId = refContainer.getAttribute( 'data-cb-logo-soup-ref' );
+		const groupId = refContainer.getAttribute( 'data-cb-balanced-logos-ref' );
 		if ( ! groupId ) {
 			return;
 		}
@@ -658,15 +658,15 @@ function initCarousels() {
  * Mount all strip containers, then initialize carousels.
  */
 function init() {
-	const strips = document.querySelectorAll( '[data-cb-logo-soup]' );
-	const refs = document.querySelectorAll( '[data-cb-logo-soup-ref]' );
-	logoSoupLog( 'init', {
+	const strips = document.querySelectorAll( '[data-cb-balanced-logos]' );
+	const refs = document.querySelectorAll( '[data-cb-balanced-logos-ref]' );
+	balancedLogosLog( 'init', {
 		stripCount: strips.length,
 		carouselRefCount: refs.length,
 	} );
 
 	strips.forEach( ( el ) => {
-		if ( el.hasAttribute( 'data-cb-logo-soup-ref' ) ) {
+		if ( el.hasAttribute( 'data-cb-balanced-logos-ref' ) ) {
 			return;
 		}
 		mountLogoSoup( el );

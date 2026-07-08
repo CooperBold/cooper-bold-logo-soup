@@ -8,39 +8,39 @@ import {
 	readLogosFromDom,
 	readSettingsFromDom,
 } from './collection-form-data';
-import { sanitizePreviewConfig, toSoupProps } from '../shared/to-soup-props';
+import { sanitizePreviewConfig, toBalancedLogosProps } from '../shared/to-balanced-logos-props';
 
 describe( 'collection preview DOM readers', () => {
 	beforeEach( () => {
 		document.body.innerHTML = `
-			<div id="cb-logo-soup-collection-editor">
-				<ul id="cb-logo-soup-logo-list">
-					<li class="cb-logo-soup-logo-item">
-						<input class="cb-logo-soup-logo-id" value="10" />
-						<input class="cb-logo-soup-logo-url" value="https://example.com/a.png" />
-						<input class="cb-logo-soup-logo-alt" value="Alpha" />
-						<input class="cb-logo-soup-logo-link" value="https://alpha.test" />
+			<div id="cb-balanced-logos-collection-editor">
+				<ul id="cb-balanced-logos-logo-list">
+					<li class="cb-balanced-logos-logo-item">
+						<input class="cb-balanced-logos-logo-id" value="10" />
+						<input class="cb-balanced-logos-logo-url" value="https://example.com/a.png" />
+						<input class="cb-balanced-logos-logo-alt" value="Alpha" />
+						<input class="cb-balanced-logos-logo-link" value="https://alpha.test" />
 					</li>
 				</ul>
 			</div>
-			<table class="cb-logo-soup-settings-table cb-logo-soup-settings-essential">
+			<table class="cb-balanced-logos-settings-table cb-balanced-logos-settings-essential">
 				<tr>
 					<td>
-						<input id="cb_logo_soup_base_size" value="64" />
-						<input id="cb_logo_soup_gap" value="36" />
-						<input id="cb_logo_soup_background_color" value="#ffffff" />
+						<input id="cb_balanced_logos_base_size" value="64" />
+						<input id="cb_balanced_logos_gap" value="36" />
+						<input id="cb_balanced_logos_background_color" value="#ffffff" />
 					</td>
 				</tr>
 			</table>
-			<table class="cb-logo-soup-settings-table cb-logo-soup-settings-advanced">
+			<table class="cb-balanced-logos-settings-table cb-balanced-logos-settings-advanced">
 				<tr>
 					<td>
-						<input id="cb_logo_soup_scale_factor" value="0.4" />
-						<input id="cb_logo_soup_contrast_threshold" value="12" />
-						<input name="cb_logo_soup_settings[densityAware]" type="checkbox" checked="checked" />
-						<input id="cb_logo_soup_density_factor" value="0.3" />
-						<input name="cb_logo_soup_settings[cropToContent]" type="checkbox" />
-						<select id="cb_logo_soup_align_by"><option value="bounds" selected>Bounds</option></select>
+						<input id="cb_balanced_logos_scale_factor" value="0.4" />
+						<input id="cb_balanced_logos_contrast_threshold" value="12" />
+						<input name="cb_balanced_logos_settings[densityAware]" type="checkbox" checked="checked" />
+						<input id="cb_balanced_logos_density_factor" value="0.3" />
+						<input name="cb_balanced_logos_settings[cropToContent]" type="checkbox" />
+						<select id="cb_balanced_logos_align_by"><option value="bounds" selected>Bounds</option></select>
 					</td>
 				</tr>
 			</table>
@@ -83,9 +83,9 @@ describe( 'collection preview DOM readers', () => {
 		expect( readSettingsFromDom().densityAware ).toBe( true );
 	} );
 
-	it( 'builds the same toSoupProps path as frontend hydration', () => {
+	it( 'builds the same toBalancedLogosProps path as frontend hydration', () => {
 		const config = sanitizePreviewConfig( readAttributesFromDom() );
-		const props = toSoupProps( config );
+		const props = toBalancedLogosProps( config );
 
 		expect( props ).not.toBeNull();
 		expect( props.densityAware ).toBe( true );

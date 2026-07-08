@@ -1,5 +1,5 @@
 {
 	"core": "WordPress/WordPress",
 	"phpVersion": "7.4",
-	"plugins": [ "/Users/thedao/Repos/logo-soup-wp-plugin" ]
+	"plugins": [ "/Users/thedao/Repos/balanced-logos-wp-plugin" ]
 }

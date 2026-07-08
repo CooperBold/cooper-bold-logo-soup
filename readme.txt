@@ -1,24 +1,24 @@
-=== Logo Soup by Cooper Bold ===
-Contributors: cooperbold
+=== Balanced Logos ===
+Contributors: nicholaseymann
 Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.2.13
+Stable tag: 1.2.15
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Display partner and client logos in a balanced, harmonious strip using Sanity Labs Logo Soup normalization.
+Display partner and client logos in a balanced, harmonious strip.
 
 == Description ==
 
-Logo Soup wraps the open-source [Logo Soup](https://github.com/sanity-labs/logo-soup) library for WordPress. Logo Soup analyzes each logo image and normalizes visual weight, density, and alignment so mixed brand assets look intentional together — not a scrolling marquee.
+Balanced Logos is a WordPress plugin that wraps the open-source [logo-soup](https://github.com/sanity-labs/logo-soup) library from Sanity Labs. It analyzes each logo image and normalizes visual weight, density, and alignment so mixed brand assets look intentional together — not a scrolling marquee.
 
 **Features**
 
 * Gutenberg block with live editor preview
 * **Logo Collections** admin UI — build reusable logo sets with Media Library picker
-* `[logo_soup]` and `[cooper-bold-logo-soup]` shortcodes for classic content areas
+* `[balanced_logos]` shortcode for classic content areas (legacy aliases: `[logo_soup]`, `[cooper-bold-logo-soup]`)
 * Reference collections by slug (`collection="homepage-partners"`) or ID (`id="123"`)
 * Media library integration for logo selection
 * Tunable normalization controls (size, density, contrast, alignment)
@@ -30,31 +30,31 @@ Logo normalization powered by [@sanity-labs/logo-soup](https://www.npmjs.com/pac
 
 == Installation ==
 
-1. Upload the `cooper-bold-logo-soup` folder to `/wp-content/plugins/`, or install the ZIP from the WordPress plugin directory.
+1. Upload the `balanced-logos` folder to `/wp-content/plugins/`, or install the ZIP from the WordPress plugin directory.
 2. Activate the plugin through the **Plugins** screen in WordPress.
-3. Add the **Logo Soup** block in the block editor, or use the `[logo_soup]` shortcode.
+3. Add the **Balanced Logos** block in the block editor, or use the `[balanced_logos]` shortcode.
 
 == Frequently Asked Questions ==
 
 = Does this animate logos in a marquee? =
 
-No. Logo Soup normalizes logo sizing and alignment in a static strip.
+No. Balanced Logos normalizes logo sizing and alignment in a static strip.
 
 = Which shortcode should I use? =
 
-Both `[logo_soup]` and `[cooper-bold-logo-soup]` work. Pipe-delimited example:
+Both `[balanced_logos]` and the legacy `[logo_soup]` / `[cooper-bold-logo-soup]` tags work. Pipe-delimited example:
 
-`[logo_soup logos="/wp-content/uploads/acme.svg|Acme Corp" gap="28" base_size="48"]`
+`[balanced_logos logos="/wp-content/uploads/acme.svg|Acme Corp" gap="28" base_size="48"]`
 
 For many logos, use comma-separated chunks: `url|alt|link,url2|alt2`. Raw JSON cannot be used in shortcode attributes (WordPress treats `]` as the end of the tag); use the `base64:` prefix instead: `logos="base64:W3sidXJsIjoiLi4uIn1d"`.
 
 = Does this work with page builders? =
 
-Yes. Use the block in the block editor, or paste the shortcode into any shortcode-capable area (classic editor, widgets, builder HTML modules). For Bricks and similar builders, create a collection under **Logo Soup** in wp-admin, then paste the shortcode snippet from the collection list.
+Yes. Use the block in the block editor, or paste the shortcode into any shortcode-capable area (classic editor, widgets, builder HTML modules). For Bricks and similar builders, create a collection under **Balanced Logos** in wp-admin, then paste the shortcode snippet from the collection list.
 
 = How do Logo Collections work? =
 
-Go to **Logo Soup → Add New** in wp-admin. Name the collection, add logos from the Media Library, set normalization options, and publish. Use `[logo_soup collection="your-slug"]` or pick the collection in the block sidebar. Inline `logos` shortcodes still work for one-off strips.
+Go to **Balanced Logos → Add New** in wp-admin. Name the collection, add logos from the Media Library, set normalization options, and publish. Use `[balanced_logos collection="your-slug"]` or pick the collection in the block sidebar. Inline `logos` shortcodes still work for one-off strips.
 
 = How many logos can I add? =
 
@@ -63,9 +63,13 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 == Screenshots ==
 
 1. Block editor — select logos from the media library and tune normalization in the sidebar.
-2. Frontend — normalized logo strip after Logo Soup scales and aligns each brand mark.
+2. Frontend — normalized logo strip after Balanced Logos scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.2.14 =
+* Rename plugin to **Balanced Logos** — display name, folder slug (`balanced-logos`), text domain, block (`cooper-bold/balanced-logos`), shortcode (`[balanced_logos]`), CSS/data attributes, and PHP identifiers
+* Legacy support: `[logo_soup]`, `[cooper-bold-logo-soup]`, block `cooper-bold/logo-soup`, and collection meta keys `_cb_logo_soup_*`
 
 = 1.2.13 =
 * Plugin Check: sanitize collection editor POST arrays; prefix admin screen helper for PHPCS
@@ -79,12 +83,12 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Reduce hydration fail-open timeout from 4s to 1.5s (safety net when LogoSoup render is slow)
 
 = 1.2.10 =
-* Opt-in frontend debug logging for carousel hydration (`CB_LOGO_SOUP_DEBUG`, `?cb_logo_soup_debug=1`, or localStorage)
+* Opt-in frontend debug logging for carousel hydration (`CB_BALANCED_LOGOS_DEBUG`, `?cb_balanced_logos_debug=1`, or localStorage)
 
 = 1.2.9 =
 * Standalone Splide fallback when a theme autoscroll snippet is absent or fails to mount after hydration
 * Snippet deferral now requires the live footer autoscroll script, not only a global flag
-* Carousel shows hydrated slide images while Splide initializes (`cb-logo-soup-hydrating` visibility override)
+* Carousel shows hydrated slide images while Splide initializes (`cb-balanced-logos-hydrating` visibility override)
 * Accept LogoSoup blob: images in slide load checks; 4s fail-open completes hydration when image probes stall
 * Fix logo row lookup during carousel distribute (use LogoSoup root child, not `[class*="logo-soup"]` descendant search)
 
@@ -117,7 +121,7 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 
 = 1.2.1 =
 * Strip layout SSR placeholders mirror LogoSoup hydrated DOM (`div` > `span` > `img`) so Bricks builder preview matches frontend grid CSS without running view.js
-* Bricks CSS hint: target `.cb-logo-soup-inner > div > span` for strip layout
+* Bricks CSS hint: target `.cb-balanced-logos-inner > div > span` for strip layout
 
 = 1.2.0 =
 * Carousel layout mode — one normalized logo per Splide slide for nested sliders
@@ -127,7 +131,7 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 
 = 1.1.12 =
 * One-line help text under each collection and block setting explaining what it does
-* Stable BEM wrapper classes for frontend CSS: `.cb-logo-soup-wrapper` (outer) and `.cb-logo-soup-inner` (logo row / hydration mount)
+* Stable BEM wrapper classes for frontend CSS: `.cb-balanced-logos-wrapper` (outer) and `.cb-balanced-logos-inner` (logo row / hydration mount)
 
 = 1.1.11 =
 * Fix collection admin Live Preview — read density-aware and crop settings from the advanced settings table so preview matches frontend output
@@ -158,24 +162,24 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Fix duplicate **All Collections** entry in the wp-admin Logo Soup menu
 
 = 1.1.3 =
-* User-facing plugin name is now **Logo Soup** (folder slug, text domain, and block name unchanged)
+* User-facing plugin name is now **Balanced Logos** (folder slug, text domain, and block name unchanged)
 
 = 1.1.2 =
 * Simplified Logo Collections admin UI — sparse settings, single primary shortcode with discreet ID alternative, compact list-table copy
 
 = 1.1.1 =
-* Live Logo Soup preview in the collection admin editor (updates as logos and settings change)
+* Live Balanced Logos preview in the collection admin editor (updates as logos and settings change)
 * One-click **Copy** buttons for shortcodes on the collection edit screen and All Collections list
 
 = 1.1.0 =
 * Logo Collections admin UI (custom post type) with Media Library picker, reorder, alt text, and link URLs
-* Top-level **Logo Soup** admin menu with collection list and copy-paste shortcode snippets
+* Top-level **Balanced Logos** admin menu with collection list and copy-paste shortcode snippets
 * Block sidebar collection dropdown; shortcode `collection` and `id` attributes
 * PHPUnit coverage for collection resolution
 
 = 1.0.1 =
 * PHPUnit tests for renderer sanitization (logos, colors, densityFactor parity)
-* Jest tests for editor preview config (`sanitizePreviewConfig` / `toSoupProps`)
+* Jest tests for editor preview config (`sanitizePreviewConfig` / `toBalancedLogosProps`)
 
 = 1.0.0 =
 * Initial release with Gutenberg block and shortcodes
@@ -183,6 +187,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.2.14 =
+Display name only — no migration required.
 
 = 1.2.13 =
 Plugin Check compliance — no behavior change for collections or frontend output.
@@ -215,7 +222,7 @@ Adds a Cooper Bold wordmark in Logo Collections wp-admin and a credit link in th
 Removes the previous 50-logo limit — large collections now render in full.
 
 = 1.1.4 =
-Fixes a duplicate menu item under **Logo Soup** in wp-admin.
+Fixes a duplicate menu item under **Balanced Logos** in wp-admin.
 
 = 1.1.3 =
 Display name only — no migration required.

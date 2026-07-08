@@ -5,9 +5,9 @@
 import {
 	sanitizePreviewConfig,
 	sanitizeCssColor,
-	toSoupProps,
+	toBalancedLogosProps,
 	clamp,
-} from './to-soup-props';
+} from './to-balanced-logos-props';
 
 describe( 'sanitizeCssColor', () => {
 	it( 'accepts hex, named, and rgb colors', () => {
@@ -97,10 +97,10 @@ describe( 'sanitizePreviewConfig', () => {
 	} );
 } );
 
-describe( 'toSoupProps', () => {
+describe( 'toBalancedLogosProps', () => {
 	it( 'returns null when logos are missing', () => {
-		expect( toSoupProps( { logos: [] } ) ).toBeNull();
-		expect( toSoupProps( null ) ).toBeNull();
+		expect( toBalancedLogosProps( { logos: [] } ) ).toBeNull();
+		expect( toBalancedLogosProps( null ) ).toBeNull();
 	} );
 
 	it( 'maps logos and zeros densityFactor when densityAware is false', () => {
@@ -116,7 +116,7 @@ describe( 'toSoupProps', () => {
 			densityFactor: 0.8,
 		} );
 
-		const props = toSoupProps( config );
+		const props = toBalancedLogosProps( config );
 
 		expect( props ).not.toBeNull();
 		expect( props.logos ).toEqual( [
@@ -133,7 +133,7 @@ describe( 'toSoupProps', () => {
 			densityFactor: 0.25,
 		} );
 
-		const props = toSoupProps( config );
+		const props = toBalancedLogosProps( config );
 
 		expect( props.densityFactor ).toBe( 0.25 );
 	} );

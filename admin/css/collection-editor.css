@@ -1,11 +1,11 @@
-.cb-logo-soup-logo-list {
+.cb-balanced-logos-logo-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	max-width: 720px;
 }
 
-.cb-logo-soup-logo-item {
+.cb-balanced-logos-logo-item {
 	display: flex;
 	align-items: flex-start;
 	gap: 12px;
@@ -16,13 +16,13 @@
 	border-radius: 4px;
 }
 
-.cb-logo-soup-logo-handle {
+.cb-balanced-logos-logo-handle {
 	cursor: move;
 	margin-top: 28px;
 	color: #787c82;
 }
 
-.cb-logo-soup-logo-thumb {
+.cb-balanced-logos-logo-thumb {
 	width: 64px;
 	height: 64px;
 	object-fit: contain;
@@ -32,60 +32,60 @@
 	flex-shrink: 0;
 }
 
-.cb-logo-soup-logo-fields {
+.cb-balanced-logos-logo-fields {
 	flex: 1;
 	min-width: 0;
 }
 
-.cb-logo-soup-logo-fields label {
+.cb-balanced-logos-logo-fields label {
 	display: block;
 	margin-bottom: 8px;
 }
 
 /* Settings — sparse essentials, advanced behind disclosure */
-.cb-logo-soup-settings-table th {
+.cb-balanced-logos-settings-table th {
 	width: 120px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	font-weight: 400;
 }
 
-.cb-logo-soup-settings-essential {
+.cb-balanced-logos-settings-essential {
 	margin-bottom: 0;
 }
 
-.cb-logo-soup-advanced-settings {
+.cb-balanced-logos-advanced-settings {
 	margin-top: 12px;
 }
 
-.cb-logo-soup-advanced-settings > summary {
+.cb-balanced-logos-advanced-settings > summary {
 	cursor: pointer;
 	color: #2271b1;
 	font-size: 13px;
 	user-select: none;
 }
 
-.cb-logo-soup-advanced-settings > summary:hover {
+.cb-balanced-logos-advanced-settings > summary:hover {
 	color: #135e96;
 }
 
-.cb-logo-soup-advanced-settings[open] > summary {
+.cb-balanced-logos-advanced-settings[open] > summary {
 	margin-bottom: 8px;
 }
 
-.cb-logo-soup-settings-advanced th {
+.cb-balanced-logos-settings-advanced th {
 	font-weight: 400;
 }
 
 /* Preview — match frontend strip layout (see build/view.scss.css) */
-.cb-logo-soup-preview-wrap {
+.cb-balanced-logos-preview-wrap {
 	padding: 12px 0 0;
 	width: 100%;
 	max-width: none;
 	overflow-x: auto;
 }
 
-.cb-logo-soup-preview-inner.cb-logo-soup {
+.cb-balanced-logos-preview-inner.cb-balanced-logos {
 	display: flex;
 	flex-wrap: nowrap;
 	align-items: center;
@@ -95,25 +95,25 @@
 	min-width: 100%;
 }
 
-.cb-logo-soup-preview-inner.cb-logo-soup img {
+.cb-balanced-logos-preview-inner.cb-balanced-logos img {
 	max-width: 100%;
 	max-height: var(--cb-logo-size, 48px);
 	height: auto;
 	vertical-align: middle;
 }
 
-.cb-logo-soup-preview-inner.cb-logo-soup a {
+.cb-balanced-logos-preview-inner.cb-balanced-logos a {
 	display: inline-flex;
 	line-height: 0;
 }
 
-.cb-logo-soup-preview-empty {
+.cb-balanced-logos-preview-empty {
 	margin: 0;
 	color: #646970;
 	font-size: 13px;
 }
 
-.cb-logo-soup-preview-carousel .cb-logo-soup-preview-slides {
+.cb-balanced-logos-preview-carousel .cb-balanced-logos-preview-slides {
 	display: flex;
 	flex-wrap: nowrap;
 	gap: var(--cb-logo-gap, 28px);
@@ -123,7 +123,7 @@
 	overflow-x: auto;
 }
 
-.cb-logo-soup-preview-carousel .cb-logo-soup-slide {
+.cb-balanced-logos-preview-carousel .cb-balanced-logos-slide {
 	display: flex;
 	align-items: center;
 	flex: 0 0 auto;
@@ -131,46 +131,46 @@
 }
 
 /* Shortcode copy row */
-.cb-logo-soup-shortcode-panel {
+.cb-balanced-logos-shortcode-panel {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 }
 
-.cb-logo-soup-shortcode-advanced > summary {
+.cb-balanced-logos-shortcode-advanced > summary {
 	cursor: pointer;
 	color: #646970;
 	font-size: 12px;
 	user-select: none;
 }
 
-.cb-logo-soup-shortcode-advanced > summary:hover {
+.cb-balanced-logos-shortcode-advanced > summary:hover {
 	color: #2271b1;
 }
 
-.cb-logo-soup-shortcode-advanced[open] {
+.cb-balanced-logos-shortcode-advanced[open] {
 	margin-top: 4px;
 }
 
-.cb-logo-soup-shortcode-advanced[open] > summary {
+.cb-balanced-logos-shortcode-advanced[open] > summary {
 	margin-bottom: 6px;
 }
 
-.cb-logo-soup-shortcode-row {
+.cb-balanced-logos-shortcode-row {
 	display: flex;
 	align-items: center;
 	gap: 4px;
 	max-width: 100%;
 }
 
-.cb-logo-soup-shortcode-row .cb-logo-soup-shortcode-input {
+.cb-balanced-logos-shortcode-row .cb-balanced-logos-shortcode-input {
 	flex: 1;
 	min-width: 0;
 	font-size: 12px;
 	padding: 4px 8px;
 }
 
-.cb-logo-soup-shortcode-row .cb-logo-soup-copy-shortcode {
+.cb-balanced-logos-shortcode-row .cb-balanced-logos-copy-shortcode {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -180,20 +180,20 @@
 	padding: 0 6px;
 }
 
-.cb-logo-soup-shortcode-row .cb-logo-soup-copy-shortcode .dashicons {
+.cb-balanced-logos-shortcode-row .cb-balanced-logos-copy-shortcode .dashicons {
 	font-size: 16px;
 	width: 16px;
 	height: 16px;
 	line-height: 1;
 }
 
-.cb-logo-soup-shortcode-row .cb-logo-soup-copy-shortcode.is-copied .dashicons-clipboard::before {
+.cb-balanced-logos-shortcode-row .cb-balanced-logos-copy-shortcode.is-copied .dashicons-clipboard::before {
 	content: "\f147";
 	color: #00a32a;
 }
 
 /* List table — compact shortcode column */
-.cb-logo-soup-shortcode-row--compact .cb-logo-soup-shortcode-display {
+.cb-balanced-logos-shortcode-row--compact .cb-balanced-logos-shortcode-display {
 	flex: 1;
 	min-width: 0;
 	overflow: hidden;
@@ -205,6 +205,6 @@
 	padding: 0;
 }
 
-.column-cb_shortcode .cb-logo-soup-shortcode-row--compact {
+.column-cb_shortcode .cb-balanced-logos-shortcode-row--compact {
 	max-width: 220px;
 }

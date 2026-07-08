@@ -8,6 +8,12 @@ Vendored for standalone carousel layout (`wrapper="full"`) when the active theme
 | `js/splide.min.js` | [@splidejs/splide](https://www.npmjs.com/package/@splidejs/splide) | 4.1.4 | MIT |
 | `js/splide-extension-auto-scroll.min.js` | [@splidejs/splide-extension-auto-scroll](https://www.npmjs.com/package/@splidejs/splide-extension-auto-scroll) | 0.5.3 | MIT |
 
+> Note on `splide-extension-auto-scroll@0.5.3`: this is the latest published
+> release on npm. The upstream repo's last commit was 2022-09-06 — the
+> project is effectively unmaintained but still on the registry. WordPress.org's
+> "out of date libraries" check is comparing against a development branch that
+> has no new tagged release. Bump only when npm publishes a new version.
+
 Refresh from npm devDependencies:
 
 ```bash

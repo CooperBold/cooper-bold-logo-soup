@@ -22,21 +22,21 @@ import {
 	sanitizeLink,
 	sanitizePreviewConfig,
 	stripPlainText,
-	toSoupProps,
-} from '../shared/to-soup-props';
+	toBalancedLogosProps,
+} from '../shared/to-balanced-logos-props';
 
 const ALIGN_OPTIONS = [
-	{ label: __( 'Bounds', 'cooper-bold-logo-soup' ), value: 'bounds' },
+	{ label: __( 'Bounds', 'balanced-logos' ), value: 'bounds' },
 	{
-		label: __( 'Visual center', 'cooper-bold-logo-soup' ),
+		label: __( 'Visual center', 'balanced-logos' ),
 		value: 'visual-center',
 	},
 	{
-		label: __( 'Visual center (X)', 'cooper-bold-logo-soup' ),
+		label: __( 'Visual center (X)', 'balanced-logos' ),
 		value: 'visual-center-x',
 	},
 	{
-		label: __( 'Visual center (Y)', 'cooper-bold-logo-soup' ),
+		label: __( 'Visual center (Y)', 'balanced-logos' ),
 		value: 'visual-center-y',
 	},
 ];
@@ -56,17 +56,17 @@ const SETTING_KEYS = [
 ];
 
 const LAYOUT_OPTIONS = [
-	{ label: __( 'Strip', 'cooper-bold-logo-soup' ), value: 'strip' },
-	{ label: __( 'Carousel', 'cooper-bold-logo-soup' ), value: 'carousel' },
+	{ label: __( 'Strip', 'balanced-logos' ), value: 'strip' },
+	{ label: __( 'Carousel', 'balanced-logos' ), value: 'carousel' },
 ];
 
 const WRAPPER_OPTIONS = [
 	{
-		label: __( 'Full Splide carousel', 'cooper-bold-logo-soup' ),
+		label: __( 'Full Splide carousel', 'balanced-logos' ),
 		value: 'full',
 	},
 	{
-		label: __( 'Slides only (Bricks nested)', 'cooper-bold-logo-soup' ),
+		label: __( 'Slides only (Bricks nested)', 'balanced-logos' ),
 		value: 'slides',
 	},
 ];
@@ -85,13 +85,13 @@ function pickCollectionSettings( collection ) {
 
 export default function Edit( { attributes, setAttributes } ) {
 	const { logos, collectionId, layout, wrapper } = attributes;
-	const blockProps = useBlockProps( { className: 'cb-logo-soup-editor' } );
+	const blockProps = useBlockProps( { className: 'cb-balanced-logos-editor' } );
 	const [ collections, setCollections ] = useState( [] );
 	const [ loadingCollections, setLoadingCollections ] = useState( true );
 
 	useEffect( () => {
 		let mounted = true;
-		apiFetch( { path: '/cb-logo-soup/v1/collections' } )
+		apiFetch( { path: '/cb-balanced-logos/v1/collections' } )
 			.then( ( items ) => {
 				if ( mounted ) {
 					setCollections( Array.isArray( items ) ? items : [] );
@@ -137,7 +137,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const collectionOptions = [
 		{
-			label: __( 'Manual logos', 'cooper-bold-logo-soup' ),
+			label: __( 'Manual logos', 'balanced-logos' ),
 			value: '0',
 		},
 		...collections.map( ( item ) => ( {
@@ -202,7 +202,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Collection', 'cooper-bold-logo-soup' ) }
+					title={ __( 'Collection', 'balanced-logos' ) }
 					initialOpen={ true }
 				>
 					{ loadingCollections ? (
@@ -211,7 +211,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						<SelectControl
 							label={ __(
 								'Use collection',
-								'cooper-bold-logo-soup'
+								'balanced-logos'
 							) }
 							value={ String( collectionId || 0 ) }
 							options={ collectionOptions }
@@ -219,12 +219,12 @@ export default function Edit( { attributes, setAttributes } ) {
 							help={
 								collections.length === 0
 									? __(
-											'Create collections under Logo Soup in the admin menu.',
-											'cooper-bold-logo-soup'
+											'Create collections under Balanced Logos in the admin menu.',
+											'balanced-logos'
 									  )
 									: __(
 											'Choose a saved collection or add logos manually.',
-											'cooper-bold-logo-soup'
+											'balanced-logos'
 									  )
 							}
 						/>
@@ -236,7 +236,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							>
 								{ __(
 									'Edit this collection',
-									'cooper-bold-logo-soup'
+									'balanced-logos'
 								) }
 							</ExternalLink>
 						</p>
@@ -244,7 +244,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 				{ ! usingCollection && (
 					<PanelBody
-						title={ __( 'Logos', 'cooper-bold-logo-soup' ) }
+						title={ __( 'Logos', 'balanced-logos' ) }
 						initialOpen={ true }
 					>
 						<MediaUploadCheck>
@@ -259,11 +259,11 @@ export default function Edit( { attributes, setAttributes } ) {
 										{ logos.length
 											? __(
 													'Edit logos',
-													'cooper-bold-logo-soup'
+													'balanced-logos'
 											  )
 											: __(
 													'Add logos',
-													'cooper-bold-logo-soup'
+													'balanced-logos'
 											  ) }
 									</Button>
 								) }
@@ -274,7 +274,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<TextControl
 									label={ __(
 										'Alt text',
-										'cooper-bold-logo-soup'
+										'balanced-logos'
 									) }
 									value={ logo.alt }
 									onChange={ ( value ) =>
@@ -284,7 +284,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<TextControl
 									label={ __(
 										'Link URL',
-										'cooper-bold-logo-soup'
+										'balanced-logos'
 									) }
 									value={ logo.link || '' }
 									onChange={ ( value ) =>
@@ -296,29 +296,29 @@ export default function Edit( { attributes, setAttributes } ) {
 									variant="link"
 									onClick={ () => removeLogo( index ) }
 								>
-									{ __( 'Remove', 'cooper-bold-logo-soup' ) }
+									{ __( 'Remove', 'balanced-logos' ) }
 								</Button>
 							</div>
 						) ) }
 					</PanelBody>
 				) }
 				<PanelBody
-					title={ __( 'Normalization', 'cooper-bold-logo-soup' ) }
+					title={ __( 'Normalization', 'balanced-logos' ) }
 					initialOpen={ false }
 				>
 					{ usingCollection && (
 						<p className="description">
 							{ __(
 								'Settings come from the selected collection. Edit the collection to change them.',
-								'cooper-bold-logo-soup'
+								'balanced-logos'
 							) }
 						</p>
 					) }
 					<RangeControl
-						label={ __( 'Base size', 'cooper-bold-logo-soup' ) }
+						label={ __( 'Base size', 'balanced-logos' ) }
 						help={ __(
 							'Base height for each logo before normalization.',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={ previewAttributes.baseSize }
 						onChange={ ( value ) =>
@@ -330,10 +330,10 @@ export default function Edit( { attributes, setAttributes } ) {
 						disabled={ usingCollection }
 					/>
 					<RangeControl
-						label={ __( 'Scale factor', 'cooper-bold-logo-soup' ) }
+						label={ __( 'Scale factor', 'balanced-logos' ) }
 						help={ __(
 							'How much smaller logos can be relative to the largest mark (0–1).',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={ previewAttributes.scaleFactor }
 						onChange={ ( value ) =>
@@ -347,11 +347,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					<RangeControl
 						label={ __(
 							'Contrast threshold',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						help={ __(
 							'Minimum contrast used when detecting logo edges (0–255).',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={ previewAttributes.contrastThreshold }
 						onChange={ ( value ) =>
@@ -363,10 +363,10 @@ export default function Edit( { attributes, setAttributes } ) {
 						disabled={ usingCollection }
 					/>
 					<ToggleControl
-						label={ __( 'Density aware', 'cooper-bold-logo-soup' ) }
+						label={ __( 'Density aware', 'balanced-logos' ) }
 						help={ __(
 							'Scale logos based on how visually dense each mark appears.',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						checked={ previewAttributes.densityAware }
 						onChange={ ( value ) =>
@@ -377,11 +377,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					<RangeControl
 						label={ __(
 							'Density factor',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						help={ __(
 							'Strength of density-based scaling when density aware is on (0–1).',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={ previewAttributes.densityFactor }
 						onChange={ ( value ) =>
@@ -397,11 +397,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					<ToggleControl
 						label={ __(
 							'Crop to content',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						help={ __(
 							'Trim transparent padding around each logo before sizing.',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						checked={ previewAttributes.cropToContent }
 						onChange={ ( value ) =>
@@ -412,11 +412,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					<TextControl
 						label={ __(
 							'Background color',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						help={ __(
 							'Strip background color (helps contrast detection for light logos).',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={ previewAttributes.backgroundColor }
 						onChange={ ( value ) =>
@@ -426,14 +426,14 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 				<PanelBody
-					title={ __( 'Layout', 'cooper-bold-logo-soup' ) }
+					title={ __( 'Layout', 'balanced-logos' ) }
 					initialOpen={ false }
 				>
 					<SelectControl
-						label={ __( 'Display layout', 'cooper-bold-logo-soup' ) }
+						label={ __( 'Display layout', 'balanced-logos' ) }
 						help={ __(
 							'Carousel outputs one Splide slide per normalized logo. Use slides-only mode inside Bricks nested sliders.',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={
 							layout ||
@@ -451,11 +451,11 @@ export default function Edit( { attributes, setAttributes } ) {
 						<SelectControl
 							label={ __(
 								'Carousel wrapper',
-								'cooper-bold-logo-soup'
+								'balanced-logos'
 							) }
 							help={ __(
 								'Slides only nests inside an existing Splide list. Full outputs a standalone carousel.',
-								'cooper-bold-logo-soup'
+								'balanced-logos'
 							) }
 							value={
 								wrapper ||
@@ -469,10 +469,10 @@ export default function Edit( { attributes, setAttributes } ) {
 						/>
 					) }
 					<SelectControl
-						label={ __( 'Align by', 'cooper-bold-logo-soup' ) }
+						label={ __( 'Align by', 'balanced-logos' ) }
 						help={ __(
 							'How logos are vertically aligned in the strip.',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={ previewAttributes.alignBy }
 						options={ ALIGN_OPTIONS }
@@ -482,10 +482,10 @@ export default function Edit( { attributes, setAttributes } ) {
 						disabled={ usingCollection }
 					/>
 					<RangeControl
-						label={ __( 'Gap', 'cooper-bold-logo-soup' ) }
+						label={ __( 'Gap', 'balanced-logos' ) }
 						help={ __(
 							'Space between logos in pixels.',
-							'cooper-bold-logo-soup'
+							'balanced-logos'
 						) }
 						value={ previewAttributes.gap }
 						onChange={ ( value ) =>
@@ -497,7 +497,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						disabled={ usingCollection }
 					/>
 				</PanelBody>
-				<p className="cb-logo-soup-editor-credit">
+				<p className="cb-balanced-logos-editor-credit">
 					<ExternalLink href="https://cooperbold.com">
 						CooperBold
 					</ExternalLink>
@@ -509,16 +509,16 @@ export default function Edit( { attributes, setAttributes } ) {
 						{ usingCollection
 							? __(
 									'Selected collection has no logos yet.',
-									'cooper-bold-logo-soup'
+									'balanced-logos'
 							  )
 							: __(
 									'Add at least one logo or choose a collection.',
-									'cooper-bold-logo-soup'
+									'balanced-logos'
 							  ) }
 					</p>
 				) : (
 					<LogoSoup
-						{ ...toSoupProps(
+						{ ...toBalancedLogosProps(
 							sanitizePreviewConfig( previewAttributes )
 						) }
 					/>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Unit tests for CB_Logo_Soup_Renderer sanitization.
+ * Unit tests for CB_Balanced_Logos_Renderer sanitization.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -10,16 +10,16 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers CB_Logo_Soup_Renderer
+ * @covers CB_Balanced_Logos_Renderer
  */
-final class CB_Logo_Soup_Renderer_Test extends TestCase {
+final class CB_Balanced_Logos_Renderer_Test extends TestCase {
 
-	/** @var CB_Logo_Soup_Renderer */
+	/** @var CB_Balanced_Logos_Renderer */
 	private $renderer;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->renderer = new CB_Logo_Soup_Renderer();
+		$this->renderer = new CB_Balanced_Logos_Renderer();
 	}
 
 	public function test_sanitize_logos_accepts_valid_https_urls(): void {
@@ -216,11 +216,11 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'cb-logo-soup-wrapper', $html );
-		$this->assertStringContainsString( 'cb-logo-soup-inner', $html );
-		$this->assertStringContainsString( 'data-cb-logo-soup="', $html );
+		$this->assertStringContainsString( 'cb-balanced-logos-wrapper', $html );
+		$this->assertStringContainsString( 'cb-balanced-logos-inner', $html );
+		$this->assertStringContainsString( 'data-cb-balanced-logos="', $html );
 		$this->assertMatchesRegularExpression(
-			'/<div[^>]*cb-logo-soup-wrapper[^>]*><div[^>]*cb-logo-soup-inner[^>]*data-cb-logo-soup=/',
+			'/<div[^>]*cb-balanced-logos-wrapper[^>]*><div[^>]*cb-balanced-logos-inner[^>]*data-cb-balanced-logos=/',
 			$html
 		);
 	}
@@ -239,7 +239,7 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 		);
 
 		$this->assertMatchesRegularExpression(
-			'/<div[^>]*cb-logo-soup-inner[^>]*>[\s\S]*<div[^>]*text-align:center[^>]*>[\s\S]*<span[^>]*padding:16px[^>]*>[\s\S]*<img[^>]*alt="Alpha"/',
+			'/<div[^>]*cb-balanced-logos-inner[^>]*>[\s\S]*<div[^>]*text-align:center[^>]*>[\s\S]*<span[^>]*padding:16px[^>]*>[\s\S]*<img[^>]*alt="Alpha"/',
 			$html
 		);
 
@@ -278,10 +278,10 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'cb-logo-soup-carousel', $html );
+		$this->assertStringContainsString( 'cb-balanced-logos-carousel', $html );
 		$this->assertStringContainsString( 'splide__slide', $html );
 		$this->assertStringContainsString( 'logo-slider-slide', $html );
-		$this->assertStringContainsString( 'data-cb-logo-soup-ref=', $html );
+		$this->assertStringContainsString( 'data-cb-balanced-logos-ref=', $html );
 		$this->assertStringContainsString( 'splide__track', $html );
 		$this->assertStringContainsString( 'splide__list', $html );
 	}
@@ -300,7 +300,7 @@ final class CB_Logo_Soup_Renderer_Test extends TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'cb-logo-soup-carousel-host', $html );
+		$this->assertStringContainsString( 'cb-balanced-logos-carousel-host', $html );
 		$this->assertStringContainsString( 'splide__slide', $html );
 		$this->assertStringNotContainsString( 'splide__track', $html );
 	}

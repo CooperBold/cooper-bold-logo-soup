@@ -1,8 +1,8 @@
 <?php
 /**
- * Minimal WordPress stubs for CB_Logo_Soup_Renderer unit tests.
+ * Minimal WordPress stubs for CB_Balanced_Logos_Renderer unit tests.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -11,12 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
-if ( ! defined( 'CB_LOGO_SOUP_PATH' ) ) {
-	define( 'CB_LOGO_SOUP_PATH', dirname( __DIR__ ) . '/' );
+if ( ! defined( 'CB_BALANCED_LOGOS_PATH' ) ) {
+	define( 'CB_BALANCED_LOGOS_PATH', dirname( __DIR__ ) . '/' );
 }
 
-if ( ! defined( 'CB_LOGO_SOUP_URL' ) ) {
-	define( 'CB_LOGO_SOUP_URL', 'https://example.com/wp-content/plugins/cooper-bold-logo-soup/' );
+if ( ! defined( 'CB_BALANCED_LOGOS_URL' ) ) {
+	define( 'CB_BALANCED_LOGOS_URL', 'https://example.com/wp-content/plugins/balanced-logos/' );
 }
 
 if ( ! function_exists( 'get_current_screen' ) ) {
@@ -402,7 +402,7 @@ if ( ! function_exists( 'map_deep' ) ) {
 	}
 }
 
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-assets.php';
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-admin-branding.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-assets.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-renderer.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-collections.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-admin-branding.php';

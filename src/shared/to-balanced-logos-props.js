@@ -1,5 +1,5 @@
 /**
- * Shared Logo Soup adapter — mirrors PHP attribute sanitization for JS previews.
+ * Shared Balanced Logos adapter — mirrors PHP attribute sanitization for JS previews.
  */
 
 const ALIGN_BY_VALUES = [
@@ -110,7 +110,7 @@ export function sanitizeLink( link ) {
  * Mirror PHP sanitize_attributes for editor preview.
  *
  * @param {Object} attributes Block attributes.
- * @return {Object} Sanitized config shaped like data-cb-logo-soup JSON.
+ * @return {Object} Sanitized config shaped like data-cb-balanced-logos JSON.
  */
 export function sanitizePreviewConfig( attributes ) {
 	const logosIn = Array.isArray( attributes.logos ) ? attributes.logos : [];
@@ -173,7 +173,7 @@ export function sanitizePreviewConfig( attributes ) {
  * @param {Object} config Sanitized config from PHP or sanitizePreviewConfig.
  * @return {Object|null} LogoSoup props or null when logos are missing.
  */
-export function toSoupProps( config ) {
+export function toBalancedLogosProps( config ) {
 	if ( ! config?.logos?.length ) {
 		return null;
 	}
@@ -213,7 +213,7 @@ export function toSoupProps( config ) {
 					decoding="async"
 					onError={ ( event ) => {
 						// eslint-disable-next-line no-console -- surface broken logo URLs during development.
-						console.warn( 'Logo Soup: failed to load image', src );
+						console.warn( 'Balanced Logos: failed to load image', src );
 						event.currentTarget.remove();
 					} }
 				/>

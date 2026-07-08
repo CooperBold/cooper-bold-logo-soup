@@ -2,7 +2,7 @@
 /**
  * Unit tests for logo collection resolution.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -10,17 +10,17 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers CB_Logo_Soup_Collections
- * @covers CB_Logo_Soup_Renderer::resolve_attributes
+ * @covers CB_Balanced_Logos_Collections
+ * @covers CB_Balanced_Logos_Renderer::resolve_attributes
  */
-final class CB_Logo_Soup_Collections_Test extends TestCase {
+final class CB_Balanced_Logos_Collections_Test extends TestCase {
 
-	/** @var CB_Logo_Soup_Renderer */
+	/** @var CB_Balanced_Logos_Renderer */
 	private $renderer;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->renderer = new CB_Logo_Soup_Renderer();
+		$this->renderer = new CB_Balanced_Logos_Renderer();
 		$GLOBALS['cb_test_posts']         = array();
 		$GLOBALS['cb_test_post_meta']     = array();
 		$GLOBALS['cb_test_posts_by_slug'] = array();
@@ -36,20 +36,20 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 			42,
 			'homepage-partners',
 			array(
-				CB_Logo_Soup_Collections::META_LOGOS => array(
+				CB_Balanced_Logos_Collections::META_LOGOS => array(
 					array(
 						'url' => 'https://example.com/logo.png',
 						'alt' => 'Partner',
 					),
 				),
-				CB_Logo_Soup_Collections::META_SETTINGS => array(
+				CB_Balanced_Logos_Collections::META_SETTINGS => array(
 					'baseSize' => 40,
 					'gap'      => 32,
 				),
 			)
 		);
 
-		$attrs = CB_Logo_Soup_Collections::build_attributes_from_post( $post );
+		$attrs = CB_Balanced_Logos_Collections::build_attributes_from_post( $post );
 
 		$this->assertNotNull( $attrs );
 		$this->assertSame( 42, $attrs['collectionId'] );
@@ -63,26 +63,26 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 			7,
 			'enterprise-logos',
 			array(
-				CB_Logo_Soup_Collections::META_LOGOS => array(
+				CB_Balanced_Logos_Collections::META_LOGOS => array(
 					array( 'url' => 'https://example.com/a.svg', 'alt' => 'A' ),
 				),
 			)
 		);
 		$GLOBALS['cb_test_posts'][7] = $post;
 
-		$by_id = CB_Logo_Soup_Collections::get_attributes( 7 );
+		$by_id = CB_Balanced_Logos_Collections::get_attributes( 7 );
 		$this->assertNotNull( $by_id );
 		$this->assertSame( 'A', $by_id['logos'][0]['alt'] );
 
 		$GLOBALS['cb_test_posts_by_slug']['enterprise-logos'] = $post;
-		$by_slug = CB_Logo_Soup_Collections::get_attributes( 'enterprise-logos' );
+		$by_slug = CB_Balanced_Logos_Collections::get_attributes( 'enterprise-logos' );
 		$this->assertNotNull( $by_slug );
 		$this->assertSame( 'https://example.com/a.svg', $by_slug['logos'][0]['url'] );
 	}
 
 	public function test_get_attributes_returns_null_for_missing_collection(): void {
-		$this->assertNull( CB_Logo_Soup_Collections::get_attributes( 999 ) );
-		$this->assertNull( CB_Logo_Soup_Collections::get_attributes( 'missing-slug' ) );
+		$this->assertNull( CB_Balanced_Logos_Collections::get_attributes( 999 ) );
+		$this->assertNull( CB_Balanced_Logos_Collections::get_attributes( 'missing-slug' ) );
 	}
 
 	public function test_resolve_attributes_uses_collection_logos_and_overrides_gap(): void {
@@ -90,10 +90,10 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 			3,
 			'partners',
 			array(
-				CB_Logo_Soup_Collections::META_LOGOS => array(
+				CB_Balanced_Logos_Collections::META_LOGOS => array(
 					array( 'url' => 'https://example.com/logo.png', 'alt' => 'Logo' ),
 				),
-				CB_Logo_Soup_Collections::META_SETTINGS => array(
+				CB_Balanced_Logos_Collections::META_SETTINGS => array(
 					'gap' => 28,
 				),
 			)
@@ -119,7 +119,7 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 			5,
 			'homepage-partners',
 			array(
-				CB_Logo_Soup_Collections::META_LOGOS => array(
+				CB_Balanced_Logos_Collections::META_LOGOS => array(
 					array( 'url' => 'https://example.com/p.png', 'alt' => 'P' ),
 				),
 			)
@@ -137,13 +137,13 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 	public function test_get_shortcode_snippet_prefers_slug(): void {
 		$post = $this->make_post( 11, 'homepage-partners', array() );
 		$this->assertSame(
-			'[logo_soup collection="homepage-partners"]',
-			CB_Logo_Soup_Collections::get_shortcode_snippet( $post )
+			'[balanced_logos collection="homepage-partners"]',
+			CB_Balanced_Logos_Collections::get_shortcode_snippet( $post )
 		);
 	}
 
 	public function test_sanitize_settings_clamps_values(): void {
-		$settings = CB_Logo_Soup_Collections::sanitize_settings(
+		$settings = CB_Balanced_Logos_Collections::sanitize_settings(
 			array(
 				'baseSize'    => 999,
 				'scaleFactor' => -1,
@@ -157,7 +157,7 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 	}
 
 	public function test_preview_meta_box_outputs_mount_root(): void {
-		$reflection = new ReflectionClass( CB_Logo_Soup_Collections::class );
+		$reflection = new ReflectionClass( CB_Balanced_Logos_Collections::class );
 		$method     = $reflection->getMethod( 'render_preview_meta_box' );
 		$instance   = $reflection->newInstanceWithoutConstructor();
 		$post       = $this->make_post( 1, 'preview-test', array() );
@@ -166,8 +166,8 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 		$method->invoke( $instance, $post );
 		$html = ob_get_clean();
 
-		$this->assertStringContainsString( 'id="cb-logo-soup-preview-root"', $html );
-		$this->assertStringContainsString( 'cb-logo-soup-preview-wrap', $html );
+		$this->assertStringContainsString( 'id="cb-balanced-logos-preview-root"', $html );
+		$this->assertStringContainsString( 'cb-balanced-logos-preview-wrap', $html );
 	}
 
 	/**
@@ -179,7 +179,7 @@ final class CB_Logo_Soup_Collections_Test extends TestCase {
 		$post = new WP_Post(
 			(object) array(
 				'ID'          => $id,
-				'post_type'   => CB_Logo_Soup_Collections::POST_TYPE,
+				'post_type'   => CB_Balanced_Logos_Collections::POST_TYPE,
 				'post_status' => 'publish',
 				'post_title'  => 'Test Collection',
 				'post_name'   => $slug,

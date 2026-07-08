@@ -2,29 +2,29 @@
 declare(strict_types=1);
 
 /**
- * Plugin Name:       Logo Soup by Cooper Bold
+ * Plugin Name:       Balanced Logos
  * Plugin URI:        https://github.com/CooperBold/cooper-bold-logo-soup
- * Description:       Display client and partner logos in a balanced strip using Sanity Labs Logo Soup normalization.
- * Version:           1.2.13
+ * Description:       Display client and partner logos in a balanced strip. Normalization powered by the open-source Sanity Labs logo-soup library.
+ * Version:           1.2.15
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            Cooper Bold
  * Author URI:        https://cooperbold.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       cooper-bold-logo-soup
+ * Text Domain:       balanced-logos
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CB_LOGO_SOUP_VERSION', '1.2.13' );
-define( 'CB_LOGO_SOUP_FILE', __FILE__ );
-define( 'CB_LOGO_SOUP_PATH', plugin_dir_path( __FILE__ ) );
-define( 'CB_LOGO_SOUP_URL', plugin_dir_url( __FILE__ ) );
+define( 'CB_BALANCED_LOGOS_VERSION', '1.2.15' );
+define( 'CB_BALANCED_LOGOS_FILE', __FILE__ );
+define( 'CB_BALANCED_LOGOS_PATH', plugin_dir_path( __FILE__ ) );
+define( 'CB_BALANCED_LOGOS_URL', plugin_dir_url( __FILE__ ) );
 
 if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	/**
@@ -32,67 +32,67 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	 *
 	 * @return void
 	 */
-	function cb_logo_soup_php_version_notice(): void {
+	function cb_balanced_logos_php_version_notice(): void {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
 		echo '<div class="notice notice-error"><p>';
 		echo esc_html__(
-			'Logo Soup by Cooper Bold requires PHP 7.4 or newer.',
-			'cooper-bold-logo-soup'
+			'Balanced Logos requires PHP 7.4 or newer.',
+			'balanced-logos'
 		);
 		echo '</p></div>';
 	}
-	add_action( 'admin_notices', 'cb_logo_soup_php_version_notice' );
+	add_action( 'admin_notices', 'cb_balanced_logos_php_version_notice' );
 
 	/**
 	 * Refuse activation on PHP below 7.4.
 	 *
 	 * @return void
 	 */
-	function cb_logo_soup_activate_legacy(): void {
-		deactivate_plugins( plugin_basename( CB_LOGO_SOUP_FILE ) );
+	function cb_balanced_logos_activate_legacy(): void {
+		deactivate_plugins( plugin_basename( CB_BALANCED_LOGOS_FILE ) );
 		wp_die(
 			esc_html__(
-				'Logo Soup by Cooper Bold requires PHP 7.4 or newer.',
-				'cooper-bold-logo-soup'
+				'Balanced Logos requires PHP 7.4 or newer.',
+				'balanced-logos'
 			),
-			esc_html__( 'Plugin activation failed', 'cooper-bold-logo-soup' ),
+			esc_html__( 'Plugin activation failed', 'balanced-logos' ),
 			array( 'back_link' => true )
 		);
 	}
-	register_activation_hook( CB_LOGO_SOUP_FILE, 'cb_logo_soup_activate_legacy' );
+	register_activation_hook( CB_BALANCED_LOGOS_FILE, 'cb_balanced_logos_activate_legacy' );
 	return;
 }
 
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos.php';
 
 /**
  * Bootstrap the plugin singleton.
  *
  * @return void
  */
-function cb_logo_soup_init(): void {
-	CB_Logo_Soup::instance();
+function cb_balanced_logos_init(): void {
+	CB_Balanced_Logos::instance();
 }
-add_action( 'plugins_loaded', 'cb_logo_soup_init' );
+add_action( 'plugins_loaded', 'cb_balanced_logos_init' );
 
 /**
  * Refuse activation on PHP below 7.4.
  *
  * @return void
  */
-function cb_logo_soup_activate(): void {
+function cb_balanced_logos_activate(): void {
 	if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
-		deactivate_plugins( plugin_basename( CB_LOGO_SOUP_FILE ) );
+		deactivate_plugins( plugin_basename( CB_BALANCED_LOGOS_FILE ) );
 		wp_die(
 			esc_html__(
-				'Logo Soup by Cooper Bold requires PHP 7.4 or newer.',
-				'cooper-bold-logo-soup'
+				'Balanced Logos requires PHP 7.4 or newer.',
+				'balanced-logos'
 			),
-			esc_html__( 'Plugin activation failed', 'cooper-bold-logo-soup' ),
+			esc_html__( 'Plugin activation failed', 'balanced-logos' ),
 			array( 'back_link' => true )
 		);
 	}
 }
-register_activation_hook( CB_LOGO_SOUP_FILE, 'cb_logo_soup_activate' );
+register_activation_hook( CB_BALANCED_LOGOS_FILE, 'cb_balanced_logos_activate' );

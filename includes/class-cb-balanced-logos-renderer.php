@@ -2,7 +2,7 @@
 /**
  * Shared markup renderer for block and shortcode.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Renders logo soup containers and normalizes attributes.
  */
-final class CB_Logo_Soup_Renderer {
+final class CB_Balanced_Logos_Renderer {
 
 	/** @var int Carousel group id sequence for unique data attributes per render. */
 	private static int $carousel_seq = 0;
@@ -142,9 +142,9 @@ final class CB_Logo_Soup_Renderer {
 
 		$from_collection = null;
 		if ( $collection_id > 0 ) {
-			$from_collection = CB_Logo_Soup_Collections::get_attributes( $collection_id );
+			$from_collection = CB_Balanced_Logos_Collections::get_attributes( $collection_id );
 		} elseif ( '' !== $collection_slug ) {
-			$from_collection = CB_Logo_Soup_Collections::get_attributes( $collection_slug );
+			$from_collection = CB_Balanced_Logos_Collections::get_attributes( $collection_slug );
 		}
 
 		if ( null === $from_collection ) {
@@ -224,7 +224,7 @@ final class CB_Logo_Soup_Renderer {
 	 * @return string
 	 */
 	private function render_strip( array $attrs, string $wrapper_attributes = '' ): string {
-		CB_Logo_Soup_Assets::enqueue_frontend();
+		CB_Balanced_Logos_Assets::enqueue_frontend();
 
 		$config = array(
 			'logos'             => $attrs['logos'],
@@ -254,7 +254,7 @@ final class CB_Logo_Soup_Renderer {
 		$aria = count( $attrs['logos'] ) > 1
 			? sprintf(
 				/* translators: %s: comma-separated logo alt text for aria-label. */
-				__( 'Logos: %s', 'cooper-bold-logo-soup' ),
+				__( 'Logos: %s', 'balanced-logos' ),
 				implode( ', ', wp_list_pluck( $attrs['logos'], 'alt' ) )
 			)
 			: '';
@@ -262,14 +262,14 @@ final class CB_Logo_Soup_Renderer {
 		$imgs = $this->render_strip_placeholder_logos( $attrs['logos'], $attrs['gap'] );
 
 		$inner_attributes = sprintf(
-			'class="cb-logo-soup cb-logo-soup-inner" data-cb-logo-soup="%s" style="%s"%s',
+			'class="cb-balanced-logos cb-balanced-logos-inner" data-cb-balanced-logos="%s" style="%s"%s',
 			esc_attr( $json ),
 			esc_attr( $style ),
 			$aria ? ' aria-label="' . esc_attr( $aria ) . '"' : ''
 		);
 
 		if ( '' === $wrapper_attributes ) {
-			$classes = array( 'cb-logo-soup', 'cb-logo-soup-wrapper' );
+			$classes = array( 'cb-balanced-logos', 'cb-balanced-logos-wrapper' );
 			foreach ( preg_split( '/\s+/', $attrs['className'] ) ?: array() as $part ) {
 				$class = sanitize_html_class( $part );
 				if ( '' !== $class ) {
@@ -281,7 +281,7 @@ final class CB_Logo_Soup_Renderer {
 				esc_attr( implode( ' ', array_unique( $classes ) ) )
 			);
 		} else {
-			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-logo-soup-wrapper' );
+			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-balanced-logos-wrapper' );
 		}
 
 		return sprintf(
@@ -296,7 +296,7 @@ final class CB_Logo_Soup_Renderer {
 	 * Server-side placeholder markup matching LogoSoup post-hydration DOM (div > span > img).
 	 *
 	 * Page builders that skip view.js still need a stable inner structure so theme
-	 * CSS targeting `.cb-logo-soup-inner > div > span` applies before hydration.
+	 * CSS targeting `.cb-balanced-logos-inner > div > span` applies before hydration.
 	 * Mirrors the @sanity-labs/logo-soup/react output structure.
 	 *
 	 * @param array<int, array<string, mixed>> $logos Sanitized logo rows.
@@ -346,7 +346,7 @@ final class CB_Logo_Soup_Renderer {
 	 * @return string
 	 */
 	private function render_carousel( array $attrs, string $wrapper_attributes = '' ): string {
-		CB_Logo_Soup_Assets::enqueue_frontend( 'slides' !== $attrs['wrapper'] );
+		CB_Balanced_Logos_Assets::enqueue_frontend( 'slides' !== $attrs['wrapper'] );
 
 		$config     = $this->build_soup_config( $attrs );
 		$json       = wp_json_encode( $config );
@@ -355,10 +355,10 @@ final class CB_Logo_Soup_Renderer {
 
 		foreach ( array_keys( $attrs['logos'] ) as $index ) {
 			$slide_html .= sprintf(
-				'<li class="splide__slide logo-slider-slide cb-logo-soup-slide" data-cb-logo-soup-slide="%1$d" data-cb-logo-soup-carousel="%2$s" aria-label="%3$s"></li>',
+				'<li class="splide__slide logo-slider-slide cb-balanced-logos-slide" data-cb-balanced-logos-slide="%1$d" data-cb-balanced-logos-carousel="%2$s" aria-label="%3$s"></li>',
 				(int) $index,
 				esc_attr( $group_id ),
-				esc_attr( $attrs['logos'][ $index ]['alt'] ?? __( 'Logo', 'cooper-bold-logo-soup' ) )
+				esc_attr( $attrs['logos'][ $index ]['alt'] ?? __( 'Logo', 'balanced-logos' ) )
 			);
 		}
 
@@ -370,7 +370,7 @@ final class CB_Logo_Soup_Renderer {
 		);
 
 		$ref_host = sprintf(
-			'<div class="cb-logo-soup-carousel-ref" aria-hidden="true"><div class="cb-logo-soup cb-logo-soup-inner" data-cb-logo-soup-ref="%1$s" data-cb-logo-soup="%2$s" style="%3$s"></div></div>',
+			'<div class="cb-balanced-logos-carousel-ref" aria-hidden="true"><div class="cb-balanced-logos cb-balanced-logos-inner" data-cb-balanced-logos-ref="%1$s" data-cb-balanced-logos="%2$s" style="%3$s"></div></div>',
 			esc_attr( $group_id ),
 			esc_attr( (string) $json ),
 			esc_attr( $ref_style )
@@ -378,14 +378,14 @@ final class CB_Logo_Soup_Renderer {
 
 		if ( 'slides' === $attrs['wrapper'] ) {
 			return sprintf(
-				'<div class="cb-logo-soup-carousel-host" data-cb-logo-soup-carousel="%1$s" hidden>%2$s</div>%3$s',
+				'<div class="cb-balanced-logos-carousel-host" data-cb-balanced-logos-carousel="%1$s" hidden>%2$s</div>%3$s',
 				esc_attr( $group_id ),
 				$ref_host,
 				$slide_html
 			);
 		}
 
-		$classes = array( 'cb-logo-soup-carousel', 'splide', 'cb-logo-soup-wrapper' );
+		$classes = array( 'cb-balanced-logos-carousel', 'splide', 'cb-balanced-logos-wrapper' );
 		foreach ( preg_split( '/\s+/', $attrs['className'] ) ?: array() as $part ) {
 			$class = sanitize_html_class( $part );
 			if ( '' !== $class ) {
@@ -394,15 +394,15 @@ final class CB_Logo_Soup_Renderer {
 		}
 
 		if ( '' !== $wrapper_attributes ) {
-			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-logo-soup-carousel' );
+			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-balanced-logos-carousel' );
 			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'splide' );
 			$outer_attributes   = trim( $wrapper_attributes ) . sprintf(
-				' data-cb-logo-soup-carousel="%s" data-cb-logo-soup-splide="1"',
+				' data-cb-balanced-logos-carousel="%s" data-cb-balanced-logos-splide="1"',
 				esc_attr( $group_id )
 			);
 		} else {
 			$outer_attributes = sprintf(
-				'class="%s" data-cb-logo-soup-carousel="%s" data-cb-logo-soup-splide="1"',
+				'class="%s" data-cb-balanced-logos-carousel="%s" data-cb-balanced-logos-splide="1"',
 				esc_attr( implode( ' ', array_unique( $classes ) ) ),
 				esc_attr( $group_id )
 			);
@@ -417,7 +417,7 @@ final class CB_Logo_Soup_Renderer {
 	}
 
 	/**
-	 * Build Logo Soup config array for data-cb-logo-soup JSON attributes.
+	 * Build Balanced Logos config array for data-cb-balanced-logos JSON attributes.
 	 *
 	 * @param array<string, mixed> $attrs Sanitized attributes.
 	 * @return array<string, mixed>
@@ -490,7 +490,7 @@ final class CB_Logo_Soup_Renderer {
 		$path = wp_parse_url( $url, PHP_URL_PATH );
 		$name = is_string( $path ) ? preg_replace( '/\.[^.]+$/', '', basename( $path ) ) : '';
 		$name = ucwords( trim( str_replace( array( '-', '_' ), ' ', (string) $name ) ) );
-		return '' !== $name ? $name : __( 'Logo', 'cooper-bold-logo-soup' );
+		return '' !== $name ? $name : __( 'Logo', 'balanced-logos' );
 	}
 
 	/**

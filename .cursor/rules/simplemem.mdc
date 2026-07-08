@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## Project Namespace
 
-Always use the namespace `logo-soup-wp-plugin` when storing or querying memories for this project.
+Always use the namespace `balanced-logos-wp-plugin` when storing or querying memories for this project.
 
 ## Privacy and Security
 

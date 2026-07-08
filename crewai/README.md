@@ -1,4 +1,4 @@
-# Logo Soup WP Plugin — CrewAI Planning Crew
+# Balanced Logos WP Plugin — CrewAI Planning Crew
 
 This directory is a [CrewAI](https://docs.crewai.com/) project. It runs a **planner** agent that turns a short task description into an implementation plan (markdown) suitable for `.cursor/plans/` in the repo root.
 
@@ -30,4 +30,4 @@ Output: `crewai/plan_output.md` → copy to `.cursor/plans/PLAN.md` for the two-
 
 ## Layout
 
-- `src/logo_soup_wp_plugin/` — crew package (`main.py`, `crew.py`, `config/*.yaml`)
+- `src/balanced_logos_wp_plugin/` — crew package (`main.py`, `crew.py`, `config/*.yaml`)

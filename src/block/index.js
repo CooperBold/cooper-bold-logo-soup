@@ -1,5 +1,5 @@
 /**
- * Gutenberg block registration for cooper-bold/logo-soup.
+ * Gutenberg block registration for cooper-bold/balanced-logos.
  */
 
 import { registerBlockType } from '@wordpress/blocks';

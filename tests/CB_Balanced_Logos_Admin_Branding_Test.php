@@ -2,7 +2,7 @@
 /**
  * Unit tests for sparse admin branding footer.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -10,19 +10,19 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers CB_Logo_Soup_Admin_Branding
+ * @covers CB_Balanced_Logos_Admin_Branding
  */
-final class CB_Logo_Soup_Admin_Branding_Test extends TestCase {
+final class CB_Balanced_Logos_Admin_Branding_Test extends TestCase {
 
-	public function test_filter_footer_text_returns_plain_text_link_on_logo_soup_screen(): void {
+	public function test_filter_footer_text_returns_plain_text_link_on_balanced_logos_screen(): void {
 		$GLOBALS['cb_test_current_screen'] = (object) array(
-			'post_type' => CB_Logo_Soup_Collections::POST_TYPE,
+			'post_type' => CB_Balanced_Logos_Collections::POST_TYPE,
 		);
 
-		$branding = new CB_Logo_Soup_Admin_Branding();
+		$branding = new CB_Balanced_Logos_Admin_Branding();
 		$html     = $branding->filter_footer_text( 'Thank you for creating with WordPress.' );
 
-		$this->assertStringContainsString( 'cb-logo-soup-footer-brand', $html );
+		$this->assertStringContainsString( 'cb-balanced-logos-footer-brand', $html );
 		$this->assertStringContainsString( 'href="https://cooperbold.com"', $html );
 		$this->assertStringContainsString( 'target="_blank"', $html );
 		$this->assertStringContainsString( 'rel="noopener noreferrer"', $html );
@@ -38,17 +38,17 @@ final class CB_Logo_Soup_Admin_Branding_Test extends TestCase {
 		);
 
 		$default  = 'Thank you for creating with WordPress.';
-		$branding = new CB_Logo_Soup_Admin_Branding();
+		$branding = new CB_Balanced_Logos_Admin_Branding();
 
 		$this->assertSame( $default, $branding->filter_footer_text( $default ) );
 	}
 
-	public function test_filter_update_footer_clears_text_on_logo_soup_screen(): void {
+	public function test_filter_update_footer_clears_text_on_balanced_logos_screen(): void {
 		$GLOBALS['cb_test_current_screen'] = (object) array(
-			'post_type' => CB_Logo_Soup_Collections::POST_TYPE,
+			'post_type' => CB_Balanced_Logos_Collections::POST_TYPE,
 		);
 
-		$branding = new CB_Logo_Soup_Admin_Branding();
+		$branding = new CB_Balanced_Logos_Admin_Branding();
 
 		$this->assertSame( '', $branding->filter_update_footer( 'Get Version 7.0' ) );
 	}
@@ -59,15 +59,15 @@ final class CB_Logo_Soup_Admin_Branding_Test extends TestCase {
 		);
 
 		$default  = 'Version 6.7';
-		$branding = new CB_Logo_Soup_Admin_Branding();
+		$branding = new CB_Balanced_Logos_Admin_Branding();
 
 		$this->assertSame( $default, $branding->filter_update_footer( $default ) );
 	}
 
 	public function test_branding_class_has_no_footer_action_renderer(): void {
-		$this->assertFalse( method_exists( CB_Logo_Soup_Admin_Branding::class, 'render_footer' ) );
-		$this->assertFalse( method_exists( CB_Logo_Soup_Admin_Branding::class, 'render_credit' ) );
-		$this->assertTrue( method_exists( CB_Logo_Soup_Admin_Branding::class, 'filter_footer_text' ) );
-		$this->assertTrue( method_exists( CB_Logo_Soup_Admin_Branding::class, 'filter_update_footer' ) );
+		$this->assertFalse( method_exists( CB_Balanced_Logos_Admin_Branding::class, 'render_footer' ) );
+		$this->assertFalse( method_exists( CB_Balanced_Logos_Admin_Branding::class, 'render_credit' ) );
+		$this->assertTrue( method_exists( CB_Balanced_Logos_Admin_Branding::class, 'filter_footer_text' ) );
+		$this->assertTrue( method_exists( CB_Balanced_Logos_Admin_Branding::class, 'filter_update_footer' ) );
 	}
 }

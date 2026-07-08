@@ -2,7 +2,7 @@
 /**
  * Logo collections custom post type and admin UI.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -14,14 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Manages named logo collections stored as a private CPT.
  */
-final class CB_Logo_Soup_Collections {
+final class CB_Balanced_Logos_Collections {
 
 	public const POST_TYPE     = 'cb_logo_collection';
-	public const META_LOGOS    = '_cb_logo_soup_logos';
-	public const META_SETTINGS = '_cb_logo_soup_settings';
+	public const META_LOGOS           = '_cb_balanced_logos_logos';
+	public const META_SETTINGS        = '_cb_balanced_logos_settings';
+	public const META_LOGOS_LEGACY    = '_cb_logo_soup_logos';
+	public const META_SETTINGS_LEGACY = '_cb_logo_soup_settings';
 
-	/** @var CB_Logo_Soup_Renderer|null */
-	private static ?CB_Logo_Soup_Renderer $renderer = null;
+	/** @var CB_Balanced_Logos_Renderer|null */
+	private static ?CB_Balanced_Logos_Renderer $renderer = null;
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_post_type' ) );
@@ -43,18 +45,18 @@ final class CB_Logo_Soup_Collections {
 			self::POST_TYPE,
 			array(
 				'labels'              => array(
-					'name'               => __( 'Logo Collections', 'cooper-bold-logo-soup' ),
-					'singular_name'      => __( 'Logo Collection', 'cooper-bold-logo-soup' ),
-					'add_new'            => __( 'Add New', 'cooper-bold-logo-soup' ),
-					'add_new_item'       => __( 'Add New Collection', 'cooper-bold-logo-soup' ),
-					'edit_item'          => __( 'Edit Collection', 'cooper-bold-logo-soup' ),
-					'new_item'           => __( 'New Collection', 'cooper-bold-logo-soup' ),
-					'view_item'          => __( 'View Collection', 'cooper-bold-logo-soup' ),
-					'search_items'       => __( 'Search Collections', 'cooper-bold-logo-soup' ),
-					'not_found'          => __( 'No collections found.', 'cooper-bold-logo-soup' ),
-					'not_found_in_trash' => __( 'No collections found in Trash.', 'cooper-bold-logo-soup' ),
-					'all_items'          => __( 'All Collections', 'cooper-bold-logo-soup' ),
-					'menu_name'          => __( 'Logo Collections', 'cooper-bold-logo-soup' ),
+					'name'               => __( 'Logo Collections', 'balanced-logos' ),
+					'singular_name'      => __( 'Logo Collection', 'balanced-logos' ),
+					'add_new'            => __( 'Add New', 'balanced-logos' ),
+					'add_new_item'       => __( 'Add New Collection', 'balanced-logos' ),
+					'edit_item'          => __( 'Edit Collection', 'balanced-logos' ),
+					'new_item'           => __( 'New Collection', 'balanced-logos' ),
+					'view_item'          => __( 'View Collection', 'balanced-logos' ),
+					'search_items'       => __( 'Search Collections', 'balanced-logos' ),
+					'not_found'          => __( 'No collections found.', 'balanced-logos' ),
+					'not_found_in_trash' => __( 'No collections found in Trash.', 'balanced-logos' ),
+					'all_items'          => __( 'All Collections', 'balanced-logos' ),
+					'menu_name'          => __( 'Logo Collections', 'balanced-logos' ),
 				),
 				'public'              => false,
 				'show_ui'             => true,
@@ -74,14 +76,14 @@ final class CB_Logo_Soup_Collections {
 	}
 
 	/**
-	 * Add the top-level Logo Soup admin menu.
+	 * Add the top-level Balanced Logos admin menu.
 	 */
 	public function register_admin_menu(): void {
 		$parent_slug = self::parent_menu_slug();
 
 		add_menu_page(
-			__( 'Logo Soup', 'cooper-bold-logo-soup' ),
-			__( 'Logo Soup', 'cooper-bold-logo-soup' ),
+			__( 'Balanced Logos', 'balanced-logos' ),
+			__( 'Balanced Logos', 'balanced-logos' ),
 			'edit_posts',
 			$parent_slug,
 			'',
@@ -110,8 +112,8 @@ final class CB_Logo_Soup_Collections {
 	 */
 	public function register_meta_boxes(): void {
 		add_meta_box(
-			'cb-logo-soup-collection-logos',
-			__( 'Logos', 'cooper-bold-logo-soup' ),
+			'cb-balanced-logos-collection-logos',
+			__( 'Logos', 'balanced-logos' ),
 			array( $this, 'render_logos_meta_box' ),
 			self::POST_TYPE,
 			'normal',
@@ -119,8 +121,8 @@ final class CB_Logo_Soup_Collections {
 		);
 
 		add_meta_box(
-			'cb-logo-soup-collection-settings',
-			__( 'Collection Settings', 'cooper-bold-logo-soup' ),
+			'cb-balanced-logos-collection-settings',
+			__( 'Collection Settings', 'balanced-logos' ),
 			array( $this, 'render_settings_meta_box' ),
 			self::POST_TYPE,
 			'normal',
@@ -128,8 +130,8 @@ final class CB_Logo_Soup_Collections {
 		);
 
 		add_meta_box(
-			'cb-logo-soup-collection-preview',
-			__( 'Live preview', 'cooper-bold-logo-soup' ),
+			'cb-balanced-logos-collection-preview',
+			__( 'Live preview', 'balanced-logos' ),
 			array( $this, 'render_preview_meta_box' ),
 			self::POST_TYPE,
 			'normal',
@@ -137,8 +139,8 @@ final class CB_Logo_Soup_Collections {
 		);
 
 		add_meta_box(
-			'cb-logo-soup-collection-shortcode',
-			__( 'Shortcode', 'cooper-bold-logo-soup' ),
+			'cb-balanced-logos-collection-shortcode',
+			__( 'Shortcode', 'balanced-logos' ),
 			array( $this, 'render_shortcode_meta_box' ),
 			self::POST_TYPE,
 			'side',
@@ -152,62 +154,62 @@ final class CB_Logo_Soup_Collections {
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_logos_meta_box( WP_Post $post ): void {
-		wp_nonce_field( 'cb_logo_soup_save_collection', 'cb_logo_soup_collection_nonce' );
+		wp_nonce_field( 'cb_balanced_logos_save_collection', 'cb_balanced_logos_collection_nonce' );
 		$logos = self::get_logos_for_post( $post->ID );
 		?>
-		<div id="cb-logo-soup-collection-editor" class="cb-logo-soup-collection-editor">
+		<div id="cb-balanced-logos-collection-editor" class="cb-balanced-logos-collection-editor">
 			<p class="description">
-				<?php esc_html_e( 'Add logos from the Media Library. Drag to reorder.', 'cooper-bold-logo-soup' ); ?>
+				<?php esc_html_e( 'Add logos from the Media Library. Drag to reorder.', 'balanced-logos' ); ?>
 			</p>
 			<p>
-				<button type="button" class="button button-primary" id="cb-logo-soup-add-logos">
-					<?php esc_html_e( 'Add / edit logos', 'cooper-bold-logo-soup' ); ?>
+				<button type="button" class="button button-primary" id="cb-balanced-logos-add-logos">
+					<?php esc_html_e( 'Add / edit logos', 'balanced-logos' ); ?>
 				</button>
 			</p>
-			<ul id="cb-logo-soup-logo-list" class="cb-logo-soup-logo-list">
+			<ul id="cb-balanced-logos-logo-list" class="cb-balanced-logos-logo-list">
 				<?php foreach ( $logos as $index => $logo ) : ?>
-					<li class="cb-logo-soup-logo-item" data-index="<?php echo esc_attr( (string) $index ); ?>">
-						<span class="cb-logo-soup-logo-handle dashicons dashicons-menu" aria-hidden="true"></span>
+					<li class="cb-balanced-logos-logo-item" data-index="<?php echo esc_attr( (string) $index ); ?>">
+						<span class="cb-balanced-logos-logo-handle dashicons dashicons-menu" aria-hidden="true"></span>
 						<?php if ( ! empty( $logo['url'] ) ) : ?>
-							<img src="<?php echo esc_url( $logo['url'] ); ?>" alt="" class="cb-logo-soup-logo-thumb" />
+							<img src="<?php echo esc_url( $logo['url'] ); ?>" alt="" class="cb-balanced-logos-logo-thumb" />
 						<?php endif; ?>
-						<div class="cb-logo-soup-logo-fields">
-							<input type="hidden" class="cb-logo-soup-logo-id" name="cb_logo_soup_logos[<?php echo esc_attr( (string) $index ); ?>][id]" value="<?php echo esc_attr( (string) ( $logo['id'] ?? '' ) ); ?>" />
-							<input type="hidden" class="cb-logo-soup-logo-url" name="cb_logo_soup_logos[<?php echo esc_attr( (string) $index ); ?>][url]" value="<?php echo esc_attr( $logo['url'] ?? '' ); ?>" />
+						<div class="cb-balanced-logos-logo-fields">
+							<input type="hidden" class="cb-balanced-logos-logo-id" name="cb_balanced_logos_logos[<?php echo esc_attr( (string) $index ); ?>][id]" value="<?php echo esc_attr( (string) ( $logo['id'] ?? '' ) ); ?>" />
+							<input type="hidden" class="cb-balanced-logos-logo-url" name="cb_balanced_logos_logos[<?php echo esc_attr( (string) $index ); ?>][url]" value="<?php echo esc_attr( $logo['url'] ?? '' ); ?>" />
 							<label>
-								<?php esc_html_e( 'Alt text', 'cooper-bold-logo-soup' ); ?>
-								<input type="text" class="widefat cb-logo-soup-logo-alt" name="cb_logo_soup_logos[<?php echo esc_attr( (string) $index ); ?>][alt]" value="<?php echo esc_attr( $logo['alt'] ?? '' ); ?>" />
+								<?php esc_html_e( 'Alt text', 'balanced-logos' ); ?>
+								<input type="text" class="widefat cb-balanced-logos-logo-alt" name="cb_balanced_logos_logos[<?php echo esc_attr( (string) $index ); ?>][alt]" value="<?php echo esc_attr( $logo['alt'] ?? '' ); ?>" />
 							</label>
 							<label>
-								<?php esc_html_e( 'Link URL (optional)', 'cooper-bold-logo-soup' ); ?>
-								<input type="url" class="widefat cb-logo-soup-logo-link" name="cb_logo_soup_logos[<?php echo esc_attr( (string) $index ); ?>][link]" value="<?php echo esc_attr( $logo['link'] ?? '' ); ?>" placeholder="https://" />
+								<?php esc_html_e( 'Link URL (optional)', 'balanced-logos' ); ?>
+								<input type="url" class="widefat cb-balanced-logos-logo-link" name="cb_balanced_logos_logos[<?php echo esc_attr( (string) $index ); ?>][link]" value="<?php echo esc_attr( $logo['link'] ?? '' ); ?>" placeholder="https://" />
 							</label>
-							<button type="button" class="button-link-delete cb-logo-soup-remove-logo">
-								<?php esc_html_e( 'Remove', 'cooper-bold-logo-soup' ); ?>
+							<button type="button" class="button-link-delete cb-balanced-logos-remove-logo">
+								<?php esc_html_e( 'Remove', 'balanced-logos' ); ?>
 							</button>
 						</div>
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<script type="text/html" id="tmpl-cb-logo-soup-logo-item">
-				<li class="cb-logo-soup-logo-item" data-index="{{ data.index }}">
-					<span class="cb-logo-soup-logo-handle dashicons dashicons-menu" aria-hidden="true"></span>
+			<script type="text/html" id="tmpl-cb-balanced-logos-logo-item">
+				<li class="cb-balanced-logos-logo-item" data-index="{{ data.index }}">
+					<span class="cb-balanced-logos-logo-handle dashicons dashicons-menu" aria-hidden="true"></span>
 					<# if ( data.url ) { #>
-						<img src="{{ data.url }}" alt="" class="cb-logo-soup-logo-thumb" />
+						<img src="{{ data.url }}" alt="" class="cb-balanced-logos-logo-thumb" />
 					<# } #>
-					<div class="cb-logo-soup-logo-fields">
-						<input type="hidden" class="cb-logo-soup-logo-id" name="cb_logo_soup_logos[{{ data.index }}][id]" value="{{ data.id }}" />
-						<input type="hidden" class="cb-logo-soup-logo-url" name="cb_logo_soup_logos[{{ data.index }}][url]" value="{{ data.url }}" />
+					<div class="cb-balanced-logos-logo-fields">
+						<input type="hidden" class="cb-balanced-logos-logo-id" name="cb_balanced_logos_logos[{{ data.index }}][id]" value="{{ data.id }}" />
+						<input type="hidden" class="cb-balanced-logos-logo-url" name="cb_balanced_logos_logos[{{ data.index }}][url]" value="{{ data.url }}" />
 						<label>
-							<?php esc_html_e( 'Alt text', 'cooper-bold-logo-soup' ); ?>
-							<input type="text" class="widefat cb-logo-soup-logo-alt" name="cb_logo_soup_logos[{{ data.index }}][alt]" value="{{ data.alt }}" />
+							<?php esc_html_e( 'Alt text', 'balanced-logos' ); ?>
+							<input type="text" class="widefat cb-balanced-logos-logo-alt" name="cb_balanced_logos_logos[{{ data.index }}][alt]" value="{{ data.alt }}" />
 						</label>
 						<label>
-							<?php esc_html_e( 'Link URL (optional)', 'cooper-bold-logo-soup' ); ?>
-							<input type="url" class="widefat cb-logo-soup-logo-link" name="cb_logo_soup_logos[{{ data.index }}][link]" value="{{ data.link }}" placeholder="https://" />
+							<?php esc_html_e( 'Link URL (optional)', 'balanced-logos' ); ?>
+							<input type="url" class="widefat cb-balanced-logos-logo-link" name="cb_balanced_logos_logos[{{ data.index }}][link]" value="{{ data.link }}" placeholder="https://" />
 						</label>
-						<button type="button" class="button-link-delete cb-logo-soup-remove-logo">
-							<?php esc_html_e( 'Remove', 'cooper-bold-logo-soup' ); ?>
+						<button type="button" class="button-link-delete cb-balanced-logos-remove-logo">
+							<?php esc_html_e( 'Remove', 'balanced-logos' ); ?>
 						</button>
 					</div>
 				</li>
@@ -224,98 +226,98 @@ final class CB_Logo_Soup_Collections {
 	public function render_settings_meta_box( WP_Post $post ): void {
 		$settings = self::get_settings_for_post( $post->ID );
 		$align_options = array(
-			'bounds'            => __( 'Bounds', 'cooper-bold-logo-soup' ),
-			'visual-center'     => __( 'Visual center', 'cooper-bold-logo-soup' ),
-			'visual-center-x'   => __( 'Visual center (X)', 'cooper-bold-logo-soup' ),
-			'visual-center-y'   => __( 'Visual center (Y)', 'cooper-bold-logo-soup' ),
+			'bounds'            => __( 'Bounds', 'balanced-logos' ),
+			'visual-center'     => __( 'Visual center', 'balanced-logos' ),
+			'visual-center-x'   => __( 'Visual center (X)', 'balanced-logos' ),
+			'visual-center-y'   => __( 'Visual center (Y)', 'balanced-logos' ),
 		);
 		?>
-		<table class="form-table cb-logo-soup-settings-table cb-logo-soup-settings-essential" role="presentation">
+		<table class="form-table cb-balanced-logos-settings-table cb-balanced-logos-settings-essential" role="presentation">
 			<tr>
-				<th scope="row"><label for="cb_logo_soup_base_size"><?php esc_html_e( 'Size', 'cooper-bold-logo-soup' ); ?></label></th>
+				<th scope="row"><label for="cb_balanced_logos_base_size"><?php esc_html_e( 'Size', 'balanced-logos' ); ?></label></th>
 				<td>
-					<input type="number" id="cb_logo_soup_base_size" name="cb_logo_soup_settings[baseSize]" value="<?php echo esc_attr( (string) $settings['baseSize'] ); ?>" min="16" max="256" step="4" class="small-text" /> px
-					<p class="description"><?php esc_html_e( 'Base height for each logo before normalization.', 'cooper-bold-logo-soup' ); ?></p>
+					<input type="number" id="cb_balanced_logos_base_size" name="cb_balanced_logos_settings[baseSize]" value="<?php echo esc_attr( (string) $settings['baseSize'] ); ?>" min="16" max="256" step="4" class="small-text" /> px
+					<p class="description"><?php esc_html_e( 'Base height for each logo before normalization.', 'balanced-logos' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cb_logo_soup_gap"><?php esc_html_e( 'Gap', 'cooper-bold-logo-soup' ); ?></label></th>
+				<th scope="row"><label for="cb_balanced_logos_gap"><?php esc_html_e( 'Gap', 'balanced-logos' ); ?></label></th>
 				<td>
-					<input type="number" id="cb_logo_soup_gap" name="cb_logo_soup_settings[gap]" value="<?php echo esc_attr( (string) $settings['gap'] ); ?>" min="0" max="96" step="4" class="small-text" /> px
-					<p class="description"><?php esc_html_e( 'Space between logos in pixels.', 'cooper-bold-logo-soup' ); ?></p>
+					<input type="number" id="cb_balanced_logos_gap" name="cb_balanced_logos_settings[gap]" value="<?php echo esc_attr( (string) $settings['gap'] ); ?>" min="0" max="96" step="4" class="small-text" /> px
+					<p class="description"><?php esc_html_e( 'Space between logos in pixels.', 'balanced-logos' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cb_logo_soup_layout"><?php esc_html_e( 'Layout', 'cooper-bold-logo-soup' ); ?></label></th>
+				<th scope="row"><label for="cb_balanced_logos_layout"><?php esc_html_e( 'Layout', 'balanced-logos' ); ?></label></th>
 				<td>
-					<select id="cb_logo_soup_layout" name="cb_logo_soup_settings[layout]">
-						<option value="strip" <?php selected( $settings['layout'], 'strip' ); ?>><?php esc_html_e( 'Strip', 'cooper-bold-logo-soup' ); ?></option>
-						<option value="carousel" <?php selected( $settings['layout'], 'carousel' ); ?>><?php esc_html_e( 'Carousel', 'cooper-bold-logo-soup' ); ?></option>
+					<select id="cb_balanced_logos_layout" name="cb_balanced_logos_settings[layout]">
+						<option value="strip" <?php selected( $settings['layout'], 'strip' ); ?>><?php esc_html_e( 'Strip', 'balanced-logos' ); ?></option>
+						<option value="carousel" <?php selected( $settings['layout'], 'carousel' ); ?>><?php esc_html_e( 'Carousel', 'balanced-logos' ); ?></option>
 					</select>
-					<p class="description"><?php esc_html_e( 'Strip renders one normalized row. Carousel outputs one Splide slide per logo for Bricks sliders.', 'cooper-bold-logo-soup' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Strip renders one normalized row. Carousel outputs one Splide slide per logo for Bricks sliders.', 'balanced-logos' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cb_logo_soup_background_color"><?php esc_html_e( 'Background', 'cooper-bold-logo-soup' ); ?></label></th>
+				<th scope="row"><label for="cb_balanced_logos_background_color"><?php esc_html_e( 'Background', 'balanced-logos' ); ?></label></th>
 				<td>
-					<input type="text" id="cb_logo_soup_background_color" name="cb_logo_soup_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" />
-					<p class="description"><?php esc_html_e( 'Strip background color (helps contrast detection for light logos).', 'cooper-bold-logo-soup' ); ?></p>
+					<input type="text" id="cb_balanced_logos_background_color" name="cb_balanced_logos_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" />
+					<p class="description"><?php esc_html_e( 'Strip background color (helps contrast detection for light logos).', 'balanced-logos' ); ?></p>
 				</td>
 			</tr>
 		</table>
-		<details class="cb-logo-soup-advanced-settings">
-			<summary><?php esc_html_e( 'Advanced settings', 'cooper-bold-logo-soup' ); ?></summary>
-			<table class="form-table cb-logo-soup-settings-table cb-logo-soup-settings-advanced" role="presentation">
+		<details class="cb-balanced-logos-advanced-settings">
+			<summary><?php esc_html_e( 'Advanced settings', 'balanced-logos' ); ?></summary>
+			<table class="form-table cb-balanced-logos-settings-table cb-balanced-logos-settings-advanced" role="presentation">
 				<tr>
-					<th scope="row"><label for="cb_logo_soup_scale_factor"><?php esc_html_e( 'Scale factor', 'cooper-bold-logo-soup' ); ?></label></th>
+					<th scope="row"><label for="cb_balanced_logos_scale_factor"><?php esc_html_e( 'Scale factor', 'balanced-logos' ); ?></label></th>
 					<td>
-						<input type="number" id="cb_logo_soup_scale_factor" name="cb_logo_soup_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
-						<p class="description"><?php esc_html_e( 'How much smaller logos can be relative to the largest mark (0–1).', 'cooper-bold-logo-soup' ); ?></p>
+						<input type="number" id="cb_balanced_logos_scale_factor" name="cb_balanced_logos_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
+						<p class="description"><?php esc_html_e( 'How much smaller logos can be relative to the largest mark (0–1).', 'balanced-logos' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="cb_logo_soup_contrast_threshold"><?php esc_html_e( 'Contrast threshold', 'cooper-bold-logo-soup' ); ?></label></th>
+					<th scope="row"><label for="cb_balanced_logos_contrast_threshold"><?php esc_html_e( 'Contrast threshold', 'balanced-logos' ); ?></label></th>
 					<td>
-						<input type="number" id="cb_logo_soup_contrast_threshold" name="cb_logo_soup_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" />
-						<p class="description"><?php esc_html_e( 'Minimum contrast used when detecting logo edges (0–255).', 'cooper-bold-logo-soup' ); ?></p>
+						<input type="number" id="cb_balanced_logos_contrast_threshold" name="cb_balanced_logos_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" />
+						<p class="description"><?php esc_html_e( 'Minimum contrast used when detecting logo edges (0–255).', 'balanced-logos' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Density aware', 'cooper-bold-logo-soup' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Density aware', 'balanced-logos' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="cb_logo_soup_settings[densityAware]" value="1" <?php checked( $settings['densityAware'] ); ?> />
-							<?php esc_html_e( 'Adjust for visual density', 'cooper-bold-logo-soup' ); ?>
+							<input type="checkbox" name="cb_balanced_logos_settings[densityAware]" value="1" <?php checked( $settings['densityAware'] ); ?> />
+							<?php esc_html_e( 'Adjust for visual density', 'balanced-logos' ); ?>
 						</label>
-						<p class="description"><?php esc_html_e( 'Scale logos based on how visually dense each mark appears.', 'cooper-bold-logo-soup' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Scale logos based on how visually dense each mark appears.', 'balanced-logos' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="cb_logo_soup_density_factor"><?php esc_html_e( 'Density factor', 'cooper-bold-logo-soup' ); ?></label></th>
+					<th scope="row"><label for="cb_balanced_logos_density_factor"><?php esc_html_e( 'Density factor', 'balanced-logos' ); ?></label></th>
 					<td>
-						<input type="number" id="cb_logo_soup_density_factor" name="cb_logo_soup_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
-						<p class="description"><?php esc_html_e( 'Strength of density-based scaling when density aware is on (0–1).', 'cooper-bold-logo-soup' ); ?></p>
+						<input type="number" id="cb_balanced_logos_density_factor" name="cb_balanced_logos_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
+						<p class="description"><?php esc_html_e( 'Strength of density-based scaling when density aware is on (0–1).', 'balanced-logos' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Crop to content', 'cooper-bold-logo-soup' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Crop to content', 'balanced-logos' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="cb_logo_soup_settings[cropToContent]" value="1" <?php checked( $settings['cropToContent'] ); ?> />
-							<?php esc_html_e( 'Crop to detected content bounds', 'cooper-bold-logo-soup' ); ?>
+							<input type="checkbox" name="cb_balanced_logos_settings[cropToContent]" value="1" <?php checked( $settings['cropToContent'] ); ?> />
+							<?php esc_html_e( 'Crop to detected content bounds', 'balanced-logos' ); ?>
 						</label>
-						<p class="description"><?php esc_html_e( 'Trim transparent padding around each logo before sizing.', 'cooper-bold-logo-soup' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Trim transparent padding around each logo before sizing.', 'balanced-logos' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="cb_logo_soup_align_by"><?php esc_html_e( 'Align by', 'cooper-bold-logo-soup' ); ?></label></th>
+					<th scope="row"><label for="cb_balanced_logos_align_by"><?php esc_html_e( 'Align by', 'balanced-logos' ); ?></label></th>
 					<td>
-						<select id="cb_logo_soup_align_by" name="cb_logo_soup_settings[alignBy]">
+						<select id="cb_balanced_logos_align_by" name="cb_balanced_logos_settings[alignBy]">
 							<?php foreach ( $align_options as $value => $label ) : ?>
 								<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $settings['alignBy'], $value ); ?>><?php echo esc_html( $label ); ?></option>
 							<?php endforeach; ?>
 						</select>
-						<p class="description"><?php esc_html_e( 'How logos are vertically aligned in the strip.', 'cooper-bold-logo-soup' ); ?></p>
+						<p class="description"><?php esc_html_e( 'How logos are vertically aligned in the strip.', 'balanced-logos' ); ?></p>
 					</td>
 				</tr>
 			</table>
@@ -331,7 +333,7 @@ final class CB_Logo_Soup_Collections {
 	public function render_preview_meta_box( WP_Post $post ): void {
 		unset( $post );
 		?>
-		<div id="cb-logo-soup-preview-root" class="cb-logo-soup-preview-wrap" aria-live="polite"></div>
+		<div id="cb-balanced-logos-preview-root" class="cb-balanced-logos-preview-wrap" aria-live="polite"></div>
 		<?php
 	}
 
@@ -342,13 +344,13 @@ final class CB_Logo_Soup_Collections {
 	 */
 	public function render_shortcode_meta_box( WP_Post $post ): void {
 		$slug_snippet = self::get_shortcode_snippet( $post );
-		$id_snippet   = sprintf( '[logo_soup id="%d"]', (int) $post->ID );
+		$id_snippet   = sprintf( '[balanced_logos id="%d"]', (int) $post->ID );
 		?>
-		<div class="cb-logo-soup-shortcode-panel">
-			<?php self::render_shortcode_field( $slug_snippet, 'cb-logo-soup-shortcode-slug', true ); ?>
-			<details class="cb-logo-soup-shortcode-advanced">
-				<summary><?php esc_html_e( 'By ID', 'cooper-bold-logo-soup' ); ?></summary>
-				<?php self::render_shortcode_field( $id_snippet, 'cb-logo-soup-shortcode-id', true ); ?>
+		<div class="cb-balanced-logos-shortcode-panel">
+			<?php self::render_shortcode_field( $slug_snippet, 'cb-balanced-logos-shortcode-slug', true ); ?>
+			<details class="cb-balanced-logos-shortcode-advanced">
+				<summary><?php esc_html_e( 'By ID', 'balanced-logos' ); ?></summary>
+				<?php self::render_shortcode_field( $id_snippet, 'cb-balanced-logos-shortcode-id', true ); ?>
 			</details>
 		</div>
 		<?php
@@ -361,10 +363,10 @@ final class CB_Logo_Soup_Collections {
 	 * @param WP_Post $post    Post object.
 	 */
 	public function save_post( int $post_id, WP_Post $post ): void {
-		if ( ! isset( $_POST['cb_logo_soup_collection_nonce'] ) ) {
+		if ( ! isset( $_POST['cb_balanced_logos_collection_nonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cb_logo_soup_collection_nonce'] ) ), 'cb_logo_soup_save_collection' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cb_balanced_logos_collection_nonce'] ) ), 'cb_balanced_logos_save_collection' ) ) {
 			return;
 		}
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -374,14 +376,14 @@ final class CB_Logo_Soup_Collections {
 			return;
 		}
 
-		$raw_logos = isset( $_POST['cb_logo_soup_logos'] ) && is_array( $_POST['cb_logo_soup_logos'] )
-			? map_deep( wp_unslash( $_POST['cb_logo_soup_logos'] ), 'sanitize_text_field' )
+		$raw_logos = isset( $_POST['cb_balanced_logos_logos'] ) && is_array( $_POST['cb_balanced_logos_logos'] )
+			? map_deep( wp_unslash( $_POST['cb_balanced_logos_logos'] ), 'sanitize_text_field' )
 			: array();
 
 		$logos = self::renderer()->sanitize_logos( self::normalize_logo_rows( $raw_logos ) );
 
-		$raw_settings = isset( $_POST['cb_logo_soup_settings'] ) && is_array( $_POST['cb_logo_soup_settings'] )
-			? map_deep( wp_unslash( $_POST['cb_logo_soup_settings'] ), 'sanitize_text_field' )
+		$raw_settings = isset( $_POST['cb_balanced_logos_settings'] ) && is_array( $_POST['cb_balanced_logos_settings'] )
+			? map_deep( wp_unslash( $_POST['cb_balanced_logos_settings'] ), 'sanitize_text_field' )
 			: array();
 
 		$settings = self::sanitize_settings( $raw_settings );
@@ -401,8 +403,8 @@ final class CB_Logo_Soup_Collections {
 		foreach ( $columns as $key => $label ) {
 			$new[ $key ] = $label;
 			if ( 'title' === $key ) {
-				$new['cb_logo_count']    = __( 'Logos', 'cooper-bold-logo-soup' );
-				$new['cb_shortcode']     = __( 'Shortcode', 'cooper-bold-logo-soup' );
+				$new['cb_logo_count']    = __( 'Logos', 'balanced-logos' );
+				$new['cb_shortcode']     = __( 'Shortcode', 'balanced-logos' );
 			}
 		}
 		return $new;
@@ -424,7 +426,7 @@ final class CB_Logo_Soup_Collections {
 			if ( $post instanceof WP_Post ) {
 				self::render_shortcode_field(
 					self::get_shortcode_snippet( $post ),
-					'cb-logo-soup-shortcode-list-' . (int) $post_id,
+					'cb-balanced-logos-shortcode-list-' . (int) $post_id,
 					false,
 					true
 				);
@@ -451,10 +453,10 @@ final class CB_Logo_Soup_Collections {
 		}
 
 		wp_enqueue_style(
-			'cb-logo-soup-collection-editor',
-			CB_LOGO_SOUP_URL . 'admin/css/collection-editor.css',
+			'cb-balanced-logos-collection-editor',
+			CB_BALANCED_LOGOS_URL . 'admin/css/collection-editor.css',
 			array(),
-			CB_LOGO_SOUP_VERSION
+			CB_BALANCED_LOGOS_VERSION
 		);
 
 		$script_deps = array( 'jquery' );
@@ -465,25 +467,25 @@ final class CB_Logo_Soup_Collections {
 		}
 
 		wp_enqueue_script(
-			'cb-logo-soup-collection-editor',
-			CB_LOGO_SOUP_URL . 'admin/js/collection-editor.js',
+			'cb-balanced-logos-collection-editor',
+			CB_BALANCED_LOGOS_URL . 'admin/js/collection-editor.js',
 			$script_deps,
-			CB_LOGO_SOUP_VERSION,
+			CB_BALANCED_LOGOS_VERSION,
 			true
 		);
 
 		if ( $is_edit_screen ) {
-			$preview_asset_file = CB_LOGO_SOUP_PATH . 'build/collection-preview.asset.php';
+			$preview_asset_file = CB_BALANCED_LOGOS_PATH . 'build/collection-preview.asset.php';
 			$preview_asset      = file_exists( $preview_asset_file )
 				? require $preview_asset_file
 				: array(
 					'dependencies' => array( 'react', 'react-jsx-runtime', 'wp-element', 'wp-i18n' ),
-					'version'      => CB_LOGO_SOUP_VERSION,
+					'version'      => CB_BALANCED_LOGOS_VERSION,
 				);
 
 			wp_enqueue_script(
-				'cb-logo-soup-collection-preview',
-				CB_LOGO_SOUP_URL . 'build/collection-preview.js',
+				'cb-balanced-logos-collection-preview',
+				CB_BALANCED_LOGOS_URL . 'build/collection-preview.js',
 				$preview_asset['dependencies'],
 				$preview_asset['version'],
 				true
@@ -496,7 +498,7 @@ final class CB_Logo_Soup_Collections {
 	 */
 	public function register_rest_routes(): void {
 		register_rest_route(
-			'cb-logo-soup/v1',
+			'cb-balanced-logos/v1',
 			'/collections',
 			array(
 				'methods'             => 'GET',
@@ -617,12 +619,12 @@ final class CB_Logo_Soup_Collections {
 	 * @return void
 	 */
 	public static function render_shortcode_field( string $snippet, string $input_id = '', bool $widefat = false, bool $compact = false ): void {
-		$row_classes = 'cb-logo-soup-shortcode-row';
+		$row_classes = 'cb-balanced-logos-shortcode-row';
 		if ( $compact ) {
-			$row_classes .= ' cb-logo-soup-shortcode-row--compact';
+			$row_classes .= ' cb-balanced-logos-shortcode-row--compact';
 		}
 
-		$input_classes = 'code cb-logo-soup-shortcode-input';
+		$input_classes = 'code cb-balanced-logos-shortcode-input';
 		if ( $widefat ) {
 			$input_classes .= ' widefat';
 		}
@@ -630,11 +632,11 @@ final class CB_Logo_Soup_Collections {
 			$input_classes .= ' screen-reader-text';
 		}
 
-		$copy_label = __( 'Copy shortcode', 'cooper-bold-logo-soup' );
+		$copy_label = __( 'Copy shortcode', 'balanced-logos' );
 		?>
 		<div class="<?php echo esc_attr( $row_classes ); ?>">
 			<?php if ( $compact ) : ?>
-				<code class="cb-logo-soup-shortcode-display" title="<?php echo esc_attr( $snippet ); ?>">
+				<code class="cb-balanced-logos-shortcode-display" title="<?php echo esc_attr( $snippet ); ?>">
 					<?php echo esc_html( self::truncate_shortcode_display( $snippet ) ); ?>
 				</code>
 			<?php endif; ?>
@@ -652,12 +654,12 @@ final class CB_Logo_Soup_Collections {
 			/>
 			<button
 				type="button"
-				class="button cb-logo-soup-copy-shortcode"
+				class="button cb-balanced-logos-copy-shortcode"
 				title="<?php echo esc_attr( $copy_label ); ?>"
 				aria-label="<?php echo esc_attr( $copy_label ); ?>"
 			>
 				<span class="dashicons dashicons-clipboard" aria-hidden="true"></span>
-				<span class="cb-logo-soup-copy-label screen-reader-text"><?php echo esc_html( $copy_label ); ?></span>
+				<span class="cb-balanced-logos-copy-label screen-reader-text"><?php echo esc_html( $copy_label ); ?></span>
 			</button>
 		</div>
 		<?php
@@ -691,9 +693,9 @@ final class CB_Logo_Soup_Collections {
 		$settings = self::get_settings_for_post( (int) $post->ID );
 		$layout   = 'carousel' === ( $settings['layout'] ?? 'strip' ) ? ' layout="carousel"' : '';
 		if ( '' === $slug ) {
-			return sprintf( '[logo_soup id="%d"%s]', (int) $post->ID, $layout );
+			return sprintf( '[balanced_logos id="%d"%s]', (int) $post->ID, $layout );
 		}
-		return sprintf( '[logo_soup collection="%s"%s]', $slug, $layout );
+		return sprintf( '[balanced_logos collection="%s"%s]', $slug, $layout );
 	}
 
 	/**
@@ -704,6 +706,12 @@ final class CB_Logo_Soup_Collections {
 	 */
 	public static function get_logos_for_post( int $post_id ): array {
 		$stored = get_post_meta( $post_id, self::META_LOGOS, true );
+		if ( ! is_array( $stored ) || array() === $stored ) {
+			$legacy = get_post_meta( $post_id, self::META_LOGOS_LEGACY, true );
+			if ( is_array( $legacy ) ) {
+				$stored = $legacy;
+			}
+		}
 		if ( ! is_array( $stored ) ) {
 			return array();
 		}
@@ -718,6 +726,12 @@ final class CB_Logo_Soup_Collections {
 	 */
 	public static function get_settings_for_post( int $post_id ): array {
 		$stored = get_post_meta( $post_id, self::META_SETTINGS, true );
+		if ( ! is_array( $stored ) || array() === $stored ) {
+			$legacy = get_post_meta( $post_id, self::META_SETTINGS_LEGACY, true );
+			if ( is_array( $legacy ) ) {
+				$stored = $legacy;
+			}
+		}
 		if ( ! is_array( $stored ) ) {
 			$stored = array();
 		}
@@ -779,11 +793,11 @@ final class CB_Logo_Soup_Collections {
 	/**
 	 * Lazy renderer instance for sanitization helpers.
 	 *
-	 * @return CB_Logo_Soup_Renderer
+	 * @return CB_Balanced_Logos_Renderer
 	 */
-	private static function renderer(): CB_Logo_Soup_Renderer {
+	private static function renderer(): CB_Balanced_Logos_Renderer {
 		if ( null === self::$renderer ) {
-			self::$renderer = new CB_Logo_Soup_Renderer();
+			self::$renderer = new CB_Balanced_Logos_Renderer();
 		}
 		return self::$renderer;
 	}

@@ -35,14 +35,14 @@
 	function initCopyButtons() {
 		$( document ).on(
 			'click',
-			'.cb-logo-soup-copy-shortcode',
+			'.cb-balanced-logos-copy-shortcode',
 			function ( event ) {
 				event.preventDefault();
 
 				const $button = $( this );
 				const $input = $button
-					.closest( '.cb-logo-soup-shortcode-row' )
-					.find( '.cb-logo-soup-shortcode-input' );
+					.closest( '.cb-balanced-logos-shortcode-row' )
+					.find( '.cb-balanced-logos-shortcode-input' );
 				const shortcode = $input.val();
 
 				if ( ! shortcode ) {
@@ -69,25 +69,25 @@
 
 	function dispatchPreviewUpdate() {
 		document.dispatchEvent(
-			new CustomEvent( 'cb-logo-soup-preview-update' )
+			new CustomEvent( 'cb-balanced-logos-preview-update' )
 		);
 	}
 
 	function reindexLogoFields() {
-		$( '#cb-logo-soup-logo-list .cb-logo-soup-logo-item' ).each(
+		$( '#cb-balanced-logos-logo-list .cb-balanced-logos-logo-item' ).each(
 			function ( index ) {
 				const $item = $( this );
 				$item.attr( 'data-index', String( index ) );
 				$item
-					.find( 'input[name^="cb_logo_soup_logos"]' )
+					.find( 'input[name^="cb_balanced_logos_logos"]' )
 					.each( function () {
 						const $input = $( this );
 						const field = $input
 							.attr( 'name' )
-							.replace( /^cb_logo_soup_logos\[\d+]/, '' );
+							.replace( /^cb_balanced_logos_logos\[\d+]/, '' );
 						$input.attr(
 							'name',
-							'cb_logo_soup_logos[' + index + ']' + field
+							'cb_balanced_logos_logos[' + index + ']' + field
 						);
 					} );
 			}
@@ -97,9 +97,9 @@
 
 	function appendLogoItem( logo ) {
 		const index = $(
-			'#cb-logo-soup-logo-list .cb-logo-soup-logo-item'
+			'#cb-balanced-logos-logo-list .cb-balanced-logos-logo-item'
 		).length;
-		const template = wp.template( 'cb-logo-soup-logo-item' );
+		const template = wp.template( 'cb-balanced-logos-logo-item' );
 		const html = template( {
 			index,
 			id: logo.id || '',
@@ -107,7 +107,7 @@
 			alt: logo.alt || '',
 			link: logo.link || '',
 		} );
-		$( '#cb-logo-soup-logo-list' ).append( html );
+		$( '#cb-balanced-logos-logo-list' ).append( html );
 	}
 
 	function openMediaFrame() {
@@ -121,7 +121,7 @@
 		frame.on( 'select', function () {
 			const selection = frame.state().get( 'selection' );
 			const existingIds = new Set();
-			$( '#cb-logo-soup-logo-list .cb-logo-soup-logo-id' ).each(
+			$( '#cb-balanced-logos-logo-list .cb-balanced-logos-logo-id' ).each(
 				function () {
 					const val = parseInt( $( this ).val(), 10 );
 					if ( val ) {
@@ -152,25 +152,25 @@
 	$( function () {
 		initCopyButtons();
 
-		const $list = $( '#cb-logo-soup-logo-list' );
+		const $list = $( '#cb-balanced-logos-logo-list' );
 		if ( ! $list.length ) {
 			return;
 		}
 
 		$list.sortable( {
-			handle: '.cb-logo-soup-logo-handle',
+			handle: '.cb-balanced-logos-logo-handle',
 			axis: 'y',
 			stop: reindexLogoFields,
 		} );
 
-		$( '#cb-logo-soup-add-logos' ).on( 'click', function ( event ) {
+		$( '#cb-balanced-logos-add-logos' ).on( 'click', function ( event ) {
 			event.preventDefault();
 			openMediaFrame();
 		} );
 
-		$list.on( 'click', '.cb-logo-soup-remove-logo', function ( event ) {
+		$list.on( 'click', '.cb-balanced-logos-remove-logo', function ( event ) {
 			event.preventDefault();
-			$( this ).closest( '.cb-logo-soup-logo-item' ).remove();
+			$( this ).closest( '.cb-balanced-logos-logo-item' ).remove();
 			reindexLogoFields();
 		} );
 

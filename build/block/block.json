@@ -1,9 +1,9 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "cooper-bold/logo-soup",
-  "version": "1.2.13",
-  "title": "Logo Soup by Cooper Bold",
+  "name": "cooper-bold/balanced-logos",
+  "version": "1.2.14",
+  "title": "Balanced Logos",
   "category": "media",
   "icon": "images-alt2",
   "description": "Display partner logos in a balanced, harmonious strip.",
@@ -14,7 +14,7 @@
     "clients",
     "brands"
   ],
-  "textdomain": "cooper-bold-logo-soup",
+  "textdomain": "balanced-logos",
   "supports": {
     "html": false,
     "align": [

@@ -36,3 +36,6 @@ dist/
 
 # Local wp-env seed logos (not shipped)
 .wp-seed-logos/
+
+# Stale wp-env debug screenshots (not shipped)
+logo-soup-*.png

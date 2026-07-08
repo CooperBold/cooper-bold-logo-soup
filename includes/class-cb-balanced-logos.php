@@ -2,7 +2,7 @@
 /**
  * Plugin bootstrap: block registration, shortcodes, and render delegation.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -11,32 +11,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-assets.php';
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-renderer.php';
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-collections.php';
-require_once CB_LOGO_SOUP_PATH . 'includes/class-cb-logo-soup-admin-branding.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-assets.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-renderer.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-collections.php';
+require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-admin-branding.php';
 
 /**
  * Singleton that wires assets, collections, branding, block, and shortcode output.
  */
-final class CB_Logo_Soup {
+final class CB_Balanced_Logos {
 
-	private static ?CB_Logo_Soup $instance = null;
-	private CB_Logo_Soup_Renderer $renderer;
+	private static ?CB_Balanced_Logos $instance = null;
+	private CB_Balanced_Logos_Renderer $renderer;
 
 	/**
-	 * @return CB_Logo_Soup Plugin singleton.
+	 * @return CB_Balanced_Logos Plugin singleton.
 	 */
-	public static function instance(): CB_Logo_Soup {
+	public static function instance(): CB_Balanced_Logos {
 		return self::$instance ?? ( self::$instance = new self() );
 	}
 
 	private function __construct() {
-		new CB_Logo_Soup_Assets();
-		new CB_Logo_Soup_Collections();
-		new CB_Logo_Soup_Admin_Branding();
-		$this->renderer = new CB_Logo_Soup_Renderer();
+		new CB_Balanced_Logos_Assets();
+		new CB_Balanced_Logos_Collections();
+		new CB_Balanced_Logos_Admin_Branding();
+		$this->renderer = new CB_Balanced_Logos_Renderer();
 		add_action( 'init', array( $this, 'register_block' ) );
+		add_shortcode( 'balanced_logos', array( $this, 'render_shortcode' ) );
 		add_shortcode( 'logo_soup', array( $this, 'render_shortcode' ) );
 		add_shortcode( 'cooper-bold-logo-soup', array( $this, 'render_shortcode' ) );
 	}
@@ -46,8 +47,8 @@ final class CB_Logo_Soup {
 	 */
 	public function register_block(): void {
 		$candidates = array(
-			CB_LOGO_SOUP_PATH . 'build/block',
-			CB_LOGO_SOUP_PATH . 'src/block',
+			CB_BALANCED_LOGOS_PATH . 'build/block',
+			CB_BALANCED_LOGOS_PATH . 'src/block',
 		);
 		$dir = '';
 		foreach ( $candidates as $candidate ) {
@@ -59,11 +60,21 @@ final class CB_Logo_Soup {
 		if ( '' === $dir ) {
 			return;
 		}
-		register_block_type( $dir, array( 'render_callback' => array( $this, 'render_block' ) ) );
+		$registered = register_block_type( $dir, array( 'render_callback' => array( $this, 'render_block' ) ) );
+		if ( $registered instanceof WP_Block_Type ) {
+			register_block_type(
+				'cooper-bold/logo-soup',
+				array(
+					'render_callback' => array( $this, 'render_block' ),
+					'attributes'        => $registered->attributes,
+					'supports'          => $registered->supports,
+				)
+			);
+		}
 	}
 
 	/**
-	 * Server-side render callback for cooper-bold/logo-soup.
+	 * Server-side render callback for cooper-bold/balanced-logos.
 	 *
 	 * @param array<string, mixed> $attributes Block attributes.
 	 * @param string               $content    Inner block content (unused).
@@ -72,7 +83,7 @@ final class CB_Logo_Soup {
 	 */
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
 		$attributes = $this->prepare_block_attributes( $attributes );
-		return $this->renderer->render( $attributes, get_block_wrapper_attributes( array( 'class' => 'cb-logo-soup cb-logo-soup-wrapper' ) ) );
+		return $this->renderer->render( $attributes, get_block_wrapper_attributes( array( 'class' => 'cb-balanced-logos cb-balanced-logos-wrapper' ) ) );
 	}
 
 	/**
@@ -101,14 +112,14 @@ final class CB_Logo_Soup {
 	}
 
 	/**
-	 * Render [logo_soup] and legacy [cooper-bold-logo-soup] shortcodes.
+	 * Render `[balanced_logos]` and legacy `[logo_soup]` / `[cooper-bold-logo-soup]` shortcodes.
 	 *
 	 * @param array<string, string>|string $atts    Shortcode attributes.
 	 * @param string|null                  $content Enclosed content (unused).
 	 * @param string                       $tag     Shortcode tag name.
 	 * @return string Rendered HTML.
 	 */
-	public function render_shortcode( $atts, ?string $content = null, string $tag = 'logo_soup' ): string {
+	public function render_shortcode( $atts, ?string $content = null, string $tag = 'balanced_logos' ): string {
 		$a = shortcode_atts(
 			array(
 				'collection'         => '',

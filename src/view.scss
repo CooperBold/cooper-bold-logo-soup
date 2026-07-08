@@ -1,23 +1,23 @@
-.cb-logo-soup-inner {
+.cb-balanced-logos-inner {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	box-sizing: border-box;
 }
 
-.cb-logo-soup-inner img {
+.cb-balanced-logos-inner img {
 	max-width: 100%;
 	max-height: var( --cb-logo-size, 48px );
 	height: auto;
 	vertical-align: middle;
 }
 
-.cb-logo-soup-inner a {
+.cb-balanced-logos-inner a {
 	display: inline-flex;
 	line-height: 0;
 }
 
-.cb-logo-soup-carousel-ref {
+.cb-balanced-logos-carousel-ref {
 	position: absolute;
 	width: 0;
 	height: 0;
@@ -26,7 +26,7 @@
 	white-space: nowrap;
 }
 
-.cb-logo-soup-slide {
+.cb-balanced-logos-slide {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -34,30 +34,30 @@
 	box-sizing: border-box;
 }
 
-.cb-logo-soup-slide img {
+.cb-balanced-logos-slide img {
 	max-height: var( --cb-logo-size, 48px );
 	height: auto;
 	width: auto;
 	max-width: none;
 }
 
-.cb-logo-soup-slide a {
+.cb-balanced-logos-slide a {
 	display: inline-flex;
 	line-height: 0;
 }
 
-.cb-logo-soup-carousel.splide .splide__list,
-.cb-logo-soup-carousel.splide .splide__slide {
+.cb-balanced-logos-carousel.splide .splide__list,
+.cb-balanced-logos-carousel.splide .splide__slide {
 	transition: none !important;
 }
 
-.cb-logo-soup-carousel.splide .splide__list {
+.cb-balanced-logos-carousel.splide .splide__list {
 	will-change: transform;
 	backface-visibility: hidden;
 }
 
 // Splide hides the root until mount; show hydrated slides while waiting.
-.cb-logo-soup-carousel.splide.cb-logo-soup-hydrating,
-.cb-logo-soup-carousel.splide.cb-logo-soup-hydrating .splide__track {
+.cb-balanced-logos-carousel.splide.cb-balanced-logos-hydrating,
+.cb-balanced-logos-carousel.splide.cb-balanced-logos-hydrating .splide__track {
 	visibility: visible;
 }

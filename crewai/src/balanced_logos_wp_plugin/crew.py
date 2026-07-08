@@ -1,4 +1,4 @@
-"""Logo Soup WP Plugin crew: planner agent for implementation plans."""
+"""Balanced Logos WP Plugin crew: planner agent for implementation plans."""
 
 from typing import List
 
@@ -9,7 +9,7 @@ from crewai.project import CrewBase, agent, crew, task
 
 @CrewBase
 class LogoSoupWpPluginCrew:
-    """Crew that produces implementation plans for Logo Soup WP Plugin tasks."""
+    """Crew that produces implementation plans for Balanced Logos WP Plugin tasks."""
 
     agents: List[BaseAgent]
     tasks: List[Task]

@@ -1,1 +1,1 @@
-"""Logo Soup WP Plugin planning crew."""
+"""Balanced Logos WP Plugin planning crew."""

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Run the Logo Soup WP Plugin planning crew."""
+"""Run the Balanced Logos WP Plugin planning crew."""
 
 import sys
 
-from logo_soup_wp_plugin.crew import LogoSoupWpPluginCrew
+from balanced_logos_wp_plugin.crew import LogoSoupWpPluginCrew
 
 
 def main():

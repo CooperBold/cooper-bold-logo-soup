@@ -2,7 +2,7 @@
 /**
  * Frontend script and style registration and conditional enqueue.
  *
- * @package CooperBoldLogoSoup
+ * @package CooperBoldBalancedLogos
  */
 
 declare(strict_types=1);
@@ -11,15 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Registers and enqueues view.js and view styles when Logo Soup renders.
+ * Registers and enqueues view.js and view styles when Balanced Logos renders.
  */
-final class CB_Logo_Soup_Assets {
+final class CB_Balanced_Logos_Assets {
 
-	public const VIEW_SCRIPT_HANDLE  = 'cooper-bold-logo-soup-view';
-	public const VIEW_STYLE_HANDLE   = 'cooper-bold-logo-soup-view-style';
-	public const SPLIDE_SCRIPT_HANDLE          = 'cooper-bold-logo-soup-splide';
-	public const SPLIDE_STYLE_HANDLE           = 'cooper-bold-logo-soup-splide';
-	public const SPLIDE_AUTOSCROLL_SCRIPT_HANDLE = 'cooper-bold-logo-soup-splide-autoscroll';
+	public const VIEW_SCRIPT_HANDLE  = 'balanced-logos-view';
+	public const VIEW_STYLE_HANDLE   = 'balanced-logos-view-style';
+	public const SPLIDE_SCRIPT_HANDLE          = 'balanced-logos-splide';
+	public const SPLIDE_STYLE_HANDLE           = 'balanced-logos-splide';
+	public const SPLIDE_AUTOSCROLL_SCRIPT_HANDLE = 'balanced-logos-splide-autoscroll';
 	public const SPLIDE_VERSION                = '4.1.4';
 	public const SPLIDE_AUTOSCROLL_VERSION     = '0.5.3';
 
@@ -37,12 +37,12 @@ final class CB_Logo_Soup_Assets {
 	public function register(): void {
 		$this->register_splide_assets();
 
-		$script = CB_LOGO_SOUP_PATH . 'build/view.asset.php';
+		$script = CB_BALANCED_LOGOS_PATH . 'build/view.asset.php';
 		if ( file_exists( $script ) ) {
 			$asset = include $script;
 			wp_register_script(
 				self::VIEW_SCRIPT_HANDLE,
-				CB_LOGO_SOUP_URL . 'build/view.js',
+				CB_BALANCED_LOGOS_URL . 'build/view.js',
 				$asset['dependencies'],
 				$asset['version'],
 				true
@@ -51,12 +51,12 @@ final class CB_Logo_Soup_Assets {
 
 		$style_candidates = array(
 			array(
-				'path' => CB_LOGO_SOUP_PATH . 'build/view.scss.asset.php',
-				'url'  => CB_LOGO_SOUP_URL . 'build/view.scss.css',
+				'path' => CB_BALANCED_LOGOS_PATH . 'build/view.scss.asset.php',
+				'url'  => CB_BALANCED_LOGOS_URL . 'build/view.scss.css',
 			),
 			array(
-				'path' => CB_LOGO_SOUP_PATH . 'build/view.asset.php',
-				'url'  => CB_LOGO_SOUP_URL . 'build/view.css',
+				'path' => CB_BALANCED_LOGOS_PATH . 'build/view.asset.php',
+				'url'  => CB_BALANCED_LOGOS_URL . 'build/view.css',
 			),
 		);
 		foreach ( $style_candidates as $candidate ) {
@@ -83,7 +83,7 @@ final class CB_Logo_Soup_Assets {
 			return;
 		}
 
-		$splide_base = CB_LOGO_SOUP_URL . 'lib/splide/';
+		$splide_base = CB_BALANCED_LOGOS_URL . 'lib/splide/';
 
 		wp_register_style(
 			self::SPLIDE_STYLE_HANDLE,
@@ -292,11 +292,14 @@ final class CB_Logo_Soup_Assets {
 			return;
 		}
 		$c             = self::get_post_content_for_detection( $post );
-		$has_shortcode = has_shortcode( $c, 'logo_soup' )
+		$has_shortcode = has_shortcode( $c, 'balanced_logos' )
+			|| has_shortcode( $c, 'logo_soup' )
 			|| has_shortcode( $c, 'cooper-bold-logo-soup' )
-			|| self::raw_content_has_logo_soup_shortcode( $c );
+			|| self::raw_content_has_balanced_logos_shortcode( $c );
 
-		if ( ! has_block( 'cooper-bold/logo-soup', $post ) && ! $has_shortcode ) {
+		if ( ! has_block( 'cooper-bold/balanced-logos', $post )
+			&& ! has_block( 'cooper-bold/logo-soup', $post )
+			&& ! $has_shortcode ) {
 			return;
 		}
 
@@ -324,12 +327,12 @@ final class CB_Logo_Soup_Assets {
 	 *
 	 * @param string $content Combined post and builder content.
 	 */
-	private static function raw_content_has_logo_soup_shortcode( string $content ): bool {
+	private static function raw_content_has_balanced_logos_shortcode( string $content ): bool {
 		if ( '' === $content ) {
 			return false;
 		}
 
-		return (bool) preg_match( '/\[(?:logo_soup|cooper-bold-logo-soup)(?:\s|])/i', $content );
+		return (bool) preg_match( '/\[(?:balanced_logos|logo_soup|cooper-bold-logo-soup)(?:\s|])/i', $content );
 	}
 
 	/**
@@ -349,7 +352,7 @@ final class CB_Logo_Soup_Assets {
 			}
 		}
 
-		if ( preg_match_all( '/\[(?:logo_soup|cooper-bold-logo-soup)([^\]]*)\]/i', $content, $matches ) ) {
+		if ( preg_match_all( '/\[(?:balanced_logos|logo_soup|cooper-bold-logo-soup)([^\]]*)\]/i', $content, $matches ) ) {
 			foreach ( $matches[1] as $attrs_fragment ) {
 				$attrs_fragment = (string) $attrs_fragment;
 				if ( self::shortcode_attrs_need_standalone_splide( $attrs_fragment ) ) {
@@ -373,7 +376,7 @@ final class CB_Logo_Soup_Assets {
 				return true;
 			}
 
-			if ( 'cooper-bold/logo-soup' !== ( $block['blockName'] ?? '' ) ) {
+			if ( ! in_array( ( $block['blockName'] ?? '' ), array( 'cooper-bold/balanced-logos', 'cooper-bold/logo-soup' ), true ) ) {
 				continue;
 			}
 
@@ -408,7 +411,7 @@ final class CB_Logo_Soup_Assets {
 
 		$collection_id = isset( $attrs['collectionId'] ) ? absint( $attrs['collectionId'] ) : 0;
 		if ( $collection_id > 0 ) {
-			$from_collection = CB_Logo_Soup_Collections::get_attributes( $collection_id );
+			$from_collection = CB_Balanced_Logos_Collections::get_attributes( $collection_id );
 			return null !== $from_collection
 				&& 'carousel' === ( $from_collection['layout'] ?? 'strip' )
 				&& 'slides' !== ( $wrapper ?: ( $from_collection['wrapper'] ?? 'full' ) );
@@ -442,7 +445,7 @@ final class CB_Logo_Soup_Assets {
 		}
 
 		if ( ! empty( $parsed['collection'] ) && empty( $parsed['layout'] ) ) {
-			$from_collection = CB_Logo_Soup_Collections::get_attributes(
+			$from_collection = CB_Balanced_Logos_Collections::get_attributes(
 				sanitize_title( (string) $parsed['collection'] )
 			);
 			if ( null === $from_collection ) {

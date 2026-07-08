@@ -1,8 +1,8 @@
-# Logo Soup WP Plugin crew tasks
+# Balanced Logos WP Plugin crew tasks
 
 plan_task:
     description: >
-        Create an implementation plan for this Logo Soup WP Plugin task: {task_description}
+        Create an implementation plan for this Balanced Logos WP Plugin task: {task_description}
         Consider: WordPress hooks, security (nonces, capability checks), file layout, and verification on a local WP install.
     expected_output: >
         A markdown document suitable for .cursor/plans/PLAN.md with:
