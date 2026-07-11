@@ -160,5 +160,28 @@
     },
     "namespace": "balanced-logos-wp-plugin",
     "timestamp": 1782210623.611289
+  },
+  {
+    "id": "local_1783697747997",
+    "text": "2026-07-10 close-out: main pushed at 60aab65 (v1.2.15 Balanced Logos rename + wiki auto-commit). Working tree clean, synced with origin. Splide vendors already latest on npm (4.1.4 / auto-scroll 0.5.3); do not bump for WP.org false-positive out-of-date check. Next: release ZIP / WP.org submission for 1.2.15; optionally refresh WORDPRESS-ORG-SUBMISSION.md version refs.",
+    "metadata": {
+      "source": "mark-where-you-are",
+      "date": "2026-07-10",
+      "branch": "main"
+    },
+    "namespace": "balanced-logos-wp-plugin",
+    "timestamp": 1783697747.9974778
+  },
+  {
+    "id": "local_1783765871631",
+    "text": "AI Session: [2026-07-10] Push v1.2.15 rename | Splide upgrade check\n\n**Branch:** `main` @ `60aab65` (synced with `origin/main`)\n\n**Completed:**\n\n- Confirmed rename commit: **v1.2.15** \u2014 plugin renamed **Logo Soup by Cooper Bold \u2192 Balanced Logos** (text domain, shortcode, block, CSS classes, contributor `nicholaseymann`).\n- Pushed `main` to `origin` (`3afa998..60aab65`) \u2014 includes rename + wiki auto-commit. No PR (direct to main).\n- Confirmed Splide vendors are already latest on npm: `@splidejs/splide@4.1.4`, `@splidejs/splide-extension-auto-scroll@0.5.3`. No upgrade needed.\n\n**State:**\n\n- Working tree clean; `main` matches `origin/main`.\n- GitHub remote: `CooperBold/cooper-bold-logo-soup` (repo slug still legacy; user-facing name is Balanced Logos).\n\n**Decisions:**\n",
+    "metadata": {
+      "source": "ai_session_memory",
+      "date": "2026-07-10",
+      "session_title": "[2026-07-10] Push v1.2.15 rename | Splide upgrade check",
+      "imported_by": "maintain_all_simplemem"
+    },
+    "namespace": "balanced-logos-wp-plugin",
+    "timestamp": 1783765871.631124
   }
 ]
