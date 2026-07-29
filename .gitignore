@@ -39,3 +39,4 @@ dist/
 
 # Stale wp-env debug screenshots (not shipped)
 logo-soup-*.png
+.loops

@@ -1,29 +1,30 @@
 {
-	"name": "balanced-logos",
-	"version": "1.2.15",
-	"description": "WordPress plugin wrapping @sanity-labs/logo-soup for harmonious logo displays.",
-	"private": true,
-	"license": "GPL-2.0-or-later",
-	"scripts": {
-		"build": "wp-scripts build src/block/index.js src/view.js src/view.scss src/admin/collection-preview.js",
-		"start": "wp-scripts start src/block/index.js src/view.js src/view.scss src/admin/collection-preview.js",
-		"lint:js": "wp-scripts lint-js",
-		"format": "wp-scripts format",
-		"packages-update": "wp-scripts packages-update",
-		"wp-env": "wp-env",
-		"wp-env:start": "wp-env start",
-		"wp-env:stop": "wp-env stop",
-		"wp-env:clean": "wp-env clean",
-		"test": "wp-scripts test-unit-js",
-		"test:php": "vendor/bin/phpunit"
-	},
-	"dependencies": {
-		"@sanity-labs/logo-soup": "^1.2.2"
-	},
-	"devDependencies": {
-		"@splidejs/splide": "^4.1.4",
-		"@splidejs/splide-extension-auto-scroll": "^0.5.3",
-		"@wordpress/env": "^10.39.0",
-		"@wordpress/scripts": "^30.10.0"
-	}
+  "name": "cooper-bold-logo-strip-normalizer",
+  "version": "1.3.0",
+  "description": "WordPress plugin wrapping @sanity-labs/logo-soup for harmonious logo displays.",
+  "private": true,
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "wp-scripts build src/block/index.js src/view.js src/view.scss src/admin/collection-preview.js",
+    "start": "wp-scripts start src/block/index.js src/view.js src/view.scss src/admin/collection-preview.js",
+    "lint:js": "wp-scripts lint-js",
+    "format": "wp-scripts format",
+    "packages-update": "wp-scripts packages-update",
+    "wp-env": "wp-env",
+    "wp-env:start": "wp-env start",
+    "wp-env:stop": "wp-env stop",
+    "wp-env:clean": "wp-env clean",
+    "test": "wp-scripts test-unit-js",
+    "test:php": "vendor/bin/phpunit",
+    "verify": "bash .verify.sh"
+  },
+  "dependencies": {
+    "@sanity-labs/logo-soup": "^1.2.2"
+  },
+  "devDependencies": {
+    "@splidejs/splide": "^4.1.4",
+    "@splidejs/splide-extension-auto-scroll": "^0.5.3",
+    "@wordpress/env": "^10.39.0",
+    "@wordpress/scripts": "^30.10.0"
+  }
 }
