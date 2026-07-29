@@ -58,10 +58,10 @@ def banner() -> None:
     draw_logo_mark(draw, 120, 125)
     title_font = load_font(36, bold=True)
     sub_font = load_font(18)
-    draw.text((280, 95), "Logo Soup", fill=WHITE, font=title_font)
+    draw.text((280, 95), "Cooper Bold", fill=WHITE, font=title_font)
     draw.text(
         (280, 145),
-        "Balanced partner logo strips for WordPress",
+        "Cooper Bold partner logo strips for WordPress",
         fill=MUTED,
         font=sub_font,
     )
