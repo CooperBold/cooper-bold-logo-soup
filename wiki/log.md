@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-06-22
+updated: 2026-07-31
 ---
 
 # Wiki Log
@@ -36,6 +36,10 @@ Ingested `docs/WORDPRESS-ORG-SUBMISSION.md` → [[wordpress-org-submission]]. Pr
 ## [2026-06-17] ingest | wp-env smoke test + RapidSOS deploy
 
 Ingested `docs/SMOKE-TEST.md` → [[wp-env-smoke-test]] and `docs/RAPIDSOS-DEPLOY.md` → [[rapidsos-deploy]]. Both are operational runbooks (test scaffolding, Cloudways/Bricks deploy) so they live in `wiki/guides/` alongside [[wordpress-org-submission]]. `docs/WORDPRESS-ORG-SUBMISSION.md` was already mirrored from 2026-06-14 (script flagged it again because it only checks `wiki/sources/`; left as-is).
+
+## [2026-07-31] update | Uncommitted `balanced-logos` → `cb-cblsn` rename continues
+
+No commits in the last 24h, but the working tree carries a large uncommitted internal rename: `balanced-logos.php` → `cooper-bold-logo-strip-normalizer.php`, `CB_Balanced_Logos_*` classes → `CB_CBLSN_*` under `includes/`, and `src/shared/to-balanced-logos-props.js` → `to-cblsn-props.js`. The only file touched within the window is `src/view.js`: imports `toCBLSNProps` from `./shared/to-cblsn-props`, hydrating class now `cb-cblsn-hydrating`, debug opt-in now `window.CB_CBLSN_DEBUG` / `?cb_cblsn_debug=1`, and the console log prefix is `[Cooper Bold Logo Strip Normalizer]`. Noted on [[gutenberg-block-balanced-logos]]; commit pending.
 
 ## [2026-06-22] session | WP.org prep v1.2.12 close-out
 
