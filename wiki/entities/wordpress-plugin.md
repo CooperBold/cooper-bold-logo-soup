@@ -32,7 +32,7 @@ WordPress plugin in this repository for displaying normalized logo strips on the
 | Assets | `build/view.js` | `CB_LW_Assets` |
 | Collections CPT | `cb_logo_collection` | `CB_LW_Collections` |
 
-Bootstrap: `plugins_loaded` → `CB_LW::instance()`.
+Bootstrap: `plugins_loaded` → `CB_LW::instance()`. Legacy `balanced-logos.php` is kept as a headerless loader for sites whose `active_plugins` still references the old path; the canonical bootstrap guards double-init via `CB_LW_FILE` and migrates the entry.
 
 ## Key details
 

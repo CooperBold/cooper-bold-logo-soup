@@ -13,6 +13,10 @@ updated: 2026-08-05
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
 
+## [2026-08-05] update | Legacy loader + crewai removal (uncommitted)
+
+Same working tree, two details not yet recorded: `balanced-logos.php` is now a **headerless legacy loader** (no `Plugin Name` header — not a second plugin entry) that WordPress includes when the old path remains in `active_plugins`; the canonical `cooper-bold-logo-wrangler.php` bootstrap guards double-init via `CB_LW_FILE` and migrates the entry. Also the entire `crewai/` scaffolding (agents/tasks YAML, crew.py) is deleted in the working tree, and `readme.txt` now leads with `[logo_wrangler]` as the primary shortcode (Stable tag 1.3.0). Noted on [[wordpress-plugin]]. Commit still pending.
+
 ## [2026-08-05] update | view.js dual-attr hydration + distignore hygiene (uncommitted)
 
 No new commits since `c2449b9`. Working tree gained two things since the 2026-07-31 rename notes: `src/view.js` now reads config from `data-cb-lw` **or** legacy `data-cb-balanced-logos` attrs via a `getConfigAttr()` helper (strips, carousel refs, slides, splide roots all match both), and on hydration dispatches a `cb-lw-hydrated` CustomEvent alongside the legacy `cb-balanced-logos-hydrated`. `.distignore` now also excludes local tooling: `MEMORY.md`, `.verify.sh`, `requirements-lancedb.txt`/`requirements*.txt`, `/.loops`. Noted on [[gutenberg-block-balanced-logos]]. Commit still pending.
