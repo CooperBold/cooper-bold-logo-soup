@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-07-31
+updated: 2026-08-05
 ---
 
 # Wiki Log
@@ -12,6 +12,10 @@ updated: 2026-07-31
 > Format: `## [YYYY-MM-DD] verb | Subject`
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
+
+## [2026-08-05] update | Guides caught up to committed rename
+
+Commit `78214bb` (nightly auto-commit) renamed the operational docs — `docs/RAPIDSOS-DEPLOY.md`, `docs/SMOKE-TEST.md`, `docs/WORDPRESS-ORG-SUBMISSION.md` — from Balanced Logos to **Cooper Bold Logo Wrangler** (`[logo_wrangler]` shortcode, `cb-lw` classes/attrs, `cooper-bold-logo-wrangler-view` script handle, `CB_LW_VERSION`, test files `CB_LW_Renderer_Test.php` / `to-lw-props.test.js`). The wiki guides still used the old names, so synced [[rapidsos-deploy]], [[wp-env-smoke-test]], and [[wordpress-org-submission]] to match the docs, including the Bricks carousel section (`layout="carousel" wrapper="slides"`, `.cb-lw-slide`, `data-cb-lw-ref`) that [[rapidsos-deploy]] was missing. Also retitled `wiki/index.md`. Entity pages and SCHEMA were already updated by the same commit.
 
 ## [2026-06-12] create | Wiki bootstrapped
 

@@ -2,10 +2,10 @@
 title: Wiki Index
 type: index
 created: 2026-06-12
-updated: 2026-06-17
+updated: 2026-08-05
 ---
 
-# Balanced Logos WP Plugin Wiki
+# Cooper Bold Logo Wrangler WP Plugin Wiki
 
 > Content catalog. The LLM reads this first when answering queries.
 
@@ -20,9 +20,9 @@ updated: 2026-06-17
 
 | Page | What it is |
 |------|------------|
-| [[wordpress-plugin]] | Balanced Logos — main plugin |
+| [[wordpress-plugin]] | Cooper Bold Logo Wrangler — main plugin |
 | [[sanity-logo-soup]] | `@sanity-labs/logo-soup` npm package |
-| [[gutenberg-block-balanced-logos]] | Block `cooper-bold/balanced-logos` |
+| [[gutenberg-block-balanced-logos]] | Block `cooper-bold/logo-wrangler` (legacy `cooper-bold/balanced-logos`) |
 
 ## Concepts
 
@@ -42,4 +42,4 @@ updated: 2026-06-17
 |------|---------|
 | [[wordpress-org-submission]] | Publish the plugin to the WordPress.org directory |
 | [[wp-env-smoke-test]] | End-to-end wp-env smoke test (build, activate, shortcode, assets) |
-| [[rapidsos-deploy]] | Deploy Balanced Logos to RapidSOS Cloudways staging (Bricks + collections) |
+| [[rapidsos-deploy]] | Deploy Cooper Bold Logo Wrangler to RapidSOS Cloudways staging (Bricks + collections) |

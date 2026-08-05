@@ -2,7 +2,7 @@
 title: Submit to WordPress.org Plugin Directory
 type: guide
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-08-05
 tags: [wordpress, release, deploy, svn, github-actions]
 aliases: [wp-org-submit, release-plugin]
 sources:
@@ -12,7 +12,9 @@ status: active
 
 # Submit to WordPress.org Plugin Directory
 
-Step-by-step procedure for publishing **Balanced Logos** on the WordPress plugin directory. Tasks that need the maintainer's account or secrets are marked **(you)**. Source: `docs/WORDPRESS-ORG-SUBMISSION.md`.
+Step-by-step procedure for publishing **Cooper Bold Logo Wrangler** on the WordPress plugin directory. Tasks that need the maintainer's account or secrets are marked **(you)**. Source: `docs/WORDPRESS-ORG-SUBMISSION.md`.
+
+**Display name (chosen 2026-07-06):** **Cooper Bold Logo Wrangler** — set in the `Plugin Name` header (`cooper-bold-logo-wrangler.php`) and `readme.txt` title. WordPress.org derives the directory slug from that header (expected: `cooper-bold-logo-wrangler`). The install folder slug, text domain, and block name stay `cooper-bold-logo-wrangler` / `cooper-bold/logo-wrangler` (no text-domain change).
 
 ## 1. Create a WordPress.org account **(you)**
 
@@ -30,14 +32,14 @@ chmod +x scripts/build-release-zip.sh
 ./scripts/build-release-zip.sh
 ```
 
-The ZIP is written to `dist/balanced-logos-1.0.0.zip`. It respects `.distignore` (no `node_modules`, `src/`, dev docs, etc.). See [[adversarial-review]] for verification that `build/block/block.json` and `view.scss.css` end up in the ZIP.
+The ZIP is written to `dist/cooper-bold-logo-wrangler-<version>.zip`. It respects `.distignore` (no `node_modules`, `src/`, dev docs, etc.). See [[adversarial-review]] for verification that `build/block/block.json` and `view.scss.css` end up in the ZIP.
 
 ## 3. Submit for review **(you)**
 
 1. Go to [Add your plugin](https://wordpress.org/plugins/developers/add/).
 2. Upload the ZIP from step 2.
 3. Wait for the review team email (often a few days to two weeks).
-4. When approved, you receive **SVN credentials** for `https://plugins.svn.wordpress.org/balanced-logos/`.
+4. When approved, you receive **SVN credentials** for `https://plugins.svn.wordpress.org/cooper-bold-logo-wrangler/`.
 
 > **Pre-approval:** the first submission is reviewed manually. Plugin Check (step 7) and escaping/sanitization in this repo are aligned with common review feedback, but approval is not guaranteed until a human reviewer accepts the plugin.
 
@@ -45,7 +47,7 @@ The ZIP is written to `dist/balanced-logos-1.0.0.zip`. It respects `.distignore`
 
 After SVN access is granted:
 
-1. Open **GitHub → CooperBold/balanced-logos → Settings → Secrets and variables → Actions**.
+1. Open **GitHub → CooperBold/cooper-bold-logo-wrangler → Settings → Secrets and variables → Actions**.
 2. Add repository secrets:
    - `SVN_USERNAME` — your wordpress.org username.
    - `SVN_PASSWORD` — your [application password](https://make.wordpress.org/core/handbook/tutorials/generate-a-password-for-svn/) (not your login password).
@@ -86,12 +88,12 @@ On a staging WordPress site (6.4+):
 2. Upload the release ZIP or clone from SVN trunk.
 3. Run **Plugin Check → Check a plugin** and fix any reported issues before promoting to production.
 
-This repo follows WordPress coding practices: `ABSPATH` guards, escaping, sanitization, text domain `balanced-logos`. No `eval` or obfuscated JavaScript in source.
+This repo follows WordPress coding practices: `ABSPATH` guards, escaping, sanitization, text domain `cooper-bold-logo-wrangler`. No `eval` or obfuscated JavaScript in source. Splide is bundled under `lib/splide/` (MIT) for standalone carousels.
 
 ## 8. After release
 
 - Update `Stable tag` and changelog in `readme.txt` for each release.
-- Bump `Version` in `balanced-logos.php`, `CB_BALANCED_LOGOS_VERSION`, and `src/block/block.json` (`version`); run `npm run build`; then tag `v*`.
+- Bump `Version` in `cooper-bold-logo-wrangler.php`, `CB_LW_VERSION`, and `src/block/block.json` (`version`); run `npm run build`; then tag `v*`.
 - Monitor the [plugin support forum](https://wordpress.org/support/plugin/balanced-logos/) once live.
 
 ## What cannot be automated

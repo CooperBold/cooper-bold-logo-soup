@@ -1,8 +1,8 @@
 ---
-title: RapidSOS deploy (Balanced Logos)
+title: RapidSOS deploy (Cooper Bold Logo Wrangler)
 type: guide
 created: 2026-06-17
-updated: 2026-06-17
+updated: 2026-08-05
 tags: [wordpress, deploy, cloudways, bricks, shortcode]
 aliases: [rapidsos-deploy]
 sources:
@@ -10,55 +10,82 @@ sources:
 status: active
 ---
 
-# RapidSOS deploy (Balanced Logos)
+# RapidSOS deploy (Cooper Bold Logo Wrangler)
 
-Operational runbook for deploying **Balanced Logos** to the RapidSOS Cloudways staging site (`https://wordpress-1533060-6135168.cloudwaysapps.com/`) which uses the **Bricks** builder rather than Gutenberg. Source: `docs/RAPIDSOS-DEPLOY.md`.
+Operational runbook for deploying **Cooper Bold Logo Wrangler** to the RapidSOS Cloudways staging site (`https://wordpress-1533060-6135168.cloudwaysapps.com/`) which uses the **Bricks** builder rather than Gutenberg. Source: `docs/RAPIDSOS-DEPLOY.md`.
 
 ## Build release ZIP
 
 ```bash
-cd "/Users/thedao/Repos/Balanced Logos WP Plugin"
 npm ci && npm run build && ./scripts/build-release-zip.sh
 ```
 
-Output: `dist/balanced-logos-1.1.0.zip`. The version follows `CB_BALANCED_LOGOS_VERSION` in `balanced-logos.php`.
+Output: `dist/cooper-bold-logo-wrangler-<version>.zip`. The version follows `cooper-bold-logo-wrangler.php`.
 
 ## Install on Cloudways
 
 Pick one:
 
 1. **WP Admin** — Plugins → Add New → Upload Plugin → choose the ZIP → Replace/update if prompted.
-2. **SFTP** — Upload ZIP to server, unzip into `wp-content/plugins/balanced-logos/` (overwrite existing).
-3. **SSH** — `wp plugin install /path/to/balanced-logos-1.1.0.zip --activate` (if WP-CLI available).
+2. **SFTP** — Upload ZIP to server, unzip into `wp-content/plugins/cooper-bold-logo-wrangler/` (overwrite existing).
+3. **SSH** — `wp plugin install /path/to/cooper-bold-logo-wrangler-1.3.0.zip --activate` (if WP-CLI available).
 
-Activate **Balanced Logos** if not already active.
+Activate **Cooper Bold Logo Wrangler** if not already active.
 
 ## Logo Collections (primary workflow on Bricks)
 
 RapidSOS staging uses **Bricks**, not Gutenberg. Manage logos in wp-admin instead of hand-built shortcode URLs:
 
-1. **Balanced Logos → Add New** — name the collection (e.g. "RapidSOS Partners").
+1. **Logo Wrangler → Add New** — name the collection (e.g. "Law Enforcement Partners").
 2. Add logos via **Add / edit logos** (Media Library), set alt text and optional links, drag to reorder.
-3. Tune **Collection Settings** (base size, gap, etc.) and **Publish**.
-4. Copy the shortcode from the sidebar or **Balanced Logos → All Collections** list.
-5. In Bricks, add a **Shortcode** element with e.g. `[balanced_logos collection="rapidsos-partners"]`.
+3. Tune **Collection Settings** — set **Layout** to **Carousel** for Splide sliders, or **Strip** for a single normalized row.
+4. **Publish** and copy the shortcode from the sidebar or **Logo Wrangler → All Collections** list.
+5. In Bricks, add a **Shortcode** element.
 
-Typical page: `/commercial-building-safety/`. **Do not** remove or conflate the existing **Splide marquee** on that page; Balanced Logos is a separate logo strip.
+Typical page: `/commercial-building-safety/`. **Do not** remove or conflate the existing **Splide marquee** on that page; Logo Wrangler is a separate logo strip.
+
+## Bricks carousel (law-enforcement and similar pages)
+
+RapidSOS logo bands use **Bricks Nested Slider** (Splide) with class `logo-slider-slide` (Auto Scroll integration).
+
+**Problem:** a default shortcode renders **one** wrapper with all logos inside → Bricks treats the whole strip as **one** carousel slide.
+
+**Solution — carousel layout + slides wrapper:**
+
+```text
+[logo_wrangler collection="law-enforcement-partners" layout="carousel" wrapper="slides"]
+```
+
+Markup output: hidden reference strip (cross-logo normalization) + one `<li class="splide__slide logo-slider-slide cb-lw-slide">` per logo. Add the Shortcode element as a **direct child of the slider** (or use a **Code** element at the `.splide__list` level if Bricks wraps it in an extra div).
+
+For a standalone carousel (full Splide markup `.cb-lw-carousel.splide`, initialized by `view.js` when the theme loads Splide):
+
+```text
+[logo_wrangler collection="your-slug" layout="carousel"]
+```
+
+Verify: multiple `splide__slide` elements with `data-cb-lw-slide`, hidden `data-cb-lw-ref` present, one logo image per slide after hydration, and the `rapidsos-logo-slider-fix` footer snippet active.
+
+## Strip layout (single normalized row)
+
+```text
+[logo_wrangler collection="rapidsos-partners" base_size="40" gap="32" class="rapidsos-partner-logos"]
+```
+
+### Builder preview (strip)
+
+The Bricks builder iframe often does **not** run `view.js`, so the strip shows **server-rendered** placeholder markup. As of **1.2.1**, the SSR output mirrors the hydrated DOM: `.cb-lw-inner` → inner `div` (LogoSoup row) → `span` per logo → `img` (or `a` > `img` when linked). Target **`.cb-lw-inner > div > span`** in Bricks custom CSS for grid layout — works in builder preview and on the live site, before and after hydration.
 
 ## Legacy inline logos (shortcode one-offs)
 
-Inline `logos="url|alt,..."` shortcodes still work for one-offs, but collections are preferred:
-
-```text
-[balanced_logos collection="rapidsos-partners" base_size="40" gap="32" class="rapidsos-partner-logos"]
-```
+Inline `logos="url|alt,..."` shortcodes still work for one-offs, but collections are preferred. Legacy shortcode aliases `[balanced_logos]`, `[logo_soup]`, `[cooper-bold-logo-soup]` remain functional.
 
 ## Verify after deploy
 
 1. Load the target page (hard refresh or incognito).
 2. View page source and confirm:
-   - `data-cb-balanced-logos` on the wrapper (`.cb-balanced-logos`)
-   - Script handle `balanced-logos-view` → `build/view.js`
+   - `data-cb-lw` on the mount (`.cb-lw-inner`)
+   - Script handle `cooper-bold-logo-wrangler-view` → `build/view.js`
 3. Logos render as a normalized strip (not a marquee).
 4. After changing a collection, purge cache and hard-refresh — blocks/shortcodes load collection data at render time.
 
@@ -74,9 +101,9 @@ Re-check page source if the strip is missing or stale.
 
 ## Rollback checklist
 
-- [ ] Deactivate plugin or restore previous `balanced-logos` folder from backup/ZIP
+- [ ] Deactivate plugin or restore previous plugin folder from backup/ZIP
 - [ ] Purge Cloudways, Breeze, and Bricks cache again
-- [ ] Confirm page source no longer shows `data-cb-balanced-logos` (or shows expected prior version)
+- [ ] Confirm page source no longer shows `data-cb-lw` (or shows expected prior version)
 - [ ] Confirm Splide marquee on `commercial-building-safety` still works unchanged
 
 ## Related
