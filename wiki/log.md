@@ -13,6 +13,10 @@ updated: 2026-08-05
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
 
+## [2026-08-05] update | view.js dual-attr hydration + distignore hygiene (uncommitted)
+
+No new commits since `c2449b9`. Working tree gained two things since the 2026-07-31 rename notes: `src/view.js` now reads config from `data-cb-lw` **or** legacy `data-cb-balanced-logos` attrs via a `getConfigAttr()` helper (strips, carousel refs, slides, splide roots all match both), and on hydration dispatches a `cb-lw-hydrated` CustomEvent alongside the legacy `cb-balanced-logos-hydrated`. `.distignore` now also excludes local tooling: `MEMORY.md`, `.verify.sh`, `requirements-lancedb.txt`/`requirements*.txt`, `/.loops`. Noted on [[gutenberg-block-balanced-logos]]. Commit still pending.
+
 ## [2026-08-05] update | Guides caught up to committed rename
 
 Commit `78214bb` (nightly auto-commit) renamed the operational docs — `docs/RAPIDSOS-DEPLOY.md`, `docs/SMOKE-TEST.md`, `docs/WORDPRESS-ORG-SUBMISSION.md` — from Balanced Logos to **Cooper Bold Logo Wrangler** (`[logo_wrangler]` shortcode, `cb-lw` classes/attrs, `cooper-bold-logo-wrangler-view` script handle, `CB_LW_VERSION`, test files `CB_LW_Renderer_Test.php` / `to-lw-props.test.js`). The wiki guides still used the old names, so synced [[rapidsos-deploy]], [[wp-env-smoke-test]], and [[wordpress-org-submission]] to match the docs, including the Bricks carousel section (`layout="carousel" wrapper="slides"`, `.cb-lw-slide`, `data-cb-lw-ref`) that [[rapidsos-deploy]] was missing. Also retitled `wiki/index.md`. Entity pages and SCHEMA were already updated by the same commit.

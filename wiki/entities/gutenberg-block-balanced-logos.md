@@ -24,6 +24,8 @@ Dynamic block registered from `src/block/block.json`.
 
 Editor UI in `src/block/edit.js`. Server render via `render_callback` in `includes/class-cb-lw.php` delegating to `CB_LW_Renderer`. Shared prop sanitizer: `src/shared/to-lw-props.js` (`toLwProps`).
 
+Frontend hydration (`src/view.js`, uncommitted rename state) accepts both `data-cb-lw` and legacy `data-cb-balanced-logos` attributes via `getConfigAttr()`, and fires a `cb-lw-hydrated` bubbling CustomEvent (plus legacy `cb-balanced-logos-hydrated`) after a carousel hydrates. Debug opt-in: `window.CB_LW_DEBUG`, `localStorage['cb-lw-debug']`, or `?cb_lw_debug=1`.
+
 ## Related
 
 - [[wordpress-plugin]]
