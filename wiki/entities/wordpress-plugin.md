@@ -1,41 +1,45 @@
 ---
-title: Balanced Logos Plugin
+title: Cooper Bold Logo Wrangler Plugin
 type: entity
 created: 2026-06-12
-updated: 2026-06-12
-tags: [wordpress, plugin, logo-soup, cooper-bold]
-aliases: [logo-soup-plugin, balanced-logos]
+updated: 2026-07-31
+tags: [wordpress, plugin, logo-soup, cooper-bold, logo-wrangler]
+aliases: [logo-soup-plugin, balanced-logos, logo-wrangler, cooper-bold-logo-wrangler]
 status: active
 ---
 
-# Balanced Logos Plugin
+# Cooper Bold Logo Wrangler Plugin
 
-WordPress plugin in this repository for displaying normalized logo strips on the front end.
+WordPress plugin in this repository for displaying normalized logo strips on the front end. Formerly **Balanced Logos** / Logo Soup by Cooper Bold.
 
 ## What it is
 
-- **Main file:** `balanced-logos.php`
-- **Package:** `CooperBoldBalancedLogos` / prefix `CB_Balanced_Logos_*`
-- **Version:** 1.0.0 (`CB_BALANCED_LOGOS_VERSION`)
-- **Text domain:** `balanced-logos`
+- **Main file:** `cooper-bold-logo-wrangler.php`
+- **Package:** `CooperBoldLogoWrangler` / prefix `CB_LW_*`
+- **Version:** 1.3.0 (`CB_LW_VERSION`)
+- **Text domain:** `cooper-bold-logo-wrangler`
 - **Upstream:** Wraps `@sanity-labs/logo-soup` npm package
 
 ## How it's used in this project
 
 | Surface | Identifier | PHP class |
 | --- | --- | --- |
-| Block | `cooper-bold/balanced-logos` | `CB_Balanced_Logos_Block` |
-| Shortcode | `balanced_logos` | `CB_Balanced_Logos` |
-| Render | shared | `CB_Balanced_Logos_Renderer` |
-| Assets | `build/view.js` | `CB_Balanced_Logos_Assets` |
+| Block | `cooper-bold/logo-wrangler` | `CB_LW` (register + render) |
+| Shortcode | `logo_wrangler` | `CB_LW` |
+| Legacy shortcodes | `balanced_logos`, `logo_soup`, `cooper-bold-logo-soup` | `CB_LW` |
+| Legacy blocks | `cooper-bold/balanced-logos`, `cooper-bold/logo-soup` | `CB_LW` |
+| Render | shared | `CB_LW_Renderer` |
+| Assets | `build/view.js` | `CB_LW_Assets` |
+| Collections CPT | `cb_logo_collection` | `CB_LW_Collections` |
 
-Bootstrap: `plugins_loaded` → `CB_Balanced_Logos::instance()`.
+Bootstrap: `plugins_loaded` → `CB_LW::instance()`.
 
 ## Key details
 
 - Block metadata: `src/block/block.json`
 - Build output: `build/` via `npm run build`
-- Repo remote (header): `github.com/CooperBold/balanced-logos`
+- Repo remote: `github.com/CooperBold/cooper-bold-logo-soup` (slug still legacy)
+- Frontend CSS: `.cb-lw-wrapper` / `.cb-lw-inner` (also emits legacy `.cb-balanced-logos-*`)
 
 ## Related
 

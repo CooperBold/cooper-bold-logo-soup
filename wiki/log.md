@@ -37,9 +37,13 @@ Ingested `docs/WORDPRESS-ORG-SUBMISSION.md` → [[wordpress-org-submission]]. Pr
 
 Ingested `docs/SMOKE-TEST.md` → [[wp-env-smoke-test]] and `docs/RAPIDSOS-DEPLOY.md` → [[rapidsos-deploy]]. Both are operational runbooks (test scaffolding, Cloudways/Bricks deploy) so they live in `wiki/guides/` alongside [[wordpress-org-submission]]. `docs/WORDPRESS-ORG-SUBMISSION.md` was already mirrored from 2026-06-14 (script flagged it again because it only checks `wiki/sources/`; left as-is).
 
-## [2026-07-31] update | Uncommitted `balanced-logos` → `cb-cblsn` rename continues
+## [2026-07-31] update | Uncommitted `balanced-logos` → `cb-lw` rename continues
 
-No commits in the last 24h, but the working tree carries a large uncommitted internal rename: `balanced-logos.php` → `cooper-bold-logo-strip-normalizer.php`, `CB_Balanced_Logos_*` classes → `CB_CBLSN_*` under `includes/`, and `src/shared/to-balanced-logos-props.js` → `to-cblsn-props.js`. The only file touched within the window is `src/view.js`: imports `toCBLSNProps` from `./shared/to-cblsn-props`, hydrating class now `cb-cblsn-hydrating`, debug opt-in now `window.CB_CBLSN_DEBUG` / `?cb_cblsn_debug=1`, and the console log prefix is `[Cooper Bold Logo Strip Normalizer]`. Noted on [[gutenberg-block-balanced-logos]]; commit pending.
+No commits in the last 24h, but the working tree carries a large uncommitted internal rename: `balanced-logos.php` → `cooper-bold-logo-wrangler.php`, `CB_Balanced_Logos_*` classes → `CB_LW_*` under `includes/`, and `src/shared/to-balanced-logos-props.js` → `to-lw-props.js`. The only file touched within the window is `src/view.js`: imports `toLwProps` from `./shared/to-lw-props`, hydrating class now `cb-lw-hydrating`, debug opt-in now `window.CB_LW_DEBUG` / `?cb_lw_debug=1`, and the console log prefix is `[Cooper Bold Logo Wrangler]`. Noted on [[gutenberg-block-balanced-logos]]; commit pending.
+
+## [2026-07-31] migrate | Rename to Cooper Bold Logo Wrangler complete (uncommitted)
+
+Product rename locked: **Cooper Bold Logo Wrangler**. Bootstrap `cooper-bold-logo-wrangler.php`, PHP `CB_LW_*`, block `cooper-bold/logo-wrangler`, shortcode `[logo_wrangler]`, CSS/data `cb-lw` (legacy Balanced Logos attrs/classes still emitted). CPT stays `cb_logo_collection`. Bugbot findings fixed (release ZIP script, legacy block editor assets, dual data attrs). Release ZIP smoke: `dist/cooper-bold-logo-wrangler-1.3.0.zip`. Updated [[wordpress-plugin]], [[gutenberg-block-balanced-logos]], SCHEMA. Commit still pending.
 
 ## [2026-06-22] session | WP.org prep v1.2.12 close-out
 

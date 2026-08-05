@@ -4,8 +4,8 @@
 
 ## Project
 
-- **Name**: Balanced Logos WP Plugin
-- **Domain**: WordPress plugin **Balanced Logos** — Gutenberg block and `[balanced_logos]` shortcode that render partner logos using `@sanity-labs/logo-soup`. Main file: `balanced-logos.php`.
+- **Name**: Cooper Bold Logo Wrangler WP Plugin
+- **Domain**: WordPress plugin **Cooper Bold Logo Wrangler** — Gutenberg block `cooper-bold/logo-wrangler` and `[logo_wrangler]` shortcode that render partner logos using `@sanity-labs/logo-soup`. Main file: `cooper-bold-logo-wrangler.php`. Legacy aliases: `[balanced_logos]`, `[logo_soup]`.
 
 ## Directory structure
 

@@ -1,8 +1,8 @@
 # WordPress.org submission guide
 
-Step-by-step checklist for publishing **Balanced Logos** on the WordPress plugin directory. Steps that need your account or secrets are marked **(you)**.
+Step-by-step checklist for publishing **Cooper Bold Logo Wrangler** on the WordPress plugin directory. Steps that need your account or secrets are marked **(you)**.
 
-**Display name (chosen 2026-07-06):** **Balanced Logos** — set in the `Plugin Name` header (`balanced-logos.php`) and `readme.txt` title. WordPress.org derives the directory slug from that header (expected: `balanced-logos`). The install folder slug, text domain, and block name stay `balanced-logos` / `cooper-bold/balanced-logos` (no text-domain change).
+**Display name (chosen 2026-07-06):** **Cooper Bold Logo Wrangler** — set in the `Plugin Name` header (`cooper-bold-logo-wrangler.php`) and `readme.txt` title. WordPress.org derives the directory slug from that header (expected: `cooper-bold-logo-wrangler`). The install folder slug, text domain, and block name stay `cooper-bold-logo-wrangler` / `cooper-bold/logo-wrangler` (no text-domain change).
 
 **Current prep state (2026-06-21):** version **1.2.12**, Splide vendored under `lib/splide/`, directory PNGs in `assets/`, release zip via `scripts/build-release-zip.sh`.
 
@@ -10,7 +10,7 @@ Step-by-step checklist for publishing **Balanced Logos** on the WordPress plugin
 
 | Step | Status | Notes |
 | --- | --- | --- |
-| Version aligned (`balanced-logos.php`, `package.json`, `readme.txt`, `block.json`) | ✅ Done | **1.2.12** |
+| Version aligned (`cooper-bold-logo-wrangler.php`, `package.json`, `readme.txt`, `block.json`) | ✅ Done | **1.2.12** |
 | `readme.txt` — Stable tag, Tested up to, GPL header | ✅ Done | Tested up to **6.9**; changelog de-cliented |
 | Directory PNGs (`assets/banner-772x250.png`, icon, screenshots) | ✅ Done | Branded placeholders; replace with design exports before launch if desired |
 | Splide bundled locally (no jsDelivr on frontend) | ✅ Done | `lib/splide/` ships in release ZIP |
@@ -96,12 +96,12 @@ On a staging WordPress site (6.4+):
 2. Upload the release ZIP or clone from SVN trunk.
 3. Run **Plugin Check → Check a plugin** and fix any reported issues before promoting to production.
 
-This repo follows WordPress coding practices (ABSPATH guards, escaping, sanitization, text domain `balanced-logos`). No `eval` or obfuscated JavaScript in source. Splide is bundled under `lib/splide/` (MIT) for standalone carousels.
+This repo follows WordPress coding practices (ABSPATH guards, escaping, sanitization, text domain `cooper-bold-logo-wrangler`). No `eval` or obfuscated JavaScript in source. Splide is bundled under `lib/splide/` (MIT) for standalone carousels.
 
 ## 8. After release
 
 - Update `Stable tag` and changelog in `readme.txt` for each release.
-- Bump `Version` in `balanced-logos.php`, `CB_BALANCED_LOGOS_VERSION`, `src/block/block.json` (`version`), run `npm run build`, then tag `v*`.
+- Bump `Version` in `cooper-bold-logo-wrangler.php`, `CB_LW_VERSION`, `src/block/block.json` (`version`), run `npm run build`, then tag `v*`.
 - Monitor the [plugin support forum](https://wordpress.org/support/plugin/balanced-logos/) once live.
 
 ## Cannot automate without you
