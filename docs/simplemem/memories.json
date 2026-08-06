@@ -214,5 +214,17 @@
     "metadata": {},
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1785988480.2346601
+  },
+  {
+    "id": "local_1786012249718",
+    "text": "Wiki lint: Dead link fix + ingest re-flag note (2026-08-05)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-08-05",
+      "verb": "lint",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1786012249.718624
   }
 ]
