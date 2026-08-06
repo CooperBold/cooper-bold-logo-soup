@@ -207,5 +207,12 @@
     },
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1785925810.8019998
+  },
+  {
+    "id": "local_1785988480234",
+    "text": "2026-08-05 wiki weekly maintenance: fixed dead link gutenberg-block-logo-soup -> gutenberg-block-balanced-logos in wiki/entities/sanity-logo-soup.md; lint clean; no new ingest (3 flagged docs already mirrored as guides).",
+    "metadata": {},
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1785988480.2346601
   }
 ]

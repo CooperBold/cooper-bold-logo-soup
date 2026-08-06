@@ -60,3 +60,7 @@ Product rename locked: **Cooper Bold Logo Wrangler**. Bootstrap `cooper-bold-log
 ## [2026-06-22] session | WP.org prep v1.2.12 close-out
 
 WP.org submission prep complete for **1.2.12** (Splide vendored, PNG assets, readme). Local wp-env verified: strip post 4 (`demo-50-logos`), carousel page 62, Plugin Check pass on release-shaped run. Lesson filed: same-origin Media Library logos required (external URLs CORS-fail hydration). Next: push `main`, upload ZIP, SVN secrets after approval, tag `v1.2.12`. See `AI_SESSION_MEMORY.md` and `docs/WORDPRESS-ORG-SUBMISSION.md`.
+
+## [2026-08-05] lint | Dead link fix + ingest re-flag note
+
+Fixed dead wikilink `[[gutenberg-block-logo-soup]]` → `[[gutenberg-block-balanced-logos]]` in [[sanity-logo-soup]] (block entity page was renamed earlier without updating this backlink). Lint now clean. Ingest script re-flags `docs/RAPIDSOS-DEPLOY.md`, `docs/SMOKE-TEST.md`, `docs/WORDPRESS-ORG-SUBMISSION.md` because it only checks `wiki/sources/` — all three are already mirrored as guides ([[rapidsos-deploy]], [[wp-env-smoke-test]], [[wordpress-org-submission]]); no re-ingest needed.

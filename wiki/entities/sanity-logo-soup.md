@@ -2,7 +2,7 @@
 title: Sanity Labs Logo Soup (npm)
 type: entity
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-08-05
 tags: [npm, sanity, logos]
 aliases: ["@sanity-labs/logo-soup"]
 status: active
@@ -24,4 +24,4 @@ Dependency in `package.json` (^1.2.2). Used from `src/view.js` on the front end 
 ## Related
 
 - [[wordpress-plugin]]
-- [[gutenberg-block-logo-soup]]
+- [[gutenberg-block-balanced-logos|gutenberg-block (cooper-bold/logo-wrangler)]]
