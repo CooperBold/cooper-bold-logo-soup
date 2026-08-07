@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-08-05
+updated: 2026-08-07
 ---
 
 # Wiki Log
@@ -12,6 +12,10 @@ updated: 2026-08-05
 > Format: `## [YYYY-MM-DD] verb | Subject`
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
+
+## [2026-08-07] update | Rename tail: package.json, test bootstrap, view.scss (uncommitted)
+
+No new commits since `a50f708`. Remaining uncommitted rename details not previously recorded: `package.json` name is now `cooper-bold-logo-wrangler` (version 1.3.0); `tests/bootstrap.php` stubs renamed to `CB_LW_PATH` / `CB_LW_URL` constants (plugin URL now `.../cooper-bold-logo-wrangler/`) and gained `metadata_exists()` / `delete_post_meta()` stubs backed by `$GLOBALS['cb_test_post_meta']`; `src/view.scss` now dual-covers every legacy selector with `.cb-lw-*` equivalents (`.cb-lw-inner`, `.cb-lw-slide`, `.cb-lw-carousel-ref`, hydrating-state rules for both class families). Already consistent with [[gutenberg-block-balanced-logos]]; commit still pending.
 
 ## [2026-08-05] update | Legacy loader + crewai removal (uncommitted)
 
