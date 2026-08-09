@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-08-07
+updated: 2026-08-09
 ---
 
 # Wiki Log
@@ -12,6 +12,10 @@ updated: 2026-08-07
 > Format: `## [YYYY-MM-DD] verb | Subject`
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
+
+## [2026-08-09] create | Decision: pin splide-extension-auto-scroll@0.5.3
+
+No new commits since `3e8b804`; the uncommitted rename working tree was fully covered by the 2026-08-05/07 entries. One new detail surfaced in the working-tree `readme.txt` (touched 2026-08-08): the 1.3.0 changelog now documents that `splide-extension-auto-scroll@0.5.3` is the **latest published npm release** (upstream repo's last commit 2022-09-06) and that WP.org's `out of date libraries` check is comparing against a development branch with no new tagged release. Recorded as [[0001-pin-splide-extension-auto-scroll]] — the first entry in `decisions/` — and indexed.
 
 ## [2026-08-07] update | Rename tail: package.json, test bootstrap, view.scss (uncommitted)
 
