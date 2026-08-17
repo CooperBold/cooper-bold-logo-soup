@@ -1,5 +1,5 @@
 /**
- * Live Balanced Logos preview for the collection admin editor.
+ * Live Cooper Bold Logo Wrangler preview for the collection admin editor.
  */
 import {
 	createRoot,
@@ -11,9 +11,9 @@ import {
 import { __ } from '@wordpress/i18n';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
 import { readAttributesFromDom } from './collection-form-data';
-import { sanitizePreviewConfig, toBalancedLogosProps } from '../shared/to-balanced-logos-props';
+import { sanitizePreviewConfig, toLwProps } from '../shared/to-lw-props';
 
-export const PREVIEW_UPDATE_EVENT = 'cb-balanced-logos-preview-update';
+export const PREVIEW_UPDATE_EVENT = 'cb-lw-preview-update';
 
 /**
  * @return {JSX.Element} Live preview or empty-state message.
@@ -29,12 +29,12 @@ export function CollectionPreview() {
 		document.addEventListener( PREVIEW_UPDATE_EVENT, refresh );
 
 		const editor = document.getElementById(
-			'cb-balanced-logos-collection-editor'
+			'cb-lw-collection-editor'
 		);
 		editor?.addEventListener( 'input', refresh );
 
 		const settingsTables = document.querySelectorAll(
-			'.cb-balanced-logos-settings-table'
+			'.cb-lw-settings-table'
 		);
 		settingsTables.forEach( ( table ) => {
 			table.addEventListener( 'input', refresh );
@@ -56,16 +56,16 @@ export function CollectionPreview() {
 		[ attributes ]
 	);
 	const soupProps = useMemo(
-		() => toBalancedLogosProps( previewConfig ),
+		() => toLwProps( previewConfig ),
 		[ previewConfig ]
 	);
 
 	if ( ! soupProps ) {
 		return (
-			<p className="cb-balanced-logos-preview-empty description">
+			<p className="cb-lw-preview-empty description">
 				{ __(
 					'Add at least one logo to see the live preview.',
-					'balanced-logos'
+					'cooper-bold-logo-wrangler'
 				) }
 			</p>
 		);
@@ -84,17 +84,17 @@ export function CollectionPreview() {
 	if ( isCarousel ) {
 		return (
 			<div
-				className="cb-balanced-logos cb-balanced-logos-preview-inner cb-balanced-logos-preview-carousel"
+				className="cb-lw cb-lw-preview-inner cb-lw-preview-carousel"
 				style={ previewStyle }
 			>
-				<ul className="cb-balanced-logos-preview-slides">
+				<ul className="cb-lw-preview-slides">
 					{ previewConfig.logos.map( ( logo, index ) => (
 						<li
 							key={ logo.id || logo.url || index }
-							className="cb-balanced-logos-slide logo-slider-slide"
+							className="cb-lw-slide logo-slider-slide"
 						>
 							<LogoSoup
-								{ ...toBalancedLogosProps( {
+								{ ...toLwProps( {
 									...previewConfig,
 									logos: [ logo ],
 								} ) }
@@ -105,7 +105,7 @@ export function CollectionPreview() {
 				<p className="description">
 					{ __(
 						'Preview shows one slide per logo. Frontend uses cross-logo normalization before distributing into slides.',
-						'balanced-logos'
+						'cooper-bold-logo-wrangler'
 					) }
 				</p>
 			</div>
@@ -114,7 +114,7 @@ export function CollectionPreview() {
 
 	return (
 		<div
-			className="cb-balanced-logos cb-balanced-logos-preview-inner"
+			className="cb-lw cb-lw-preview-inner"
 			style={ previewStyle }
 		>
 			<LogoSoup { ...soupProps } />
@@ -126,7 +126,7 @@ export function CollectionPreview() {
  * Mount the preview React tree when the admin editor is present.
  */
 export function mountCollectionPreview() {
-	const rootEl = document.getElementById( 'cb-balanced-logos-preview-root' );
+	const rootEl = document.getElementById( 'cb-lw-preview-root' );
 	if ( ! rootEl ) {
 		return;
 	}

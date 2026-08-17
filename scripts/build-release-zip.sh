@@ -3,7 +3,8 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-PLUGIN_SLUG="cooper-bold-logo-strip-normalizer"
+PLUGIN_SLUG="cooper-bold-logo-wrangler"
+BOOTSTRAP="$ROOT/cooper-bold-logo-wrangler.php"
 DISTIGNORE="$ROOT/.distignore"
 OUT_DIR="$ROOT/dist"
 TMP_DIR=""
@@ -20,9 +21,14 @@ if [[ ! -f "$DISTIGNORE" ]]; then
 	exit 1
 fi
 
-VERSION="$(grep -m1 'Version:' "$ROOT/cooper-bold-logo-strip-normalizer.php" | sed -E 's/.*Version:[[:space:]]*//' | tr -d '\r')"
+if [[ ! -f "$BOOTSTRAP" ]]; then
+	echo "Missing plugin bootstrap at $BOOTSTRAP" >&2
+	exit 1
+fi
+
+VERSION="$(grep -m1 'Version:' "$BOOTSTRAP" | sed -E 's/.*Version:[[:space:]]*//' | tr -d '\r')"
 if [[ -z "$VERSION" ]]; then
-	echo "Could not read plugin version from cooper-bold-logo-strip-normalizer.php" >&2
+	echo "Could not read plugin version from cooper-bold-logo-wrangler.php" >&2
 	exit 1
 fi
 

@@ -1,4 +1,4 @@
-# Balanced Logos WP Plugin — AI Runbook
+# Cooper Bold Logo Wrangler WP Plugin — AI Runbook
 
 > Read this first before changing plugin code.
 
@@ -6,12 +6,12 @@
 
 ## What this project is
 
-**Balanced Logos** is a WordPress plugin that displays client and partner logos in a balanced strip using [**@sanity-labs/logo-soup**](https://www.npmjs.com/package/@sanity-labs/logo-soup) for normalization and layout.
+**Cooper Bold Logo Wrangler** is a WordPress plugin that displays client and partner logos in a balanced strip using [**@sanity-labs/logo-soup**](https://www.npmjs.com/package/@sanity-labs/logo-soup) for normalization and layout.
 
 Editors can use:
 
-- **Gutenberg block** `cooper-bold/balanced-logos` (`src/block/`)
-- **Shortcode** `[balanced_logos]` with matching attributes (legacy: `[logo_soup]`, `[cooper-bold-logo-soup]`)
+- **Gutenberg block** `cooper-bold/logo-wrangler` (`src/block/`)
+- **Shortcode** `[logo_wrangler]` with matching attributes (legacy: `[balanced_logos]`, `[logo_soup]`, `[cooper-bold-logo-soup]`)
 
 ---
 
@@ -24,26 +24,26 @@ Editors can use:
 | JS | Block editor (`src/block/`), front-end (`src/view.js`) |
 | npm package | `@sanity-labs/logo-soup` ^1.2.2 |
 | Build | `@wordpress/scripts` → `build/index.js`, `build/view.js` |
-| AI tooling | SimpleMem, CrewAI, wiki, Context7 |
+| AI tooling | SimpleMem, Cursor planning, wiki, Context7 |
 
 ---
 
 ## Project structure
 
 ```
-balanced-logos.php     # Plugin header + bootstrap
+cooper-bold-logo-wrangler.php     # Plugin header + bootstrap
 includes/
-  class-cb-balanced-logos.php           # Singleton coordinator
-  class-cb-balanced-logos-assets.php    # Script/style enqueue
-  class-cb-balanced-logos-renderer.php  # HTML + data for logo soup
-  class-cb-balanced-logos-shortcode.php # [balanced_logos]
-  class-cb-balanced-logos-block.php     # Block registration + render_callback
+  class-cb-lw.php                  # Singleton coordinator (block + shortcodes)
+  class-cb-lw-assets.php           # Script/style enqueue
+  class-cb-lw-renderer.php         # HTML + data for logo soup
+  class-cb-lw-collections.php      # CPT + admin UI
+  class-cb-lw-admin-branding.php   # Admin branding CSS
 src/
   block/                           # block.json, edit.js, editor styles
   view.js                          # Front-end logo-soup init
+  shared/to-lw-props.js            # Shared editor/frontend prop sanitizer
 build/                             # Compiled assets (npm run build)
 wiki/                              # LLM wiki (Obsidian)
-crewai/                            # Planning crew
 docs/simplemem/                    # SimpleMem store (committed)
 ```
 
@@ -59,12 +59,12 @@ docs/simplemem/                    # SimpleMem store (committed)
 
 ### Change front-end behavior
 
-1. Edit `src/view.js` and/or `includes/class-cb-balanced-logos-renderer.php`.
+1. Edit `src/view.js` and/or `includes/class-cb-lw-renderer.php`.
 2. Rebuild JS; clear caches on test site.
 
 ### Add shortcode attribute
 
-1. Update shortcode handler in `class-cb-balanced-logos-shortcode.php`.
+1. Update shortcode handler in `class-cb-lw-shortcode.php`.
 2. Mirror attribute in `block.json` and editor if exposed in UI.
 3. Pass through renderer consistently.
 
@@ -74,7 +74,7 @@ Requires Docker (Colima on macOS). Repo path has spaces — `.wp-env.json` mount
 
 ```bash
 # One-time (adjust source path if clone differs):
-ln -s "/Users/thedao/Repos/Balanced Logos WP Plugin" /Users/thedao/Repos/balanced-logos-wp-plugin
+ln -sfn "/Users/thedao/Repos/Logo Soup WP Plugin" /Users/thedao/Repos/cooper-bold-logo-wrangler-wp-plugin
 ```
 
 Shallow `git clone` into `~/.wp-env` can fail `index-pack` on this host — use a local core checkout under `$HOME`:
@@ -85,7 +85,7 @@ npm ci && npm run build && npm run wp-env:start
 ```
 
 - Site: `http://localhost:8888` (admin / password)
-- WP-CLI plugin slug: `balanced-logos-wp-plugin` (directory name from mount)
+- WP-CLI plugin slug: `cooper-bold-logo-wrangler-wp-plugin` (directory name from mount)
 - Stop: `npm run wp-env:stop`
 
 **Smoke URLs (local):**
@@ -96,7 +96,7 @@ npm ci && npm run build && npm run wp-env:start
 | Carousel (`layout="carousel" wrapper="full"`) | `http://localhost:8888/?page_id=62` |
 | Collection slug | `demo-50-logos` |
 
-**CORS / logo URLs:** Balanced Logos hydrates logos via canvas. In local dev, logo `src` must be **same-origin** (WordPress Media Library uploads). External URLs (e.g. `picsum.photos`) fail hydration with CORS errors — seed collections with uploaded PNGs, not hotlinked images.
+**CORS / logo URLs:** Cooper Bold Logo Wrangler hydrates logos via canvas. In local dev, logo `src` must be **same-origin** (WordPress Media Library uploads). External URLs (e.g. `picsum.photos`) fail hydration with CORS errors — seed collections with uploaded PNGs, not hotlinked images.
 
 ### Plugin Check (release-shaped)
 
@@ -104,33 +104,35 @@ Install [Plugin Check](https://wordpress.org/plugins/plugin-check/) in wp-env, t
 
 ```bash
 export WP_ENV_CORE=/Users/thedao/wp-env-wordpress-core
-npx wp-env run cli -- wp plugin check balanced-logos-wp-plugin \
-  --slug=balanced-logos \
-  --exclude-directories=dist,crewai,docs,.cursor,.github,tests,node_modules,vendor,uncommitted,scripts \
+npx wp-env run cli -- wp plugin check cooper-bold-logo-wrangler-wp-plugin \
+  --slug=cooper-bold-logo-wrangler \
+  --exclude-directories=dist,docs,.cursor,.github,tests,node_modules,vendor,uncommitted,scripts \
   --exclude-files=composer-setup.php,composer.phar,.DS_Store,.env,.env.example,.wp-env.json,.phpunit.result.cache,.gitignore,.distignore,phpunit.xml.dist,AI_RUNBOOK.md,AI_SESSION_MEMORY.md,AGENTS.md \
   --ignore-warnings
 ```
 
 Pass = no errors (warnings may remain). Splide must load from `lib/splide/` only — no jsDelivr on frontend.
 
+**Vendored Splide (current):** `@splidejs/splide@4.1.4` + `@splidejs/splide-extension-auto-scroll@0.5.3` under `lib/splide/` — both are latest on npm. WP.org may still flag auto-scroll as outdated (compares to an unreleased upstream branch); do not bump until npm publishes a newer version. Refresh steps: `lib/splide/README.md`.
+
 ### Release checklist
 
 1. `npm run build` and `npm run lint:js`
-2. Bump `CB_BALANCED_LOGOS_VERSION` and plugin header version
-3. `./scripts/build-release-zip.sh` → `dist/balanced-logos-*.zip`
+2. Bump `CB_LW_VERSION` and plugin header version
+3. `./scripts/build-release-zip.sh` → `dist/cooper-bold-logo-wrangler-*.zip`
 4. Plugin Check (above) on wp-env or staging
 5. Tag `v*` and push — see **WordPress.org submission** below
 
-**WordPress.org submission:** Full checklist in `docs/WORDPRESS-ORG-SUBMISSION.md` (version **1.2.12**, SVN secrets, directory assets). Wiki mirror: `wiki/guides/wordpress-org-submission.md`.
+**WordPress.org submission:** Full checklist in `docs/WORDPRESS-ORG-SUBMISSION.md` (plugin version **1.2.15** on `main`; confirm doc version refs). SVN secrets, directory assets. Wiki mirror: `wiki/guides/wordpress-org-submission.md`.
 
 ---
 
 ## Conventions
 
-- Class prefix: `CB_Balanced_Logos_*`
+- Class prefix: `CB_LW_*`
 - Hooks: minimal — `plugins_loaded`, `init` for block
-- SimpleMem namespace: `balanced-logos-wp-plugin`
-- GitHub (header): `https://github.com/CooperBold/balanced-logos`
+- SimpleMem namespace: `cooper-bold-logo-wrangler-wp-plugin`
+- GitHub remote: `https://github.com/CooperBold/cooper-bold-logo-soup` (user-facing plugin name: **Cooper Bold Logo Wrangler**)
 
 ---
 
@@ -144,14 +146,14 @@ npm run lint:js
 
 python3 simplemem_cli.py import-ai-session --path AI_SESSION_MEMORY.md
 
-cd crewai && crewai install && crewai run
+Use Cursor Plan mode; write `.cursor/plans/PLAN.md`
 ```
 
 ---
 
 ## AI bootstrap (2026-06-12)
 
-SimpleMem, wiki, Context7, CrewAI, AGENTS.md added. No legacy `docs/*.md` to ingest. Obsidian already on macOS.
+SimpleMem, wiki, Context7, Cursor planning, AGENTS.md added. No legacy `docs/*.md` to ingest. Obsidian already on macOS.
 
 ---
 
@@ -161,6 +163,6 @@ SimpleMem, wiki, Context7, CrewAI, AGENTS.md added. No legacy `docs/*.md` to ing
 | --- | --- |
 | Agent rules | AGENTS.md |
 | Block schema | `src/block/block.json` |
-| Render pipeline | `class-cb-balanced-logos-renderer.php` |
+| Render pipeline | `class-cb-lw-renderer.php` |
 | Context7 IDs | `.cursor/context7-libraries.md` |
 | Session log | AI_SESSION_MEMORY.md |

@@ -17,17 +17,21 @@
 /docs
 /.cursor
 /README.md
+/MEMORY.md
 /scripts
 /dist
 *.zip
 AI_SESSION_MEMORY.md
 AI_RUNBOOK.md
 AGENTS.md
+.verify.sh
 
-# SimpleMem
+# SimpleMem / local indexes
 /simplemem_cli.py
 /simplemem_client.py
 /requirements.txt
+/requirements-lancedb.txt
+/requirements*.txt
 
 # Node toolchain and source (ship compiled build/ only)
 /node_modules
@@ -44,6 +48,7 @@ AGENTS.md
 # Scratch and local-only paths
 /uncommitted
 .wp-seed-logos
+/.loops
 
 # Python artifacts
 __pycache__

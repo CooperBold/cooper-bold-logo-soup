@@ -2,7 +2,7 @@
 /**
  * Plugin bootstrap: block registration, shortcodes, and render delegation.
  *
- * @package CooperBoldBalancedLogos
+ * @package CooperBoldLogoWrangler
  */
 
 declare(strict_types=1);
@@ -11,32 +11,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-assets.php';
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-renderer.php';
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-collections.php';
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-admin-branding.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-assets.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-renderer.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-collections.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-admin-branding.php';
 
 /**
  * Singleton that wires assets, collections, branding, block, and shortcode output.
  */
-final class CB_Balanced_Logos {
+final class CB_LW {
 
-	private static ?CB_Balanced_Logos $instance = null;
-	private CB_Balanced_Logos_Renderer $renderer;
+	private static ?CB_LW $instance = null;
+	private CB_LW_Renderer $renderer;
 
 	/**
-	 * @return CB_Balanced_Logos Plugin singleton.
+	 * @return CB_LW Plugin singleton.
 	 */
-	public static function instance(): CB_Balanced_Logos {
+	public static function instance(): CB_LW {
 		return self::$instance ?? ( self::$instance = new self() );
 	}
 
 	private function __construct() {
-		new CB_Balanced_Logos_Assets();
-		new CB_Balanced_Logos_Collections();
-		new CB_Balanced_Logos_Admin_Branding();
-		$this->renderer = new CB_Balanced_Logos_Renderer();
+		new CB_LW_Assets();
+		new CB_LW_Collections();
+		new CB_LW_Admin_Branding();
+		$this->renderer = new CB_LW_Renderer();
 		add_action( 'init', array( $this, 'register_block' ) );
+		add_shortcode( 'logo_wrangler', array( $this, 'render_shortcode' ) );
+		// Legacy aliases from Balanced Logos / Logo Soup eras.
 		add_shortcode( 'balanced_logos', array( $this, 'render_shortcode' ) );
 		add_shortcode( 'logo_soup', array( $this, 'render_shortcode' ) );
 		add_shortcode( 'cooper-bold-logo-soup', array( $this, 'render_shortcode' ) );
@@ -47,8 +49,8 @@ final class CB_Balanced_Logos {
 	 */
 	public function register_block(): void {
 		$candidates = array(
-			CB_BALANCED_LOGOS_PATH . 'build/block',
-			CB_BALANCED_LOGOS_PATH . 'src/block',
+			CB_LW_PATH . 'build/block',
+			CB_LW_PATH . 'src/block',
 		);
 		$dir = '';
 		foreach ( $candidates as $candidate ) {
@@ -62,19 +64,25 @@ final class CB_Balanced_Logos {
 		}
 		$registered = register_block_type( $dir, array( 'render_callback' => array( $this, 'render_block' ) ) );
 		if ( $registered instanceof WP_Block_Type ) {
-			register_block_type(
-				'cooper-bold/logo-soup',
-				array(
-					'render_callback' => array( $this, 'render_block' ),
-					'attributes'        => $registered->attributes,
-					'supports'          => $registered->supports,
-				)
+			$legacy_args = array(
+				'render_callback' => array( $this, 'render_block' ),
+				'attributes'      => $registered->attributes,
+				'supports'        => $registered->supports,
 			);
+			// Keep editor assets so existing posts with legacy block names remain editable.
+			foreach ( array( 'editor_script_handles', 'editor_style_handles', 'script_handles', 'style_handles', 'view_script_handles', 'view_style_handles' ) as $handle_prop ) {
+				if ( ! empty( $registered->$handle_prop ) ) {
+					$legacy_args[ $handle_prop ] = $registered->$handle_prop;
+				}
+			}
+			foreach ( array( 'cooper-bold/balanced-logos', 'cooper-bold/logo-soup' ) as $legacy_name ) {
+				register_block_type( $legacy_name, $legacy_args );
+			}
 		}
 	}
 
 	/**
-	 * Server-side render callback for cooper-bold/balanced-logos.
+	 * Server-side render callback for cooper-bold/logo-wrangler.
 	 *
 	 * @param array<string, mixed> $attributes Block attributes.
 	 * @param string               $content    Inner block content (unused).
@@ -83,7 +91,12 @@ final class CB_Balanced_Logos {
 	 */
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
 		$attributes = $this->prepare_block_attributes( $attributes );
-		return $this->renderer->render( $attributes, get_block_wrapper_attributes( array( 'class' => 'cb-balanced-logos cb-balanced-logos-wrapper' ) ) );
+		return $this->renderer->render(
+			$attributes,
+			get_block_wrapper_attributes(
+				array( 'class' => 'cb-lw cb-lw-wrapper cb-balanced-logos cb-balanced-logos-wrapper' )
+			)
+		);
 	}
 
 	/**
@@ -112,14 +125,14 @@ final class CB_Balanced_Logos {
 	}
 
 	/**
-	 * Render `[balanced_logos]` and legacy `[logo_soup]` / `[cooper-bold-logo-soup]` shortcodes.
+	 * Render `[logo_wrangler]` and legacy shortcode aliases.
 	 *
 	 * @param array<string, string>|string $atts    Shortcode attributes.
 	 * @param string|null                  $content Enclosed content (unused).
 	 * @param string                       $tag     Shortcode tag name.
 	 * @return string Rendered HTML.
 	 */
-	public function render_shortcode( $atts, ?string $content = null, string $tag = 'balanced_logos' ): string {
+	public function render_shortcode( $atts, ?string $content = null, string $tag = 'logo_wrangler' ): string {
 		$a = shortcode_atts(
 			array(
 				'collection'         => '',

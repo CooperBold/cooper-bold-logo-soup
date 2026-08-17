@@ -1,8 +1,8 @@
 <?php
 /**
- * Minimal WordPress stubs for CB_Balanced_Logos_Renderer unit tests.
+ * Minimal WordPress stubs for CB_LW_Renderer unit tests.
  *
- * @package CooperBoldBalancedLogos
+ * @package CooperBoldLogoWrangler
  */
 
 declare(strict_types=1);
@@ -11,12 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
-if ( ! defined( 'CB_BALANCED_LOGOS_PATH' ) ) {
-	define( 'CB_BALANCED_LOGOS_PATH', dirname( __DIR__ ) . '/' );
+if ( ! defined( 'CB_LW_PATH' ) ) {
+	define( 'CB_LW_PATH', dirname( __DIR__ ) . '/' );
 }
 
-if ( ! defined( 'CB_BALANCED_LOGOS_URL' ) ) {
-	define( 'CB_BALANCED_LOGOS_URL', 'https://example.com/wp-content/plugins/balanced-logos/' );
+if ( ! defined( 'CB_LW_URL' ) ) {
+	define( 'CB_LW_URL', 'https://example.com/wp-content/plugins/cooper-bold-logo-wrangler/' );
 }
 
 if ( ! function_exists( 'get_current_screen' ) ) {
@@ -239,6 +239,32 @@ if ( ! function_exists( 'get_post_meta' ) ) {
 	}
 }
 
+if ( ! function_exists( 'metadata_exists' ) ) {
+	/**
+	 * @param string $meta_type Type of object metadata.
+	 * @param int    $object_id Object ID.
+	 * @param string $meta_key  Meta key.
+	 */
+	function metadata_exists( $meta_type, $object_id, $meta_key ): bool {
+		unset( $meta_type );
+		$id = (int) $object_id;
+		return isset( $GLOBALS['cb_test_post_meta'][ $id ][ $meta_key ] );
+	}
+}
+
+if ( ! function_exists( 'delete_post_meta' ) ) {
+	/**
+	 * @param int    $post_id Post ID.
+	 * @param string $key     Meta key.
+	 */
+	function delete_post_meta( $post_id, $key, $value = '' ): bool {
+		unset( $value );
+		$id = (int) $post_id;
+		unset( $GLOBALS['cb_test_post_meta'][ $id ][ $key ] );
+		return true;
+	}
+}
+
 if ( ! function_exists( 'get_posts' ) ) {
 	/**
 	 * @param array<string, mixed> $args Query args.
@@ -402,7 +428,7 @@ if ( ! function_exists( 'map_deep' ) ) {
 	}
 }
 
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-assets.php';
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-renderer.php';
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-collections.php';
-require_once CB_BALANCED_LOGOS_PATH . 'includes/class-cb-balanced-logos-admin-branding.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-assets.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-renderer.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-collections.php';
+require_once CB_LW_PATH . 'includes/class-cb-lw-admin-branding.php';

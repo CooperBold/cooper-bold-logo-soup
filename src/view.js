@@ -5,30 +5,30 @@
 
 import { createRoot } from '@wordpress/element';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
-import { toBalancedLogosProps } from './shared/to-balanced-logos-props';
+import { toLwProps } from './shared/to-lw-props';
 
 const mounted = new WeakMap();
 const carouselGroups = new WeakSet();
 const hydratedCarousels = new WeakSet();
 const AUTOSCROLL_MARKER = 'logoSliderAutoscroll';
-const HYDRATING_CLASS = 'cb-balanced-logos-hydrating';
+const HYDRATING_CLASS = 'cb-lw-hydrating';
 const STANDALONE_SPLIDE_RETRY_MS = [ 0, 100, 500, 1500, 3000 ];
 const HYDRATION_FAIL_OPEN_MS = 800;
 const MIN_SLIDES_BEFORE_SPLIDE = 3;
 const SPLIDE_REFRESH_DEBOUNCE_MS = 150;
-const DEBUG_STORAGE_KEY = 'cb-balanced-logos-debug';
-const LOG_PREFIX = '[Balanced Logos]';
+const DEBUG_STORAGE_KEY = 'cb-lw-debug';
+const LOG_PREFIX = '[Cooper Bold Logo Wrangler]';
 
 /**
  * Whether opt-in frontend debug logging is enabled.
  *
  * @return {boolean}
  */
-function isBalancedLogosDebugEnabled() {
+function isLWDebugEnabled() {
 	if ( typeof window === 'undefined' ) {
 		return false;
 	}
-	if ( window.CB_BALANCED_LOGOS_DEBUG === true ) {
+	if ( window.CB_LW_DEBUG === true ) {
 		return true;
 	}
 	try {
@@ -41,7 +41,7 @@ function isBalancedLogosDebugEnabled() {
 	try {
 		return (
 			new URLSearchParams( window.location.search ).get(
-				'cb_balanced_logos_debug'
+				'cb_lw_debug'
 			) === '1'
 		);
 	} catch ( error ) {
@@ -53,7 +53,7 @@ function isBalancedLogosDebugEnabled() {
  * @param {...*} args Log arguments when debug is enabled.
  */
 function balancedLogosLog( ...args ) {
-	if ( ! isBalancedLogosDebugEnabled() ) {
+	if ( ! isLWDebugEnabled() ) {
 		return;
 	}
 	// eslint-disable-next-line no-console
@@ -64,7 +64,7 @@ function balancedLogosLog( ...args ) {
  * @param {...*} args Error when debug is enabled.
  */
 function balancedLogosDebugError( ...args ) {
-	if ( ! isBalancedLogosDebugEnabled() ) {
+	if ( ! isLWDebugEnabled() ) {
 		return;
 	}
 	// eslint-disable-next-line no-console
@@ -78,7 +78,7 @@ function balancedLogosDebugError( ...args ) {
  * @param {string}        context Caller label for the check.
  */
 function logSlidesImageStatus( slides, context ) {
-	if ( ! isBalancedLogosDebugEnabled() ) {
+	if ( ! isLWDebugEnabled() ) {
 		return;
 	}
 
@@ -207,16 +207,30 @@ function carouselSplideInitialized( carouselRoot ) {
 }
 
 /**
+ * Read config JSON from current or legacy data attributes.
+ *
+ * @param {HTMLElement} el Mount node.
+ * @return {string} Raw JSON attribute value.
+ */
+function getConfigAttr( el ) {
+	return (
+		el.getAttribute( 'data-cb-lw' ) ||
+		el.getAttribute( 'data-cb-balanced-logos' ) ||
+		''
+	);
+}
+
+/**
  * Mount LogoSoup on a strip container (idempotent per node).
  *
- * @param {HTMLElement} container Mount node with data-cb-balanced-logos.
+ * @param {HTMLElement} container Mount node with data-cb-lw.
  */
 function mountLogoSoup( container ) {
 	if ( mounted.has( container ) ) {
 		return;
 	}
 
-	const raw = container.getAttribute( 'data-cb-balanced-logos' );
+	const raw = getConfigAttr( container );
 	if ( ! raw ) {
 		return;
 	}
@@ -231,7 +245,7 @@ function mountLogoSoup( container ) {
 		return;
 	}
 
-	const soupProps = toBalancedLogosProps( config );
+	const soupProps = toLwProps( config );
 	if ( ! soupProps ) {
 		return;
 	}
@@ -254,7 +268,7 @@ function mountCarouselReference( refContainer, groupId ) {
 	}
 	carouselGroups.add( refContainer );
 
-	const raw = refContainer.getAttribute( 'data-cb-balanced-logos' );
+	const raw = getConfigAttr( refContainer );
 	if ( ! raw ) {
 		return;
 	}
@@ -270,7 +284,7 @@ function mountCarouselReference( refContainer, groupId ) {
 		return;
 	}
 
-	const soupProps = toBalancedLogosProps( { ...config, eagerLoad: true } );
+	const soupProps = toLwProps( { ...config, eagerLoad: true } );
 	if ( ! soupProps ) {
 		return;
 	}
@@ -278,7 +292,7 @@ function mountCarouselReference( refContainer, groupId ) {
 	// Cache slide nodes before Splide loop clones duplicate data attributes.
 	const slides = Array.from(
 		document.querySelectorAll(
-			`[data-cb-balanced-logos-slide][data-cb-balanced-logos-carousel="${ groupId }"]`
+			`[data-cb-lw-slide][data-cb-lw-carousel="${ groupId }"], [data-cb-balanced-logos-slide][data-cb-balanced-logos-carousel="${ groupId }"]`
 		)
 	);
 	if ( ! slides.length ) {
@@ -300,9 +314,9 @@ function mountCarouselReference( refContainer, groupId ) {
 	root.render( <LogoSoup { ...soupProps } /> );
 
 	const carouselRoot =
-		refContainer.closest( '[data-cb-balanced-logos-splide]' ) ||
+		refContainer.closest( '[data-cb-lw-splide], [data-cb-balanced-logos-splide]' ) ||
 		document.querySelector(
-			`[data-cb-balanced-logos-carousel="${ groupId }"][data-cb-balanced-logos-splide]`
+			`[data-cb-lw-carousel="${ groupId }"][data-cb-lw-splide], [data-cb-balanced-logos-carousel="${ groupId }"][data-cb-balanced-logos-splide]`
 		);
 	if ( carouselRoot ) {
 		carouselRoot.classList.add( HYDRATING_CLASS );
@@ -330,9 +344,12 @@ function mountCarouselReference( refContainer, groupId ) {
 
 		hydratedCarousels.add( carouselRoot );
 		carouselRoot.dispatchEvent(
+			new CustomEvent( 'cb-lw-hydrated', { bubbles: true } )
+		);
+		carouselRoot.dispatchEvent(
 			new CustomEvent( 'cb-balanced-logos-hydrated', { bubbles: true } )
 		);
-		balancedLogosLog( 'cb-balanced-logos-hydrated fired', { groupId } );
+		balancedLogosLog( 'cb-lw-hydrated fired', { groupId } );
 	};
 
 	const distribute = () => {
@@ -643,10 +660,14 @@ function maybeInitStandaloneSplide( carouselRoot ) {
  * Initialize hidden reference strips and standalone Splide carousels.
  */
 function initCarousels() {
-	const refs = document.querySelectorAll( '[data-cb-balanced-logos-ref]' );
+	const refs = document.querySelectorAll(
+		'[data-cb-lw-ref], [data-cb-balanced-logos-ref]'
+	);
 	balancedLogosLog( 'carousel groups found', refs.length );
 	refs.forEach( ( refContainer ) => {
-		const groupId = refContainer.getAttribute( 'data-cb-balanced-logos-ref' );
+		const groupId =
+			refContainer.getAttribute( 'data-cb-lw-ref' ) ||
+			refContainer.getAttribute( 'data-cb-balanced-logos-ref' );
 		if ( ! groupId ) {
 			return;
 		}
@@ -658,15 +679,22 @@ function initCarousels() {
  * Mount all strip containers, then initialize carousels.
  */
 function init() {
-	const strips = document.querySelectorAll( '[data-cb-balanced-logos]' );
-	const refs = document.querySelectorAll( '[data-cb-balanced-logos-ref]' );
+	const strips = document.querySelectorAll(
+		'[data-cb-lw], [data-cb-balanced-logos]'
+	);
+	const refs = document.querySelectorAll(
+		'[data-cb-lw-ref], [data-cb-balanced-logos-ref]'
+	);
 	balancedLogosLog( 'init', {
 		stripCount: strips.length,
 		carouselRefCount: refs.length,
 	} );
 
 	strips.forEach( ( el ) => {
-		if ( el.hasAttribute( 'data-cb-balanced-logos-ref' ) ) {
+		if (
+			el.hasAttribute( 'data-cb-lw-ref' ) ||
+			el.hasAttribute( 'data-cb-balanced-logos-ref' )
+		) {
 			return;
 		}
 		mountLogoSoup( el );

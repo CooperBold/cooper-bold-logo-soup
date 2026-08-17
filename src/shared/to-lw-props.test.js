@@ -5,9 +5,9 @@
 import {
 	sanitizePreviewConfig,
 	sanitizeCssColor,
-	toBalancedLogosProps,
+	toLwProps,
 	clamp,
-} from './to-balanced-logos-props';
+} from './to-lw-props';
 
 describe( 'sanitizeCssColor', () => {
 	it( 'accepts hex, named, and rgb colors', () => {
@@ -97,10 +97,10 @@ describe( 'sanitizePreviewConfig', () => {
 	} );
 } );
 
-describe( 'toBalancedLogosProps', () => {
+describe( 'toLwProps', () => {
 	it( 'returns null when logos are missing', () => {
-		expect( toBalancedLogosProps( { logos: [] } ) ).toBeNull();
-		expect( toBalancedLogosProps( null ) ).toBeNull();
+		expect( toLwProps( { logos: [] } ) ).toBeNull();
+		expect( toLwProps( null ) ).toBeNull();
 	} );
 
 	it( 'maps logos and zeros densityFactor when densityAware is false', () => {
@@ -116,7 +116,7 @@ describe( 'toBalancedLogosProps', () => {
 			densityFactor: 0.8,
 		} );
 
-		const props = toBalancedLogosProps( config );
+		const props = toLwProps( config );
 
 		expect( props ).not.toBeNull();
 		expect( props.logos ).toEqual( [
@@ -133,7 +133,7 @@ describe( 'toBalancedLogosProps', () => {
 			densityFactor: 0.25,
 		} );
 
-		const props = toBalancedLogosProps( config );
+		const props = toLwProps( config );
 
 		expect( props.densityFactor ).toBe( 0.25 );
 	} );

@@ -1,8 +1,8 @@
 <?php
 /**
- * Sparse Cooper Bold branding on Balanced Logos admin screens.
+ * Sparse Cooper Bold branding on Cooper Bold Logo Wrangler admin screens.
  *
- * @package CooperBoldBalancedLogos
+ * @package CooperBoldLogoWrangler
  */
 
 declare(strict_types=1);
@@ -12,23 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Whether the current wp-admin screen belongs to Balanced Logos.
+ * Whether the current wp-admin screen belongs to Cooper Bold Logo Wrangler.
  *
  * @return bool
  */
-function cb_is_balanced_logos_admin_screen(): bool {
+function cb_is_logo_wrangler_admin_screen(): bool {
 	$screen = get_current_screen();
 	if ( ! $screen ) {
 		return false;
 	}
 
-	return CB_Balanced_Logos_Collections::POST_TYPE === $screen->post_type;
+	return CB_LW_Collections::POST_TYPE === $screen->post_type;
 }
 
 /**
- * Sparse Cooper Bold branding on Balanced Logos admin screens.
+ * Sparse Cooper Bold branding on Cooper Bold Logo Wrangler admin screens.
  */
-final class CB_Balanced_Logos_Admin_Branding {
+final class CB_LW_Admin_Branding {
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -37,49 +37,49 @@ final class CB_Balanced_Logos_Admin_Branding {
 	}
 
 	/**
-	 * Enqueue admin branding stylesheet on Balanced Logos screens.
+	 * Enqueue admin branding stylesheet on Cooper Bold Logo Wrangler screens.
 	 *
 	 * @param string $hook Current admin hook.
 	 * @return void
 	 */
 	public function enqueue_styles( string $hook ): void {
-		if ( ! cb_is_balanced_logos_admin_screen() ) {
+		if ( ! cb_is_logo_wrangler_admin_screen() ) {
 			return;
 		}
 
 		wp_enqueue_style(
-			'cb-balanced-logos-admin-branding',
-			CB_BALANCED_LOGOS_URL . 'admin/css/admin-branding.css',
+			'cb-lw-admin-branding',
+			CB_LW_URL . 'admin/css/admin-branding.css',
 			array(),
-			CB_BALANCED_LOGOS_VERSION
+			CB_LW_VERSION
 		);
 	}
 
 	/**
-	 * Replace the left wp-admin footer with a CooperBold link on Balanced Logos screens.
+	 * Replace the left wp-admin footer with a CooperBold link on Cooper Bold Logo Wrangler screens.
 	 *
 	 * @param string $text Default left footer text.
 	 * @return string Filtered footer HTML.
 	 */
 	public function filter_footer_text( string $text ): string {
-		if ( ! cb_is_balanced_logos_admin_screen() ) {
+		if ( ! cb_is_logo_wrangler_admin_screen() ) {
 			return $text;
 		}
 
 		return sprintf(
-			'<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer" class="cb-balanced-logos-footer-brand">%s</a>',
-			esc_html__( 'CooperBold', 'balanced-logos' )
+			'<a href="https://cooperbold.com" target="_blank" rel="noopener noreferrer" class="cb-lw-footer-brand">%s</a>',
+			esc_html__( 'CooperBold', 'cooper-bold-logo-wrangler' )
 		);
 	}
 
 	/**
-	 * Clear the right wp-admin footer on Balanced Logos screens.
+	 * Clear the right wp-admin footer on Cooper Bold Logo Wrangler screens.
 	 *
 	 * @param string $text Default right footer text.
 	 * @return string Filtered footer text.
 	 */
 	public function filter_update_footer( string $text ): string {
-		if ( ! cb_is_balanced_logos_admin_screen() ) {
+		if ( ! cb_is_logo_wrangler_admin_screen() ) {
 			return $text;
 		}
 

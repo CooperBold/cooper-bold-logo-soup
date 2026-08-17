@@ -1,10 +1,10 @@
-# Balanced Logos
+# Cooper Bold Logo Wrangler
 
 WordPress plugin that wraps [@sanity-labs/logo-soup](https://github.com/sanity-labs/logo-soup) for harmonious partner/client logo displays. Built for sites like [RapidSOS](https://rapidsos.com) and distributed as a free Cooper Bold plugin.
 
 ## What it does
 
-Balanced Logos **normalizes logo visuals** so mixed brand assets look balanced together. It measures each image, detects visual weight and density, and scales logos to a harmonious strip. It is **not** a scrolling marquee.
+Cooper Bold Logo Wrangler **normalizes logo visuals** so mixed brand assets look balanced together. It measures each image, detects visual weight and density, and scales logos to a harmonious strip. It is **not** a scrolling marquee.
 
 ## Plugin architecture
 
@@ -13,7 +13,7 @@ Balanced Logos **normalizes logo visuals** so mixed brand assets look balanced t
 | Normalization engine | `@sanity-labs/logo-soup` (MIT) |
 | Block editor | Gutenberg block built with `@wordpress/scripts` |
 | Frontend | React hydration via `src/view.js` + dynamic PHP render |
-| Shortcode | `[balanced_logos]` sharing the same renderer and view script |
+| Shortcode | `[logo_wrangler]` sharing the same renderer and view script |
 | Asset loading | View script enqueued only when block/shortcode renders |
 
 The React component is bundled rather than ported to vanilla JS to preserve upstream behavior with minimal maintenance.
@@ -28,13 +28,13 @@ The React component is bundled rather than ported to vanilla JS to preserve upst
 
 ### Site install (built assets included)
 
-1. Copy the plugin folder to `wp-content/plugins/balanced-logos/`.
-2. Activate **Balanced Logos** in **Plugins**.
+1. Copy the plugin folder to `wp-content/plugins/cooper-bold-logo-wrangler/`.
+2. Activate **Cooper Bold Logo Wrangler** in **Plugins**.
 
 ### Development
 
 ```bash
-cd wp-content/plugins/balanced-logos
+cd wp-content/plugins/cooper-bold-logo-wrangler
 npm install
 npm run build   # production
 npm run start   # watch mode
@@ -47,7 +47,7 @@ Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or a
 **Path with spaces:** `@wordpress/env` breaks when the repo directory name contains spaces. This checkout uses a **no-spaces symlink** in `.wp-env.json`. On your machine, create the same link once (adjust if your clone lives elsewhere):
 
 ```bash
-ln -sfn "/path/to/Balanced Logos WP Plugin" "/path/to/balanced-logos-wp-plugin"
+ln -sfn "/path/to/Cooper Bold Logo Wrangler WP Plugin" "/path/to/cooper-bold-logo-wrangler-wp-plugin"
 ```
 
 Or clone the repo into a directory **without** spaces and set `"plugins": [ "." ]` in `.wp-env.json`.
@@ -60,7 +60,7 @@ npm run wp-env:start
 
 - Site: [http://localhost:8888](http://localhost:8888)
 - Admin: [http://localhost:8888/wp-admin](http://localhost:8888/wp-admin) — user `admin`, password `password`
-- Activate **Balanced Logos** on the [Plugins](http://localhost:8888/wp-admin/plugins.php) screen, then create a page and insert the **Balanced Logos** block to smoke-test the strip.
+- Activate **Cooper Bold Logo Wrangler** on the [Plugins](http://localhost:8888/wp-admin/plugins.php) screen, then create a page and insert the **Cooper Bold Logo Wrangler** block to smoke-test the strip.
 
 Stop the environment:
 
@@ -74,35 +74,35 @@ Reset containers and volumes: `npm run wp-env:clean`.
 
 ### Logo Collections (recommended)
 
-1. In wp-admin, open **Balanced Logos → Add New**.
+1. In wp-admin, open **Cooper Bold Logo Wrangler → Add New**.
 2. Name the collection (e.g. "Homepage Partners"), add logos from the Media Library, and tune normalization settings.
 3. **Publish** the collection.
 4. Copy the shortcode from the collection editor or list table, or pick the collection in the block sidebar.
 
 ```text
-[balanced_logos collection="homepage-partners"]
-[balanced_logos id="123"]
+[logo_wrangler collection="homepage-partners"]
+[logo_wrangler id="123"]
 ```
 
 Collections are the primary workflow for Bricks and other page builders — no hand-built logo URL strings.
 
 ### Gutenberg block
 
-1. Insert the **Balanced Logos** block (`cooper-bold/balanced-logos`).
+1. Insert the **Cooper Bold Logo Wrangler** block (`cooper-bold/logo-wrangler`).
 2. Choose a **collection** from the sidebar, or click **Add logos** for a one-off strip.
 3. Adjust normalization and layout in the block sidebar (manual mode only).
 
 ### Shortcode
 
 ```text
-[balanced_logos collection="homepage-partners"]
-[balanced_logos id="123" gap="32"]
+[logo_wrangler collection="homepage-partners"]
+[logo_wrangler id="123" gap="32"]
 ```
 
 Legacy inline logos still work:
 
 ```text
-[balanced_logos logos="/wp-content/uploads/acme.svg|Acme,/wp-content/uploads/globex.svg|Globex" gap="28" base_size="48"]
+[logo_wrangler logos="/wp-content/uploads/acme.svg|Acme,/wp-content/uploads/globex.svg|Globex" gap="28" base_size="48"]
 ```
 
 **Shortcode attributes**
@@ -130,15 +130,15 @@ When `collection` or `id` is set, logos and defaults come from the collection. E
 Create a **Logo Collection** in wp-admin for partner logos, then drop the shortcode into a Bricks Shortcode element:
 
 ```text
-[balanced_logos collection="rapidsos-partners"]
+[logo_wrangler collection="rapidsos-partners"]
 ```
 
-Optional overrides: `[balanced_logos collection="rapidsos-partners" base_size="40" gap="32" class="rapidsos-partner-logos"]`
+Optional overrides: `[logo_wrangler collection="rapidsos-partners" base_size="40" gap="32" class="rapidsos-partner-logos"]`
 
 ## Project layout
 
 ```text
-balanced-logos.php    # Plugin bootstrap
+cooper-bold-logo-wrangler.php    # Plugin bootstrap
 includes/                    # PHP classes (assets, collections, renderer, shortcode)
 admin/                       # Collection editor JS/CSS (wp-admin)
 src/block/                   # Gutenberg block source
@@ -169,7 +169,7 @@ Do not commit these values. Each secret is write-once in GitHub; you cannot view
 ### Cut a release
 
 1. Bump the version in **three** places so they stay aligned:
-   - `balanced-logos.php` plugin header `Version:` and `CB_BALANCED_LOGOS_VERSION`
+   - `cooper-bold-logo-wrangler.php` plugin header `Version:` and `CB_LW_VERSION`
    - `readme.txt` `Stable tag:` and changelog section
    - `src/block/block.json` `version` (rebuild updates `build/block/block.json`)
 2. Commit on `main`: `git commit -m "chore: release 1.0.1"`
@@ -185,7 +185,7 @@ Do not commit these values. Each secret is write-once in GitHub; you cannot view
 
 ### What ships to WordPress.org
 
-Included: `balanced-logos.php`, `includes/`, `build/`, `readme.txt`, `LICENSE`.
+Included: `cooper-bold-logo-wrangler.php`, `includes/`, `build/`, `readme.txt`, `LICENSE`.
 
 Excluded (via `.distignore`): `src/`, `node_modules/`, AI/wiki docs, `.cursor/`, SimpleMem, npm manifests, and other dev-only files. CI runs `npm ci && npm run build` before deploy so `build/` is fresh even though compiled assets are also committed on `main`.
 

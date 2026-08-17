@@ -21,25 +21,25 @@ function readNumber( input, fallback ) {
 export function readLogosFromDom() {
 	const logos = [];
 	document
-		.querySelectorAll( '#cb-balanced-logos-logo-list .cb-balanced-logos-logo-item' )
+		.querySelectorAll( '#cb-lw-logo-list .cb-lw-logo-item' )
 		.forEach( ( item, index ) => {
 			const url =
-				item.querySelector( '.cb-balanced-logos-logo-url' )?.value || '';
+				item.querySelector( '.cb-lw-logo-url' )?.value || '';
 			if ( ! url ) {
 				return;
 			}
 			const id =
 				parseInt(
-					item.querySelector( '.cb-balanced-logos-logo-id' )?.value,
+					item.querySelector( '.cb-lw-logo-id' )?.value,
 					10
 				) || index + 1;
 			logos.push( {
 				id,
 				url,
 				alt:
-					item.querySelector( '.cb-balanced-logos-logo-alt' )?.value || '',
+					item.querySelector( '.cb-lw-logo-alt' )?.value || '',
 				link:
-					item.querySelector( '.cb-balanced-logos-logo-link' )?.value ||
+					item.querySelector( '.cb-lw-logo-link' )?.value ||
 					'',
 			} );
 		} );
@@ -52,43 +52,43 @@ export function readLogosFromDom() {
 export function readSettingsFromDom() {
 	// Essential and advanced settings use separate tables; query the document
 	// so checkboxes in the advanced section are included.
-	if ( ! document.getElementById( 'cb_balanced_logos_base_size' ) ) {
+	if ( ! document.getElementById( 'cb_lw_base_size' ) ) {
 		return {};
 	}
 
 	const checkbox = ( name ) =>
 		document.querySelector(
-			`input[name="cb_balanced_logos_settings[${ name }]"]`
+			`input[name="cb_lw_settings[${ name }]"]`
 		)?.checked || false;
 
 	return {
 		baseSize: readNumber(
-			document.getElementById( 'cb_balanced_logos_base_size' ),
+			document.getElementById( 'cb_lw_base_size' ),
 			48
 		),
 		scaleFactor: readNumber(
-			document.getElementById( 'cb_balanced_logos_scale_factor' ),
+			document.getElementById( 'cb_lw_scale_factor' ),
 			0.5
 		),
 		contrastThreshold: readNumber(
-			document.getElementById( 'cb_balanced_logos_contrast_threshold' ),
+			document.getElementById( 'cb_lw_contrast_threshold' ),
 			10
 		),
 		densityAware: checkbox( 'densityAware' ),
 		densityFactor: readNumber(
-			document.getElementById( 'cb_balanced_logos_density_factor' ),
+			document.getElementById( 'cb_lw_density_factor' ),
 			0.5
 		),
 		cropToContent: checkbox( 'cropToContent' ),
 		backgroundColor:
-			document.getElementById( 'cb_balanced_logos_background_color' )?.value ||
+			document.getElementById( 'cb_lw_background_color' )?.value ||
 			'',
 		alignBy:
-			document.getElementById( 'cb_balanced_logos_align_by' )?.value ||
+			document.getElementById( 'cb_lw_align_by' )?.value ||
 			'visual-center-y',
-		gap: readNumber( document.getElementById( 'cb_balanced_logos_gap' ), 28 ),
+		gap: readNumber( document.getElementById( 'cb_lw_gap' ), 28 ),
 		layout:
-			document.getElementById( 'cb_balanced_logos_layout' )?.value || 'strip',
+			document.getElementById( 'cb_lw_layout' )?.value || 'strip',
 	};
 }
 

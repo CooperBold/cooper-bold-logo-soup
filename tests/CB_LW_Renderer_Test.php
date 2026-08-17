@@ -1,8 +1,8 @@
 <?php
 /**
- * Unit tests for CB_Balanced_Logos_Renderer sanitization.
+ * Unit tests for CB_LW_Renderer sanitization.
  *
- * @package CooperBoldBalancedLogos
+ * @package CooperBoldLogoWrangler
  */
 
 declare(strict_types=1);
@@ -10,16 +10,16 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers CB_Balanced_Logos_Renderer
+ * @covers CB_LW_Renderer
  */
-final class CB_Balanced_Logos_Renderer_Test extends TestCase {
+final class CB_LW_Renderer_Test extends TestCase {
 
-	/** @var CB_Balanced_Logos_Renderer */
+	/** @var CB_LW_Renderer */
 	private $renderer;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->renderer = new CB_Balanced_Logos_Renderer();
+		$this->renderer = new CB_LW_Renderer();
 	}
 
 	public function test_sanitize_logos_accepts_valid_https_urls(): void {
@@ -216,11 +216,11 @@ final class CB_Balanced_Logos_Renderer_Test extends TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'cb-balanced-logos-wrapper', $html );
-		$this->assertStringContainsString( 'cb-balanced-logos-inner', $html );
-		$this->assertStringContainsString( 'data-cb-balanced-logos="', $html );
+		$this->assertStringContainsString( 'cb-lw-wrapper', $html );
+		$this->assertStringContainsString( 'cb-lw-inner', $html );
+		$this->assertStringContainsString( 'data-cb-lw="', $html );
 		$this->assertMatchesRegularExpression(
-			'/<div[^>]*cb-balanced-logos-wrapper[^>]*><div[^>]*cb-balanced-logos-inner[^>]*data-cb-balanced-logos=/',
+			'/<div[^>]*cb-lw-wrapper[^>]*><div[^>]*cb-lw-inner[^>]*data-cb-lw=/',
 			$html
 		);
 	}
@@ -239,7 +239,7 @@ final class CB_Balanced_Logos_Renderer_Test extends TestCase {
 		);
 
 		$this->assertMatchesRegularExpression(
-			'/<div[^>]*cb-balanced-logos-inner[^>]*>[\s\S]*<div[^>]*text-align:center[^>]*>[\s\S]*<span[^>]*padding:16px[^>]*>[\s\S]*<img[^>]*alt="Alpha"/',
+			'/<div[^>]*cb-lw-inner[^>]*>[\s\S]*<div[^>]*text-align:center[^>]*>[\s\S]*<span[^>]*padding:16px[^>]*>[\s\S]*<img[^>]*alt="Alpha"/',
 			$html
 		);
 
@@ -278,10 +278,10 @@ final class CB_Balanced_Logos_Renderer_Test extends TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'cb-balanced-logos-carousel', $html );
+		$this->assertStringContainsString( 'cb-lw-carousel', $html );
 		$this->assertStringContainsString( 'splide__slide', $html );
 		$this->assertStringContainsString( 'logo-slider-slide', $html );
-		$this->assertStringContainsString( 'data-cb-balanced-logos-ref=', $html );
+		$this->assertStringContainsString( 'data-cb-lw-ref=', $html );
 		$this->assertStringContainsString( 'splide__track', $html );
 		$this->assertStringContainsString( 'splide__list', $html );
 	}
@@ -300,7 +300,7 @@ final class CB_Balanced_Logos_Renderer_Test extends TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( 'cb-balanced-logos-carousel-host', $html );
+		$this->assertStringContainsString( 'cb-lw-carousel-host', $html );
 		$this->assertStringContainsString( 'splide__slide', $html );
 		$this->assertStringNotContainsString( 'splide__track', $html );
 	}

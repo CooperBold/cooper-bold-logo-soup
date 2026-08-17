@@ -1,5 +1,1 @@
-{
-	"core": "WordPress/WordPress",
-	"phpVersion": "7.4",
-	"plugins": [ "/Users/thedao/Repos/balanced-logos-wp-plugin" ]
-}
+{"core":"WordPress/WordPress","phpVersion":"7.4","plugins":["/Users/thedao/Repos/cooper-bold-logo-wrangler-wp-plugin"]}

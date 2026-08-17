@@ -1,9 +1,9 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "cooper-bold/balanced-logos",
+  "name": "cooper-bold/logo-wrangler",
   "version": "1.2.14",
-  "title": "Balanced Logos",
+  "title": "Cooper Bold Logo Wrangler",
   "category": "media",
   "icon": "images-alt2",
   "description": "Display partner logos in a balanced, harmonious strip.",
@@ -14,7 +14,7 @@
     "clients",
     "brands"
   ],
-  "textdomain": "balanced-logos",
+  "textdomain": "cooper-bold-logo-wrangler",
   "supports": {
     "html": false,
     "align": [
