@@ -2,7 +2,7 @@
 title: Cooper Bold Logo Wrangler Plugin
 type: entity
 created: 2026-06-12
-updated: 2026-07-31
+updated: 2026-08-17
 tags: [wordpress, plugin, logo-soup, cooper-bold, logo-wrangler]
 aliases: [logo-soup-plugin, balanced-logos, logo-wrangler, cooper-bold-logo-wrangler]
 status: active

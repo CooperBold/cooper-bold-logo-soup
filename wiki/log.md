@@ -13,6 +13,19 @@ updated: 2026-08-09
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
 
+## [2026-08-17] update | Closeout commit landed the rename to Cooper Bold Logo Wrangler
+
+Commit `aed0e5b closeout: auto-commit from 2026-08-17` (2026-08-17 12:33 PDT) landed everything that the 2026-08-05 (×2) and 2026-08-07 log entries had tracked as "uncommitted, commit pending". Working tree is now clean (`git status` empty). Stat: 62 files, +1017 / −933. Highlights:
+
+- **Bootstrap renamed for real.** `cooper-bold-logo-wrangler.php` is the only file with a `Plugin Name` header; `balanced-logos.php` is a thin headerless legacy loader (`CB_LW_BOOTSTRAP_FILE` → `require_once` canonical bootstrap) that still gets included when the old path is in `active_plugins`.
+- **PHP classes renamed to `CB_LW_*`.** `class-cb-balanced-logos.php` → `class-cb-lw.php`; siblings `assets`, `renderer`, `collections`, `admin-branding` all under `cb-lw-`. Shortcode is now handled in `CB_LW` alongside the block (no separate `CB_LW_Shortcode` class — `AI_RUNBOOK.md` was clarified to match).
+- **JS / tests renamed.** `src/shared/to-balanced-logos-props.js` → `to-lw-props.js`; matching test rename; `tests/CB_Balanced_Logos_Assets_Test.php` → `CB_LW_Assets_Test.php` (the file was rewritten, not just renamed).
+- **`crewai/` scaffolding deleted.** `crewai/` directory is gone: agents/tasks YAML, `crew.py`, `main.py`, `tools/`, `pyproject.toml`, `crewai/.gitignore`, `crewai/.env.example`, `crewai/README.md`. `AI_RUNBOOK.md` "AI tooling" row drops "CrewAI" and lists SimpleMem + Cursor planning + wiki + Context7 instead.
+- **`AGENTS.md` tidied.** Heading is "Cooper Bold Logo Wrangler — Agent Notes" (previously still said "Logo Strip Normalizer" / `cooper_cblsn_*`). Build section clarifies there is **no custom `webpack.config.js`** — entries are `src/block/index.js`, `src/view.js`, `src/view.scss`.
+- **`readme.txt`** bumped to **Stable tag: 1.3.0**, leading shortcode is `[logo_wrangler]`, plugins folder is `cooper-bold-logo-wrangler/`, admin menu is "Logo Wrangler".
+
+The earlier wiki entities ([[wordpress-plugin]], [[gutenberg-block-balanced-logos]]) and guides ([[wp-env-smoke-test]], [[rapidsos-deploy]], [[wordpress-org-submission]]) already described the post-rename state, so this commit lines the repo up with the wiki rather than the other way around. Touched [[gutenberg-block-balanced-logos]] to drop the now-stale "(uncommitted rename state)" qualifier; the agent [[wordpress-plugin]] was already accurate (only date stamp needed). [[0001-pin-splide-extension-auto-scroll]] unchanged. No new entities or decisions introduced by this commit.
+
 ## [2026-08-09] create | Decision: pin splide-extension-auto-scroll@0.5.3
 
 No new commits since `3e8b804`; the uncommitted rename working tree was fully covered by the 2026-08-05/07 entries. One new detail surfaced in the working-tree `readme.txt` (touched 2026-08-08): the 1.3.0 changelog now documents that `splide-extension-auto-scroll@0.5.3` is the **latest published npm release** (upstream repo's last commit 2022-09-06) and that WP.org's `out of date libraries` check is comparing against a development branch with no new tagged release. Recorded as [[0001-pin-splide-extension-auto-scroll]] — the first entry in `decisions/` — and indexed.

@@ -2,7 +2,7 @@
 title: Logo Wrangler Gutenberg Block
 type: entity
 created: 2026-06-12
-updated: 2026-07-31
+updated: 2026-08-17
 tags: [gutenberg, block-editor, logo-wrangler]
 aliases: [cooper-bold/balanced-logos, cooper-bold/logo-wrangler, logo-wrangler-block]
 status: active
@@ -24,7 +24,7 @@ Dynamic block registered from `src/block/block.json`.
 
 Editor UI in `src/block/edit.js`. Server render via `render_callback` in `includes/class-cb-lw.php` delegating to `CB_LW_Renderer`. Shared prop sanitizer: `src/shared/to-lw-props.js` (`toLwProps`).
 
-Frontend hydration (`src/view.js`, uncommitted rename state) accepts both `data-cb-lw` and legacy `data-cb-balanced-logos` attributes via `getConfigAttr()`, and fires a `cb-lw-hydrated` bubbling CustomEvent (plus legacy `cb-balanced-logos-hydrated`) after a carousel hydrates. Debug opt-in: `window.CB_LW_DEBUG`, `localStorage['cb-lw-debug']`, or `?cb_lw_debug=1`.
+Frontend hydration (`src/view.js`) accepts both `data-cb-lw` and legacy `data-cb-balanced-logos` attributes via `getConfigAttr()`, and fires a `cb-lw-hydrated` bubbling CustomEvent (plus legacy `cb-balanced-logos-hydrated`) after a carousel hydrates. Debug opt-in: `window.CB_LW_DEBUG`, `localStorage['cb-lw-debug']`, or `?cb_lw_debug=1`. (Landed in commit `aed0e5b` 2026-08-17 alongside the rest of the rename to Cooper Bold Logo Wrangler.)
 
 ## Related
 
