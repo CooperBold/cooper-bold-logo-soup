@@ -2,8 +2,9 @@
 /**
  * Legacy bootstrap path for sites that activated Balanced Logos as
  * `{plugin-dir}/balanced-logos.php`. Not a second plugin entry (no Plugin Name
- * header) — WordPress still includes this file when it remains in
- * `active_plugins`, and the canonical bootstrap migrates that entry.
+ * header). WordPress still includes this file when that path remains in
+ * `active_plugins`. This loader only requires the canonical bootstrap; it does
+ * not change activation state.
  *
  * @package CooperBoldLogoWrangler
  */

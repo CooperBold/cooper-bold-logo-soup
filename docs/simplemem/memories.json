@@ -226,5 +226,16 @@
     },
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1786012249.718624
+  },
+  {
+    "id": "local_1787609755464",
+    "text": "WordPress.org plugin review session for Cooper Bold Logo Wrangler (cooper-bold-logo-wrangler). Uploaded v1.3.2 Aug 24 with Tested up to 7.1; automated scan passed; replied to review email. v1.3.1 prep included src in release ZIP, readme source documentation, and removed plugins_loaded active_plugins rewrite for compliance. v1.3.3 follow-up (not yet on WP.org): legacy balanced-logos.php migration on activate/update only, deactivation cleans both plugin paths, legacy Gutenberg blocks hidden from inserter via supports.inserter false. Full verify passed (43 PHPUnit, 16 Jest). v1.3.2 awaiting human reviewer; do not upload 1.3.3 until 1.3.2 clears.",
+    "metadata": {
+      "source": "mark-where-you-are",
+      "date": "2026-08-24",
+      "branch": "feat/wporg-review-1.3.1"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1787609755.464103
   }
 ]

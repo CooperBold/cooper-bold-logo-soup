@@ -33,12 +33,9 @@ AGENTS.md
 /requirements-lancedb.txt
 /requirements*.txt
 
-# Node toolchain and source (ship compiled build/ only)
+# Node toolchain. Ship src/ + package.json so WP.org can match compiled assets.
 /node_modules
-/package.json
-/package-lock.json
 /.wp-env.json
-/src
 
 # Environment and secrets
 /.env
@@ -55,6 +52,8 @@ __pycache__
 *.py[cod]
 .python-version
 .venv
+.venv-lancedb
+.venv*
 venv
 crewai/.venv
 

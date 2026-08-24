@@ -2,9 +2,9 @@
 Contributors: nicholaseymann
 Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,28 @@ Cooper Bold Logo Wrangler is a WordPress plugin that wraps the open-source [logo
 **Credits**
 
 Logo normalization powered by [@sanity-labs/logo-soup](https://www.npmjs.com/package/@sanity-labs/logo-soup) (MIT). Built by [Cooper Bold](https://cooperbold.com). The WordPress plugin is GPL-2.0-or-later.
+
+== Source code ==
+
+Plugin source (including the unminified JavaScript that compiles to `build/`) is public:
+
+https://github.com/CooperBold/cooper-bold-logo-soup
+
+This ZIP also includes that source:
+
+* `src/block/index.js` and `src/block/edit.js` → `build/index.js`
+* `src/view.js` → `build/view.js`
+* `src/admin/collection-preview.js` → `build/collection-preview.js`
+
+Rebuild compiled assets with `@wordpress/scripts`:
+
+`npm install && npm run build`
+
+== Third-party libraries ==
+
+* [@sanity-labs/logo-soup](https://github.com/sanity-labs/logo-soup) (MIT) — bundled into `build/` via the compile above
+* [Splide](https://github.com/Splidejs/splide) 4.1.4 (MIT) — `lib/splide/`
+* [@splidejs/splide-extension-auto-scroll](https://www.npmjs.com/package/@splidejs/splide-extension-auto-scroll) 0.5.3 (MIT) — latest tagged npm release (`lib/splide/js/splide-extension-auto-scroll.min.js`). Upstream GitHub has no newer tag; WP.org's library scanner compares against an unreleased branch.
 
 == Installation ==
 
@@ -66,6 +88,19 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Cooper Bold Logo Wrangler scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.3.3 =
+* Migrate legacy `balanced-logos.php` active_plugins entries on **activate** and **plugin update** only (not on `plugins_loaded`)
+* On deactivate, remove both canonical and legacy bootstrap paths so the plugin fully stops
+* Hide legacy block aliases from the block inserter while keeping editor support for existing content
+
+= 1.3.2 =
+* Bump **Tested up to** to 7.1 for WordPress.org automated checks
+
+= 1.3.1 =
+* Ship `src/` and `package.json` in the plugin ZIP and document the public GitHub repo so compiled `build/*.js` files can be regenerated
+* Stop rewriting the `active_plugins` option on load. Legacy `balanced-logos.php` still loads the plugin if that path remains active; it does not change activation state
+* Clarify that Splide Auto Scroll 0.5.3 is the current npm stable (see Third-party libraries)
 
 = 1.3.0 =
 * Rename plugin to **Cooper Bold Logo Wrangler** — display name, folder slug (`cooper-bold-logo-wrangler`), text domain, block (`cooper-bold/logo-wrangler`), shortcode (`[logo_wrangler]`), CSS/data attributes, and PHP identifiers
@@ -188,6 +223,15 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.3.3 =
+Fixes legacy bootstrap activation/deactivation for upgraded installs.
+
+= 1.3.2 =
+Readme only — **Tested up to** 7.1 for directory submission.
+
+= 1.3.1 =
+WordPress.org review: includes JavaScript source, no longer rewrites active plugins, documents Splide Auto Scroll 0.5.3.
 
 = 1.2.14 =
 Display name only — no migration required.

@@ -96,3 +96,12 @@ Dated log for session context and handoffs.
 1. Build release ZIP for **v1.2.15** and continue WP.org submission / SVN if not already live.
 2. Update `docs/WORDPRESS-ORG-SUBMISSION.md` version refs from 1.2.12 → 1.2.15 if still stale.
 3. Optional: rename GitHub repo slug to match Cooper Bold Logo Wrangler when convenient.
+
+## 2026-08-24 — close-out
+
+- **Where:** Cooper Bold Logo Wrangler WP plugin · branch `feat/wporg-review-1.3.1` · PR none
+- **Done:** WordPress.org review loop for slug `cooper-bold-logo-wrangler`; uploaded v1.3.2 (Tested up to 7.1, automated scan passed); replied on review email thread. v1.3.1 prep: `src/` in ZIP, readme source docs, removed `plugins_loaded` `active_plugins` rewrite for WP.org compliance. Bugbot follow-up v1.3.3: migrate legacy `balanced-logos.php` on activate/update only; deactivation cleans both paths; legacy blocks hidden from inserter (`supports.inserter: false`). Verify PASS (43 PHPUnit, 16 Jest). Harvest draft provided (not posted).
+- **State:** v1.3.2 in user Downloads; v1.3.3 **not** uploaded to WP.org — waiting on human reviewer for 1.3.2.
+- **Decisions:** Legacy plugin path migration only on activate/update hooks (not `plugins_loaded`) → WP.org compliance. Hide legacy blocks from inserter rather than remove block registration.
+- **Risks:** Reviewer may request further changes before 1.3.2 approval; 1.3.3 queued locally until 1.3.2 clears.
+- **Next:** After 1.3.2 approval, upload v1.3.3 to WP.org; post Harvest time if Nicholas approves draft.

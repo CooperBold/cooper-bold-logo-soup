@@ -85,3 +85,4 @@ WP.org submission prep complete for **1.2.12** (Splide vendored, PNG assets, rea
 ## [2026-08-05] lint | Dead link fix + ingest re-flag note
 
 Fixed dead wikilink `[[gutenberg-block-logo-soup]]` → `[[gutenberg-block-balanced-logos]]` in [[sanity-logo-soup]] (block entity page was renamed earlier without updating this backlink). Lint now clean. Ingest script re-flags `docs/RAPIDSOS-DEPLOY.md`, `docs/SMOKE-TEST.md`, `docs/WORDPRESS-ORG-SUBMISSION.md` because it only checks `wiki/sources/` — all three are already mirrored as guides ([[rapidsos-deploy]], [[wp-env-smoke-test]], [[wordpress-org-submission]]); no re-ingest needed.
+## [2026-08-24] session | WP.org review 1.3.2 uploaded; 1.3.3 compliance fixes ready

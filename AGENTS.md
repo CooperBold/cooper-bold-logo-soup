@@ -6,7 +6,7 @@ Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** norm
 
 ## Stack
 
-- PHP 7.4+ plugin bootstrap in `cooper-bold-logo-wrangler.php` + `includes/` (only that file has the Plugin Name header). Legacy `balanced-logos.php` is a headerless loader that migrates `active_plugins` to the canonical file.
+- PHP 7.4+ plugin bootstrap in `cooper-bold-logo-wrangler.php` + `includes/` (only that file has the Plugin Name header). Legacy `balanced-logos.php` is a headerless loader that requires the canonical file when the old path is still listed in `active_plugins`. Migrate that entry only on user-initiated **activate** or **plugin update** hooks — never on `plugins_loaded`.
 - Gutenberg block: `src/block/` → `build/index.js`
 - Frontend hydration: `src/view.js` → `build/view.js`
 - Build: `npm run build` (`@wordpress/scripts` + custom `webpack.config.js` dual entry)
