@@ -2,7 +2,7 @@
 title: Wiki Index
 type: index
 created: 2026-06-12
-updated: 2026-08-17
+updated: 2026-08-30
 ---
 
 # Cooper Bold Logo Wrangler WP Plugin Wiki
@@ -35,6 +35,7 @@ updated: 2026-08-17
 | # | Decision | Status |
 |---|----------|--------|
 | 0001 | [[0001-pin-splide-extension-auto-scroll]] — stay on `splide-extension-auto-scroll@0.5.3` (latest published npm release) | active |
+| 0002 | [[0002-migrate-legacy-plugin-path-activate-only]] — migrate legacy `balanced-logos.php` `active_plugins` entry on activate/update only (WP.org compliance) | active |
 
 ## Guides
 

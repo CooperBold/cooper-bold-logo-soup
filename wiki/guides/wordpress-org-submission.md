@@ -2,7 +2,7 @@
 title: Submit to WordPress.org Plugin Directory
 type: guide
 created: 2026-06-14
-updated: 2026-08-05
+updated: 2026-08-30
 tags: [wordpress, release, deploy, svn, github-actions]
 aliases: [wp-org-submit, release-plugin]
 sources:
@@ -32,7 +32,7 @@ chmod +x scripts/build-release-zip.sh
 ./scripts/build-release-zip.sh
 ```
 
-The ZIP is written to `dist/cooper-bold-logo-wrangler-<version>.zip`. It respects `.distignore` (no `node_modules`, `src/`, dev docs, etc.). See [[adversarial-review]] for verification that `build/block/block.json` and `view.scss.css` end up in the ZIP.
+The ZIP is written to `dist/cooper-bold-logo-wrangler-<version>.zip`. It respects `.distignore` (no `node_modules`, dev docs, etc.). **Since 1.3.1** (WP.org review feedback), the ZIP deliberately **includes** `src/` and `package.json` so reviewers can regenerate the compiled `build/*.js` with `@wordpress/scripts` (`npm install && npm run build`); `readme.txt` maps each `src/**` entry to its `build/**` output in a `== Source code ==` section. See [[adversarial-review]] for verification that `build/block/block.json` and `view.scss.css` end up in the ZIP.
 
 ## 3. Submit for review **(you)**
 
@@ -42,6 +42,8 @@ The ZIP is written to `dist/cooper-bold-logo-wrangler-<version>.zip`. It respect
 4. When approved, you receive **SVN credentials** for `https://plugins.svn.wordpress.org/cooper-bold-logo-wrangler/`.
 
 > **Pre-approval:** the first submission is reviewed manually. Plugin Check (step 7) and escaping/sanitization in this repo are aligned with common review feedback, but approval is not guaranteed until a human reviewer accepts the plugin.
+>
+> **Status as of 2026-08-24 session:** v1.3.2 is **in manual review** (uploaded, automated scan passed, Tested up to 7.1); v1.3.3 (activate/update-only legacy migration + deactivation cleanup + hidden legacy blocks — [[0002-migrate-legacy-plugin-path-activate-only]]) is built and verified (43 PHPUnit, 16 Jest) but **not uploaded**, queued until 1.3.2 clears.
 
 ## 4. Add GitHub secrets for automated deploy **(you)**
 

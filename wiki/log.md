@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-08-09
+updated: 2026-08-30
 ---
 
 # Wiki Log
@@ -86,3 +86,20 @@ WP.org submission prep complete for **1.2.12** (Splide vendored, PNG assets, rea
 
 Fixed dead wikilink `[[gutenberg-block-logo-soup]]` → `[[gutenberg-block-balanced-logos]]` in [[sanity-logo-soup]] (block entity page was renamed earlier without updating this backlink). Lint now clean. Ingest script re-flags `docs/RAPIDSOS-DEPLOY.md`, `docs/SMOKE-TEST.md`, `docs/WORDPRESS-ORG-SUBMISSION.md` because it only checks `wiki/sources/` — all three are already mirrored as guides ([[rapidsos-deploy]], [[wp-env-smoke-test]], [[wordpress-org-submission]]); no re-ingest needed.
 ## [2026-08-24] session | WP.org review 1.3.2 uploaded; 1.3.3 compliance fixes ready
+
+WP.org review loop for slug `cooper-bold-logo-wrangler` (branch `feat/wporg-review-1.3.1`): **v1.3.2 uploaded** (Tested up to 7.1, automated scan passed) with a reply on the review email thread; v1.3.1 prep shipped `src/` + `package.json` in the ZIP with source docs in readme and dropped the `plugins_loaded` `active_plugins` rewrite. Bugbot follow-up produced **v1.3.3** (this run's commit): activate/update-only migration, deactivation cleanup, hidden legacy blocks. v1.3.3 **not** uploaded — queued until the human reviewer clears 1.3.2. Verify PASS (43 PHPUnit, 16 Jest); Harvest time drafted, not posted.
+
+## [2026-08-30] update | v1.3.3 lands: activate-only migration + hidden legacy blocks (commit `385fbad`)
+
+Commit `385fbad fix: WP.org compliance v1.3.3` (2026-08-24 15:16 PDT) implemented the bugbot follow-ups from the WP.org review thread. Working tree clean; `git log --since="24 hours ago"` shows only `cd1d786` (nightly SimpleMem auto-commit of `docs/simplemem/memories.json`, mirroring the session memory below — no wiki meaning). `AI_SESSION_MEMORY.md` gained a 2026-08-24 close-out entry. Substantive changes:
+
+- **Legacy migration now activate/update-only.** The `plugins_loaded` → `cb_lw_migrate_legacy_bootstrap_entry` hook (priority 0) is removed. Migration runs from `cb_lw_activate()` (user-initiated activation) and from `cb_lw_maybe_migrate_after_upgrade()` on `upgrader_process_complete` when `$options['action']==='update'` and the plugin is `cooper-bold-logo-wrangler` (canonical or legacy basename). The migration itself also dedupes: it skips already-migrated entries instead of appending a duplicate canonical basename. `CB_LW_BOOTSTRAP_FILE` guard dropped — the legacy path is now computed by the new `cb_lw_legacy_bootstrap_basename()` helper. New `cb_lw_deactivate()` on the deactivation hook removes **both** canonical and legacy basenames from `active_plugins`. WP.org compliance rationale: no more mutating the `active_plugins` option on every site load.
+- **Legacy blocks hidden from the inserter.** `src/block/index.js` registers `cooper-bold/balanced-logos` and `cooper-bold/logo-soup` with `supports: { ...blockSettings.supports, inserter: false }` — existing posts keep working; new inserts are impossible via the block picker. Registration itself is unchanged (decision in [[0002-migrate-legacy-plugin-path-activate-only]]).
+- **Version 1.3.0 → 1.3.3** in `cooper-bold-logo-wrangler.php` (`Version` header + `CB_LW_VERSION`), `package.json` (1.3.0 → 1.3.3), and `build/block/block.json` + `build/index.js`/`build/index.asset.php` (rebuild). `readme.txt`: Stable tag 1.3.3, **Tested up to 7.1**, new `== Source code ==` section (public GitHub repo + `src/**` → `build/**` mapping + `npm install && npm run build` rebuild), new `== Third-party libraries ==` section (logo-soup MIT, Splide 4.1.4 MIT, auto-scroll 0.5.3 MIT — see [[0001-pin-splide-extension-auto-scroll]]), and changelog/upgrade-notice entries for **1.3.1**, **1.3.2**, **1.3.3**.
+- **Release ZIP now ships `src/` and `package.json`.** `.distignore` drops `/src`, `/package.json`, `/package-lock.json` from excludes — WP.org wants compiled `build/*.js` to be regenerable from shipped source (1.3.1 review feedback).
+- **New guard tests:** `tests/CB_LW_Bootstrap_Test.php` — asserts the bootstrap does **not** contain `add_action('plugins_loaded', 'cb_lw_migrate_legacy_bootstrap_entry'...)`, **does** wire the activation/deactivation/upgrader hooks (string-level source assertions), and that `readme.txt` points at the public repo and the `src/view.js` / `src/admin/collection-preview.js` entries.
+- **Docs:** `AGENTS.md` stack section corrected — legacy loader "requires the canonical file when the old path is still listed in `active_plugins`; migrate that entry only on user-initiated **activate** or **plugin update** hooks — never on `plugins_loaded`". 1.3.2 was readme-only (Tested up to 7.1).
+
+Updated [[wordpress-plugin]] (version, bootstrap/migration behavior), [[gutenberg-block-balanced-logos]] (legacy blocks hidden from inserter), [[wordpress-org-submission]] (review-loop status as of the 2026-08-24 session), and [[0001-pin-splide-extension-auto-scroll]] (readme now has a dedicated Third-party libraries section). Created [[0002-migrate-legacy-plugin-path-activate-only]] and indexed in [[index]]. `cd1d786` (2026-08-25) touched only `docs/simplemem/memories.json` (auto-import of the close-out memory above).
+
+## [2026-08-05] lint | Dead link fix + ingest re-flag note

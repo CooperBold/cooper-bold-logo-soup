@@ -2,7 +2,7 @@
 title: Logo Wrangler Gutenberg Block
 type: entity
 created: 2026-06-12
-updated: 2026-08-17
+updated: 2026-08-30
 tags: [gutenberg, block-editor, logo-wrangler]
 aliases: [cooper-bold/balanced-logos, cooper-bold/logo-wrangler, logo-wrangler-block]
 status: active
@@ -15,7 +15,7 @@ Dynamic block registered from `src/block/block.json`.
 ## What it is
 
 - **Name:** `cooper-bold/logo-wrangler`
-- **Legacy names (still registered):** `cooper-bold/balanced-logos`, `cooper-bold/logo-soup`
+- **Legacy names (still registered, but hidden from the inserter):** `cooper-bold/balanced-logos`, `cooper-bold/logo-soup` — registered with `supports: { ...blockSettings.supports, inserter: false }` since v1.3.3 (commit `385fbad`), so existing posts keep editing/rendering while new inserts only offer the canonical block
 - **API version:** 3
 - **Editor script:** `build/index.js`
 - **Registration:** `CB_LW::register_block()` on `init`
@@ -30,3 +30,4 @@ Frontend hydration (`src/view.js`) accepts both `data-cb-lw` and legacy `data-cb
 
 - [[wordpress-plugin]]
 - [[sanity-logo-soup]]
+- [[0002-migrate-legacy-plugin-path-activate-only]]
