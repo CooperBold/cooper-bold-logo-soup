@@ -261,5 +261,17 @@
     },
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1787653834.14857
+  },
+  {
+    "id": "local_1788172220678",
+    "text": "Wiki update: v1.3.3 lands: activate-only migration + hidden legacy blocks (commit `385fbad`) (2026-08-30)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-08-30",
+      "verb": "update",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1788172220.678048
   }
 ]
