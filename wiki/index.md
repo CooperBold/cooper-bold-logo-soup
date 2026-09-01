@@ -2,7 +2,7 @@
 title: Wiki Index
 type: index
 created: 2026-06-12
-updated: 2026-08-30
+updated: 2026-09-01
 ---
 
 # Cooper Bold Logo Wrangler WP Plugin Wiki

@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-08-30
+updated: 2026-09-01
 ---
 
 # Wiki Log
@@ -12,6 +12,10 @@ updated: 2026-08-30
 > Format: `## [YYYY-MM-DD] verb | Subject`
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
+
+## [2026-09-01] update | Review-pending confirmed; v1.3.3 still queued locally
+
+No new commits since `7176b06` (this wiki's own 2026-08-30 gardener): the only commit in the window is `a24103d` (2026-08-31 03:30 PDT, `nightly-simplemem`), which auto-mirrored the 2026-08-30 wiki log entry into `docs/simplemem/memories.json` (+12 lines, only `type: wiki_log` metadata — no new session state). `AI_SESSION_MEMORY.md` and `AI_RUNBOOK.md` are unchanged in the window; working tree clean; no `docs/` changes. The state recorded in [[wordpress-org-submission]] therefore holds unchanged: **v1.3.2 in human review on WP.org**; **v1.3.3** (activate/update-only legacy migration, deactivation cleanup, hidden legacy blocks — [[0002-migrate-legacy-plugin-path-activate-only]]) built and verified (43 PHPUnit, 16 Jest) but **not uploaded**, queued until 1.3.2 clears. No wiki content edits needed beyond this status confirmation.
 
 ## [2026-08-17] update | Closeout commit landed the rename to Cooper Bold Logo Wrangler
 

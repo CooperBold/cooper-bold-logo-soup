@@ -2,7 +2,7 @@
 title: Submit to WordPress.org Plugin Directory
 type: guide
 created: 2026-06-14
-updated: 2026-08-30
+updated: 2026-09-01
 tags: [wordpress, release, deploy, svn, github-actions]
 aliases: [wp-org-submit, release-plugin]
 sources:
@@ -43,7 +43,7 @@ The ZIP is written to `dist/cooper-bold-logo-wrangler-<version>.zip`. It respect
 
 > **Pre-approval:** the first submission is reviewed manually. Plugin Check (step 7) and escaping/sanitization in this repo are aligned with common review feedback, but approval is not guaranteed until a human reviewer accepts the plugin.
 >
-> **Status as of 2026-08-24 session:** v1.3.2 is **in manual review** (uploaded, automated scan passed, Tested up to 7.1); v1.3.3 (activate/update-only legacy migration + deactivation cleanup + hidden legacy blocks — [[0002-migrate-legacy-plugin-path-activate-only]]) is built and verified (43 PHPUnit, 16 Jest) but **not uploaded**, queued until 1.3.2 clears.
+> **Status as of 2026-08-24 session (unchanged as of 2026-09-01 — no new commits; daily gardener confirmed review still pending):** v1.3.2 is **in manual review** (uploaded, automated scan passed, Tested up to 7.1); v1.3.3 (activate/update-only legacy migration + deactivation cleanup + hidden legacy blocks — [[0002-migrate-legacy-plugin-path-activate-only]]) is built and verified (43 PHPUnit, 16 Jest) but **not uploaded**, queued until 1.3.2 clears.
 
 ## 4. Add GitHub secrets for automated deploy **(you)**
 
