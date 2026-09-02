@@ -18,7 +18,7 @@ import { useEffect, useMemo, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
-import { withLogoSoupLifecycle } from '../shared/logo-soup-lifecycle';
+import { useLogoSoupLifecycle } from '../shared/logo-soup-lifecycle';
 import {
 	sanitizeLink,
 	sanitizePreviewConfig,
@@ -198,6 +198,17 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const previewConfig = sanitizePreviewConfig( previewAttributes );
 	const previewLogos = previewConfig.logos || [];
+	const editorSoupProps = useMemo(
+		() => toLwProps( previewConfig ),
+		[ previewConfig ]
+	);
+	const editorLifecycleContext = useMemo(
+		() => ( { surface: 'block-editor' } ),
+		[]
+	);
+	const editorLogoSoupProps = useLogoSoupLifecycle( editorSoupProps, {
+		context: editorLifecycleContext,
+	} );
 
 	return (
 		<>
@@ -518,14 +529,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							  ) }
 					</p>
 				) : (
-					<LogoSoup
-						{ ...withLogoSoupLifecycle(
-							toLwProps(
-								sanitizePreviewConfig( previewAttributes )
-							),
-							{ context: { surface: 'block-editor' } }
-						) }
-					/>
+					<LogoSoup { ...editorLogoSoupProps } />
 				) }
 			</div>
 		</>

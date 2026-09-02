@@ -2,6 +2,8 @@
  * Shared @sanity-labs/logo-soup lifecycle hooks (v1.3.0+ failures + loading).
  */
 
+import { useCallback, useMemo } from '@wordpress/element';
+
 export const SOUP_LOADING_CLASS = 'cb-lw-soup-loading';
 const LOG_PREFIX = '[Cooper Bold Logo Wrangler]';
 
@@ -72,4 +74,49 @@ export function withLogoSoupLifecycle( soupProps, options = {} ) {
 			}
 		},
 	};
+}
+
+/**
+ * React hook: stable onError / onNormalized identities for logo-soup 1.3.0 effects.
+ *
+ * @param {Object|null} soupProps Props from toLwProps().
+ * @param {Object}      options   container + optional context label.
+ * @return {Object|null} Props with lifecycle callbacks merged.
+ */
+export function useLogoSoupLifecycle( soupProps, options = {} ) {
+	const { container, context = {} } = options;
+	const priorOnError = soupProps?.onError;
+	const priorOnNormalized = soupProps?.onNormalized;
+
+	const onError = useCallback(
+		( failures ) => {
+			onLogoSoupError( failures, context );
+			clearLogoSoupLoading( container );
+			if ( typeof priorOnError === 'function' ) {
+				priorOnError( failures );
+			}
+		},
+		[ context, container, priorOnError ]
+	);
+
+	const onNormalized = useCallback(
+		( normalized ) => {
+			clearLogoSoupLoading( container );
+			if ( typeof priorOnNormalized === 'function' ) {
+				priorOnNormalized( normalized );
+			}
+		},
+		[ container, priorOnNormalized ]
+	);
+
+	return useMemo( () => {
+		if ( ! soupProps ) {
+			return soupProps;
+		}
+		return {
+			...soupProps,
+			onError,
+			onNormalized,
+		};
+	}, [ soupProps, onError, onNormalized ] );
 }

@@ -11,10 +11,33 @@ import {
 import { __ } from '@wordpress/i18n';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
 import { readAttributesFromDom } from './collection-form-data';
-import { withLogoSoupLifecycle } from '../shared/logo-soup-lifecycle';
+import { useLogoSoupLifecycle } from '../shared/logo-soup-lifecycle';
 import { sanitizePreviewConfig, toLwProps } from '../shared/to-lw-props';
 
 export const PREVIEW_UPDATE_EVENT = 'cb-lw-preview-update';
+
+const STRIP_PREVIEW_CONTEXT = { surface: 'collection-preview' };
+const CAROUSEL_PREVIEW_CONTEXT = { surface: 'collection-preview-carousel' };
+
+/**
+ * @param {Object} props.previewConfig Sanitized preview config.
+ * @param {Object} props.logo          Single logo row for this slide.
+ * @return {JSX.Element} One carousel slide preview.
+ */
+function CarouselSlidePreview( { previewConfig, logo } ) {
+	const slideSoupProps = useMemo(
+		() =>
+			toLwProps( {
+				...previewConfig,
+				logos: [ logo ],
+			} ),
+		[ previewConfig, logo ]
+	);
+	const slideLogoSoupProps = useLogoSoupLifecycle( slideSoupProps, {
+		context: CAROUSEL_PREVIEW_CONTEXT,
+	} );
+	return <LogoSoup { ...slideLogoSoupProps } />;
+}
 
 /**
  * @return {JSX.Element} Live preview or empty-state message.
@@ -56,13 +79,13 @@ export function CollectionPreview() {
 		() => sanitizePreviewConfig( attributes ),
 		[ attributes ]
 	);
-	const soupProps = useMemo(
-		() =>
-			withLogoSoupLifecycle( toLwProps( previewConfig ), {
-				context: { surface: 'collection-preview' },
-			} ),
+	const stripSoupProps = useMemo(
+		() => toLwProps( previewConfig ),
 		[ previewConfig ]
 	);
+	const soupProps = useLogoSoupLifecycle( stripSoupProps, {
+		context: STRIP_PREVIEW_CONTEXT,
+	} );
 
 	if ( ! soupProps ) {
 		return (
@@ -97,18 +120,9 @@ export function CollectionPreview() {
 							key={ logo.id || logo.url || index }
 							className="cb-lw-slide logo-slider-slide"
 						>
-							<LogoSoup
-								{ ...withLogoSoupLifecycle(
-									toLwProps( {
-										...previewConfig,
-										logos: [ logo ],
-									} ),
-									{
-										context: {
-											surface: 'collection-preview-carousel',
-										},
-									}
-								) }
+							<CarouselSlidePreview
+								previewConfig={ previewConfig }
+								logo={ logo }
 							/>
 						</li>
 					) ) }
