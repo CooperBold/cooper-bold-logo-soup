@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-09-01
+updated: 2026-09-02
 ---
 
 # Wiki Log
@@ -12,6 +12,10 @@ updated: 2026-09-01
 > Format: `## [YYYY-MM-DD] verb | Subject`
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
+
+## [2026-09-02] session | logo-soup 1.3.0 bump + lifecycle hooks
+
+Bumped `@sanity-labs/logo-soup` to **1.3.0** (pinned). New `src/shared/logo-soup-lifecycle.js` wires `onError` (failures logging + clear loading class) and `onNormalized` (clear `cb-lw-soup-loading`) for view hydration, block editor, and collection preview. `to-lw-props.js` adds `crossOrigin="anonymous"` on custom `renderImage` imgs. `view.scss` styles loading state via `data-logo-soup-loading`. Updated [[sanity-logo-soup]]. Verify PASS (19 Jest, build OK). WP.org status unchanged: v1.3.2 in review; v1.3.3 queued locally with this dep bump folded in.
 
 ## [2026-09-01] update | Review-pending confirmed; v1.3.3 still queued locally
 

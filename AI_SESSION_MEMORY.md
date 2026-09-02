@@ -105,3 +105,12 @@ Dated log for session context and handoffs.
 - **Decisions:** Legacy plugin path migration only on activate/update hooks (not `plugins_loaded`) → WP.org compliance. Hide legacy blocks from inserter rather than remove block registration.
 - **Risks:** Reviewer may request further changes before 1.3.2 approval; 1.3.3 queued locally until 1.3.2 clears.
 - **Next:** After 1.3.2 approval, upload v1.3.3 to WP.org; post Harvest time if Nicholas approves draft.
+
+## 2026-09-02 — close-out
+
+- **Where:** Cooper Bold Logo Wrangler WP plugin · branch `main` · PR none
+- **Done:** Bumped `@sanity-labs/logo-soup` to **1.3.0** (crossOrigin fix, failures API, stale-results during load). Added `src/shared/logo-soup-lifecycle.js` wiring `onError` / `onNormalized` across view, block editor, and collection preview; `cb-lw-soup-loading` on strip/carousel-ref mounts; CSS for `data-logo-soup-loading`. Bugbot fix: clear loading class on total failure via `onError`. Verify PASS (19 Jest incl. 3 new lifecycle tests, build OK).
+- **State:** v1.3.2 still in WP.org human review; v1.3.3 (now includes logo-soup 1.3.0) ready locally, not uploaded.
+- **Decisions:** Pin logo-soup at 1.3.0 exact; always `console.warn` on failures (not debug-gated) so editors spot broken URLs.
+- **Risks:** WP.org review still pending; measurement values may shift slightly vs 1.2.2 (upstream redmean change).
+- **Next:** Upload v1.3.3 after 1.3.2 clears; rebuild release ZIP before upload.

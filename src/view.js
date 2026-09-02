@@ -5,6 +5,10 @@
 
 import { createRoot } from '@wordpress/element';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
+import {
+	markLogoSoupLoading,
+	withLogoSoupLifecycle,
+} from './shared/logo-soup-lifecycle';
 import { toLwProps } from './shared/to-lw-props';
 
 const mounted = new WeakMap();
@@ -250,9 +254,17 @@ function mountLogoSoup( container ) {
 		return;
 	}
 
+	markLogoSoupLoading( container );
 	container.replaceChildren();
 	const root = createRoot( container );
-	root.render( <LogoSoup { ...soupProps } /> );
+	root.render(
+		<LogoSoup
+			{ ...withLogoSoupLifecycle( soupProps, {
+				container,
+				context: { surface: 'strip' },
+			} ) }
+		/>
+	);
 	mounted.set( container, root );
 }
 
@@ -309,9 +321,17 @@ function mountCarouselReference( refContainer, groupId ) {
 		configLogoCount,
 	} );
 
+	markLogoSoupLoading( refContainer );
 	refContainer.replaceChildren();
 	const root = createRoot( refContainer );
-	root.render( <LogoSoup { ...soupProps } /> );
+	root.render(
+		<LogoSoup
+			{ ...withLogoSoupLifecycle( soupProps, {
+				container: refContainer,
+				context: { surface: 'carousel-ref', groupId },
+			} ) }
+		/>
+	);
 
 	const carouselRoot =
 		refContainer.closest( '[data-cb-lw-splide], [data-cb-balanced-logos-splide]' ) ||

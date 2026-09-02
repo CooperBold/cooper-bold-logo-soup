@@ -6,6 +6,16 @@
 	box-sizing: border-box;
 }
 
+.cb-lw-inner.cb-lw-soup-loading,
+.cb-balanced-logos-inner.cb-lw-soup-loading {
+	min-height: var( --cb-logo-size, 48px );
+}
+
+.cb-lw-inner [data-logo-soup-loading='true'],
+.cb-balanced-logos-inner [data-logo-soup-loading='true'] {
+	transition: opacity 0.2s ease-in-out;
+}
+
 .cb-lw-inner img,
 .cb-balanced-logos-inner img {
 	max-width: 100%;

@@ -11,6 +11,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import { LogoSoup } from '@sanity-labs/logo-soup/react';
 import { readAttributesFromDom } from './collection-form-data';
+import { withLogoSoupLifecycle } from '../shared/logo-soup-lifecycle';
 import { sanitizePreviewConfig, toLwProps } from '../shared/to-lw-props';
 
 export const PREVIEW_UPDATE_EVENT = 'cb-lw-preview-update';
@@ -56,7 +57,10 @@ export function CollectionPreview() {
 		[ attributes ]
 	);
 	const soupProps = useMemo(
-		() => toLwProps( previewConfig ),
+		() =>
+			withLogoSoupLifecycle( toLwProps( previewConfig ), {
+				context: { surface: 'collection-preview' },
+			} ),
 		[ previewConfig ]
 	);
 
@@ -94,10 +98,17 @@ export function CollectionPreview() {
 							className="cb-lw-slide logo-slider-slide"
 						>
 							<LogoSoup
-								{ ...toLwProps( {
-									...previewConfig,
-									logos: [ logo ],
-								} ) }
+								{ ...withLogoSoupLifecycle(
+									toLwProps( {
+										...previewConfig,
+										logos: [ logo ],
+									} ),
+									{
+										context: {
+											surface: 'collection-preview-carousel',
+										},
+									}
+								) }
 							/>
 						</li>
 					) ) }

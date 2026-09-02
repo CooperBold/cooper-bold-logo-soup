@@ -209,6 +209,7 @@ export function toLwProps( config ) {
 					width={ width }
 					height={ height }
 					style={ style }
+					crossOrigin="anonymous"
 					loading={ config.eagerLoad ? 'eager' : 'lazy' }
 					decoding="async"
 					onError={ ( event ) => {

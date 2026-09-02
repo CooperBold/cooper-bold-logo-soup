@@ -273,5 +273,16 @@
     },
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1788172220.678048
+  },
+  {
+    "id": "local_1788367304974",
+    "text": "2026-09-02: Bumped @sanity-labs/logo-soup to 1.3.0 in Cooper Bold Logo Wrangler plugin. Added logo-soup-lifecycle.js for onError/onNormalized hooks (failure logging, cb-lw-soup-loading class). crossOrigin=anonymous on renderImage. WP.org v1.3.2 still in human review; v1.3.3 queued locally with this change.",
+    "metadata": {
+      "source": "session",
+      "date": "2026-09-02",
+      "branch": "main"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1788367304.974241
   }
 ]
