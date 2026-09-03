@@ -284,5 +284,17 @@
     },
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1788367304.974241
+  },
+  {
+    "id": "local_1788431449041",
+    "text": "AI Session: 2026-09-02 \u2014 close-out\n\n- **Where:** Cooper Bold Logo Wrangler WP plugin \u00b7 branch `main` \u00b7 PR none\n- **Done:** Bumped `@sanity-labs/logo-soup` to **1.3.0** (crossOrigin fix, failures API, stale-results during load). Added `src/shared/logo-soup-lifecycle.js` wiring `onError` / `onNormalized` across view, block editor, and collection preview; `cb-lw-soup-loading` on strip/carousel-ref mounts; CSS for `data-logo-soup-loading`. Bugbot fix: clear loading class on total failure via `onError`. Verify PASS (19 Jest incl. 3 new lifecycle tests, build OK).\n- **State:** v1.3.2 still in WP.org human review; v1.3.3 (now includes logo-soup 1.3.0) ready locally, not uploaded.\n- **Decisions:** Pin logo-soup at 1.3.0 exact; always `console.warn` on failures (not debug-gated) so editors spot broken URLs.\n- **Risks:** WP.org review still pending; measurement values may shift slightly vs 1.2.2 (upstream redmean change).\n- **Next:** Upload v1.3.3 after 1.3.2 clears; rebuild release ZIP before upload.",
+    "metadata": {
+      "source": "ai_session_memory",
+      "date": "2026-09-02",
+      "session_title": "2026-09-02 \u2014 close-out",
+      "imported_by": "maintain_all_simplemem"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1788431449.041164
   }
 ]
