@@ -2,7 +2,7 @@
 title: Wiki Log
 type: log
 created: 2026-06-12
-updated: 2026-09-02
+updated: 2026-09-06
 ---
 
 # Wiki Log
@@ -12,6 +12,10 @@ updated: 2026-09-02
 > Format: `## [YYYY-MM-DD] verb | Subject`
 >
 > Verbs: `ingest`, `query`, `lint`, `update`, `create`, `migrate`, `session`
+
+## [2026-09-06] update | Review-pending confirmed; v1.3.3 still queued locally
+
+No new commits in the 24h window except `9d398fa` (2026-09-03 03:30 PDT, `nightly-simplemem`), which auto-mirrored the existing 2026-09-02 `AI_SESSION_MEMORY.md` close-out entry into `docs/simplemem/memories.json` (+12 lines, `source: ai_session_memory` metadata only — no new session state). That close-out (logo-soup 1.3.0 bump + lifecycle hooks) is already fully recorded in the wiki's 2026-09-02 `session` entry above. `AI_SESSION_MEMORY.md` and `AI_RUNBOOK.md` otherwise unchanged in the window; working tree clean; no `docs/` changes. The state recorded in [[wordpress-org-submission]] therefore holds unchanged: **v1.3.2 in human review on WP.org**; **v1.3.3** (activate/update-only legacy migration per [[0002-migrate-legacy-plugin-path-activate-only]] + logo-soup 1.3.0 + lifecycle hooks) built and verified (19 Jest incl. 3 new lifecycle tests, build OK) but **not uploaded**, queued until 1.3.2 clears. No wiki content edits needed beyond this status confirmation.
 
 ## [2026-09-02] session | logo-soup 1.3.0 bump + lifecycle hooks
 
