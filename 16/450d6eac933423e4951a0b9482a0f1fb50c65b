@@ -1,0 +1,14 @@
+wiki/log.md
+  h_422297d9b08c28 5,16-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "16450d6eac933423e4951a0b9482a0f1fb50c65b",
+  "prompts": {},
+  "humans": {
+    "h_422297d9b08c28": {
+      "author": "nicholas andrew eymann <thedao@nicholaacstudio.lan>"
+    }
+  }
+}
