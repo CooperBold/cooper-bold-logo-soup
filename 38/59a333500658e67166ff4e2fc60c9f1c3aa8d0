@@ -1,0 +1,14 @@
+wiki/log.md
+  h_3620aac67f8343 5,16-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3859a333500658e67166ff4e2fc60c9f1c3aa8d0",
+  "prompts": {},
+  "humans": {
+    "h_3620aac67f8343": {
+      "author": "nicholas andrew eymann <thedao@nicholass-Mac-Studio.local>"
+    }
+  }
+}
