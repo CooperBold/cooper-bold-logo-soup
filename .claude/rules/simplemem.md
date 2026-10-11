@@ -1,6 +1,5 @@
 ---
 description: SimpleMem memory integration for this project
-alwaysApply: true
 ---
 
 # SimpleMem Memory Integration

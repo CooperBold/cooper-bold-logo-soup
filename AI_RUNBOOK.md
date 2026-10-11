@@ -24,7 +24,7 @@ Editors can use:
 | JS | Block editor (`src/block/`), front-end (`src/view.js`) |
 | npm package | `@sanity-labs/logo-soup` ^1.2.2 |
 | Build | `@wordpress/scripts` → `build/index.js`, `build/view.js` |
-| AI tooling | SimpleMem, Cursor planning, wiki, Context7 |
+| AI tooling | SimpleMem, wiki, Context7, Claude Code rules in `.claude/rules/` |
 
 ---
 
@@ -146,7 +146,7 @@ npm run lint:js
 
 python3 simplemem_cli.py import-ai-session --path AI_SESSION_MEMORY.md
 
-Use Cursor Plan mode; write `.cursor/plans/PLAN.md`
+# Plan multi-step work with the global loops (plan-and-implement; say "use the loops")
 ```
 
 ---

@@ -12,4 +12,4 @@ Pre-resolved IDs for stack docs. Use **`resolve-library-id`** if an ID fails or 
 | JS build | @wordpress/scripts | `/wordpress/gutenberg` | `wp-scripts build`, webpack config. |
 | Testing | WordPress PHPUnit | `/websites/make_wordpress_core_handbook` | Core handbook patterns when adding tests. |
 
-**Credentials:** Context7 MCP requires `CONTEXT7_API_KEY` in Cursor MCP config (`~/.cursor/mcp.json`) or env. Enable the `user-context7` server in Cursor Settings → MCP when needed.
+**Credentials:** Context7 MCP requires `CONTEXT7_API_KEY`; Claude Code has the `context7` MCP server configured at user level.

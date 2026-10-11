@@ -1,5 +1,7 @@
 # Cooper Bold Logo Wrangler — Agent Notes
 
+Claude Code loads this file through `.claude/CLAUDE.md`. Always-on rules are in `.claude/rules/`; before non-trivial work follow `.claude/rules/pre-task-retrieval.md`.
+
 ## What this plugin does
 
 Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** normalizes mixed logo images (size, density, visual center) into a balanced strip. It is not a marquee.
@@ -9,7 +11,7 @@ Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** norm
 - PHP 7.4+ plugin bootstrap in `cooper-bold-logo-wrangler.php` + `includes/` (only that file has the Plugin Name header). Legacy `balanced-logos.php` is a headerless loader that requires the canonical file when the old path is still listed in `active_plugins`. Migrate that entry only on user-initiated **activate** or **plugin update** hooks — never on `plugins_loaded`.
 - Gutenberg block: `src/block/` → `build/index.js`
 - Frontend hydration: `src/view.js` → `build/view.js`
-- Build: `npm run build` (`@wordpress/scripts` + custom `webpack.config.js` dual entry)
+- Build: `npm run build` (`@wordpress/scripts`; entry points are listed in the `build` script in `package.json`)
 
 ## Key conventions
 
@@ -45,7 +47,8 @@ No built-in cap on logos per collection, block, or shortcode. Admin users manage
 ## Verify after changes
 
 ```bash
-npm run build
+npm run verify      # .verify.sh: Jest unit tests (npm run test) + npm run build
+npm run test:php    # PHPUnit with WordPress stubs (needs composer install)
 npm run lint:js
 ```
 

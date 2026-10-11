@@ -40,3 +40,7 @@ dist/
 # Stale wp-env debug screenshots (not shipped)
 logo-soup-*.png
 .loops
+
+# Claude Code local state
+.claude/worktrees/
+.claude/settings.local.json

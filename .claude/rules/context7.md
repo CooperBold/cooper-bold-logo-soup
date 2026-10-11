@@ -1,3 +1,9 @@
+---
+description: Use Context7 for current framework, SDK, and API docs
+paths:
+  - "**/*"
+---
+
 # Context7 (up-to-date docs)
 
 ## When to use
@@ -10,7 +16,7 @@ Use the **Context7** MCP server to retrieve up-to-date documentation and code ex
 
 ## How to use
 
-1. **Prefer pre-resolved IDs** — Stack library IDs are in [.cursor/context7-libraries.md](../context7-libraries.md). Use those with **Query Documentation** when the library is listed.
+1. **Prefer pre-resolved IDs** — Stack library IDs are in [.cursor/context7-libraries.md](../../.cursor/context7-libraries.md). Use those with **Query Documentation** when the library is listed.
 2. **Other libraries** — Call **Resolve Context7 Library ID** first, then **Query Documentation**.
 3. **Limit calls** — Do not call Context7 tools more than 3 times per question.
 

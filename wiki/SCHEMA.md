@@ -90,7 +90,7 @@ Open `wiki/` as a vault in Obsidian. macOS: `open -a Obsidian "<project-root>/wi
 
 ### Ingest / migrate / query / lint
 
-Follow workflows in `~/.cursor/skills/llm-wiki/SKILL.md`. After plugin code exists, ingest README and inline docs as sources.
+Follow workflows in `~/.cursor/skills/llm-wiki/SKILL.md` (a Cursor-era skill file; there is no Claude Code copy yet). After plugin code exists, ingest README and inline docs as sources.
 
 ## Style rules
 
