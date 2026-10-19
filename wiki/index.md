@@ -1,46 +1,65 @@
 ---
-title: Wiki Index
-type: index
+title: Index
+type: overview
+summary: Start here. Must-know facts, then one line per page.
+status: active
 created: 2026-06-12
-updated: 2026-09-01
+updated: 2026-10-19
+last_verified: 2026-10-19
+sources: []
+tags: [meta]
 ---
 
-# Cooper Bold Logo Wrangler WP Plugin Wiki
+# Cooper Bold Logo Wrangler wiki
 
-> Content catalog. The LLM reads this first when answering queries.
+## Must know
 
-## Sources
+- WP.org: **1.3.2 is in review** (since 2026-08-24). **1.3.3 is on `main` but not uploaded**, so rebuild the ZIP before uploading. [[wporg-review-thread]]
+- Never touch `active_plugins` on `plugins_loaded`, and never add `viewScript`/`style` to `block.json`; both are WP.org/architecture rules with guard tests. [[gotchas]]
+- Four renames (Logo Soup → Balanced Logos → Logo Wrangler) were repo-wide find/replaces, so old docs misdate names. Legacy shortcodes, blocks, and meta must keep working. [[0003-plugin-name-cooper-bold-logo-wrangler]]
+- RapidSOS staging ran 1.2.11 under the old slug; moving it to 1.3.x is **not** a drop-in. [[rapidsos-site]]
+- `~/Repos/logo-soup-wp-plugin` and two other paths are symlinks to `~/Repos/Logo Soup WP Plugin`: one checkout. [[overview]]
 
-| Page | Summary | Date |
-|------|---------|------|
-| [[sar-review]] | SAR spec-attack-repair run that defined the current architecture | 2026-06-12 |
-| [[adversarial-review]] | Multi-round adversary review of plugin diff (REQUEST_CHANGES) | 2026-06-13 |
+## Overview
+
+- [[overview]] — what this is, who it's for, where it runs, release state
+- [[gotchas]] — known traps; check after a repeated failure
 
 ## Entities
 
-| Page | What it is |
-|------|------------|
-| [[wordpress-plugin]] | Cooper Bold Logo Wrangler — main plugin |
-| [[sanity-logo-soup]] | `@sanity-labs/logo-soup` npm package |
-| [[gutenberg-block-balanced-logos]] | Block `cooper-bold/logo-wrangler` (legacy `cooper-bold/balanced-logos`) |
+- [[wordpress-plugin]] — the plugin: identifiers, version, PHP class per surface, bootstrap
+- [[gutenberg-block-balanced-logos]] — block `cooper-bold/logo-wrangler`, hidden legacy aliases, hydration events
+- [[logo-collections]] — `cb_logo_collection` CPT, meta keys with legacy fallback, REST route
+- [[sanity-logo-soup]] — upstream `@sanity-labs/logo-soup` (pinned 1.3.0) and lifecycle hooks
+- [[rapidsos-site]] — first consumer (Bricks, Cloudways), its version, and the 1.2→1.3 upgrade traps
 
 ## Concepts
 
-| Page | Summary |
-|------|---------|
-|  |  |
+- [[rendering-pipeline]] — PHP placeholder render → conditional enqueue → React hydration → canvas measuring
+- [[carousel-and-splide]] — `layout="carousel"`, `wrapper` modes, the RapidSOS autoscroll snippet, bundled Splide
 
 ## Decisions
 
-| # | Decision | Status |
-|---|----------|--------|
-| 0001 | [[0001-pin-splide-extension-auto-scroll]] — stay on `splide-extension-auto-scroll@0.5.3` (latest published npm release) | active |
-| 0002 | [[0002-migrate-legacy-plugin-path-activate-only]] — migrate legacy `balanced-logos.php` `active_plugins` entry on activate/update only (WP.org compliance) | active |
+- [[0001-pin-splide-extension-auto-scroll]] — stay on auto-scroll 0.5.3, the latest npm release
+- [[0002-migrate-legacy-plugin-path-activate-only]] — migrate `balanced-logos.php` entry on activate/update only
+- [[0003-plugin-name-cooper-bold-logo-wrangler]] — why the name changed four times; what legacy stays
+- [[0004-ship-source-in-release-zip]] — ZIP ships `src/` + `package.json`; readme links the public repo
+- [[0005-bundle-upstream-react-component]] — bundle logo-soup's React component, don't port it
+- [[0006-php-owned-asset-enqueue]] — frontend assets enqueue from PHP only, when something renders
 
 ## Guides
 
-| Page | Purpose |
-|------|---------|
-| [[wordpress-org-submission]] | Publish the plugin to the WordPress.org directory |
-| [[wp-env-smoke-test]] | End-to-end wp-env smoke test (build, activate, shortcode, assets) |
-| [[rapidsos-deploy]] | Deploy Cooper Bold Logo Wrangler to RapidSOS Cloudways staging (Bricks + collections) |
+- [[wordpress-org-submission]] — get into the WP.org directory: ZIP, review, SVN secrets, tag deploy
+- [[rapidsos-deploy]] — install on RapidSOS staging, wire collections into Bricks, purge, roll back
+- [[wp-env-smoke-test]] — local Docker smoke test and release-ZIP checks
+
+## Sources
+
+- [[wporg-review-thread]] — WP.org review emails, 2026-06-26 → 2026-08-24
+- [[notion-logo-soup-plugin-task]] — the Notion task that started the plugin, plus the naming discussion
+- [[sar-review]] — 2026-06-12 Spec-Attack-Repair run that chose the architecture
+- [[adversarial-review]] — 2026-06-13 adversarial review: fixes, false positives, deferred work
+
+## Meta
+
+- [[SCHEMA]] — how to write here · [[log]] — change history

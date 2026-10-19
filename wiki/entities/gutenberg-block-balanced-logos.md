@@ -1,11 +1,14 @@
 ---
 title: Logo Wrangler Gutenberg Block
 type: entity
+summary: The cooper-bold/logo-wrangler dynamic block, its hidden legacy aliases, and frontend hydration hooks.
 created: 2026-06-12
-updated: 2026-08-30
+updated: 2026-10-19
+last_verified: 2026-10-19
 tags: [gutenberg, block-editor, logo-wrangler]
 aliases: [cooper-bold/balanced-logos, cooper-bold/logo-wrangler, logo-wrangler-block]
 status: active
+sources: [src/block/block.json, src/block/index.js, src/view.js, includes/class-cb-lw.php, "commit 385fbad"]
 ---
 
 # Logo Wrangler Gutenberg Block
@@ -28,6 +31,7 @@ Frontend hydration (`src/view.js`) accepts both `data-cb-lw` and legacy `data-cb
 
 ## Related
 
+- [[rendering-pipeline]] · [[logo-collections]]
 - [[wordpress-plugin]]
 - [[sanity-logo-soup]]
 - [[0002-migrate-legacy-plugin-path-activate-only]]

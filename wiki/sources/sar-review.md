@@ -1,18 +1,22 @@
 ---
 title: SAR Review (2026-06-12)
 type: source
+summary: Digest of the 2026-06-12 Spec-Attack-Repair run that chose the architecture (dynamic PHP render + thin React hydration).
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-10-19
+last_verified: 2026-10-19
 tags: [sar, spec, attack-repair, security, architecture]
 aliases: [sar-review]
-sources:
-  - "[[wordpress-plugin]]"
+sources: [docs/SAR-REVIEW.md]
 status: active
 ---
 
 # SAR Review (2026-06-12)
 
 Summary of the Spec-Attack-Repair (`sar`) run that produced the current plugin architecture. Source: `docs/SAR-REVIEW.md`. Full log: `~/.hermes/spec-attack-repair/logs/20260612T164702`.
+
+
+> **Read with care (2026-10-19):** file and function names here (`class-cb-balanced-logos*`, `to-balanced-logos-props.js`, `[balanced_logos]`) come from a later find/replace of the source doc, not from the code at review time. Today they are `class-cb-lw-*` and `to-lw-props.js`. The findings still hold.
 
 ## SAR workflow notes
 
@@ -81,6 +85,7 @@ gzip -c build/view.js | wc -c  # 5143 bytes (≤ 20 KB)
 
 ## Related
 
+- [[rendering-pipeline]] · [[0006-php-owned-asset-enqueue]]
 - [[wordpress-plugin]]
 - [[adversarial-review]]
 - [[wordpress-org-submission]]

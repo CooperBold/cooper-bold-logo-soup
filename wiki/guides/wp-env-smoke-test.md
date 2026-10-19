@@ -1,12 +1,13 @@
 ---
 title: wp-env smoke test (Cooper Bold Logo Wrangler)
 type: guide
+summary: Local Docker (wp-env + Colima) smoke test: build, activate, render a shortcode, check assets and the release ZIP.
 created: 2026-06-17
-updated: 2026-08-05
+updated: 2026-10-19
+last_verified: 2026-10-19
 tags: [wordpress, wp-env, docker, colima, smoke-test, ci]
 aliases: [smoke-test, wp-env-smoke]
-sources:
-  - "[[wordpress-plugin]]"
+sources: [docs/SMOKE-TEST.md, .wp-env.json, AI_RUNBOOK.md, .distignore]
 status: active
 ---
 
@@ -21,7 +22,7 @@ End-to-end smoke test for **Cooper Bold Logo Wrangler** in `@wordpress/env` (Doc
 ## Step-by-step
 
 ```bash
-cd "/Users/thedao/Repos/Cooper Bold Logo Wrangler WP Plugin"
+cd "/Users/thedao/Repos/Logo Soup WP Plugin"   # real checkout; logo-soup-wp-plugin is a symlink to it
 npm ci && npm run build
 
 # If git clone into ~/.wp-env fails index-pack, use a local core checkout under $HOME:
@@ -45,7 +46,7 @@ npm run wp-env:stop
 `@wordpress/env` splits plugin paths on spaces when `"plugins": [ "." ]`, so lifecycle activation fails for `Cooper Bold Logo Wrangler WP Plugin`. Symlink the repo to a no-spaces path and point `.wp-env.json` at it:
 
 ```bash
-ln -sfn "/Users/thedao/Repos/Cooper Bold Logo Wrangler WP Plugin" "/Users/thedao/Repos/cooper-bold-logo-wrangler-wp-plugin"
+ln -sfn "/Users/thedao/Repos/Logo Soup WP Plugin" "/Users/thedao/Repos/cooper-bold-logo-wrangler-wp-plugin"   # already exists on this Mac
 npm run wp-env:start   # uses committed .wp-env.json; no override needed
 ```
 
@@ -60,27 +61,29 @@ WP-CLI slug is `cooper-bold-logo-wrangler-wp-plugin` (from directory name). Remo
 
 ```bash
 composer install
-vendor/bin/phpunit      # PHPUnit — 13 tests, 24 assertions
-npm test                # Jest — 11 tests
+vendor/bin/phpunit      # PHPUnit — 43 tests as of fbd74c2 (2026-10-10); was 13 in June
+npm test                # Jest — 19 tests in 3 suites as of fbd74c2; was 11 in June
+npm run verify          # .verify.sh gate: Jest + build
 npm run lint:js
 ```
 
-PHPUnit entry: `tests/CB_LW_Renderer_Test.php`. Jest entry: `src/shared/to-lw-props.test.js`.
+PHPUnit tests: `tests/CB_LW_*_Test.php` (renderer, assets, collections, bootstrap, admin branding). Jest: `src/shared/*.test.js`, `src/admin/collection-preview.test.js`.
 
 ## Release zip verification
 
 ```bash
 ./scripts/build-release-zip.sh
-unzip -l dist/balanced-logos-1.0.1.zip
+unzip -l dist/cooper-bold-logo-wrangler-<version>.zip
 ```
 
 **Pass criteria:**
 
 - Contains `build/` (index.js, view.js, block.json, CSS)
 - Contains `includes/`, `cooper-bold-logo-wrangler.php`, `readme.txt`, `LICENSE`
-- Does **not** contain `tests/`, `composer.json`, `composer.phar`, `vendor/`, `package.json`, `phpunit.xml.dist`
+- **Contains** `src/`, `package.json`, `package-lock.json`, and `lib/splide/` (since 1.3.1, [[0004-ship-source-in-release-zip]])
+- Does **not** contain `tests/`, `composer.json`, `composer.phar`, `vendor/`, `node_modules/`, `phpunit.xml.dist`, `assets/`, `docs/`, `wiki/`
 
-## Recorded result (2026-06-15)
+## Recorded result (2026-06-15, historical)
 
 | Step | Result |
 |------|--------|

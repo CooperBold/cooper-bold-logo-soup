@@ -1,12 +1,13 @@
 ---
 title: Submit to WordPress.org Plugin Directory
 type: guide
+summary: Maintainer steps to get the plugin into the WP.org directory: ZIP, review, SVN secrets, tag deploy, directory assets.
 created: 2026-06-14
-updated: 2026-09-01
+updated: 2026-10-19
+last_verified: 2026-10-19
 tags: [wordpress, release, deploy, svn, github-actions]
 aliases: [wp-org-submit, release-plugin]
-sources:
-  - "[[wordpress-plugin]]"
+sources: [docs/WORDPRESS-ORG-SUBMISSION.md, README.md, .github/workflows/deploy.yml, readme.txt]
 status: active
 ---
 
@@ -14,12 +15,12 @@ status: active
 
 Step-by-step procedure for publishing **Cooper Bold Logo Wrangler** on the WordPress plugin directory. Tasks that need the maintainer's account or secrets are marked **(you)**. Source: `docs/WORDPRESS-ORG-SUBMISSION.md`.
 
-**Display name (chosen 2026-07-06):** **Cooper Bold Logo Wrangler** — set in the `Plugin Name` header (`cooper-bold-logo-wrangler.php`) and `readme.txt` title. WordPress.org derives the directory slug from that header (expected: `cooper-bold-logo-wrangler`). The install folder slug, text domain, and block name stay `cooper-bold-logo-wrangler` / `cooper-bold/logo-wrangler` (no text-domain change).
+**Display name (requested 2026-08-03, shipped in 1.3.0):** **Cooper Bold Logo Wrangler**. The docs' "chosen 2026-07-06" date is a find/replace artifact: on 2026-07-06 the name was Balanced Logos ([[0003-plugin-name-cooper-bold-logo-wrangler]]). — set in the `Plugin Name` header (`cooper-bold-logo-wrangler.php`) and `readme.txt` title. WordPress.org derives the directory slug from that header (expected: `cooper-bold-logo-wrangler`). The install folder slug, text domain, and block name stay `cooper-bold-logo-wrangler` / `cooper-bold/logo-wrangler` (no text-domain change).
 
 ## 1. Create a WordPress.org account **(you)**
 
 1. Register at [wordpress.org](https://wordpress.org/support/register.php) if you do not have an account.
-2. Choose or confirm the **contributor slug** (used in `readme.txt`; currently `cooperbold`).
+2. Choose or confirm the **contributor slug** (used in `readme.txt`; currently `nicholaseymann`, which is the reviewer account, since commit `60aab65`; the docs still say `cooperbold`).
 3. Enable two-factor authentication on the account.
 
 ## 2. Build a clean plugin ZIP
@@ -43,13 +44,15 @@ The ZIP is written to `dist/cooper-bold-logo-wrangler-<version>.zip`. It respect
 
 > **Pre-approval:** the first submission is reviewed manually. Plugin Check (step 7) and escaping/sanitization in this repo are aligned with common review feedback, but approval is not guaranteed until a human reviewer accepts the plugin.
 >
+> **Status as of 2026-10-19:** unchanged. No newer WP.org email in the inbox; full timeline in [[wporg-review-thread]].
+>
 > **Status as of 2026-08-24 session (unchanged as of 2026-09-01 — no new commits; daily gardener confirmed review still pending):** v1.3.2 is **in manual review** (uploaded, automated scan passed, Tested up to 7.1); v1.3.3 (activate/update-only legacy migration + deactivation cleanup + hidden legacy blocks — [[0002-migrate-legacy-plugin-path-activate-only]]) is built and verified (43 PHPUnit, 16 Jest) but **not uploaded**, queued until 1.3.2 clears.
 
 ## 4. Add GitHub secrets for automated deploy **(you)**
 
 After SVN access is granted:
 
-1. Open **GitHub → CooperBold/cooper-bold-logo-wrangler → Settings → Secrets and variables → Actions**.
+1. Open **GitHub → CooperBold/cooper-bold-logo-soup** (the repo slug was never renamed) **→ Settings → Secrets and variables → Actions**.
 2. Add repository secrets:
    - `SVN_USERNAME` — your wordpress.org username.
    - `SVN_PASSWORD` — your [application password](https://make.wordpress.org/core/handbook/tutorials/generate-a-password-for-svn/) (not your login password).
@@ -74,6 +77,8 @@ The `v1.0.0` tag triggers deploy to `tags/1.0.0` and updates `trunk` on WordPres
 
 ## 6. Directory assets **(you)**
 
+> **Check before the first tag:** the PNGs live in `assets/` (excluded from the ZIP by `.distignore`). The 10up deploy action reads directory art from `.wordpress-org/` by default (`ASSETS_DIR`), and `deploy.yml` doesn't override it. Either set `ASSETS_DIR: assets` in the workflow env or move the files. `README.md` already describes `.wordpress-org/`.
+
 Before or shortly after launch, add PNGs under `assets/` (see `assets/README.md`):
 
 - `banner-772x250.png`
@@ -96,7 +101,7 @@ This repo follows WordPress coding practices: `ABSPATH` guards, escaping, saniti
 
 - Update `Stable tag` and changelog in `readme.txt` for each release.
 - Bump `Version` in `cooper-bold-logo-wrangler.php`, `CB_LW_VERSION`, and `src/block/block.json` (`version`); run `npm run build`; then tag `v*`.
-- Monitor the [plugin support forum](https://wordpress.org/support/plugin/balanced-logos/) once live.
+- Monitor the plugin support forum (`https://wordpress.org/support/plugin/cooper-bold-logo-wrangler/`, assuming the requested slug is granted) once live. The docs still link the rejected `balanced-logos` slug.
 
 ## What cannot be automated
 
@@ -109,6 +114,7 @@ This repo follows WordPress coding practices: `ABSPATH` guards, escaping, saniti
 
 ## Related
 
+- [[wporg-review-thread]] · [[0004-ship-source-in-release-zip]] · [[0003-plugin-name-cooper-bold-logo-wrangler]]
 - [[wordpress-plugin]]
 - [[adversarial-review]]
 - [[sar-review]]

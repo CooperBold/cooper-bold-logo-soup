@@ -1,12 +1,13 @@
 ---
 title: RapidSOS deploy (Cooper Bold Logo Wrangler)
 type: guide
+summary: Build the ZIP, install on RapidSOS Cloudways staging, wire collections into Bricks (strip or carousel), purge caches, roll back.
 created: 2026-06-17
-updated: 2026-08-05
+updated: 2026-10-19
+last_verified: 2026-10-19
 tags: [wordpress, deploy, cloudways, bricks, shortcode]
 aliases: [rapidsos-deploy]
-sources:
-  - "[[wordpress-plugin]]"
+sources: [docs/RAPIDSOS-DEPLOY.md, includes/class-cb-lw-renderer.php]
 status: active
 ---
 
@@ -28,9 +29,11 @@ Pick one:
 
 1. **WP Admin** — Plugins → Add New → Upload Plugin → choose the ZIP → Replace/update if prompted.
 2. **SFTP** — Upload ZIP to server, unzip into `wp-content/plugins/cooper-bold-logo-wrangler/` (overwrite existing).
-3. **SSH** — `wp plugin install /path/to/cooper-bold-logo-wrangler-1.3.0.zip --activate` (if WP-CLI available).
+3. **SSH** — `wp plugin install /path/to/cooper-bold-logo-wrangler-<version>.zip --activate` (if WP-CLI available).
 
 Activate **Cooper Bold Logo Wrangler** if not already active.
+
+> **Coming from 1.2.x (`cooper-bold-logo-soup` folder)?** This is not an in-place update. The ZIP installs a second folder. Deactivate the old plugin first, and expect the REST route and meta-key changes listed in [[rapidsos-site]]. Try it on a local clone (`wp-fleet local`) before staging, and never touch live without Nicholas's go-ahead.
 
 ## Logo Collections (primary workflow on Bricks)
 
@@ -108,6 +111,8 @@ Re-check page source if the strip is missing or stale.
 
 ## Related
 
+- [[rapidsos-site]] · [[carousel-and-splide]]
+- Bricks rules for this site: `~/.claude/rules/cooper-bold-wordpress.md`
 - [[wordpress-plugin]]
 - [[wp-env-smoke-test]]
 - [[wordpress-org-submission]]

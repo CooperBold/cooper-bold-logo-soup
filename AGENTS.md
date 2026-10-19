@@ -2,6 +2,9 @@
 
 Claude Code loads this file through `.claude/CLAUDE.md`. Always-on rules are in `.claude/rules/`; before non-trivial work follow `.claude/rules/pre-task-retrieval.md`.
 
+**Project wiki:** read `wiki/index.md` before non-trivial work; open pages it points to only when relevant.
+After a repeated failure, check `wiki/gotchas.md`. Writing to the wiki: follow `wiki/SCHEMA.md`.
+
 ## What this plugin does
 
 Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** normalizes mixed logo images (size, density, visual center) into a balanced strip. It is not a marquee.

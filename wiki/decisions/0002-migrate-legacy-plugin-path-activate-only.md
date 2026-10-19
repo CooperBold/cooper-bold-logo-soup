@@ -1,11 +1,13 @@
 ---
 title: Migrate legacy plugin path on activate/update only
 type: decision
+summary: Rewrite the legacy balanced-logos.php active_plugins entry only on activate/update (never on plugins_loaded); deactivate removes both paths.
 created: 2026-08-30
-updated: 2026-08-30
+updated: 2026-10-19
+last_verified: 2026-10-19
 tags: [wordpress-org, bootstrap, migration, compliance]
 aliases: [activate-only-migration, legacy-path-migration]
-sources: ["[[wordpress-plugin]]", "[[wordpress-org-submission]]"]
+sources: [cooper-bold-logo-wrangler.php, balanced-logos.php, tests/CB_LW_Bootstrap_Test.php, "commit 385fbad", AI_SESSION_MEMORY.md]
 status: active
 ---
 
@@ -33,3 +35,8 @@ The migration itself dedupes: it skips entries already migrated (and drops the l
 - Sites that are never reactivated or updated through wp-admin keep their legacy `balanced-logos.php` entry working (the headerless loader still includes the canonical bootstrap), so nothing breaks — the entry just stays legacy until the next activation/update cycle.
 - Companion decision in the same v1.3.3 change: legacy block aliases (`cooper-bold/balanced-logos`, `cooper-bold/logo-soup`) are **hidden from the block inserter** (`supports.inserter: false`) rather than unregistered — existing posts keep rendering/editing, new inserts go to the canonical block only. See [[gutenberg-block-balanced-logos]].
 - Guard tests codify the WP.org constraint so a future refactor cannot silently reintroduce the `plugins_loaded` migration.
+- This only covers the 1.2.15 path `balanced-logos.php`. Sites still on the original `cooper-bold-logo-soup.php` (RapidSOS) have no loader; see [[rapidsos-site]].
+
+## Related
+
+- [[0003-plugin-name-cooper-bold-logo-wrangler]] · [[wordpress-plugin]] · [[wporg-review-thread]]

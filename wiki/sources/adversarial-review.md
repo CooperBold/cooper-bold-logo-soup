@@ -1,18 +1,23 @@
 ---
 title: Adversarial Review (2026-06-13)
 type: source
+summary: Digest of the 2026-06-13 adversarial review (REQUEST_CHANGES): what was fixed, false positives, deferred work.
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-10-19
+last_verified: 2026-10-19
 tags: [review, security, sanitization, build, enqueue]
 aliases: [adversarial-review]
-sources:
-  - "[[wordpress-plugin]]"
+sources: [docs/ADVERSARIAL-REVIEW.md]
 status: active
 ---
 
 # Adversarial Review (2026-06-13)
 
 Summary of the multi-round adversarial review (Nous, `anthropic/claude-opus-4.8`) of the plugin diff against the spec at `/tmp/cb-balanced-logos-spec.md`. Source: `docs/ADVERSARIAL-REVIEW.md`.
+
+
+> **Read with care (2026-10-19):** file and function names here (`class-cb-balanced-logos*`, `to-balanced-logos-props.js`, `[balanced_logos]`) come from a later find/replace of the source doc, not from the code at review time. Today they are `class-cb-lw-*` and `to-lw-props.js`. The findings still hold.
+> The "no automated test suite" finding was fixed in 1.0.1 (commit `112c693`, PHPUnit + Jest) and CI (`f9bcb5b`).
 
 ## Headline
 
@@ -62,6 +67,7 @@ Add PHPUnit tests for `CB_Balanced_Logos_Renderer` sanitization and a minimal Je
 
 ## Related
 
+- [[rendering-pipeline]] · [[0006-php-owned-asset-enqueue]]
 - [[wordpress-plugin]]
 - [[sar-review]]
 - [[wordpress-org-submission]]

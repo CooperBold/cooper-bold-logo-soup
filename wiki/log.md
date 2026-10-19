@@ -1,11 +1,17 @@
 ---
-title: Wiki Log
-type: log
+title: Log
+type: overview
+summary: Append-only history of wiki changes. Older entries are not strictly date-ordered.
+status: active
 created: 2026-06-12
-updated: 2026-09-27
+updated: 2026-10-19
+last_verified: 2026-10-19
+sources: []
+tags: [meta]
 ---
 
-# Wiki Log
+
+# Log
 
 > Chronological record of wiki operations. Append-only.
 >
@@ -130,4 +136,6 @@ Commit `385fbad fix: WP.org compliance v1.3.3` (2026-08-24 15:16 PDT) implemente
 
 Updated [[wordpress-plugin]] (version, bootstrap/migration behavior), [[gutenberg-block-balanced-logos]] (legacy blocks hidden from inserter), [[wordpress-org-submission]] (review-loop status as of the 2026-08-24 session), and [[0001-pin-splide-extension-auto-scroll]] (readme now has a dedicated Third-party libraries section). Created [[0002-migrate-legacy-plugin-path-activate-only]] and indexed in [[index]]. `cd1d786` (2026-08-25) touched only `docs/simplemem/memories.json` (auto-import of the close-out memory above).
 
-## [2026-08-05] lint | Dead link fix + ingest re-flag note
+## [2026-10-19] upgrade | Wiki moved to the standard template
+
+Replaced SCHEMA/index with the standard template (project notes kept). Added [[overview]], [[gotchas]], [[rendering-pipeline]], [[carousel-and-splide]], [[logo-collections]], [[rapidsos-site]], decisions [[0003-plugin-name-cooper-bold-logo-wrangler]] to [[0006-php-owned-asset-enqueue]], and sources [[wporg-review-thread]] and [[notion-logo-soup-plugin-task]], mined from git history, the WP.org email thread, the Notion task, and the RapidSOS repo. Spot-checked every existing page against code. Fixed stale claims: wrong checkout path and test counts in [[wp-env-smoke-test]], the ZIP now ships `src/`, a find/replace "chosen 2026-07-06" name date, wrong repo slug in the secrets path, the support-forum URL and contributor slug in [[wordpress-org-submission]], and the 1.2.x→1.3.x upgrade warning in [[rapidsos-deploy]]. Added standard frontmatter everywhere. Removed a stray duplicate `2026-08-05 lint` heading at the end of this log.

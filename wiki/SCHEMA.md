@@ -1,106 +1,81 @@
-# Wiki Schema
+---
+title: Wiki schema
+type: overview
+summary: How to write in this wiki. Read before editing any page.
+status: active
+created: 2026-06-12
+updated: 2026-10-19
+last_verified: 2026-10-19
+sources: [~/.claude/skills/closeout/wiki-template/SCHEMA.md]
+tags: [meta]
+---
 
-> This file tells the LLM how to maintain this wiki. Read it at the start of every session that touches wiki pages.
+# Wiki schema — Cooper Bold Logo Wrangler
 
-## Project
+This wiki is the project's compiled knowledge, maintained by AI agents. Standard: <https://claude.ai/artifact/RnB3P1rsrghZQoic5o6FXC>.
 
-- **Name**: Cooper Bold Logo Wrangler WP Plugin
-- **Domain**: WordPress plugin **Cooper Bold Logo Wrangler** — Gutenberg block `cooper-bold/logo-wrangler` and `[logo_wrangler]` shortcode that render partner logos using `@sanity-labs/logo-soup`. Main file: `cooper-bold-logo-wrangler.php`. Legacy aliases: `[balanced_logos]`, `[logo_soup]`.
+## What goes here (and what doesn't)
 
-## Directory structure
+- **Here:** what the project is and for whom, environments, people and roles, how systems connect, decisions and why, gotchas with history, digests of outside sources (Loom, Notion, email, PR series).
+- **Not here:** rules every session needs (→ `AGENTS.md`/`CLAUDE.md`), procedures people edit (→ `docs/`, runbooks; link them), live state and to-dos (→ `FOLLOWUPS.md`/`TASKS.md`), session journal (→ `AI_SESSION_MEMORY.md`), facts about Nicholas (→ Honcho).
+- Only write what an agent couldn't learn by reading the code. No codebase tours.
+
+## Layout
 
 ```
 wiki/
-├── SCHEMA.md          ← you are here (LLM instructions)
-├── index.md           ← content catalog, organized by type
-├── log.md             ← chronological operations log
-├── sources/           ← summaries of ingested documents
-├── entities/          ← concrete things (tools, services, APIs, tables, configs)
-├── concepts/          ← patterns, principles, architectural ideas
-├── decisions/         ← architecture decision records (ADRs)
-├── guides/            ← how-tos, runbooks, procedures
-└── assets/            ← images, diagrams, attachments
+├── SCHEMA.md     this file
+├── index.md      "Must know" block + one line per page (≤150 lines)
+├── log.md        append-only, newest last (≤150 entries; older → log/YYYY.md)
+├── overview.md   what, who, where it runs, environments, key links
+├── gotchas.md    short scar-tissue list; each item links to detail
+├── entities/     systems, services, sites, people/roles, environments
+├── concepts/     how things work and fit together
+├── decisions/    0001-short-name.md — what, why, alternatives, status
+├── guides/       how-tos not already in docs/
+└── sources/      one digest per outside source
 ```
 
-## Page conventions
-
-### Filenames
-
-- **Kebab-case**, lowercase: `wordpress-rest-api.md`, `logo-cpt.md`
-- Singular nouns for entities: `wordpress-plugin.md` not `wordpress-plugins.md`
-- Verb-noun for guides: `deploy-to-staging.md`, `release-plugin-zip.md`
-- Decisions use numbered prefix: `0001-use-custom-post-type-for-logos.md`
-
-### Frontmatter
-
-Every page MUST have YAML frontmatter:
+## Every page
 
 ```yaml
 ---
-title: Human-Readable Page Title
-type: source | entity | concept | decision | guide
+title: Human title
+type: entity | concept | decision | guide | source | overview
+summary: One line; index.md copies it.
+status: active | superseded | archived
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-tags: [relevant, tags]
-aliases: [alternate-name, abbreviation]
-sources: ["[[source-page]]"]
-status: active | draft | superseded | archived
+last_verified: YYYY-MM-DD   # last checked against code or source
+sources: [path/in/repo, "PR #123", "https://…"]
+tags: [a, b]
 ---
 ```
 
-### Links
+Then `# Title`, a 1–3 sentence summary, the content, and `## Related` with `[[wikilinks]]`.
 
-Use Obsidian-style wikilinks exclusively:
+## Rules
 
-- `[[page-name]]` for standard links
-- `[[page-name|display text]]` for aliased links
-- `[[page-name#section]]` for section links
-- Never use markdown-style `[text](url)` for internal wiki links (reserve for external URLs)
-
-### Page structure
-
-Every page follows this skeleton:
-
-```markdown
----
-(frontmatter)
----
-
-# Title
-
-One-paragraph summary of what this page covers.
-
-## Content sections
-(varies by page type — see template in llm-wiki skill)
-
-## Related
-- [[linked-page-1]]
-- [[linked-page-2]]
-```
-
-## Page types
-
-See the full type definitions in the llm-wiki skill template. Use **entity** for WordPress APIs, CPTs, taxonomies, and plugin files; **concept** for patterns (e.g. shortcode vs block); **decision** for ADRs; **guide** for release and local-dev procedures.
+1. Cite a source for every claim (path, PR, commit, link). Unsourced → write *(unverified)*.
+2. Never delete a superseded page: set `status: superseded` and link the replacement.
+3. `[[page-name]]` for internal links (Obsidian), normal links for everything else.
+4. Kebab-case filenames. Decisions: `decisions/NNNN-short-name.md`.
+5. Pages ≤ ~300 lines. Split bigger ones.
+6. No secrets, tokens, key values, client PII, or billing rates. Env var names are fine.
+7. Plain English, short sentences, written for a new teammate.
 
 ## Operations
 
-### Obsidian (human viewer)
+- **Ingest** (new source): write `sources/<name>.md`, update affected pages, add to `index.md`, log `## [YYYY-MM-DD] ingest | <title>`.
+- **Query**: read `index.md`, open relevant pages, answer with citations. If the answer took real synthesis, file it as a page and log `query`.
+- **Session / close-out**: log `## [YYYY-MM-DD] session | <one line>`; fix any page the session proved wrong; add pages for new lasting decisions/gotchas; bump `updated` and `last_verified`.
+- **Lint**: `python3 ~/.claude/skills/closeout/wiki-template/wiki_lint.py <repo>` (dead links, orphans, index coverage, frontmatter, sizes, stale `last_verified` > 120 days). Log `lint`.
 
-Open `wiki/` as a vault in Obsidian. macOS: `open -a Obsidian "<project-root>/wiki"`.
+## Project notes
 
-### Ingest / migrate / query / lint
-
-Follow workflows in `~/.cursor/skills/llm-wiki/SKILL.md` (a Cursor-era skill file; there is no Claude Code copy yet). After plugin code exists, ingest README and inline docs as sources.
-
-## Style rules
-
-- Write in clear, direct prose. No marketing language.
-- Prefer concrete specifics: hook names, option keys, REST routes, file paths.
-- Trace claims to sources via `[[wikilinks]]`.
-
-## Relationship to other project files
-
-- **AI_SESSION_MEMORY.md**: Session breadcrumbs; wiki is compiled long-form knowledge.
-- **AI_RUNBOOK.md**: Operational procedures; may graduate into `wiki/guides/`.
-- **AGENTS.md**: Always-on agent instructions.
-- **SimpleMem**: Fast recall (`balanced-logos-wp-plugin` namespace); wiki is structured reference.
+- **Product:** Cooper Bold Logo Wrangler, a free WordPress plugin (block `cooper-bold/logo-wrangler`, shortcode `[logo_wrangler]`, CPT `cb_logo_collection`) that wraps `@sanity-labs/logo-soup`. Cooper Bold's own product; RapidSOS was the first site to use it.
+- **Names changed four times** (see [[0003-plugin-name-cooper-bold-logo-wrangler]]). Each rename was a global find/replace that also rewrote older docs and changelog lines, so old docs can show today's name for past events. For history, trust `git show <commit>:<file>` over prose.
+- **Where truth lives:** code first, then `readme.txt` (WP.org readme + changelog), `AGENTS.md` (agent rules), `docs/*.md` (runbooks; the wiki guides mirror them and fix stale bits), `AI_SESSION_MEMORY.md` (session journal). WP.org review status lives in the Cooper Bold inbox thread, not in the repo.
+- **Public:** the GitHub repo is public and linked from `readme.txt`. Write as if anyone can read it: no emails, rates, or client-internal notes.
+- **Bricks work** on client sites that use this plugin follows `~/.claude/rules/cooper-bold-wordpress.md` (Style UI, not pasted CSS; Melanie decides layout).
+- SimpleMem namespace for this repo: `cooper-bold-logo-wrangler-wp-plugin` (`.claude/rules/simplemem.md`).
