@@ -1,0 +1,14 @@
+docs/simplemem/memories.json
+  h_3620aac67f8343 299-310
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c11f51f838bbb7a1d8b0d2de7c6d3a6cf815647c",
+  "prompts": {},
+  "humans": {
+    "h_3620aac67f8343": {
+      "author": "nicholas andrew eymann <thedao@nicholass-Mac-Studio.local>"
+    }
+  }
+}
