@@ -296,5 +296,17 @@
     },
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1788431449.041164
+  },
+  {
+    "id": "local_1792492280172",
+    "text": "Wiki upgrade: Wiki moved to the standard template (2026-10-19)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-10-19",
+      "verb": "upgrade",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1792492280.172943
   }
 ]
