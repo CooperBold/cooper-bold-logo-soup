@@ -40,7 +40,7 @@ One line each: the trap, then the fix or the page with details.
 ## Releases and environments
 
 - **RapidSOS 1.2.11 → 1.3.x is not a drop-in.** It means a new folder, no loader for the old file, a new REST route, and two copies registering `[logo_soup]` if both are active. See [[rapidsos-site]].
-- **1.3.4 is the version under review** (uploaded 2026-10-21; branch `fix/wporg-prefixes`). It folds in the never-uploaded 1.3.3 plus the prefix fixes. Change nothing until the reviewer replies. See [[wporg-review-thread]].
+- **1.3.4 is the version under review** (uploaded 2026-10-21; on `main` as `d4dbb98`). It folds in the never-uploaded 1.3.3 plus the prefix fixes. Change nothing until the reviewer replies. See [[wporg-review-thread]].
 - **Check the ZIP's top level before uploading.** `.distignore` must list every new dev folder; `.claude/` and `.wp-env.override.json` leaked into the first 1.3.4 build. Expect only `LICENSE admin balanced-logos.php build cooper-bold-logo-wrangler.php includes lib package*.json readme.txt src`.
 - **New global names need the `cb_lw_` / `CB_LW_` prefix.** WP.org flags anything shorter. `CB_LW_Bootstrap_Test` fails on an unprefixed global function or class. The `cb_logo_collection` post type and the legacy shortcodes keep their old names on purpose (live content).
 - **Directory art may not deploy.** The PNGs live in `assets/`, but the 10up deploy action reads `.wordpress-org/` by default, and `deploy.yml` sets no `ASSETS_DIR`. Set it or move the files before the first tag (default per the [10up action README](https://github.com/10up/action-wordpress-plugin-deploy)). See [[wordpress-org-submission]].
