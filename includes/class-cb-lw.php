@@ -38,10 +38,13 @@ final class CB_LW {
 		$this->renderer = new CB_LW_Renderer();
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_shortcode( 'logo_wrangler', array( $this, 'render_shortcode' ) );
-		// Legacy aliases from Balanced Logos / Logo Soup eras.
-		add_shortcode( 'balanced_logos', array( $this, 'render_shortcode' ) );
-		add_shortcode( 'logo_soup', array( $this, 'render_shortcode' ) );
-		add_shortcode( 'cooper-bold-logo-soup', array( $this, 'render_shortcode' ) );
+		// Legacy aliases from Balanced Logos / Logo Soup eras. Existing site content
+		// still uses them; never take one over from another plugin.
+		foreach ( array( 'balanced_logos', 'logo_soup', 'cooper-bold-logo-soup' ) as $legacy_tag ) {
+			if ( ! shortcode_exists( $legacy_tag ) ) {
+				add_shortcode( $legacy_tag, array( $this, 'render_shortcode' ) );
+			}
+		}
 	}
 
 	/**

@@ -162,7 +162,7 @@ final class CB_LW_Collections {
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_logos_meta_box( WP_Post $post ): void {
-		wp_nonce_field( 'cb_lw_save_collection', 'cb_logo_collection_nonce' );
+		wp_nonce_field( 'cb_lw_save_collection', 'cb_lw_collection_nonce' );
 		$logos = self::get_logos_for_post( $post->ID );
 		?>
 		<div id="cb-lw-collection-editor" class="cb-lw-collection-editor">
@@ -371,10 +371,10 @@ final class CB_LW_Collections {
 	 * @param WP_Post $post    Post object.
 	 */
 	public function save_post( int $post_id, WP_Post $post ): void {
-		if ( ! isset( $_POST['cb_logo_collection_nonce'] ) ) {
+		if ( ! isset( $_POST['cb_lw_collection_nonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cb_logo_collection_nonce'] ) ), 'cb_lw_save_collection' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cb_lw_collection_nonce'] ) ), 'cb_lw_save_collection' ) ) {
 			return;
 		}
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -419,8 +419,8 @@ final class CB_LW_Collections {
 		foreach ( $columns as $key => $label ) {
 			$new[ $key ] = $label;
 			if ( 'title' === $key ) {
-				$new['cb_logo_count']    = __( 'Logos', 'cooper-bold-logo-wrangler' );
-				$new['cb_shortcode']     = __( 'Shortcode', 'cooper-bold-logo-wrangler' );
+				$new['cb_lw_logo_count'] = __( 'Logos', 'cooper-bold-logo-wrangler' );
+				$new['cb_lw_shortcode']  = __( 'Shortcode', 'cooper-bold-logo-wrangler' );
 			}
 		}
 		return $new;
@@ -433,11 +433,11 @@ final class CB_LW_Collections {
 	 * @param int    $post_id Post ID.
 	 */
 	public function render_list_column( string $column, int $post_id ): void {
-		if ( 'cb_logo_count' === $column ) {
+		if ( 'cb_lw_logo_count' === $column ) {
 			echo esc_html( (string) count( self::get_logos_for_post( $post_id ) ) );
 			return;
 		}
-		if ( 'cb_shortcode' === $column ) {
+		if ( 'cb_lw_shortcode' === $column ) {
 			$post = get_post( $post_id );
 			if ( $post instanceof WP_Post ) {
 				self::render_shortcode_field(

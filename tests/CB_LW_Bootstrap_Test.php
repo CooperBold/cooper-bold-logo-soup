@@ -26,6 +26,32 @@ final class CB_LW_Bootstrap_Test extends TestCase {
 		$this->assertStringContainsString( 'upgrader_process_complete', $src );
 	}
 
+	public function test_global_functions_and_classes_use_plugin_prefix(): void {
+		$root  = dirname( __DIR__ );
+		$files = array_merge(
+			array( $root . '/cooper-bold-logo-wrangler.php', $root . '/balanced-logos.php' ),
+			glob( $root . '/includes/*.php' )
+		);
+		$unprefixed = array();
+		foreach ( $files as $file ) {
+			$src = file_get_contents( $file );
+			$this->assertNotFalse( $src );
+			preg_match_all( '/^\s*function\s+(\w+)/m', $src, $functions );
+			preg_match_all( '/^\s*(?:final\s+|abstract\s+)?(?:class|interface|trait)\s+(\w+)/m', $src, $classes );
+			foreach ( $functions[1] as $name ) {
+				if ( 0 !== strpos( $name, 'cb_lw_' ) ) {
+					$unprefixed[] = basename( $file ) . ': ' . $name . '()';
+				}
+			}
+			foreach ( $classes[1] as $name ) {
+				if ( 'CB_LW' !== $name && 0 !== strpos( $name, 'CB_LW_' ) ) {
+					$unprefixed[] = basename( $file ) . ': class ' . $name;
+				}
+			}
+		}
+		$this->assertSame( array(), $unprefixed );
+	}
+
 	public function test_readme_points_to_public_plugin_source(): void {
 		$readme = file_get_contents( dirname( __DIR__ ) . '/readme.txt' );
 		$this->assertNotFalse( $readme );

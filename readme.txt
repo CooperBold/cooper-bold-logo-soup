@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,10 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Cooper Bold Logo Wrangler scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.3.4 =
+* Use the plugin's `cb_lw_` prefix for the admin-screen helper, the collection form nonce, and the collections list columns
+* Register the legacy `[balanced_logos]`, `[logo_soup]` and `[cooper-bold-logo-soup]` shortcodes only when no other plugin already uses those names
 
 = 1.3.3 =
 * Migrate legacy `balanced-logos.php` active_plugins entries on **activate** and **plugin update** only (not on `plugins_loaded`)
@@ -223,6 +227,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.3.4 =
+Consistent `cb_lw_` naming for WordPress.org review. No changes to content or settings.
 
 = 1.3.3 =
 Fixes legacy bootstrap activation/deactivation for upgraded installs.

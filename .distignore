@@ -16,6 +16,8 @@
 /crewai
 /docs
 /.cursor
+/.claude
+CLAUDE.md
 /README.md
 /MEMORY.md
 /scripts
@@ -36,6 +38,7 @@ AGENTS.md
 # Node toolchain. Ship src/ + package.json so WP.org can match compiled assets.
 /node_modules
 /.wp-env.json
+/.wp-env.override.json
 
 # Environment and secrets
 /.env

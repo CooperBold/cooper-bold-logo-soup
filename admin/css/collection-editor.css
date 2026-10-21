@@ -205,6 +205,6 @@
 	padding: 0;
 }
 
-.column-cb_shortcode .cb-lw-shortcode-row--compact {
+.column-cb_lw_shortcode .cb-lw-shortcode-row--compact {
 	max-width: 220px;
 }

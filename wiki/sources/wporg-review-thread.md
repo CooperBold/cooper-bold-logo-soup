@@ -4,8 +4,8 @@ type: source
 summary: Digest of the WordPress.org Plugin Directory review emails — what reviewers asked for, what we changed, and where it stands.
 status: active
 created: 2026-10-19
-updated: 2026-10-19
-last_verified: 2026-10-19
+updated: 2026-10-21
+last_verified: 2026-10-21
 sources: ["Cooper Bold inbox thread 'Review in Progress: Logo Soup by Cooper Bold' (read with cooper-mail, 2026-10-19)", AI_SESSION_MEMORY.md]
 tags: [wordpress-org, review, source]
 ---
@@ -24,7 +24,8 @@ One email thread from the WordPress.org Plugins Team covers the whole submission
 | 2026-08-03 | Nicholas | Uploaded **1.3.0** as "Cooper Bold Logo Wrangler" and asked to reserve `cooper-bold-logo-wrangler`. |
 | 2026-08-06 | Automated scan | Failed: minified `build/*.js` with no matching source, and the readme did not point to this plugin's source (Guidelines 1 and 4). |
 | 2026-08-24 | Nicholas | Uploaded **1.3.2**: source in the ZIP plus the public repo link, auto-scroll kept at 0.5.3, the `active_plugins` rewrite on load removed, Tested up to 7.1. |
-| → 2026-10-19 | — | No newer message from plugins@wordpress.org in the inbox. **1.3.3 has not been uploaded**; it waits until 1.3.2 clears. |
+| → 2026-10-21 | — | No newer message from plugins@wordpress.org, including spam. The submission page still says "waiting on action from you". The Aug 6 prefix warning was never answered. |
+| 2026-10-21 | Agent | Built **1.3.4** (not uploaded): prefix fixes for the Aug 6 "check everything" note. Plugin Check on the ZIP: no errors. Text domain was already `cooper-bold-logo-wrangler` in 1.3.2. |
 
 ## What it changed in the repo
 
