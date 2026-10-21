@@ -1,0 +1,19 @@
+wiki/gotchas.md
+  s_9f50b865aa80d4::t_36c84a86ab4fd5 43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f55696f7488270b6f6839e20bd270de4977091c5",
+  "prompts": {},
+  "sessions": {
+    "s_9f50b865aa80d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bb59ea00-34ad-4d7e-87f1-75a5ea92786f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
