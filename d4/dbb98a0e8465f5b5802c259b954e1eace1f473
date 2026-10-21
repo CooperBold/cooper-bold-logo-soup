@@ -1,0 +1,51 @@
+includes/class-cb-lw.php
+  s_9f50b865aa80d4::t_2e9b5cea4d8bd2 41-47
+tests/CB_LW_Bootstrap_Test.php
+  s_9f50b865aa80d4::t_d227d595522f52 29-54
+.distignore
+  s_9f50b865aa80d4::t_b4b8b810af090b 19-20,41
+admin/css/collection-editor.css
+  s_9f50b865aa80d4::t_5dea48b7252884 208
+build/block/block.json
+  s_9f50b865aa80d4::t_0f05be2ab5ecec 5
+build/index.asset.php
+  s_9f50b865aa80d4::t_af72839f8c9f94 1
+build/index.js
+  s_9f50b865aa80d4::t_867f69c874bb8e 1
+cooper-bold-logo-wrangler.php
+  s_9f50b865aa80d4::t_0c5bf8c88a8eba 8,29
+includes/class-cb-lw-admin-branding.php
+  s_9f50b865aa80d4::t_0230bb233c536c 19,46,65,82
+includes/class-cb-lw-collections.php
+  s_9f50b865aa80d4::t_2f98f2a28419a9 165,374,377,422-423,436,440
+package-lock.json
+  s_9f50b865aa80d4::t_994900e67bf21a 3,9
+package.json
+  s_9f50b865aa80d4::t_378dd951474eb9 3
+readme.txt
+  s_9f50b865aa80d4::t_66c60c22bba2ec 7,92-95,231-233
+src/block/block.json
+  s_9f50b865aa80d4::t_433612b49793dc 5
+wiki/gotchas.md
+  s_9f50b865aa80d4::t_3c3d24a68bbcb5 7-8,43-45,49
+wiki/log.md
+  s_9f50b865aa80d4::t_300fb0da3d55fc 146-149
+wiki/sources/wporg-review-thread.md
+  s_9f50b865aa80d4::t_19c2901e1bfff1 7-8,27-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d4dbb98a0e8465f5b5802c259b954e1eace1f473",
+  "prompts": {},
+  "sessions": {
+    "s_9f50b865aa80d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bb59ea00-34ad-4d7e-87f1-75a5ea92786f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
