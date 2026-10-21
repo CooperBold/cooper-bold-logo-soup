@@ -1,0 +1,21 @@
+wiki/gotchas.md
+  s_9f50b865aa80d4::t_b49f4b36209cef 43
+wiki/sources/wporg-review-thread.md
+  s_9f50b865aa80d4::t_d80ddf38f7d554 29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "560febefb645e29a7c797b295956e9a4fa570ba9",
+  "prompts": {},
+  "sessions": {
+    "s_9f50b865aa80d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bb59ea00-34ad-4d7e-87f1-75a5ea92786f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
