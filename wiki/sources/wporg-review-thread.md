@@ -26,6 +26,7 @@ One email thread from the WordPress.org Plugins Team covers the whole submission
 | 2026-08-24 | Nicholas | Uploaded **1.3.2**: source in the ZIP plus the public repo link, auto-scroll kept at 0.5.3, the `active_plugins` rewrite on load removed, Tested up to 7.1. |
 | → 2026-10-21 | — | No newer message from plugins@wordpress.org, including spam. The submission page still says "waiting on action from you". The Aug 6 prefix warning was never answered. |
 | 2026-10-21 | Agent | Built **1.3.4** (not uploaded): prefix fixes for the Aug 6 "check everything" note. Plugin Check on the ZIP: no errors. Text domain was already `cooper-bold-logo-wrangler` in 1.3.2. |
+| 2026-10-21 | Nicholas | Uploaded **1.3.4** with an upload comment on the prefix fixes. WP.org confirmed receipt. The status changed to "waiting on action from our plugins team" (577 in queue). |
 
 ## What it changed in the repo
 
