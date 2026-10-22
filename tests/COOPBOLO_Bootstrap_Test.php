@@ -59,6 +59,12 @@ final class COOPBOLO_Bootstrap_Test extends TestCase {
 		$this->assertSame( array(), $unprefixed );
 	}
 
+	public function test_deactivate_clears_schema_version_so_reactivation_migrates_again(): void {
+		$src = file_get_contents( dirname( __DIR__ ) . '/cooper-bold-logo-wrangler.php' );
+		$this->assertNotFalse( $src );
+		$this->assertStringContainsString( 'delete_option( COOPBOLO_Collections::SCHEMA_OPTION )', $src );
+	}
+
 	public function test_post_type_meta_and_option_names_use_plugin_prefix(): void {
 		$this->assertStringStartsWith( 'coopbolo_', COOPBOLO_Collections::POST_TYPE );
 		$this->assertLessThanOrEqual( 20, strlen( COOPBOLO_Collections::POST_TYPE ) );

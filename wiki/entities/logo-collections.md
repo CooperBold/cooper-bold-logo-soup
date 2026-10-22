@@ -28,7 +28,15 @@ Logo Collections are the main way editors use the plugin, especially on page bui
 
 ## 1.3.5 migration
 
-On `init` (priority 5), while `coopbolo_schema_version` is below 1, `migrate_legacy_data()` moves every `cb_logo_collection` post (any status, trash included) to `coopbolo_collection` with `set_post_type()`, and moves `_cb_lw_logos` / `_cb_lw_settings` to the `_coopbolo_*` keys. An existing new key is never overwritten. Older `_cb_balanced_logos_*` / `_cb_logo_soup_*` keys are left alone and still read as fallbacks. Any WordPress load runs it, WP-CLI included. See [[0007-coopbolo-prefix]].
+On `init` (priority 20, after other plugins register custom statuses), while `coopbolo_schema_version` is below 1, `migrate_legacy_data()` moves every `cb_logo_collection` post (any status, trash included) to `coopbolo_collection` with `set_post_type()`, and **copies** `_cb_lw_logos` / `_cb_lw_settings` to the `_coopbolo_*` keys. Details:
+- An existing new key is never overwritten.
+- A non-array value (for example, corrupted by a search-replace) is not copied.
+- The old keys stay until the collection is next saved, so a rollback only has to change the post type back.
+- It checks `get_post_type()` before each move, because a theme's `pre_get_posts` can rewrite the query and return other posts.
+- The option is set only when every move succeeded. Deactivating the plugin deletes the option, so the migration runs again after a reinstall.
+- Any WordPress load runs it, WP-CLI included.
+
+Older `_cb_balanced_logos_*` / `_cb_logo_soup_*` keys are left alone and still read as fallbacks. Rollback steps: [[rapidsos-deploy]]. See [[0007-coopbolo-prefix]].
 
 ## Legacy meta behavior
 

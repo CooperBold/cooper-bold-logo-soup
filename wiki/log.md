@@ -151,3 +151,15 @@ Renamed the last unprefixed names (`cb_is_logo_wrangler_admin_screen()` → `cb_
 ## [2026-10-22] session | 1.3.5 coopbolo_ prefix for WP.org review
 
 Nicholas pasted the 2026-08-26 manual review, which the 2026-10-19 inbox search had missed: prefix "cb" too short, plus the auto-scroll "out of date" flag. 1.3.4 still used `cb_lw_`, so built 1.3.5 on branch `fix/coopbolo-prefix`. It renames every PHP global, the CPT (`coopbolo_collection`), meta, nonce, fields, and REST route, with a one-time migration. Verified with PHPUnit 49, Jest 19, a wp-env 1.3.4 → 1.3.5 in-place upgrade, a fresh install with WP_DEBUG, and Plugin Check (no issues). Both Splide files are byte-identical to the latest npm releases. New [[0007-coopbolo-prefix]]; updated [[index]], [[gotchas]], [[logo-collections]], [[wordpress-plugin]], [[rapidsos-site]], [[wporg-review-thread]]. Committed on `fix/coopbolo-prefix`; not pushed or uploaded.
+
+## [2026-10-22] gate | 1.3.5 migration hardened before merge
+
+Adversarial gate (security, regression, edge-case personas): FIX REQUIRED → fixed → APPROVE. The migration now:
+- checks `get_post_type()` before moving, because a theme's `pre_get_posts` can hijack the lookup
+- copies `_cb_lw_*` meta instead of deleting it, so a rollback works
+- skips non-array meta
+- sets the option only when every move succeeded
+- runs on `init` priority 20
+- clears the option on deactivate
+
+Rollback WP-CLI steps are in [[rapidsos-deploy]]. Verified in wp-env (rollback, then a re-upgrade with a hostile filter), PHPUnit 53, Plugin Check clean. Merged to `main`.

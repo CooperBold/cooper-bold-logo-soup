@@ -40,7 +40,8 @@ final class COOPBOLO_Collections {
 	private static ?COOPBOLO_Renderer $renderer = null;
 
 	public function __construct() {
-		add_action( 'init', array( $this, 'maybe_migrate_legacy_data' ), 5 );
+		// After other plugins register custom post statuses on default init.
+		add_action( 'init', array( $this, 'maybe_migrate_legacy_data' ), 20 );
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'prune_admin_submenus' ), 99 );
@@ -59,19 +60,21 @@ final class COOPBOLO_Collections {
 		if ( (int) get_option( self::SCHEMA_OPTION, 0 ) >= self::SCHEMA_VERSION ) {
 			return;
 		}
-		self::migrate_legacy_data();
-		update_option( self::SCHEMA_OPTION, self::SCHEMA_VERSION );
+		if ( 0 === self::migrate_legacy_data()['failed'] ) {
+			update_option( self::SCHEMA_OPTION, self::SCHEMA_VERSION );
+		}
 	}
 
 	/**
-	 * Move collections saved through 1.3.4 to the coopbolo_ post type and meta keys.
+	 * Move collections saved through 1.3.4 to the coopbolo_ post type and copy their meta to the new keys.
 	 *
-	 * Uses core APIs (set_post_type, post meta functions) so object caches stay valid.
+	 * Old `_cb_lw_*` keys stay until the collection is next saved, so a rollback to 1.3.4
+	 * only needs the post type changed back. Uses core APIs so object caches stay valid.
 	 * Safe to run more than once.
 	 *
-	 * @return int Number of collections moved.
+	 * @return array{moved: int, failed: int}
 	 */
-	public static function migrate_legacy_data(): int {
+	public static function migrate_legacy_data(): array {
 		$post_ids = get_posts(
 			array(
 				'post_type'      => self::LEGACY_POST_TYPE,
@@ -82,32 +85,45 @@ final class COOPBOLO_Collections {
 			)
 		);
 
+		$result = array(
+			'moved'  => 0,
+			'failed' => 0,
+		);
 		foreach ( $post_ids as $post_id ) {
 			$post_id = (int) $post_id;
-			set_post_type( $post_id, self::POST_TYPE );
-			self::move_meta_key( $post_id, '_cb_lw_logos', self::META_LOGOS );
-			self::move_meta_key( $post_id, '_cb_lw_settings', self::META_SETTINGS );
+			// A theme's pre_get_posts can rewrite this query; only touch real legacy collections.
+			if ( self::LEGACY_POST_TYPE !== get_post_type( $post_id ) ) {
+				continue;
+			}
+			self::copy_meta_key( $post_id, '_cb_lw_logos', self::META_LOGOS );
+			self::copy_meta_key( $post_id, '_cb_lw_settings', self::META_SETTINGS );
+			if ( set_post_type( $post_id, self::POST_TYPE ) ) {
+				++$result['moved'];
+			} else {
+				++$result['failed'];
+			}
 		}
 
-		return count( $post_ids );
+		return $result;
 	}
 
 	/**
-	 * Copy a meta value to its new key (unless the new key already exists), then delete the old key.
+	 * Copy an array meta value to its new key unless the new key already exists.
 	 *
 	 * @param int    $post_id Post ID.
 	 * @param string $old_key Meta key written through 1.3.4.
 	 * @param string $new_key Current meta key.
 	 */
-	private static function move_meta_key( int $post_id, string $old_key, string $new_key ): void {
-		if ( ! metadata_exists( 'post', $post_id, $old_key ) ) {
+	private static function copy_meta_key( int $post_id, string $old_key, string $new_key ): void {
+		if ( metadata_exists( 'post', $post_id, $new_key ) ) {
 			return;
 		}
-		if ( ! metadata_exists( 'post', $post_id, $new_key ) ) {
-			// update_post_meta() unslashes its value; slash first so stored text survives unchanged.
-			update_post_meta( $post_id, $new_key, wp_slash( get_post_meta( $post_id, $old_key, true ) ) );
+		$value = get_post_meta( $post_id, $old_key, true );
+		if ( ! is_array( $value ) ) {
+			return;
 		}
-		delete_post_meta( $post_id, $old_key );
+		// update_post_meta() unslashes its value; slash first so stored text survives unchanged.
+		update_post_meta( $post_id, $new_key, wp_slash( $value ) );
 	}
 
 	/**

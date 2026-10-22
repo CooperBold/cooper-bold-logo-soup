@@ -76,6 +76,8 @@ function coopbolo_migrate_legacy_bootstrap_entry(): void {
 
 /**
  * Remove the legacy bootstrap entry when the canonical plugin is deactivated.
+ * Also clears the collections schema version so a later reactivation re-runs the
+ * migration (needed if 1.3.4 ran in between and created `cb_logo_collection` posts).
  *
  * @return void
  */
@@ -95,6 +97,10 @@ function coopbolo_deactivate(): void {
 
 	if ( $next !== $active ) {
 		update_option( 'active_plugins', $next );
+	}
+
+	if ( class_exists( 'COOPBOLO_Collections' ) ) {
+		delete_option( COOPBOLO_Collections::SCHEMA_OPTION );
 	}
 }
 

@@ -278,6 +278,10 @@ if ( ! function_exists( 'get_posts' ) ) {
 			}
 			return array();
 		}
+		// Simulates a pre_get_posts filter rewriting the query.
+		if ( isset( $GLOBALS['cb_test_get_posts_override'] ) ) {
+			return $GLOBALS['cb_test_get_posts_override'];
+		}
 		$posts = array_values( $GLOBALS['cb_test_posts'] ?? array() );
 		if ( isset( $args['post_type'] ) ) {
 			$posts = array_values(
@@ -524,11 +528,21 @@ if ( ! function_exists( 'set_post_type' ) ) {
 	 */
 	function set_post_type( $post_id, $post_type ): bool {
 		$id = (int) $post_id;
-		if ( ! isset( $GLOBALS['cb_test_posts'][ $id ] ) ) {
+		if ( ! empty( $GLOBALS['cb_test_set_post_type_fails'] ) || ! isset( $GLOBALS['cb_test_posts'][ $id ] ) ) {
 			return false;
 		}
 		$GLOBALS['cb_test_posts'][ $id ]->post_type = $post_type;
 		return true;
+	}
+}
+
+if ( ! function_exists( 'get_post_type' ) ) {
+	/**
+	 * @param int $post_id Post ID.
+	 * @return string|false
+	 */
+	function get_post_type( $post_id ) {
+		return $GLOBALS['cb_test_posts'][ (int) $post_id ]->post_type ?? false;
 	}
 }
 

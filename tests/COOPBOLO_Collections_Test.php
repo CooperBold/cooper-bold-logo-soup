@@ -27,7 +27,14 @@ final class COOPBOLO_Collections_Test extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		unset( $GLOBALS['cb_test_posts'], $GLOBALS['cb_test_post_meta'], $GLOBALS['cb_test_posts_by_slug'], $GLOBALS['cb_test_options'] );
+		unset(
+			$GLOBALS['cb_test_posts'],
+			$GLOBALS['cb_test_post_meta'],
+			$GLOBALS['cb_test_posts_by_slug'],
+			$GLOBALS['cb_test_options'],
+			$GLOBALS['cb_test_get_posts_override'],
+			$GLOBALS['cb_test_set_post_type_fails']
+		);
 		parent::tearDown();
 	}
 
@@ -222,28 +229,61 @@ final class COOPBOLO_Collections_Test extends TestCase {
 			'_cb_lw_settings' => array( 'gap' => 32 ),
 		);
 
-		$moved = COOPBOLO_Collections::migrate_legacy_data();
+		$result = COOPBOLO_Collections::migrate_legacy_data();
 
-		$this->assertSame( 1, $moved );
+		$this->assertSame( array( 'moved' => 1, 'failed' => 0 ), $result );
 		$this->assertSame( COOPBOLO_Collections::POST_TYPE, $GLOBALS['cb_test_posts'][7]->post_type );
 		$this->assertSame( 'page', $GLOBALS['cb_test_posts'][8]->post_type );
 		$this->assertSame( $logos, $GLOBALS['cb_test_post_meta'][7][ COOPBOLO_Collections::META_LOGOS ] );
 		$this->assertSame( array( 'gap' => 32 ), $GLOBALS['cb_test_post_meta'][7][ COOPBOLO_Collections::META_SETTINGS ] );
-		$this->assertArrayNotHasKey( '_cb_lw_logos', $GLOBALS['cb_test_post_meta'][7] );
-		$this->assertArrayNotHasKey( '_cb_lw_settings', $GLOBALS['cb_test_post_meta'][7] );
+		// Old keys stay so a rollback to 1.3.4 only has to change the post type back.
+		$this->assertSame( $logos, $GLOBALS['cb_test_post_meta'][7]['_cb_lw_logos'] );
+		$this->assertSame( array( 'gap' => 32 ), $GLOBALS['cb_test_post_meta'][7]['_cb_lw_settings'] );
 	}
 
 	public function test_migrate_keeps_existing_new_meta(): void {
+		$old = array( array( 'url' => 'https://example.com/old.png' ) );
 		$this->register_post( 7, COOPBOLO_Collections::LEGACY_POST_TYPE );
 		$GLOBALS['cb_test_post_meta'][7] = array(
-			'_cb_lw_logos'                    => array( array( 'url' => 'https://example.com/old.png' ) ),
+			'_cb_lw_logos'                    => $old,
 			COOPBOLO_Collections::META_LOGOS => array(),
 		);
 
 		COOPBOLO_Collections::migrate_legacy_data();
 
 		$this->assertSame( array(), $GLOBALS['cb_test_post_meta'][7][ COOPBOLO_Collections::META_LOGOS ] );
-		$this->assertArrayNotHasKey( '_cb_lw_logos', $GLOBALS['cb_test_post_meta'][7] );
+		$this->assertSame( $old, $GLOBALS['cb_test_post_meta'][7]['_cb_lw_logos'] );
+	}
+
+	public function test_migrate_ignores_posts_a_query_filter_slipped_in(): void {
+		$this->register_post( 7, COOPBOLO_Collections::LEGACY_POST_TYPE );
+		$this->register_post( 8, 'post' );
+		$GLOBALS['cb_test_get_posts_override'] = array( 7, 8 );
+
+		$result = COOPBOLO_Collections::migrate_legacy_data();
+
+		$this->assertSame( array( 'moved' => 1, 'failed' => 0 ), $result );
+		$this->assertSame( 'post', $GLOBALS['cb_test_posts'][8]->post_type );
+	}
+
+	public function test_migrate_skips_meta_that_is_not_an_array(): void {
+		$this->register_post( 7, COOPBOLO_Collections::LEGACY_POST_TYPE );
+		$GLOBALS['cb_test_post_meta'][7] = array( '_cb_lw_logos' => false );
+
+		COOPBOLO_Collections::migrate_legacy_data();
+
+		$this->assertArrayNotHasKey( COOPBOLO_Collections::META_LOGOS, $GLOBALS['cb_test_post_meta'][7] );
+		$this->assertArrayHasKey( '_cb_lw_logos', $GLOBALS['cb_test_post_meta'][7] );
+	}
+
+	public function test_failed_move_leaves_schema_version_unset_for_retry(): void {
+		$instance = ( new ReflectionClass( COOPBOLO_Collections::class ) )->newInstanceWithoutConstructor();
+		$this->register_post( 7, COOPBOLO_Collections::LEGACY_POST_TYPE );
+		$GLOBALS['cb_test_set_post_type_fails'] = true;
+
+		$instance->maybe_migrate_legacy_data();
+
+		$this->assertArrayNotHasKey( COOPBOLO_Collections::SCHEMA_OPTION, $GLOBALS['cb_test_options'] ?? array() );
 	}
 
 	public function test_maybe_migrate_runs_once_per_schema_version(): void {

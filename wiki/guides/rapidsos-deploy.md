@@ -3,8 +3,8 @@ title: RapidSOS deploy (Cooper Bold Logo Wrangler)
 type: guide
 summary: Build the ZIP, install on RapidSOS Cloudways staging, wire collections into Bricks (strip or carousel), purge caches, roll back.
 created: 2026-06-17
-updated: 2026-10-19
-last_verified: 2026-10-19
+updated: 2026-10-22
+last_verified: 2026-10-22
 tags: [wordpress, deploy, cloudways, bricks, shortcode]
 aliases: [rapidsos-deploy]
 sources: [docs/RAPIDSOS-DEPLOY.md, includes/class-coopbolo-renderer.php]
@@ -103,6 +103,22 @@ After any plugin or shortcode change, purge **all** layers:
 Re-check page source if the strip is missing or stale.
 
 ## Rollback checklist
+
+**From 1.3.5 back to 1.3.4.** 1.3.5 renamed the collections post type, so this takes more than swapping the folder. Code and database must match. On Cloudways, push files and database together, and never push a 1.3.5 database onto 1.3.4 code: every logo strip would render empty. Run these in order on the site (tested in wp-env 2026-10-22, [[0007-coopbolo-prefix]]):
+
+```bash
+# 1. Post type back to the 1.3.4 name.
+wp db query "UPDATE $(wp db prefix)posts SET post_type='cb_logo_collection' WHERE post_type='coopbolo_collection'"
+# 2. Copy current logos/settings back to the 1.3.4 keys (covers collections edited under 1.3.5).
+wp eval 'foreach ( get_posts( array( "post_type" => "cb_logo_collection", "post_status" => array_keys( get_post_stati() ), "posts_per_page" => -1, "fields" => "ids" ) ) as $id ) { foreach ( array( "logos", "settings" ) as $k ) { $v = get_post_meta( $id, "_coopbolo_$k", true ); if ( is_array( $v ) ) { update_post_meta( $id, "_cb_lw_$k", wp_slash( $v ) ); } } }'
+# 3. Put 1.3.4 back.
+wp plugin install /path/to/cooper-bold-logo-wrangler-1.3.4.zip --force
+# 4. Only now (1.3.4 is running): clear the flag so a later 1.3.5 upgrade migrates again.
+wp option delete coopbolo_schema_version
+wp cache flush
+```
+
+Edits made under 1.3.4 after a rollback are kept on the next upgrade only if the collection has no `_coopbolo_*` meta yet; otherwise 1.3.5 keeps its own copy. Re-save those collections after upgrading again.
 
 - [ ] Deactivate plugin or restore previous plugin folder from backup/ZIP
 - [ ] Purge Cloudways, Breeze, and Bricks cache again

@@ -79,4 +79,4 @@ vendor/bin/phpunit
 npm test
 ```
 
-See `tests/CB_LW_Renderer_Test.php` and `src/shared/to-lw-props.test.js`.
+See `tests/COOPBOLO_Renderer_Test.php` and `src/shared/to-lw-props.test.js`.

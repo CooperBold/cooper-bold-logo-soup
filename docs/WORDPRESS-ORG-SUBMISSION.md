@@ -101,7 +101,7 @@ This repo follows WordPress coding practices (ABSPATH guards, escaping, sanitiza
 ## 8. After release
 
 - Update `Stable tag` and changelog in `readme.txt` for each release.
-- Bump `Version` in `cooper-bold-logo-wrangler.php`, `CB_LW_VERSION`, `src/block/block.json` (`version`), run `npm run build`, then tag `v*`.
+- Bump `Version` in `cooper-bold-logo-wrangler.php`, `COOPBOLO_VERSION`, `src/block/block.json` (`version`), run `npm run build`, then tag `v*`.
 - Monitor the [plugin support forum](https://wordpress.org/support/plugin/balanced-logos/) once live.
 
 ## Cannot automate without you

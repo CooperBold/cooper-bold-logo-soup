@@ -91,7 +91,7 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 
 = 1.3.5 =
 * Use the `coopbolo_` / `COOPBOLO_` prefix for every PHP function, class, constant, the Logo Collections post type (`coopbolo_collection`), meta keys, the schema option, the collection form nonce and fields, list columns, and the REST route (`coopbolo/v1`)
-* Existing collections move from `cb_logo_collection` and `_cb_lw_*` meta to the new names once, on the first page load after updating. Older meta keys are still read as a fallback
+* Existing collections move from `cb_logo_collection` to `coopbolo_collection` once, on the first page load after updating. Their `_cb_lw_*` meta is copied to the new keys and kept until the collection is next saved. Older meta keys are still read as a fallback
 * Admin script and style handles now use `cooper-bold-logo-wrangler-*`
 * Frontend debug logging is now `window.COOPBOLO_DEBUG` or `?coopbolo_debug=1`
 * Shortcodes, blocks, and frontend CSS classes (`.cb-lw-wrapper`, `.cb-lw-inner`) are unchanged
