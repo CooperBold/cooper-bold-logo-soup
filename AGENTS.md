@@ -47,12 +47,62 @@ No built-in cap on logos per collection, block, or shortcode. Admin users manage
 - Port logo-soup to vanilla JS unless upstream API changes make React bundling untenable
 - Add marquee/animation unless explicitly requested — out of scope for logo-soup
 
-## Verify after changes
+## Working rules
 
-```bash
-npm run verify      # .verify.sh: Jest unit tests (npm run test) + npm run build
-npm run test:php    # PHPUnit with WordPress stubs (needs composer install)
-npm run lint:js
-```
+1. **Think before coding.** State assumptions, surface tradeoffs, ask before guessing.
+2. **Simplicity first.** Minimum code that solves the problem; no speculative abstractions.
+3. **Surgical changes.** Touch only what the task needs. Match the existing style.
+4. **Read before you write.** Read the file's exports and its caller before adding to it.
+5. **Fail loud.** If you can't be sure it worked, say so. Never report skipped work as done.
+6. **Check after every change.** Run the type check / lint from "Commands" after each edit.
+7. **Behavior changes ship with tests**, where a test runner exists (see "What can be verified").
+8. **Never ratchet a test to match current output.** Find why it changed; decide whether the code or the test is wrong.
+
+## Commands (tested)
+
+Runtime: Node 22 locally (CI uses 20; no `engines`), PHP 8.5 locally (CI 8.2, plugin supports 7.4+).
+`composer` is not on PATH: the repo's gitignored `composer.phar` is. · Last verified: 2026-10-22 on
+`origin/main` (33a9a0b).
+
+| Task | Command (run from root) | Notes |
+| ---- | ----------------------- | ----- |
+| Install JS | `npm ci` | ~3 min. |
+| Install PHP | `php composer.phar install` | **Crashes (exit 139, segfault) on PHP 8.5** while fetching from Packagist. The main checkout already has `vendor/`; a worktree can borrow it (next row). |
+| Test JS | `npm test` | Jest: 3 suites, 19 tests. |
+| Test PHP | `vendor/bin/phpunit` (`npm run test:php`) | 44 tests, 107 assertions, OK. 80 PHP 8.5 "dynamic property" deprecation notices from `tests/bootstrap.php` stubs. In a worktree: `"/Users/thedao/Repos/Logo Soup WP Plugin/vendor/bin/phpunit"`. |
+| Lint JS | `npx wp-scripts lint-js src admin` | ~2s. **Don't use `npm run lint:js`**: it also lints the vendored `lib/splide/js/*.min.js` and ran 14+ min without finishing. |
+| Build | `npm run build` | ~5s. Output in `build/` is tracked; on 2026-10-22 it rebuilt byte-identical. |
+| Verify gate | `npm run verify` (`bash .verify.sh`) | Jest + build. PASS. Doesn't run PHPUnit or lint. |
+| Local WordPress | `WP_ENV_CORE=/Users/thedao/wp-env-wordpress-core npm run wp-env:start` (from `~/Repos/cooper-bold-logo-wrangler-wp-plugin`) | :8888 answers 200, plugin active. Stop: `npm run wp-env:stop`. Details: `wiki/guides/wp-env-smoke-test.md`. |
+| Render check | `npx wp-env run cli -- wp eval 'echo do_shortcode("[logo_wrangler logos=\"https://example.com/a.png|A\"]");'` | Prints the `.cb-lw-wrapper` markup with `data-cb-lw`; saves nothing. |
 
 Test in WP: insert block, add logos, confirm frontend strip renders; test shortcode on a classic page.
+
+## Known baseline
+
+`origin/main` 2026-10-22: **JS lint has 92 errors** in `src/` + `admin/` (73 `prettier/prettier`,
+the rest jsdoc/`no-undef`/`no-unused-vars`). Jest, PHPUnit, build: clean.
+
+## What can be verified
+
+Jest (`src/**/*.test.js`), PHPUnit against WordPress stubs (`tests/`), the build, and rendering in the
+local wp-env site. No automated browser test of the block editor.
+
+## Running locally and logging in
+
+- wp-env is a throwaway local WordPress; wp-admin uses wp-env's documented default login. Its data is local.
+- `.wp-env.json` mounts the **absolute** path `/Users/thedao/Repos/cooper-bold-logo-wrangler-wp-plugin`
+  (a symlink to the main checkout). wp-env started from a git worktree still runs the main checkout's code.
+
+## Dev vs production gotchas
+
+- `~/Repos/cooper-bold-logo-wrangler-wp-plugin`, `~/Repos/logo-soup-wp-plugin`, and
+  `~/Repos/logo-soup-wp-plugin-smoke` are all **symlinks** to `~/Repos/Logo Soup WP Plugin`: one checkout, not four.
+- Release ZIP contents and other traps: `wiki/gotchas.md`.
+
+## Git and push safety
+
+- Owner: Cooper Bold (`CooperBold/cooper-bold-logo-soup`). Default branch `main`.
+- Push to origin only with Nicholas's OK. **Pushing a `v*` tag publishes to WordPress.org** (`.github/workflows/deploy.yml`, SVN).
+- Nightly SimpleMem/wiki auto-commits land on `main`.
+- Root `CLAUDE.md` is git-excluded (local tools rewrite it); the tracked entry point is `.claude/CLAUDE.md`.

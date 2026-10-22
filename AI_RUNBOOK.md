@@ -117,7 +117,7 @@ Pass = no errors (warnings may remain). Splide must load from `lib/splide/` only
 
 ### Release checklist
 
-1. `npm run build` and `npm run lint:js`
+1. `npm run build` and `npx wp-scripts lint-js src admin` (`npm run lint:js` also lints vendored `lib/splide` and hangs)
 2. Bump `CB_LW_VERSION` and plugin header version
 3. `./scripts/build-release-zip.sh` → `dist/cooper-bold-logo-wrangler-*.zip`
 4. Plugin Check (above) on wp-env or staging
@@ -142,7 +142,7 @@ Pass = no errors (warnings may remain). Splide must load from `lib/splide/` only
 npm install
 npm run build
 npm run start
-npm run lint:js
+npx wp-scripts lint-js src admin   # not npm run lint:js: it hangs on lib/splide/*.min.js
 
 python3 simplemem_cli.py import-ai-session --path AI_SESSION_MEMORY.md
 
