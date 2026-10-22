@@ -1,0 +1,51 @@
+wiki/decisions/0007-coopbolo-prefix.md
+  s_9889166accae25::t_59964bd23500dc 60-61
+  s_9889166accae25::t_a77d8994daf097 38-46
+  s_9889166accae25::t_c426e3ef359396 52
+wiki/entities/logo-collections.md
+  s_9889166accae25::t_49a98637d7d725 31-39
+cooper-bold-logo-wrangler.php
+  s_9889166accae25::t_66d049d3cce496 79-80,101-103
+  s_9889166accae25::t_0b47797aa499a6 104
+tests/COOPBOLO_Bootstrap_Test.php
+  s_9889166accae25::t_8831612430fd2d 62-67
+tests/COOPBOLO_Collections_Test.php
+  s_9889166accae25::t_89d3c9183927d3 232,234,239-241,245,248,255-286
+  s_9889166accae25::t_b02b25d9d4e9a1 30-37
+tests/bootstrap.php
+  s_9889166accae25::t_5f080468c1b6b2 281-284
+  s_9889166accae25::t_4c1f2ad381de71 531,539-545
+  s_9889166accae25::t_2bbdd3dc37a60b 546-548
+includes/class-coopbolo-collections.php
+  s_9889166accae25::t_2f4659eacdd3a4 43-44
+  s_9889166accae25::t_1d8b385c8c61d8 63-65,69,71-72,75,77
+  s_9889166accae25::t_f92a0d4b1195b8 88-91,94-104,107,111,117-118,121-123,125-126
+docs/SMOKE-TEST.md
+  s_9889166accae25::t_f821891eadf435 82
+docs/WORDPRESS-ORG-SUBMISSION.md
+  s_9889166accae25::t_98b1a6dd192366 104
+readme.txt
+  s_9889166accae25::t_00f68b3817a581 94
+wiki/gotchas.md
+  s_9889166accae25::t_69e731f7595d13 46,52
+wiki/guides/rapidsos-deploy.md
+  s_9889166accae25::t_2c9a9575f77642 6-7,107-122
+wiki/log.md
+  s_9889166accae25::t_8075c4052ee8d7 154-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "40f3028bcfa5f960f96486cb3e1b5ee3e5916846",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
