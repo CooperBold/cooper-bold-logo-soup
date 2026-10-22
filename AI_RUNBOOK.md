@@ -33,11 +33,11 @@ Editors can use:
 ```
 cooper-bold-logo-wrangler.php     # Plugin header + bootstrap
 includes/
-  class-cb-lw.php                  # Singleton coordinator (block + shortcodes)
-  class-cb-lw-assets.php           # Script/style enqueue
-  class-cb-lw-renderer.php         # HTML + data for logo soup
-  class-cb-lw-collections.php      # CPT + admin UI
-  class-cb-lw-admin-branding.php   # Admin branding CSS
+  class-coopbolo-plugin.php         # Singleton coordinator (block + shortcodes)
+  class-coopbolo-assets.php         # Script/style enqueue
+  class-coopbolo-renderer.php       # HTML + data for logo soup
+  class-coopbolo-collections.php    # CPT + admin UI
+  class-coopbolo-admin-branding.php # Admin branding CSS
 src/
   block/                           # block.json, edit.js, editor styles
   view.js                          # Front-end logo-soup init
@@ -59,12 +59,12 @@ docs/simplemem/                    # SimpleMem store (committed)
 
 ### Change front-end behavior
 
-1. Edit `src/view.js` and/or `includes/class-cb-lw-renderer.php`.
+1. Edit `src/view.js` and/or `includes/class-coopbolo-renderer.php`.
 2. Rebuild JS; clear caches on test site.
 
 ### Add shortcode attribute
 
-1. Update shortcode handler in `class-cb-lw-shortcode.php`.
+1. Update shortcode handler in `class-coopbolo-plugin.php`.
 2. Mirror attribute in `block.json` and editor if exposed in UI.
 3. Pass through renderer consistently.
 
@@ -118,7 +118,7 @@ Pass = no errors (warnings may remain). Splide must load from `lib/splide/` only
 ### Release checklist
 
 1. `npm run build` and `npm run lint:js`
-2. Bump `CB_LW_VERSION` and plugin header version
+2. Bump `COOPBOLO_VERSION` and plugin header version
 3. `./scripts/build-release-zip.sh` → `dist/cooper-bold-logo-wrangler-*.zip`
 4. Plugin Check (above) on wp-env or staging
 5. Tag `v*` and push — see **WordPress.org submission** below
@@ -129,7 +129,7 @@ Pass = no errors (warnings may remain). Splide must load from `lib/splide/` only
 
 ## Conventions
 
-- Class prefix: `CB_LW_*`
+- Class prefix: `COOPBOLO_*` (functions `coopbolo_*`)
 - Hooks: minimal — `plugins_loaded`, `init` for block
 - SimpleMem namespace: `cooper-bold-logo-wrangler-wp-plugin`
 - GitHub remote: `https://github.com/CooperBold/cooper-bold-logo-soup` (user-facing plugin name: **Cooper Bold Logo Wrangler**)
@@ -163,6 +163,6 @@ SimpleMem, wiki, Context7, Cursor planning, AGENTS.md added. No legacy `docs/*.m
 | --- | --- |
 | Agent rules | AGENTS.md |
 | Block schema | `src/block/block.json` |
-| Render pipeline | `class-cb-lw-renderer.php` |
+| Render pipeline | `class-coopbolo-renderer.php` |
 | Context7 IDs | `.cursor/context7-libraries.md` |
 | Session log | AI_SESSION_MEMORY.md |

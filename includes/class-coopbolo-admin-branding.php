@@ -16,19 +16,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return bool
  */
-function cb_lw_is_admin_screen(): bool {
+function coopbolo_is_admin_screen(): bool {
 	$screen = get_current_screen();
 	if ( ! $screen ) {
 		return false;
 	}
 
-	return CB_LW_Collections::POST_TYPE === $screen->post_type;
+	return COOPBOLO_Collections::POST_TYPE === $screen->post_type;
 }
 
 /**
  * Sparse Cooper Bold branding on Cooper Bold Logo Wrangler admin screens.
  */
-final class CB_LW_Admin_Branding {
+final class COOPBOLO_Admin_Branding {
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -43,15 +43,15 @@ final class CB_LW_Admin_Branding {
 	 * @return void
 	 */
 	public function enqueue_styles( string $hook ): void {
-		if ( ! cb_lw_is_admin_screen() ) {
+		if ( ! coopbolo_is_admin_screen() ) {
 			return;
 		}
 
 		wp_enqueue_style(
-			'cb-lw-admin-branding',
-			CB_LW_URL . 'admin/css/admin-branding.css',
+			'cooper-bold-logo-wrangler-admin-branding',
+			COOPBOLO_URL . 'admin/css/admin-branding.css',
 			array(),
-			CB_LW_VERSION
+			COOPBOLO_VERSION
 		);
 	}
 
@@ -62,7 +62,7 @@ final class CB_LW_Admin_Branding {
 	 * @return string Filtered footer HTML.
 	 */
 	public function filter_footer_text( string $text ): string {
-		if ( ! cb_lw_is_admin_screen() ) {
+		if ( ! coopbolo_is_admin_screen() ) {
 			return $text;
 		}
 
@@ -79,7 +79,7 @@ final class CB_LW_Admin_Branding {
 	 * @return string Filtered footer text.
 	 */
 	public function filter_update_footer( string $text ): string {
-		if ( ! cb_lw_is_admin_screen() ) {
+		if ( ! coopbolo_is_admin_screen() ) {
 			return $text;
 		}
 

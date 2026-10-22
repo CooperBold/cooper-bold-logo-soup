@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Renders logo soup containers and normalizes attributes.
  */
-final class CB_LW_Renderer {
+final class COOPBOLO_Renderer {
 
 	/** @var int Carousel group id sequence for unique data attributes per render. */
 	private static int $carousel_seq = 0;
@@ -142,9 +142,9 @@ final class CB_LW_Renderer {
 
 		$from_collection = null;
 		if ( $collection_id > 0 ) {
-			$from_collection = CB_LW_Collections::get_attributes( $collection_id );
+			$from_collection = COOPBOLO_Collections::get_attributes( $collection_id );
 		} elseif ( '' !== $collection_slug ) {
-			$from_collection = CB_LW_Collections::get_attributes( $collection_slug );
+			$from_collection = COOPBOLO_Collections::get_attributes( $collection_slug );
 		}
 
 		if ( null === $from_collection ) {
@@ -224,7 +224,7 @@ final class CB_LW_Renderer {
 	 * @return string
 	 */
 	private function render_strip( array $attrs, string $wrapper_attributes = '' ): string {
-		CB_LW_Assets::enqueue_frontend();
+		COOPBOLO_Assets::enqueue_frontend();
 
 		$config = array(
 			'logos'             => $attrs['logos'],
@@ -347,7 +347,7 @@ final class CB_LW_Renderer {
 	 * @return string
 	 */
 	private function render_carousel( array $attrs, string $wrapper_attributes = '' ): string {
-		CB_LW_Assets::enqueue_frontend( 'slides' !== $attrs['wrapper'] );
+		COOPBOLO_Assets::enqueue_frontend( 'slides' !== $attrs['wrapper'] );
 
 		$config     = $this->build_soup_config( $attrs );
 		$json       = wp_json_encode( $config );

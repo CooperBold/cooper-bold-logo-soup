@@ -147,3 +147,7 @@ Replaced SCHEMA/index with the standard template (project notes kept). Added [[o
 ## [2026-10-21] session | 1.3.4 prefix fixes for WP.org review
 
 Renamed the last unprefixed names (`cb_is_logo_wrangler_admin_screen()` → `cb_lw_is_admin_screen()`, nonce field `cb_lw_collection_nonce`, list columns `cb_lw_logo_count` / `cb_lw_shortcode`). Legacy shortcodes now register only when the tag is free. Added a prefix guard test. `.distignore` now excludes `.claude/`, `CLAUDE.md`, `.wp-env.override.json`. Verified: Jest + build, PHPUnit 44 tests, wp-env (PHP 8.2) smoke, Plugin Check on the 1.3.4 ZIP with no errors. Updated [[gotchas]] and [[wporg-review-thread]]. Not uploaded; Nicholas uploads and replies.
+
+## [2026-10-22] session | 1.3.5 coopbolo_ prefix for WP.org review
+
+Nicholas pasted the 2026-08-26 manual review, which the 2026-10-19 inbox search had missed: prefix "cb" too short, plus the auto-scroll "out of date" flag. 1.3.4 still used `cb_lw_`, so built 1.3.5 on branch `fix/coopbolo-prefix`. It renames every PHP global, the CPT (`coopbolo_collection`), meta, nonce, fields, and REST route, with a one-time migration. Verified with PHPUnit 49, Jest 19, a wp-env 1.3.4 → 1.3.5 in-place upgrade, a fresh install with WP_DEBUG, and Plugin Check (no issues). Both Splide files are byte-identical to the latest npm releases. New [[0007-coopbolo-prefix]]; updated [[index]], [[gotchas]], [[logo-collections]], [[wordpress-plugin]], [[rapidsos-site]], [[wporg-review-thread]]. Committed on `fix/coopbolo-prefix`; not pushed or uploaded.

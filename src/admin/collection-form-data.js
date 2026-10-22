@@ -52,43 +52,43 @@ export function readLogosFromDom() {
 export function readSettingsFromDom() {
 	// Essential and advanced settings use separate tables; query the document
 	// so checkboxes in the advanced section are included.
-	if ( ! document.getElementById( 'cb_lw_base_size' ) ) {
+	if ( ! document.getElementById( 'coopbolo_base_size' ) ) {
 		return {};
 	}
 
 	const checkbox = ( name ) =>
 		document.querySelector(
-			`input[name="cb_lw_settings[${ name }]"]`
+			`input[name="coopbolo_settings[${ name }]"]`
 		)?.checked || false;
 
 	return {
 		baseSize: readNumber(
-			document.getElementById( 'cb_lw_base_size' ),
+			document.getElementById( 'coopbolo_base_size' ),
 			48
 		),
 		scaleFactor: readNumber(
-			document.getElementById( 'cb_lw_scale_factor' ),
+			document.getElementById( 'coopbolo_scale_factor' ),
 			0.5
 		),
 		contrastThreshold: readNumber(
-			document.getElementById( 'cb_lw_contrast_threshold' ),
+			document.getElementById( 'coopbolo_contrast_threshold' ),
 			10
 		),
 		densityAware: checkbox( 'densityAware' ),
 		densityFactor: readNumber(
-			document.getElementById( 'cb_lw_density_factor' ),
+			document.getElementById( 'coopbolo_density_factor' ),
 			0.5
 		),
 		cropToContent: checkbox( 'cropToContent' ),
 		backgroundColor:
-			document.getElementById( 'cb_lw_background_color' )?.value ||
+			document.getElementById( 'coopbolo_background_color' )?.value ||
 			'',
 		alignBy:
-			document.getElementById( 'cb_lw_align_by' )?.value ||
+			document.getElementById( 'coopbolo_align_by' )?.value ||
 			'visual-center-y',
-		gap: readNumber( document.getElementById( 'cb_lw_gap' ), 28 ),
+		gap: readNumber( document.getElementById( 'coopbolo_gap' ), 28 ),
 		layout:
-			document.getElementById( 'cb_lw_layout' )?.value || 'strip',
+			document.getElementById( 'coopbolo_layout' )?.value || 'strip',
 	};
 }
 

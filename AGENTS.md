@@ -20,7 +20,8 @@ Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** norm
 
 - Block name: `cooper-bold/logo-wrangler`
 - Shortcode: `[logo_wrangler]` — prefer `collection="slug"` or `id="123"` from Logo Collections CPT. Legacy aliases: `[balanced_logos]`, `[logo_soup]`, `[cooper-bold-logo-soup]`.
-- Collections CPT: `cb_logo_collection` — admin menu **Logo Wrangler**
+- Collections CPT: `coopbolo_collection` — admin menu **Logo Wrangler**. Through 1.3.4 it was `cb_logo_collection`; `COOPBOLO_Collections::maybe_migrate_legacy_data()` moves old posts and `_cb_lw_*` meta once (option `coopbolo_schema_version`)
+- PHP prefix: `coopbolo_` / `COOPBOLO_` for functions, classes, constants, options, meta keys, nonces, the CPT, and the REST route (`coopbolo/v1`). WP.org reads a prefix up to its first underscore, so `cb_lw_` was rejected as "cb". Frontend CSS classes and `data-cb-lw` keep `cb-lw` (themes target them)
 - Frontend mount selector: `[data-cb-lw]` on `.cb-lw-inner`
 - Frontend CSS targeting: `.cb-lw-wrapper` for outer spacing/margins; `.cb-lw-inner` for the logo row (legacy `.cb-balanced-logos-wrapper` / `.cb-balanced-logos-inner` still emitted)
 - View script handle: `cooper-bold-logo-wrangler-view`
@@ -28,7 +29,7 @@ Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** norm
 
 ## Asset enqueue
 
-- `block.json` declares **editor** assets only (`editorScript`, `editorStyle`). Do **not** add `viewScript` or `style` — frontend JS/CSS is registered and enqueued from `CB_LW_Assets::maybe_enqueue()` when `has_block()` or `[logo_wrangler]` (or legacy shortcodes) is present.
+- `block.json` declares **editor** assets only (`editorScript`, `editorStyle`). Do **not** add `viewScript` or `style` — frontend JS/CSS is registered and enqueued from `COOPBOLO_Assets::maybe_enqueue()` when `has_block()` or `[logo_wrangler]` (or legacy shortcodes) is present.
 - Build entries: `npm run build` compiles `src/block/index.js`, `src/view.js`, and `src/view.scss` (no custom `webpack.config.js`).
 
 ## Logo count

@@ -11,31 +11,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once CB_LW_PATH . 'includes/class-cb-lw-assets.php';
-require_once CB_LW_PATH . 'includes/class-cb-lw-renderer.php';
-require_once CB_LW_PATH . 'includes/class-cb-lw-collections.php';
-require_once CB_LW_PATH . 'includes/class-cb-lw-admin-branding.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-assets.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-renderer.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-collections.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-admin-branding.php';
 
 /**
  * Singleton that wires assets, collections, branding, block, and shortcode output.
  */
-final class CB_LW {
+final class COOPBOLO_Plugin {
 
-	private static ?CB_LW $instance = null;
-	private CB_LW_Renderer $renderer;
+	private static ?COOPBOLO_Plugin $instance = null;
+	private COOPBOLO_Renderer $renderer;
 
 	/**
-	 * @return CB_LW Plugin singleton.
+	 * @return COOPBOLO_Plugin Plugin singleton.
 	 */
-	public static function instance(): CB_LW {
+	public static function instance(): COOPBOLO_Plugin {
 		return self::$instance ?? ( self::$instance = new self() );
 	}
 
 	private function __construct() {
-		new CB_LW_Assets();
-		new CB_LW_Collections();
-		new CB_LW_Admin_Branding();
-		$this->renderer = new CB_LW_Renderer();
+		new COOPBOLO_Assets();
+		new COOPBOLO_Collections();
+		new COOPBOLO_Admin_Branding();
+		$this->renderer = new COOPBOLO_Renderer();
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_shortcode( 'logo_wrangler', array( $this, 'render_shortcode' ) );
 		// Legacy aliases from Balanced Logos / Logo Soup eras. Existing site content
@@ -52,8 +52,8 @@ final class CB_LW {
 	 */
 	public function register_block(): void {
 		$candidates = array(
-			CB_LW_PATH . 'build/block',
-			CB_LW_PATH . 'src/block',
+			COOPBOLO_PATH . 'build/block',
+			COOPBOLO_PATH . 'src/block',
 		);
 		$dir = '';
 		foreach ( $candidates as $candidate ) {

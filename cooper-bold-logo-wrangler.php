@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Name:       Cooper Bold Logo Wrangler
  * Plugin URI:        https://github.com/CooperBold/cooper-bold-logo-soup
  * Description:       Display client and partner logos in a balanced strip. Normalization powered by the open-source Sanity Labs logo-soup library.
- * Version:           1.3.4
+ * Version:           1.3.5
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            Cooper Bold
@@ -22,22 +22,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Allow balanced-logos.php (legacy bootstrap) to load this file without double-init.
-if ( defined( 'CB_LW_FILE' ) ) {
+if ( defined( 'COOPBOLO_FILE' ) ) {
 	return;
 }
 
-define( 'CB_LW_VERSION', '1.3.4' );
-define( 'CB_LW_FILE', __FILE__ );
-define( 'CB_LW_PATH', plugin_dir_path( __FILE__ ) );
-define( 'CB_LW_URL', plugin_dir_url( __FILE__ ) );
+define( 'COOPBOLO_VERSION', '1.3.5' );
+define( 'COOPBOLO_FILE', __FILE__ );
+define( 'COOPBOLO_PATH', plugin_dir_path( __FILE__ ) );
+define( 'COOPBOLO_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Basename for the headerless legacy bootstrap file.
  *
  * @return string
  */
-function cb_lw_legacy_bootstrap_basename(): string {
-	return plugin_basename( CB_LW_PATH . 'balanced-logos.php' );
+function coopbolo_legacy_bootstrap_basename(): string {
+	return plugin_basename( COOPBOLO_PATH . 'balanced-logos.php' );
 }
 
 /**
@@ -46,9 +46,9 @@ function cb_lw_legacy_bootstrap_basename(): string {
  *
  * @return void
  */
-function cb_lw_migrate_legacy_bootstrap_entry(): void {
-	$legacy    = cb_lw_legacy_bootstrap_basename();
-	$canonical = plugin_basename( CB_LW_FILE );
+function coopbolo_migrate_legacy_bootstrap_entry(): void {
+	$legacy    = coopbolo_legacy_bootstrap_basename();
+	$canonical = plugin_basename( COOPBOLO_FILE );
 	if ( $legacy === $canonical ) {
 		return;
 	}
@@ -79,9 +79,9 @@ function cb_lw_migrate_legacy_bootstrap_entry(): void {
  *
  * @return void
  */
-function cb_lw_deactivate(): void {
-	$legacy    = cb_lw_legacy_bootstrap_basename();
-	$canonical = plugin_basename( CB_LW_FILE );
+function coopbolo_deactivate(): void {
+	$legacy    = coopbolo_legacy_bootstrap_basename();
+	$canonical = plugin_basename( COOPBOLO_FILE );
 
 	$active = (array) get_option( 'active_plugins', array() );
 	$next   = array_values(
@@ -105,7 +105,7 @@ function cb_lw_deactivate(): void {
  * @param array       $options  Upgrade context.
  * @return void
  */
-function cb_lw_maybe_migrate_after_upgrade( $upgrader, array $options ): void {
+function coopbolo_maybe_migrate_after_upgrade( $upgrader, array $options ): void {
 	unset( $upgrader );
 
 	if ( ( $options['action'] ?? '' ) !== 'update' || ( $options['type'] ?? '' ) !== 'plugin' ) {
@@ -113,8 +113,8 @@ function cb_lw_maybe_migrate_after_upgrade( $upgrader, array $options ): void {
 	}
 
 	$plugins  = $options['plugins'] ?? array();
-	$canonical = plugin_basename( CB_LW_FILE );
-	$legacy    = cb_lw_legacy_bootstrap_basename();
+	$canonical = plugin_basename( COOPBOLO_FILE );
+	$legacy    = coopbolo_legacy_bootstrap_basename();
 
 	if ( empty( $plugins ) && ! empty( $options['plugin'] ) ) {
 		$plugins = array( $options['plugin'] );
@@ -122,12 +122,12 @@ function cb_lw_maybe_migrate_after_upgrade( $upgrader, array $options ): void {
 
 	foreach ( $plugins as $plugin ) {
 		if ( $plugin === $canonical || $plugin === $legacy ) {
-			cb_lw_migrate_legacy_bootstrap_entry();
+			coopbolo_migrate_legacy_bootstrap_entry();
 			return;
 		}
 	}
 }
-add_action( 'upgrader_process_complete', 'cb_lw_maybe_migrate_after_upgrade', 10, 2 );
+add_action( 'upgrader_process_complete', 'coopbolo_maybe_migrate_after_upgrade', 10, 2 );
 
 if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	/**
@@ -135,7 +135,7 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	 *
 	 * @return void
 	 */
-	function cb_lw_php_version_notice(): void {
+	function coopbolo_php_version_notice(): void {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
@@ -146,15 +146,15 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 		);
 		echo '</p></div>';
 	}
-	add_action( 'admin_notices', 'cb_lw_php_version_notice' );
+	add_action( 'admin_notices', 'coopbolo_php_version_notice' );
 
 	/**
 	 * Refuse activation on PHP below 7.4.
 	 *
 	 * @return void
 	 */
-	function cb_lw_activate_legacy(): void {
-		deactivate_plugins( plugin_basename( CB_LW_FILE ) );
+	function coopbolo_activate_legacy(): void {
+		deactivate_plugins( plugin_basename( COOPBOLO_FILE ) );
 		wp_die(
 			esc_html__(
 				'Cooper Bold Logo Wrangler requires PHP 7.4 or newer.',
@@ -164,30 +164,30 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 			array( 'back_link' => true )
 		);
 	}
-	register_activation_hook( CB_LW_FILE, 'cb_lw_activate_legacy' );
+	register_activation_hook( COOPBOLO_FILE, 'coopbolo_activate_legacy' );
 	return;
 }
 
-require_once CB_LW_PATH . 'includes/class-cb-lw.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-plugin.php';
 
 /**
  * Bootstrap the plugin singleton.
  *
  * @return void
  */
-function cb_lw_init(): void {
-	CB_LW::instance();
+function coopbolo_init(): void {
+	COOPBOLO_Plugin::instance();
 }
-add_action( 'plugins_loaded', 'cb_lw_init' );
+add_action( 'plugins_loaded', 'coopbolo_init' );
 
 /**
  * Refuse activation on PHP below 7.4.
  *
  * @return void
  */
-function cb_lw_activate(): void {
+function coopbolo_activate(): void {
 	if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
-		deactivate_plugins( plugin_basename( CB_LW_FILE ) );
+		deactivate_plugins( plugin_basename( COOPBOLO_FILE ) );
 		wp_die(
 			esc_html__(
 				'Cooper Bold Logo Wrangler requires PHP 7.4 or newer.',
@@ -198,7 +198,7 @@ function cb_lw_activate(): void {
 		);
 	}
 
-	cb_lw_migrate_legacy_bootstrap_entry();
+	coopbolo_migrate_legacy_bootstrap_entry();
 }
-register_activation_hook( CB_LW_FILE, 'cb_lw_activate' );
-register_deactivation_hook( CB_LW_FILE, 'cb_lw_deactivate' );
+register_activation_hook( COOPBOLO_FILE, 'coopbolo_activate' );
+register_deactivation_hook( COOPBOLO_FILE, 'coopbolo_deactivate' );

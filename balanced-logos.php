@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'CB_LW_BOOTSTRAP_FILE' ) ) {
-	define( 'CB_LW_BOOTSTRAP_FILE', __FILE__ );
+if ( ! defined( 'COOPBOLO_BOOTSTRAP_FILE' ) ) {
+	define( 'COOPBOLO_BOOTSTRAP_FILE', __FILE__ );
 }
 
 require_once __DIR__ . '/cooper-bold-logo-wrangler.php';

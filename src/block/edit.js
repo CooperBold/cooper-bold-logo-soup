@@ -92,7 +92,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	useEffect( () => {
 		let mounted = true;
-		apiFetch( { path: '/cb-lw/v1/collections' } )
+		apiFetch( { path: '/coopbolo/v1/collections' } )
 			.then( ( items ) => {
 				if ( mounted ) {
 					setCollections( Array.isArray( items ) ? items : [] );

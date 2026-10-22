@@ -26,21 +26,21 @@ describe( 'collection preview DOM readers', () => {
 			<table class="cb-lw-settings-table cb-lw-settings-essential">
 				<tr>
 					<td>
-						<input id="cb_lw_base_size" value="64" />
-						<input id="cb_lw_gap" value="36" />
-						<input id="cb_lw_background_color" value="#ffffff" />
+						<input id="coopbolo_base_size" value="64" />
+						<input id="coopbolo_gap" value="36" />
+						<input id="coopbolo_background_color" value="#ffffff" />
 					</td>
 				</tr>
 			</table>
 			<table class="cb-lw-settings-table cb-lw-settings-advanced">
 				<tr>
 					<td>
-						<input id="cb_lw_scale_factor" value="0.4" />
-						<input id="cb_lw_contrast_threshold" value="12" />
-						<input name="cb_lw_settings[densityAware]" type="checkbox" checked="checked" />
-						<input id="cb_lw_density_factor" value="0.3" />
-						<input name="cb_lw_settings[cropToContent]" type="checkbox" />
-						<select id="cb_lw_align_by"><option value="bounds" selected>Bounds</option></select>
+						<input id="coopbolo_scale_factor" value="0.4" />
+						<input id="coopbolo_contrast_threshold" value="12" />
+						<input name="coopbolo_settings[densityAware]" type="checkbox" checked="checked" />
+						<input id="coopbolo_density_factor" value="0.3" />
+						<input name="coopbolo_settings[cropToContent]" type="checkbox" />
+						<select id="coopbolo_align_by"><option value="bounds" selected>Bounds</option></select>
 					</td>
 				</tr>
 			</table>

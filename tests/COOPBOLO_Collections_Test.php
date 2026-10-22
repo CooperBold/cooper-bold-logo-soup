@@ -10,24 +10,24 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers CB_LW_Collections
- * @covers CB_LW_Renderer::resolve_attributes
+ * @covers COOPBOLO_Collections
+ * @covers COOPBOLO_Renderer::resolve_attributes
  */
-final class CB_LW_Collections_Test extends TestCase {
+final class COOPBOLO_Collections_Test extends TestCase {
 
-	/** @var CB_LW_Renderer */
+	/** @var COOPBOLO_Renderer */
 	private $renderer;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->renderer = new CB_LW_Renderer();
+		$this->renderer = new COOPBOLO_Renderer();
 		$GLOBALS['cb_test_posts']         = array();
 		$GLOBALS['cb_test_post_meta']     = array();
 		$GLOBALS['cb_test_posts_by_slug'] = array();
 	}
 
 	protected function tearDown(): void {
-		unset( $GLOBALS['cb_test_posts'], $GLOBALS['cb_test_post_meta'], $GLOBALS['cb_test_posts_by_slug'] );
+		unset( $GLOBALS['cb_test_posts'], $GLOBALS['cb_test_post_meta'], $GLOBALS['cb_test_posts_by_slug'], $GLOBALS['cb_test_options'] );
 		parent::tearDown();
 	}
 
@@ -36,20 +36,20 @@ final class CB_LW_Collections_Test extends TestCase {
 			42,
 			'homepage-partners',
 			array(
-				CB_LW_Collections::META_LOGOS => array(
+				COOPBOLO_Collections::META_LOGOS => array(
 					array(
 						'url' => 'https://example.com/logo.png',
 						'alt' => 'Partner',
 					),
 				),
-				CB_LW_Collections::META_SETTINGS => array(
+				COOPBOLO_Collections::META_SETTINGS => array(
 					'baseSize' => 40,
 					'gap'      => 32,
 				),
 			)
 		);
 
-		$attrs = CB_LW_Collections::build_attributes_from_post( $post );
+		$attrs = COOPBOLO_Collections::build_attributes_from_post( $post );
 
 		$this->assertNotNull( $attrs );
 		$this->assertSame( 42, $attrs['collectionId'] );
@@ -63,26 +63,26 @@ final class CB_LW_Collections_Test extends TestCase {
 			7,
 			'enterprise-logos',
 			array(
-				CB_LW_Collections::META_LOGOS => array(
+				COOPBOLO_Collections::META_LOGOS => array(
 					array( 'url' => 'https://example.com/a.svg', 'alt' => 'A' ),
 				),
 			)
 		);
 		$GLOBALS['cb_test_posts'][7] = $post;
 
-		$by_id = CB_LW_Collections::get_attributes( 7 );
+		$by_id = COOPBOLO_Collections::get_attributes( 7 );
 		$this->assertNotNull( $by_id );
 		$this->assertSame( 'A', $by_id['logos'][0]['alt'] );
 
 		$GLOBALS['cb_test_posts_by_slug']['enterprise-logos'] = $post;
-		$by_slug = CB_LW_Collections::get_attributes( 'enterprise-logos' );
+		$by_slug = COOPBOLO_Collections::get_attributes( 'enterprise-logos' );
 		$this->assertNotNull( $by_slug );
 		$this->assertSame( 'https://example.com/a.svg', $by_slug['logos'][0]['url'] );
 	}
 
 	public function test_get_attributes_returns_null_for_missing_collection(): void {
-		$this->assertNull( CB_LW_Collections::get_attributes( 999 ) );
-		$this->assertNull( CB_LW_Collections::get_attributes( 'missing-slug' ) );
+		$this->assertNull( COOPBOLO_Collections::get_attributes( 999 ) );
+		$this->assertNull( COOPBOLO_Collections::get_attributes( 'missing-slug' ) );
 	}
 
 	public function test_resolve_attributes_uses_collection_logos_and_overrides_gap(): void {
@@ -90,10 +90,10 @@ final class CB_LW_Collections_Test extends TestCase {
 			3,
 			'partners',
 			array(
-				CB_LW_Collections::META_LOGOS => array(
+				COOPBOLO_Collections::META_LOGOS => array(
 					array( 'url' => 'https://example.com/logo.png', 'alt' => 'Logo' ),
 				),
-				CB_LW_Collections::META_SETTINGS => array(
+				COOPBOLO_Collections::META_SETTINGS => array(
 					'gap' => 28,
 				),
 			)
@@ -119,7 +119,7 @@ final class CB_LW_Collections_Test extends TestCase {
 			5,
 			'homepage-partners',
 			array(
-				CB_LW_Collections::META_LOGOS => array(
+				COOPBOLO_Collections::META_LOGOS => array(
 					array( 'url' => 'https://example.com/p.png', 'alt' => 'P' ),
 				),
 			)
@@ -138,7 +138,7 @@ final class CB_LW_Collections_Test extends TestCase {
 		$post = $this->make_post( 11, 'homepage-partners', array() );
 		$this->assertSame(
 			'[logo_wrangler collection="homepage-partners"]',
-			CB_LW_Collections::get_shortcode_snippet( $post )
+			COOPBOLO_Collections::get_shortcode_snippet( $post )
 		);
 	}
 
@@ -156,7 +156,7 @@ final class CB_LW_Collections_Test extends TestCase {
 			)
 		);
 
-		$attrs = CB_LW_Collections::build_attributes_from_post( $post );
+		$attrs = COOPBOLO_Collections::build_attributes_from_post( $post );
 
 		$this->assertNotNull( $attrs );
 		$this->assertSame( 'Legacy', $attrs['logos'][0]['alt'] );
@@ -168,20 +168,20 @@ final class CB_LW_Collections_Test extends TestCase {
 			16,
 			'cleared-partners',
 			array(
-				CB_LW_Collections::META_LOGOS => array(),
+				COOPBOLO_Collections::META_LOGOS => array(),
 				'_cb_balanced_logos_logos'    => array(
 					array( 'url' => 'https://example.com/old.svg', 'alt' => 'Old' ),
 				),
 			)
 		);
 
-		$logos = CB_LW_Collections::get_logos_for_post( (int) $post->ID );
+		$logos = COOPBOLO_Collections::get_logos_for_post( (int) $post->ID );
 
 		$this->assertSame( array(), $logos );
 	}
 
 	public function test_sanitize_settings_clamps_values(): void {
-		$settings = CB_LW_Collections::sanitize_settings(
+		$settings = COOPBOLO_Collections::sanitize_settings(
 			array(
 				'baseSize'    => 999,
 				'scaleFactor' => -1,
@@ -195,7 +195,7 @@ final class CB_LW_Collections_Test extends TestCase {
 	}
 
 	public function test_preview_meta_box_outputs_mount_root(): void {
-		$reflection = new ReflectionClass( CB_LW_Collections::class );
+		$reflection = new ReflectionClass( COOPBOLO_Collections::class );
 		$method     = $reflection->getMethod( 'render_preview_meta_box' );
 		$instance   = $reflection->newInstanceWithoutConstructor();
 		$post       = $this->make_post( 1, 'preview-test', array() );
@@ -208,6 +208,82 @@ final class CB_LW_Collections_Test extends TestCase {
 		$this->assertStringContainsString( 'cb-lw-preview-wrap', $html );
 	}
 
+	public function test_migrate_moves_legacy_post_type_and_meta(): void {
+		$logos = array(
+			array(
+				'url' => 'https://example.com/logo.png',
+				'alt' => 'Smith \\ Sons',
+			),
+		);
+		$this->register_post( 7, COOPBOLO_Collections::LEGACY_POST_TYPE );
+		$this->register_post( 8, 'page' );
+		$GLOBALS['cb_test_post_meta'][7] = array(
+			'_cb_lw_logos'    => $logos,
+			'_cb_lw_settings' => array( 'gap' => 32 ),
+		);
+
+		$moved = COOPBOLO_Collections::migrate_legacy_data();
+
+		$this->assertSame( 1, $moved );
+		$this->assertSame( COOPBOLO_Collections::POST_TYPE, $GLOBALS['cb_test_posts'][7]->post_type );
+		$this->assertSame( 'page', $GLOBALS['cb_test_posts'][8]->post_type );
+		$this->assertSame( $logos, $GLOBALS['cb_test_post_meta'][7][ COOPBOLO_Collections::META_LOGOS ] );
+		$this->assertSame( array( 'gap' => 32 ), $GLOBALS['cb_test_post_meta'][7][ COOPBOLO_Collections::META_SETTINGS ] );
+		$this->assertArrayNotHasKey( '_cb_lw_logos', $GLOBALS['cb_test_post_meta'][7] );
+		$this->assertArrayNotHasKey( '_cb_lw_settings', $GLOBALS['cb_test_post_meta'][7] );
+	}
+
+	public function test_migrate_keeps_existing_new_meta(): void {
+		$this->register_post( 7, COOPBOLO_Collections::LEGACY_POST_TYPE );
+		$GLOBALS['cb_test_post_meta'][7] = array(
+			'_cb_lw_logos'                    => array( array( 'url' => 'https://example.com/old.png' ) ),
+			COOPBOLO_Collections::META_LOGOS => array(),
+		);
+
+		COOPBOLO_Collections::migrate_legacy_data();
+
+		$this->assertSame( array(), $GLOBALS['cb_test_post_meta'][7][ COOPBOLO_Collections::META_LOGOS ] );
+		$this->assertArrayNotHasKey( '_cb_lw_logos', $GLOBALS['cb_test_post_meta'][7] );
+	}
+
+	public function test_maybe_migrate_runs_once_per_schema_version(): void {
+		$instance = ( new ReflectionClass( COOPBOLO_Collections::class ) )->newInstanceWithoutConstructor();
+		$this->register_post( 7, COOPBOLO_Collections::LEGACY_POST_TYPE );
+
+		$instance->maybe_migrate_legacy_data();
+
+		$this->assertSame( COOPBOLO_Collections::POST_TYPE, $GLOBALS['cb_test_posts'][7]->post_type );
+		$this->assertSame( COOPBOLO_Collections::SCHEMA_VERSION, $GLOBALS['cb_test_options'][ COOPBOLO_Collections::SCHEMA_OPTION ] );
+
+		$this->register_post( 9, COOPBOLO_Collections::LEGACY_POST_TYPE );
+		$instance->maybe_migrate_legacy_data();
+
+		$this->assertSame( COOPBOLO_Collections::LEGACY_POST_TYPE, $GLOBALS['cb_test_posts'][9]->post_type );
+	}
+
+	public function test_unmigrated_cb_lw_meta_still_renders(): void {
+		$GLOBALS['cb_test_post_meta'][5] = array(
+			'_cb_lw_logos' => array( array( 'url' => 'https://example.com/logo.png' ) ),
+		);
+
+		$this->assertCount( 1, COOPBOLO_Collections::get_logos_for_post( 5 ) );
+	}
+
+	/**
+	 * @param int    $id        Post ID.
+	 * @param string $post_type Post type.
+	 */
+	private function register_post( int $id, string $post_type ): void {
+		$GLOBALS['cb_test_posts'][ $id ] = new WP_Post(
+			(object) array(
+				'ID'          => $id,
+				'post_type'   => $post_type,
+				'post_status' => 'publish',
+				'post_name'   => 'post-' . $id,
+			)
+		);
+	}
+
 	/**
 	 * @param int                  $id Post ID.
 	 * @param string               $slug Post slug.
@@ -217,7 +293,7 @@ final class CB_LW_Collections_Test extends TestCase {
 		$post = new WP_Post(
 			(object) array(
 				'ID'          => $id,
-				'post_type'   => CB_LW_Collections::POST_TYPE,
+				'post_type'   => COOPBOLO_Collections::POST_TYPE,
 				'post_status' => 'publish',
 				'post_title'  => 'Test Collection',
 				'post_name'   => $slug,

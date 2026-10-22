@@ -14,26 +14,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Manages named logo collections stored as a private CPT.
  */
-final class CB_LW_Collections {
+final class COOPBOLO_Collections {
 
-	public const POST_TYPE = 'cb_logo_collection';
-	public const META_LOGOS    = '_cb_lw_logos';
-	public const META_SETTINGS = '_cb_lw_settings';
+	public const POST_TYPE = 'coopbolo_collection';
+	/** Post type used through 1.3.4; moved to POST_TYPE by migrate_legacy_data(). */
+	public const LEGACY_POST_TYPE = 'cb_logo_collection';
+	public const META_LOGOS    = '_coopbolo_logos';
+	public const META_SETTINGS = '_coopbolo_settings';
 	/** @var list<string> Older meta keys still read for existing installs. */
 	public const META_LOGOS_LEGACY_KEYS = array(
+		'_cb_lw_logos',
 		'_cb_balanced_logos_logos',
 		'_cb_logo_soup_logos',
 	);
 	/** @var list<string> Older settings meta keys still read for existing installs. */
 	public const META_SETTINGS_LEGACY_KEYS = array(
+		'_cb_lw_settings',
 		'_cb_balanced_logos_settings',
 		'_cb_logo_soup_settings',
 	);
+	public const SCHEMA_OPTION  = 'coopbolo_schema_version';
+	public const SCHEMA_VERSION = 1;
 
-	/** @var CB_LW_Renderer|null */
-	private static ?CB_LW_Renderer $renderer = null;
+	/** @var COOPBOLO_Renderer|null */
+	private static ?COOPBOLO_Renderer $renderer = null;
 
 	public function __construct() {
+		add_action( 'init', array( $this, 'maybe_migrate_legacy_data' ), 5 );
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'prune_admin_submenus' ), 99 );
@@ -46,7 +53,65 @@ final class CB_LW_Collections {
 	}
 
 	/**
-	 * Register the cb_logo_collection custom post type.
+	 * Run the one-time data migration until the stored schema version is current.
+	 */
+	public function maybe_migrate_legacy_data(): void {
+		if ( (int) get_option( self::SCHEMA_OPTION, 0 ) >= self::SCHEMA_VERSION ) {
+			return;
+		}
+		self::migrate_legacy_data();
+		update_option( self::SCHEMA_OPTION, self::SCHEMA_VERSION );
+	}
+
+	/**
+	 * Move collections saved through 1.3.4 to the coopbolo_ post type and meta keys.
+	 *
+	 * Uses core APIs (set_post_type, post meta functions) so object caches stay valid.
+	 * Safe to run more than once.
+	 *
+	 * @return int Number of collections moved.
+	 */
+	public static function migrate_legacy_data(): int {
+		$post_ids = get_posts(
+			array(
+				'post_type'      => self::LEGACY_POST_TYPE,
+				'post_status'    => array_keys( get_post_stati() ),
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+
+		foreach ( $post_ids as $post_id ) {
+			$post_id = (int) $post_id;
+			set_post_type( $post_id, self::POST_TYPE );
+			self::move_meta_key( $post_id, '_cb_lw_logos', self::META_LOGOS );
+			self::move_meta_key( $post_id, '_cb_lw_settings', self::META_SETTINGS );
+		}
+
+		return count( $post_ids );
+	}
+
+	/**
+	 * Copy a meta value to its new key (unless the new key already exists), then delete the old key.
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $old_key Meta key written through 1.3.4.
+	 * @param string $new_key Current meta key.
+	 */
+	private static function move_meta_key( int $post_id, string $old_key, string $new_key ): void {
+		if ( ! metadata_exists( 'post', $post_id, $old_key ) ) {
+			return;
+		}
+		if ( ! metadata_exists( 'post', $post_id, $new_key ) ) {
+			// update_post_meta() unslashes its value; slash first so stored text survives unchanged.
+			update_post_meta( $post_id, $new_key, wp_slash( get_post_meta( $post_id, $old_key, true ) ) );
+		}
+		delete_post_meta( $post_id, $old_key );
+	}
+
+	/**
+	 * Register the coopbolo_collection custom post type.
 	 */
 	public function register_post_type(): void {
 		register_post_type(
@@ -162,7 +227,7 @@ final class CB_LW_Collections {
 	 * @param WP_Post $post Current post.
 	 */
 	public function render_logos_meta_box( WP_Post $post ): void {
-		wp_nonce_field( 'cb_lw_save_collection', 'cb_lw_collection_nonce' );
+		wp_nonce_field( 'coopbolo_save_collection', 'coopbolo_collection_nonce' );
 		$logos = self::get_logos_for_post( $post->ID );
 		?>
 		<div id="cb-lw-collection-editor" class="cb-lw-collection-editor">
@@ -182,15 +247,15 @@ final class CB_LW_Collections {
 							<img src="<?php echo esc_url( $logo['url'] ); ?>" alt="" class="cb-lw-logo-thumb" />
 						<?php endif; ?>
 						<div class="cb-lw-logo-fields">
-							<input type="hidden" class="cb-lw-logo-id" name="cb_lw_logos[<?php echo esc_attr( (string) $index ); ?>][id]" value="<?php echo esc_attr( (string) ( $logo['id'] ?? '' ) ); ?>" />
-							<input type="hidden" class="cb-lw-logo-url" name="cb_lw_logos[<?php echo esc_attr( (string) $index ); ?>][url]" value="<?php echo esc_attr( $logo['url'] ?? '' ); ?>" />
+							<input type="hidden" class="cb-lw-logo-id" name="coopbolo_logos[<?php echo esc_attr( (string) $index ); ?>][id]" value="<?php echo esc_attr( (string) ( $logo['id'] ?? '' ) ); ?>" />
+							<input type="hidden" class="cb-lw-logo-url" name="coopbolo_logos[<?php echo esc_attr( (string) $index ); ?>][url]" value="<?php echo esc_attr( $logo['url'] ?? '' ); ?>" />
 							<label>
 								<?php esc_html_e( 'Alt text', 'cooper-bold-logo-wrangler' ); ?>
-								<input type="text" class="widefat cb-lw-logo-alt" name="cb_lw_logos[<?php echo esc_attr( (string) $index ); ?>][alt]" value="<?php echo esc_attr( $logo['alt'] ?? '' ); ?>" />
+								<input type="text" class="widefat cb-lw-logo-alt" name="coopbolo_logos[<?php echo esc_attr( (string) $index ); ?>][alt]" value="<?php echo esc_attr( $logo['alt'] ?? '' ); ?>" />
 							</label>
 							<label>
 								<?php esc_html_e( 'Link URL (optional)', 'cooper-bold-logo-wrangler' ); ?>
-								<input type="url" class="widefat cb-lw-logo-link" name="cb_lw_logos[<?php echo esc_attr( (string) $index ); ?>][link]" value="<?php echo esc_attr( $logo['link'] ?? '' ); ?>" placeholder="https://" />
+								<input type="url" class="widefat cb-lw-logo-link" name="coopbolo_logos[<?php echo esc_attr( (string) $index ); ?>][link]" value="<?php echo esc_attr( $logo['link'] ?? '' ); ?>" placeholder="https://" />
 							</label>
 							<button type="button" class="button-link-delete cb-lw-remove-logo">
 								<?php esc_html_e( 'Remove', 'cooper-bold-logo-wrangler' ); ?>
@@ -206,15 +271,15 @@ final class CB_LW_Collections {
 						<img src="{{ data.url }}" alt="" class="cb-lw-logo-thumb" />
 					<# } #>
 					<div class="cb-lw-logo-fields">
-						<input type="hidden" class="cb-lw-logo-id" name="cb_lw_logos[{{ data.index }}][id]" value="{{ data.id }}" />
-						<input type="hidden" class="cb-lw-logo-url" name="cb_lw_logos[{{ data.index }}][url]" value="{{ data.url }}" />
+						<input type="hidden" class="cb-lw-logo-id" name="coopbolo_logos[{{ data.index }}][id]" value="{{ data.id }}" />
+						<input type="hidden" class="cb-lw-logo-url" name="coopbolo_logos[{{ data.index }}][url]" value="{{ data.url }}" />
 						<label>
 							<?php esc_html_e( 'Alt text', 'cooper-bold-logo-wrangler' ); ?>
-							<input type="text" class="widefat cb-lw-logo-alt" name="cb_lw_logos[{{ data.index }}][alt]" value="{{ data.alt }}" />
+							<input type="text" class="widefat cb-lw-logo-alt" name="coopbolo_logos[{{ data.index }}][alt]" value="{{ data.alt }}" />
 						</label>
 						<label>
 							<?php esc_html_e( 'Link URL (optional)', 'cooper-bold-logo-wrangler' ); ?>
-							<input type="url" class="widefat cb-lw-logo-link" name="cb_lw_logos[{{ data.index }}][link]" value="{{ data.link }}" placeholder="https://" />
+							<input type="url" class="widefat cb-lw-logo-link" name="coopbolo_logos[{{ data.index }}][link]" value="{{ data.link }}" placeholder="https://" />
 						</label>
 						<button type="button" class="button-link-delete cb-lw-remove-logo">
 							<?php esc_html_e( 'Remove', 'cooper-bold-logo-wrangler' ); ?>
@@ -242,23 +307,23 @@ final class CB_LW_Collections {
 		?>
 		<table class="form-table cb-lw-settings-table cb-lw-settings-essential" role="presentation">
 			<tr>
-				<th scope="row"><label for="cb_lw_base_size"><?php esc_html_e( 'Size', 'cooper-bold-logo-wrangler' ); ?></label></th>
+				<th scope="row"><label for="coopbolo_base_size"><?php esc_html_e( 'Size', 'cooper-bold-logo-wrangler' ); ?></label></th>
 				<td>
-					<input type="number" id="cb_lw_base_size" name="cb_lw_settings[baseSize]" value="<?php echo esc_attr( (string) $settings['baseSize'] ); ?>" min="16" max="256" step="4" class="small-text" /> px
+					<input type="number" id="coopbolo_base_size" name="coopbolo_settings[baseSize]" value="<?php echo esc_attr( (string) $settings['baseSize'] ); ?>" min="16" max="256" step="4" class="small-text" /> px
 					<p class="description"><?php esc_html_e( 'Base height for each logo before normalization.', 'cooper-bold-logo-wrangler' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cb_lw_gap"><?php esc_html_e( 'Gap', 'cooper-bold-logo-wrangler' ); ?></label></th>
+				<th scope="row"><label for="coopbolo_gap"><?php esc_html_e( 'Gap', 'cooper-bold-logo-wrangler' ); ?></label></th>
 				<td>
-					<input type="number" id="cb_lw_gap" name="cb_lw_settings[gap]" value="<?php echo esc_attr( (string) $settings['gap'] ); ?>" min="0" max="96" step="4" class="small-text" /> px
+					<input type="number" id="coopbolo_gap" name="coopbolo_settings[gap]" value="<?php echo esc_attr( (string) $settings['gap'] ); ?>" min="0" max="96" step="4" class="small-text" /> px
 					<p class="description"><?php esc_html_e( 'Space between logos in pixels.', 'cooper-bold-logo-wrangler' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cb_lw_layout"><?php esc_html_e( 'Layout', 'cooper-bold-logo-wrangler' ); ?></label></th>
+				<th scope="row"><label for="coopbolo_layout"><?php esc_html_e( 'Layout', 'cooper-bold-logo-wrangler' ); ?></label></th>
 				<td>
-					<select id="cb_lw_layout" name="cb_lw_settings[layout]">
+					<select id="coopbolo_layout" name="coopbolo_settings[layout]">
 						<option value="strip" <?php selected( $settings['layout'], 'strip' ); ?>><?php esc_html_e( 'Strip', 'cooper-bold-logo-wrangler' ); ?></option>
 						<option value="carousel" <?php selected( $settings['layout'], 'carousel' ); ?>><?php esc_html_e( 'Carousel', 'cooper-bold-logo-wrangler' ); ?></option>
 					</select>
@@ -266,9 +331,9 @@ final class CB_LW_Collections {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cb_lw_background_color"><?php esc_html_e( 'Background', 'cooper-bold-logo-wrangler' ); ?></label></th>
+				<th scope="row"><label for="coopbolo_background_color"><?php esc_html_e( 'Background', 'cooper-bold-logo-wrangler' ); ?></label></th>
 				<td>
-					<input type="text" id="cb_lw_background_color" name="cb_lw_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" />
+					<input type="text" id="coopbolo_background_color" name="coopbolo_settings[backgroundColor]" value="<?php echo esc_attr( $settings['backgroundColor'] ); ?>" class="regular-text" placeholder="#fff" />
 					<p class="description"><?php esc_html_e( 'Strip background color (helps contrast detection for light logos).', 'cooper-bold-logo-wrangler' ); ?></p>
 				</td>
 			</tr>
@@ -277,16 +342,16 @@ final class CB_LW_Collections {
 			<summary><?php esc_html_e( 'Advanced settings', 'cooper-bold-logo-wrangler' ); ?></summary>
 			<table class="form-table cb-lw-settings-table cb-lw-settings-advanced" role="presentation">
 				<tr>
-					<th scope="row"><label for="cb_lw_scale_factor"><?php esc_html_e( 'Scale factor', 'cooper-bold-logo-wrangler' ); ?></label></th>
+					<th scope="row"><label for="coopbolo_scale_factor"><?php esc_html_e( 'Scale factor', 'cooper-bold-logo-wrangler' ); ?></label></th>
 					<td>
-						<input type="number" id="cb_lw_scale_factor" name="cb_lw_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
+						<input type="number" id="coopbolo_scale_factor" name="coopbolo_settings[scaleFactor]" value="<?php echo esc_attr( (string) $settings['scaleFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
 						<p class="description"><?php esc_html_e( 'How much smaller logos can be relative to the largest mark (0–1).', 'cooper-bold-logo-wrangler' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="cb_lw_contrast_threshold"><?php esc_html_e( 'Contrast threshold', 'cooper-bold-logo-wrangler' ); ?></label></th>
+					<th scope="row"><label for="coopbolo_contrast_threshold"><?php esc_html_e( 'Contrast threshold', 'cooper-bold-logo-wrangler' ); ?></label></th>
 					<td>
-						<input type="number" id="cb_lw_contrast_threshold" name="cb_lw_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" />
+						<input type="number" id="coopbolo_contrast_threshold" name="coopbolo_settings[contrastThreshold]" value="<?php echo esc_attr( (string) $settings['contrastThreshold'] ); ?>" min="0" max="255" step="1" class="small-text" />
 						<p class="description"><?php esc_html_e( 'Minimum contrast used when detecting logo edges (0–255).', 'cooper-bold-logo-wrangler' ); ?></p>
 					</td>
 				</tr>
@@ -294,16 +359,16 @@ final class CB_LW_Collections {
 					<th scope="row"><?php esc_html_e( 'Density aware', 'cooper-bold-logo-wrangler' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="cb_lw_settings[densityAware]" value="1" <?php checked( $settings['densityAware'] ); ?> />
+							<input type="checkbox" name="coopbolo_settings[densityAware]" value="1" <?php checked( $settings['densityAware'] ); ?> />
 							<?php esc_html_e( 'Adjust for visual density', 'cooper-bold-logo-wrangler' ); ?>
 						</label>
 						<p class="description"><?php esc_html_e( 'Scale logos based on how visually dense each mark appears.', 'cooper-bold-logo-wrangler' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="cb_lw_density_factor"><?php esc_html_e( 'Density factor', 'cooper-bold-logo-wrangler' ); ?></label></th>
+					<th scope="row"><label for="coopbolo_density_factor"><?php esc_html_e( 'Density factor', 'cooper-bold-logo-wrangler' ); ?></label></th>
 					<td>
-						<input type="number" id="cb_lw_density_factor" name="cb_lw_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
+						<input type="number" id="coopbolo_density_factor" name="coopbolo_settings[densityFactor]" value="<?php echo esc_attr( (string) $settings['densityFactor'] ); ?>" min="0" max="1" step="0.1" class="small-text" />
 						<p class="description"><?php esc_html_e( 'Strength of density-based scaling when density aware is on (0–1).', 'cooper-bold-logo-wrangler' ); ?></p>
 					</td>
 				</tr>
@@ -311,16 +376,16 @@ final class CB_LW_Collections {
 					<th scope="row"><?php esc_html_e( 'Crop to content', 'cooper-bold-logo-wrangler' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="cb_lw_settings[cropToContent]" value="1" <?php checked( $settings['cropToContent'] ); ?> />
+							<input type="checkbox" name="coopbolo_settings[cropToContent]" value="1" <?php checked( $settings['cropToContent'] ); ?> />
 							<?php esc_html_e( 'Crop to detected content bounds', 'cooper-bold-logo-wrangler' ); ?>
 						</label>
 						<p class="description"><?php esc_html_e( 'Trim transparent padding around each logo before sizing.', 'cooper-bold-logo-wrangler' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="cb_lw_align_by"><?php esc_html_e( 'Align by', 'cooper-bold-logo-wrangler' ); ?></label></th>
+					<th scope="row"><label for="coopbolo_align_by"><?php esc_html_e( 'Align by', 'cooper-bold-logo-wrangler' ); ?></label></th>
 					<td>
-						<select id="cb_lw_align_by" name="cb_lw_settings[alignBy]">
+						<select id="coopbolo_align_by" name="coopbolo_settings[alignBy]">
 							<?php foreach ( $align_options as $value => $label ) : ?>
 								<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $settings['alignBy'], $value ); ?>><?php echo esc_html( $label ); ?></option>
 							<?php endforeach; ?>
@@ -371,10 +436,10 @@ final class CB_LW_Collections {
 	 * @param WP_Post $post    Post object.
 	 */
 	public function save_post( int $post_id, WP_Post $post ): void {
-		if ( ! isset( $_POST['cb_lw_collection_nonce'] ) ) {
+		if ( ! isset( $_POST['coopbolo_collection_nonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cb_lw_collection_nonce'] ) ), 'cb_lw_save_collection' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['coopbolo_collection_nonce'] ) ), 'coopbolo_save_collection' ) ) {
 			return;
 		}
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -384,14 +449,14 @@ final class CB_LW_Collections {
 			return;
 		}
 
-		$raw_logos = isset( $_POST['cb_lw_logos'] ) && is_array( $_POST['cb_lw_logos'] )
-			? map_deep( wp_unslash( $_POST['cb_lw_logos'] ), 'sanitize_text_field' )
+		$raw_logos = isset( $_POST['coopbolo_logos'] ) && is_array( $_POST['coopbolo_logos'] )
+			? map_deep( wp_unslash( $_POST['coopbolo_logos'] ), 'sanitize_text_field' )
 			: array();
 
 		$logos = self::renderer()->sanitize_logos( self::normalize_logo_rows( $raw_logos ) );
 
-		$raw_settings = isset( $_POST['cb_lw_settings'] ) && is_array( $_POST['cb_lw_settings'] )
-			? map_deep( wp_unslash( $_POST['cb_lw_settings'] ), 'sanitize_text_field' )
+		$raw_settings = isset( $_POST['coopbolo_settings'] ) && is_array( $_POST['coopbolo_settings'] )
+			? map_deep( wp_unslash( $_POST['coopbolo_settings'] ), 'sanitize_text_field' )
 			: array();
 
 		$settings = self::sanitize_settings( $raw_settings );
@@ -419,8 +484,8 @@ final class CB_LW_Collections {
 		foreach ( $columns as $key => $label ) {
 			$new[ $key ] = $label;
 			if ( 'title' === $key ) {
-				$new['cb_lw_logo_count'] = __( 'Logos', 'cooper-bold-logo-wrangler' );
-				$new['cb_lw_shortcode']  = __( 'Shortcode', 'cooper-bold-logo-wrangler' );
+				$new['coopbolo_logo_count'] = __( 'Logos', 'cooper-bold-logo-wrangler' );
+				$new['coopbolo_shortcode']  = __( 'Shortcode', 'cooper-bold-logo-wrangler' );
 			}
 		}
 		return $new;
@@ -433,11 +498,11 @@ final class CB_LW_Collections {
 	 * @param int    $post_id Post ID.
 	 */
 	public function render_list_column( string $column, int $post_id ): void {
-		if ( 'cb_lw_logo_count' === $column ) {
+		if ( 'coopbolo_logo_count' === $column ) {
 			echo esc_html( (string) count( self::get_logos_for_post( $post_id ) ) );
 			return;
 		}
-		if ( 'cb_lw_shortcode' === $column ) {
+		if ( 'coopbolo_shortcode' === $column ) {
 			$post = get_post( $post_id );
 			if ( $post instanceof WP_Post ) {
 				self::render_shortcode_field(
@@ -469,10 +534,10 @@ final class CB_LW_Collections {
 		}
 
 		wp_enqueue_style(
-			'cb-lw-collection-editor',
-			CB_LW_URL . 'admin/css/collection-editor.css',
+			'cooper-bold-logo-wrangler-collection-editor',
+			COOPBOLO_URL . 'admin/css/collection-editor.css',
 			array(),
-			CB_LW_VERSION
+			COOPBOLO_VERSION
 		);
 
 		$script_deps = array( 'jquery' );
@@ -483,25 +548,25 @@ final class CB_LW_Collections {
 		}
 
 		wp_enqueue_script(
-			'cb-lw-collection-editor',
-			CB_LW_URL . 'admin/js/collection-editor.js',
+			'cooper-bold-logo-wrangler-collection-editor',
+			COOPBOLO_URL . 'admin/js/collection-editor.js',
 			$script_deps,
-			CB_LW_VERSION,
+			COOPBOLO_VERSION,
 			true
 		);
 
 		if ( $is_edit_screen ) {
-			$preview_asset_file = CB_LW_PATH . 'build/collection-preview.asset.php';
+			$preview_asset_file = COOPBOLO_PATH . 'build/collection-preview.asset.php';
 			$preview_asset      = file_exists( $preview_asset_file )
 				? require $preview_asset_file
 				: array(
 					'dependencies' => array( 'react', 'react-jsx-runtime', 'wp-element', 'wp-i18n' ),
-					'version'      => CB_LW_VERSION,
+					'version'      => COOPBOLO_VERSION,
 				);
 
 			wp_enqueue_script(
-				'cb-lw-collection-preview',
-				CB_LW_URL . 'build/collection-preview.js',
+				'cooper-bold-logo-wrangler-collection-preview',
+				COOPBOLO_URL . 'build/collection-preview.js',
 				$preview_asset['dependencies'],
 				$preview_asset['version'],
 				true
@@ -514,7 +579,7 @@ final class CB_LW_Collections {
 	 */
 	public function register_rest_routes(): void {
 		register_rest_route(
-			'cb-lw/v1',
+			'coopbolo/v1',
 			'/collections',
 			array(
 				'methods'             => 'GET',
@@ -824,11 +889,11 @@ final class CB_LW_Collections {
 	/**
 	 * Lazy renderer instance for sanitization helpers.
 	 *
-	 * @return CB_LW_Renderer
+	 * @return COOPBOLO_Renderer
 	 */
-	private static function renderer(): CB_LW_Renderer {
+	private static function renderer(): COOPBOLO_Renderer {
 		if ( null === self::$renderer ) {
-			self::$renderer = new CB_LW_Renderer();
+			self::$renderer = new COOPBOLO_Renderer();
 		}
 		return self::$renderer;
 	}

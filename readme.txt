@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,13 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Cooper Bold Logo Wrangler scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.3.5 =
+* Use the `coopbolo_` / `COOPBOLO_` prefix for every PHP function, class, constant, the Logo Collections post type (`coopbolo_collection`), meta keys, the schema option, the collection form nonce and fields, list columns, and the REST route (`coopbolo/v1`)
+* Existing collections move from `cb_logo_collection` and `_cb_lw_*` meta to the new names once, on the first page load after updating. Older meta keys are still read as a fallback
+* Admin script and style handles now use `cooper-bold-logo-wrangler-*`
+* Frontend debug logging is now `window.COOPBOLO_DEBUG` or `?coopbolo_debug=1`
+* Shortcodes, blocks, and frontend CSS classes (`.cb-lw-wrapper`, `.cb-lw-inner`) are unchanged
 
 = 1.3.4 =
 * Use the plugin's `cb_lw_` prefix for the admin-screen helper, the collection form nonce, and the collections list columns
@@ -227,6 +234,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.3.5 =
+Renames internal names to the `coopbolo_` prefix. Existing logo collections move over automatically; shortcodes and CSS classes are unchanged.
 
 = 1.3.4 =
 Consistent `cb_lw_` naming for WordPress.org review. No changes to content or settings.

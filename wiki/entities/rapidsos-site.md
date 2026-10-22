@@ -4,7 +4,7 @@ type: entity
 summary: The RapidSOS Bricks site that the plugin was built for, which version it runs, and its site-side tooling.
 status: active
 created: 2026-10-19
-updated: 2026-10-19
+updated: 2026-10-22
 last_verified: 2026-10-19
 sources: [docs/RAPIDSOS-DEPLOY.md, "https://app.notion.com/p/37afb6901a688069a9ebef05fe326252", "RapidSOS repo wiki/sources/site-code-audit-2026-08-13.md", "RapidSOS repo deploy/wordpress/logo-soup/README.md"]
 tags: [rapidsos, bricks, cloudways, client-site]
@@ -34,8 +34,8 @@ Whether staging or live has moved past 1.2.11 since 2026-08-13 is *(unverified)*
 1.3.0 changed the folder, main file, text domain, REST namespace, and meta keys ([[0003-plugin-name-cooper-bold-logo-wrangler]]). The plugin keeps working for content: legacy shortcodes (`[logo_soup]`), legacy blocks, the CPT, and legacy meta all still work ([[logo-collections]]). Four things do not carry over:
 
 1. **No loader exists for `cooper-bold-logo-soup.php`.** `balanced-logos.php` only covers the short-lived Balanced Logos path. Uploading the 1.3.x ZIP creates a second plugin folder, `cooper-bold-logo-wrangler/`. Deactivate the old plugin and activate the new one by hand. Both register `[logo_soup]`, so never run both at once.
-2. **REST route moved** from `cb-logo-soup/v1/collections` to `cb-lw/v1/collections`. RapidSOS's `populate-collection.py` uses the old route.
-3. **Meta keys:** the RapidSOS populate snippets write `_cb_logo_soup_logos`. After a collection is saved in 1.3.x, that key is deleted and ignored.
+2. **REST route moved** from `cb-logo-soup/v1/collections` to `cb-lw/v1/collections` (1.3.0), then `coopbolo/v1/collections` (1.3.5). RapidSOS's `populate-collection.py` uses the old route.
+3. **Meta keys:** the RapidSOS populate snippets write `_cb_logo_soup_logos`. After a collection is saved in 1.3.x, that key is deleted and ignored. 1.3.5 also renames the CPT to `coopbolo_collection` and moves `_cb_lw_*` meta on first load; outside snippets that query `cb_logo_collection` find nothing after that.
 4. Purge Cloudways, Breeze, and Bricks caches after the switch ([[rapidsos-deploy]]).
 
 Test on a local clone first (`wp-fleet local` / `wp-site`). Never upgrade the live site without Nicholas's go-ahead.

@@ -169,7 +169,7 @@ Do not commit these values. Each secret is write-once in GitHub; you cannot view
 ### Cut a release
 
 1. Bump the version in **three** places so they stay aligned:
-   - `cooper-bold-logo-wrangler.php` plugin header `Version:` and `CB_LW_VERSION`
+   - `cooper-bold-logo-wrangler.php` plugin header `Version:` and `COOPBOLO_VERSION`
    - `readme.txt` `Stable tag:` and changelog section
    - `src/block/block.json` `version` (rebuild updates `build/block/block.json`)
 2. Commit on `main`: `git commit -m "chore: release 1.0.1"`

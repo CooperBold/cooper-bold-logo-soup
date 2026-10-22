@@ -17,7 +17,7 @@ A free WordPress plugin that makes a row of mixed partner logos look balanced. I
 ## What and why
 
 - **Origin:** a Cooper Bold Notion task, "Logo Soup plugin" (project RapidSOS), asked for the React package to be turned into a WordPress plugin for the RapidSOS "software integrations" page, and to be released as a free plugin under the Cooper Bold name. A later comment says it is Cooper Bold's own product, with Nicholas credited as creator, not RapidSOS client work. Source: [Notion task](https://app.notion.com/p/37afb6901a688069a9ebef05fe326252), digested in [[notion-logo-soup-plugin-task]].
-- **Surfaces:** Gutenberg block `cooper-bold/logo-wrangler`, shortcode `[logo_wrangler]` (plus three legacy aliases), and **Logo Collections** (CPT `cb_logo_collection`, admin menu **Logo Wrangler**), which page builders like Bricks use through the shortcode. Sources: `AGENTS.md`, `includes/class-cb-lw.php`.
+- **Surfaces:** Gutenberg block `cooper-bold/logo-wrangler`, shortcode `[logo_wrangler]` (plus three legacy aliases), and **Logo Collections** (CPT `coopbolo_collection`, `cb_logo_collection` through 1.3.4; admin menu **Logo Wrangler**), which page builders like Bricks use through the shortcode. Sources: `AGENTS.md`, `includes/class-coopbolo-plugin.php`.
 - **Layouts:** `strip` (one normalized row) and `carousel` (one Splide slide per logo, for Bricks Nested Sliders). See [[carousel-and-splide]].
 - **No logo cap** since 1.1.5 (commit `7a1a5fa`): admins own the performance tradeoff.
 

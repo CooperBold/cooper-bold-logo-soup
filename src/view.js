@@ -32,7 +32,7 @@ function isLWDebugEnabled() {
 	if ( typeof window === 'undefined' ) {
 		return false;
 	}
-	if ( window.CB_LW_DEBUG === true ) {
+	if ( window.COOPBOLO_DEBUG === true ) {
 		return true;
 	}
 	try {
@@ -45,7 +45,7 @@ function isLWDebugEnabled() {
 	try {
 		return (
 			new URLSearchParams( window.location.search ).get(
-				'cb_lw_debug'
+				'coopbolo_debug'
 			) === '1'
 		);
 	} catch ( error ) {

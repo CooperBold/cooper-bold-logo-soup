@@ -61,13 +61,13 @@ WP-CLI slug is `cooper-bold-logo-wrangler-wp-plugin` (from directory name). Remo
 
 ```bash
 composer install
-vendor/bin/phpunit      # PHPUnit — 43 tests as of fbd74c2 (2026-10-10); was 13 in June
-npm test                # Jest — 19 tests in 3 suites as of fbd74c2; was 11 in June
+vendor/bin/phpunit      # PHPUnit — 49 tests on 1.3.5 (2026-10-22); was 13 in June
+npm test                # Jest — 19 tests in 3 suites (2026-10-22); was 11 in June
 npm run verify          # .verify.sh gate: Jest + build
 npm run lint:js
 ```
 
-PHPUnit tests: `tests/CB_LW_*_Test.php` (renderer, assets, collections, bootstrap, admin branding). Jest: `src/shared/*.test.js`, `src/admin/collection-preview.test.js`.
+PHPUnit tests: `tests/COOPBOLO_*_Test.php` (renderer, assets, collections, bootstrap, admin branding). Jest: `src/shared/*.test.js`, `src/admin/collection-preview.test.js`.
 
 ## Release zip verification
 

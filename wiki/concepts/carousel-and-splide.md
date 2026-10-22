@@ -6,7 +6,7 @@ status: active
 created: 2026-10-19
 updated: 2026-10-19
 last_verified: 2026-10-19
-sources: [includes/class-cb-lw-renderer.php, includes/class-cb-lw-assets.php, src/view.js, readme.txt, lib/splide/README.md, docs/RAPIDSOS-DEPLOY.md, "commits b65550b, 2ebd174"]
+sources: [includes/class-coopbolo-renderer.php, includes/class-coopbolo-assets.php, src/view.js, readme.txt, lib/splide/README.md, docs/RAPIDSOS-DEPLOY.md, "commits b65550b, 2ebd174"]
 tags: [carousel, splide, bricks, rapidsos]
 ---
 
@@ -21,7 +21,7 @@ tags: [carousel, splide, bricks, rapidsos]
 | `slides` | A hidden reference strip plus bare `<li class="splide__slide logo-slider-slide cb-lw-slide">` items, to drop **inside** an existing Bricks Nested Slider | Bricks / the site's autoscroll snippet |
 | `full` (default) | A complete `.cb-lw-carousel.splide` | The plugin, using bundled Splide unless the theme has it |
 
-`wrapper` is ignored unless `layout` is `carousel` (`class-cb-lw-renderer.php` line ~125). The **hidden reference strip** (`data-cb-lw-ref`) is normalized once across all logos; `view.js` then distributes each measured logo into its slide. Normalizing slides one by one would lose the cross-logo balance.
+`wrapper` is ignored unless `layout` is `carousel` (`class-coopbolo-renderer.php` line ~125). The **hidden reference strip** (`data-cb-lw-ref`) is normalized once across all logos; `view.js` then distributes each measured logo into its slide. Normalizing slides one by one would lose the cross-logo balance.
 
 Why one slide per logo: a plain shortcode inside a slider gives one wrapper holding every logo, which Bricks treats as **one** slide (`docs/RAPIDSOS-DEPLOY.md`, "Bricks carousel").
 
@@ -35,7 +35,7 @@ Slides carry `logo-slider-slide` because RapidSOS's footer snippet `rapidsos-log
 
 ## Splide handle resolution
 
-Bricks registers a `splide` script handle **with no src** on every page. Enqueuing that handle loads nothing. `CB_LW_Assets::resolve_splide_script_handle()` uses `splide` only if it has a src, and otherwise uses the plugin's own handles, `cooper-bold-logo-wrangler-splide` (+ `-autoscroll`), which point at `lib/splide/` (1.2.4 changelog; `class-cb-lw-assets.php` ~lines 149–210).
+Bricks registers a `splide` script handle **with no src** on every page. Enqueuing that handle loads nothing. `COOPBOLO_Assets::resolve_splide_script_handle()` uses `splide` only if it has a src, and otherwise uses the plugin's own handles, `cooper-bold-logo-wrangler-splide` (+ `-autoscroll`), which point at `lib/splide/` (1.2.4 changelog; `class-coopbolo-assets.php` ~lines 149–210).
 
 Splide is **vendored** in `lib/splide/` (core 4.1.4, auto-scroll 0.5.3). 1.2.11 and older loaded it from jsDelivr. WP.org rules out external CDN scripts, so 1.2.12 vendored it. The auto-scroll pin is explained in [[0001-pin-splide-extension-auto-scroll]].
 
@@ -45,7 +45,7 @@ If hydration stalls, a timer shows the slides anyway. The changelog says 4 s (1.
 
 ## Debugging
 
-Turn on logs with `window.CB_LW_DEBUG = true`, `localStorage['cb-lw-debug']`, or `?cb_lw_debug=1` (1.2.10).
+Turn on logs with `window.COOPBOLO_DEBUG = true`, `localStorage['cb-lw-debug']`, or `?coopbolo_debug=1` (1.2.10).
 
 ## Related
 

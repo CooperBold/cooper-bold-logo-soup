@@ -1,12 +1,12 @@
 ---
-title: WP.org plugin review thread (2026-06 → 2026-08)
+title: WP.org plugin review thread (2026-06 → 2026-10)
 type: source
 summary: Digest of the WordPress.org Plugin Directory review emails — what reviewers asked for, what we changed, and where it stands.
 status: active
 created: 2026-10-19
-updated: 2026-10-21
-last_verified: 2026-10-21
-sources: ["Cooper Bold inbox thread 'Review in Progress: Logo Soup by Cooper Bold' (read with cooper-mail, 2026-10-19)", AI_SESSION_MEMORY.md]
+updated: 2026-10-22
+last_verified: 2026-10-22
+sources: ["Cooper Bold inbox thread 'Review in Progress: Logo Soup by Cooper Bold' (read with cooper-mail, 2026-10-19)", "Aug 26 review email pasted by Nicholas 2026-10-22", AI_SESSION_MEMORY.md]
 tags: [wordpress-org, review, source]
 ---
 
@@ -24,9 +24,10 @@ One email thread from the WordPress.org Plugins Team covers the whole submission
 | 2026-08-03 | Nicholas | Uploaded **1.3.0** as "Cooper Bold Logo Wrangler" and asked to reserve `cooper-bold-logo-wrangler`. |
 | 2026-08-06 | Automated scan | Failed: minified `build/*.js` with no matching source, and the readme did not point to this plugin's source (Guidelines 1 and 4). |
 | 2026-08-24 | Nicholas | Uploaded **1.3.2**: source in the ZIP plus the public repo link, auto-scroll kept at 0.5.3, the `active_plugins` rewrite on load removed, Tested up to 7.1. |
-| → 2026-10-21 | — | No newer message from plugins@wordpress.org, including spam. The submission page still says "waiting on action from you". The Aug 6 prefix warning was never answered. |
+| 2026-08-26 | Reviewers (manual) | Review of 1.3.2 (ID `R cooper-bold-logo-wrangler/nicholaseymann/6Aug26/T2 26Aug26/4.2`). Two issues: (1) "Out of date libraries" on `lib/splide/js/splide-extension-auto-scroll.min.js` 0.5.3, with the core Splide repo as the suggested URL; (2) prefix "cb" too short, with 11 hits: the `CB_LW*` classes and defines and the `cb_logo_collection` CPT. They want prefixes of 5+ characters and suggested `coopbolo`. The 2026-10-19 inbox search missed this email; Nicholas pasted it on 2026-10-22. |
 | 2026-10-21 | Agent | Built **1.3.4** (not uploaded): prefix fixes for the Aug 6 "check everything" note. Plugin Check on the ZIP: no errors. Text domain was already `cooper-bold-logo-wrangler` in 1.3.2. |
-| 2026-10-21 | Nicholas | Uploaded **1.3.4** with an upload comment on the prefix fixes. WP.org confirmed receipt. The status changed to "waiting on action from our plugins team" (577 in queue). |
+| 2026-10-21 | Nicholas | Uploaded **1.3.4** with an upload comment on the prefix fixes. WP.org confirmed receipt. The status changed to "waiting on action from our plugins team" (577 in queue). 1.3.4 still used `CB_LW_` / `cb_lw_`, the prefix the Aug 26 review rejected. |
+| 2026-10-22 | Agent | Built **1.3.5** on branch `fix/coopbolo-prefix` (not uploaded): everything renamed to `coopbolo_` / `COOPBOLO_`, with a one-time CPT and meta migration ([[0007-coopbolo-prefix]]). Confirmed both bundled Splide files are byte-identical to npm `@splidejs/splide@4.1.4` and `@splidejs/splide-extension-auto-scroll@0.5.3` (the latest releases), so issue (1) is a false positive to explain in the reply. |
 
 ## What it changed in the repo
 

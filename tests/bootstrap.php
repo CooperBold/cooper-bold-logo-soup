@@ -1,6 +1,6 @@
 <?php
 /**
- * Minimal WordPress stubs for CB_LW_Renderer unit tests.
+ * Minimal WordPress stubs for COOPBOLO_Renderer unit tests.
  *
  * @package CooperBoldLogoWrangler
  */
@@ -11,12 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
-if ( ! defined( 'CB_LW_PATH' ) ) {
-	define( 'CB_LW_PATH', dirname( __DIR__ ) . '/' );
+if ( ! defined( 'COOPBOLO_PATH' ) ) {
+	define( 'COOPBOLO_PATH', dirname( __DIR__ ) . '/' );
 }
 
-if ( ! defined( 'CB_LW_URL' ) ) {
-	define( 'CB_LW_URL', 'https://example.com/wp-content/plugins/cooper-bold-logo-wrangler/' );
+if ( ! defined( 'COOPBOLO_URL' ) ) {
+	define( 'COOPBOLO_URL', 'https://example.com/wp-content/plugins/cooper-bold-logo-wrangler/' );
 }
 
 if ( ! function_exists( 'get_current_screen' ) ) {
@@ -278,7 +278,26 @@ if ( ! function_exists( 'get_posts' ) ) {
 			}
 			return array();
 		}
-		return array_values( $GLOBALS['cb_test_posts'] ?? array() );
+		$posts = array_values( $GLOBALS['cb_test_posts'] ?? array() );
+		if ( isset( $args['post_type'] ) ) {
+			$posts = array_values(
+				array_filter(
+					$posts,
+					static function ( $post ) use ( $args ) {
+						return ! isset( $post->post_type ) || $post->post_type === $args['post_type'];
+					}
+				)
+			);
+		}
+		if ( 'ids' === ( $args['fields'] ?? '' ) ) {
+			return array_map(
+				static function ( $post ) {
+					return (int) $post->ID;
+				},
+				$posts
+			);
+		}
+		return $posts;
 	}
 }
 
@@ -428,7 +447,92 @@ if ( ! function_exists( 'map_deep' ) ) {
 	}
 }
 
-require_once CB_LW_PATH . 'includes/class-cb-lw-assets.php';
-require_once CB_LW_PATH . 'includes/class-cb-lw-renderer.php';
-require_once CB_LW_PATH . 'includes/class-cb-lw-collections.php';
-require_once CB_LW_PATH . 'includes/class-cb-lw-admin-branding.php';
+if ( ! function_exists( 'wp_slash' ) ) {
+	/**
+	 * @param mixed $value Value to slash.
+	 * @return mixed
+	 */
+	function wp_slash( $value ) {
+		return map_deep( $value, static function ( $item ) {
+			return is_string( $item ) ? addslashes( $item ) : $item;
+		} );
+	}
+}
+
+if ( ! function_exists( 'wp_unslash' ) ) {
+	/**
+	 * @param mixed $value Value to unslash.
+	 * @return mixed
+	 */
+	function wp_unslash( $value ) {
+		return map_deep( $value, static function ( $item ) {
+			return is_string( $item ) ? stripslashes( $item ) : $item;
+		} );
+	}
+}
+
+if ( ! function_exists( 'update_post_meta' ) ) {
+	/**
+	 * Unslashes the value like core's update_metadata().
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $key     Meta key.
+	 * @param mixed  $value   Meta value.
+	 */
+	function update_post_meta( $post_id, $key, $value ): bool {
+		$GLOBALS['cb_test_post_meta'][ (int) $post_id ][ $key ] = wp_unslash( $value );
+		return true;
+	}
+}
+
+if ( ! function_exists( 'get_option' ) ) {
+	/**
+	 * @param string $name    Option name.
+	 * @param mixed  $default Default value.
+	 * @return mixed
+	 */
+	function get_option( $name, $default = false ) {
+		return $GLOBALS['cb_test_options'][ $name ] ?? $default;
+	}
+}
+
+if ( ! function_exists( 'update_option' ) ) {
+	/**
+	 * @param string $name  Option name.
+	 * @param mixed  $value Option value.
+	 */
+	function update_option( $name, $value ): bool {
+		$GLOBALS['cb_test_options'][ $name ] = $value;
+		return true;
+	}
+}
+
+if ( ! function_exists( 'get_post_stati' ) ) {
+	/**
+	 * @return array<string, string>
+	 */
+	function get_post_stati(): array {
+		$stati = array( 'publish', 'future', 'draft', 'pending', 'private', 'trash', 'auto-draft', 'inherit' );
+		return array_combine( $stati, $stati );
+	}
+}
+
+if ( ! function_exists( 'set_post_type' ) ) {
+	/**
+	 * @param int    $post_id   Post ID.
+	 * @param string $post_type New post type.
+	 */
+	function set_post_type( $post_id, $post_type ): bool {
+		$id = (int) $post_id;
+		if ( ! isset( $GLOBALS['cb_test_posts'][ $id ] ) ) {
+			return false;
+		}
+		$GLOBALS['cb_test_posts'][ $id ]->post_type = $post_type;
+		return true;
+	}
+}
+
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-assets.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-renderer.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-collections.php';
+require_once COOPBOLO_PATH . 'includes/class-coopbolo-admin-branding.php';

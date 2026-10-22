@@ -7,7 +7,7 @@ updated: 2026-10-19
 last_verified: 2026-10-19
 tags: [wordpress, deploy, cloudways, bricks, shortcode]
 aliases: [rapidsos-deploy]
-sources: [docs/RAPIDSOS-DEPLOY.md, includes/class-cb-lw-renderer.php]
+sources: [docs/RAPIDSOS-DEPLOY.md, includes/class-coopbolo-renderer.php]
 status: active
 ---
 

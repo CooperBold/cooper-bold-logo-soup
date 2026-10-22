@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Registers and enqueues view.js and view styles when Cooper Bold Logo Wrangler renders.
  */
-final class CB_LW_Assets {
+final class COOPBOLO_Assets {
 
 	public const VIEW_SCRIPT_HANDLE  = 'cooper-bold-logo-wrangler-view';
 	public const VIEW_STYLE_HANDLE   = 'cooper-bold-logo-wrangler-view-style';
@@ -37,12 +37,12 @@ final class CB_LW_Assets {
 	public function register(): void {
 		$this->register_splide_assets();
 
-		$script = CB_LW_PATH . 'build/view.asset.php';
+		$script = COOPBOLO_PATH . 'build/view.asset.php';
 		if ( file_exists( $script ) ) {
 			$asset = include $script;
 			wp_register_script(
 				self::VIEW_SCRIPT_HANDLE,
-				CB_LW_URL . 'build/view.js',
+				COOPBOLO_URL . 'build/view.js',
 				$asset['dependencies'],
 				$asset['version'],
 				true
@@ -51,12 +51,12 @@ final class CB_LW_Assets {
 
 		$style_candidates = array(
 			array(
-				'path' => CB_LW_PATH . 'build/view.scss.asset.php',
-				'url'  => CB_LW_URL . 'build/view.scss.css',
+				'path' => COOPBOLO_PATH . 'build/view.scss.asset.php',
+				'url'  => COOPBOLO_URL . 'build/view.scss.css',
 			),
 			array(
-				'path' => CB_LW_PATH . 'build/view.asset.php',
-				'url'  => CB_LW_URL . 'build/view.css',
+				'path' => COOPBOLO_PATH . 'build/view.asset.php',
+				'url'  => COOPBOLO_URL . 'build/view.css',
 			),
 		);
 		foreach ( $style_candidates as $candidate ) {
@@ -83,7 +83,7 @@ final class CB_LW_Assets {
 			return;
 		}
 
-		$splide_base = CB_LW_URL . 'lib/splide/';
+		$splide_base = COOPBOLO_URL . 'lib/splide/';
 
 		wp_register_style(
 			self::SPLIDE_STYLE_HANDLE,
@@ -413,7 +413,7 @@ final class CB_LW_Assets {
 
 		$collection_id = isset( $attrs['collectionId'] ) ? absint( $attrs['collectionId'] ) : 0;
 		if ( $collection_id > 0 ) {
-			$from_collection = CB_LW_Collections::get_attributes( $collection_id );
+			$from_collection = COOPBOLO_Collections::get_attributes( $collection_id );
 			return null !== $from_collection
 				&& 'carousel' === ( $from_collection['layout'] ?? 'strip' )
 				&& 'slides' !== ( $wrapper ?: ( $from_collection['wrapper'] ?? 'full' ) );
@@ -447,7 +447,7 @@ final class CB_LW_Assets {
 		}
 
 		if ( ! empty( $parsed['collection'] ) && empty( $parsed['layout'] ) ) {
-			$from_collection = CB_LW_Collections::get_attributes(
+			$from_collection = COOPBOLO_Collections::get_attributes(
 				sanitize_title( (string) $parsed['collection'] )
 			);
 			if ( null === $from_collection ) {

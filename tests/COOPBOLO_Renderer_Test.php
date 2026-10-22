@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for CB_LW_Renderer sanitization.
+ * Unit tests for COOPBOLO_Renderer sanitization.
  *
  * @package CooperBoldLogoWrangler
  */
@@ -10,16 +10,16 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers CB_LW_Renderer
+ * @covers COOPBOLO_Renderer
  */
-final class CB_LW_Renderer_Test extends TestCase {
+final class COOPBOLO_Renderer_Test extends TestCase {
 
-	/** @var CB_LW_Renderer */
+	/** @var COOPBOLO_Renderer */
 	private $renderer;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->renderer = new CB_LW_Renderer();
+		$this->renderer = new COOPBOLO_Renderer();
 	}
 
 	public function test_sanitize_logos_accepts_valid_https_urls(): void {

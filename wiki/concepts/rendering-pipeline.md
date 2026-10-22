@@ -6,7 +6,7 @@ status: active
 created: 2026-10-19
 updated: 2026-10-19
 last_verified: 2026-10-19
-sources: [includes/class-cb-lw-renderer.php, includes/class-cb-lw-assets.php, src/view.js, src/block/block.json, docs/SAR-REVIEW.md, AI_RUNBOOK.md, "commit 1878ed6"]
+sources: [includes/class-coopbolo-renderer.php, includes/class-coopbolo-assets.php, src/view.js, src/block/block.json, docs/SAR-REVIEW.md, AI_RUNBOOK.md, "commit 1878ed6"]
 tags: [architecture, hydration, enqueue, bricks]
 ---
 
@@ -16,8 +16,8 @@ PHP renders placeholder markup; `build/view.js` then mounts the upstream React `
 
 ## Steps
 
-1. **Render (PHP).** The block's `render_callback` and the shortcode handler both call `CB_LW_Renderer` (`includes/class-cb-lw.php`). It sanitizes attributes, resolves a collection if `collection`/`id` is set ([[logo-collections]]), and prints `.cb-lw-wrapper > .cb-lw-inner[data-cb-lw="<json>"]` with placeholder `<img>`s. Legacy `cb-balanced-logos*` classes and `data-cb-balanced-logos` are printed too (`class-cb-lw-renderer.php` ~line 265).
-2. **Enqueue (PHP).** Rendering calls `CB_LW_Assets::enqueue_frontend()`. As an early pass, `maybe_enqueue()` on `wp_enqueue_scripts` checks the singular post with `has_block()` / `has_shortcode()` for all names and aliases, **plus the Bricks meta `_bricks_page_content_2`** (added in 1.2.4, `get_post_content_for_detection()`), so builder pages get assets in `<head>`.
+1. **Render (PHP).** The block's `render_callback` and the shortcode handler both call `COOPBOLO_Renderer` (`includes/class-coopbolo-plugin.php`). It sanitizes attributes, resolves a collection if `collection`/`id` is set ([[logo-collections]]), and prints `.cb-lw-wrapper > .cb-lw-inner[data-cb-lw="<json>"]` with placeholder `<img>`s. Legacy `cb-balanced-logos*` classes and `data-cb-balanced-logos` are printed too (`class-coopbolo-renderer.php` ~line 265).
+2. **Enqueue (PHP).** Rendering calls `COOPBOLO_Assets::enqueue_frontend()`. As an early pass, `maybe_enqueue()` on `wp_enqueue_scripts` checks the singular post with `has_block()` / `has_shortcode()` for all names and aliases, **plus the Bricks meta `_bricks_page_content_2`** (added in 1.2.4, `get_post_content_for_detection()`), so builder pages get assets in `<head>`.
 3. **Hydrate (JS).** `src/view.js` finds `[data-cb-lw]` (or the legacy attribute), parses the JSON, and mounts with `createRoot`. A `WeakMap` stops a node from mounting twice. Carousels then fire `cb-lw-hydrated` (and the legacy `cb-balanced-logos-hydrated`).
 4. **Normalize (library).** `logo-soup` loads each image into a canvas to measure it. That is why logo URLs must be same-origin or CORS-enabled (see [[gotchas]]). Lifecycle hooks from 1.3.0 clear the `cb-lw-soup-loading` class on success or failure ([[sanity-logo-soup]]).
 

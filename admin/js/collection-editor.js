@@ -79,15 +79,15 @@
 				const $item = $( this );
 				$item.attr( 'data-index', String( index ) );
 				$item
-					.find( 'input[name^="cb_lw_logos"]' )
+					.find( 'input[name^="coopbolo_logos"]' )
 					.each( function () {
 						const $input = $( this );
 						const field = $input
 							.attr( 'name' )
-							.replace( /^cb_lw_logos\[\d+]/, '' );
+							.replace( /^coopbolo_logos\[\d+]/, '' );
 						$input.attr(
 							'name',
-							'cb_lw_logos[' + index + ']' + field
+							'coopbolo_logos[' + index + ']' + field
 						);
 					} );
 			}
