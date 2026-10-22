@@ -1,0 +1,132 @@
+includes/class-coopbolo-collections.php
+  s_9889166accae25::t_dce7d71a59bdb4 19-43
+  s_9889166accae25::t_de37347b68dc21 53,55-76,82-115,119,147-149,151,153,165-166,168,170,174,176,178,181,183,185,194,203,212,221-222,224,226,228,292,294,296,298,306,399,401,403,405,411,413,415,417,430,432,434,437,440-441,443-444,446-447,449-450,470,473-474,476,478,481,490,492,494,496,498-499,503-504,515-516,518,520,522,526-527,533-534,541,548,556,574-575,577,579,584,590-592,594,596,598,601,607-608,627,630,632,634,637,657,661,664,666,668,671,675,682,686,689-691,693,695,701,706,711,714,747,749,751,755,759,761,763,765,768,773,778,780,782,784,787,792,794,796,798,801,806,808,810,812,814,819,824,833,835,837,839,842,859,865,867,869,872,885,887,889,891,893,897,899
+  s_9889166accae25::t_aa8d15124f5822 77-81
+  s_9889166accae25::t_715559ab55ec9d 439
+  s_9889166accae25::t_488e872fdd912f 442
+  s_9889166accae25::t_7c198aa2594888 505
+  s_9889166accae25::t_defed28e2be01d 540
+  s_9889166accae25::t_cab378dacd25a8 892
+  s_9889166accae25::t_1d0060e7d6f988 894
+  s_9889166accae25::t_e515bc7de3a42c 896
+  s_9889166accae25::t_58b7da3e1220ea 17,230,250-251,254,258,274-275,278,282,310,312,317,319,324,326,334,336,345,347,352,354,362,369,371,379,386,388,452-453,458-459,487-488,501,537-538,551-552,554,559,564,568-569,582
+readme.txt
+  s_9889166accae25::t_d932df6914a0ea 238-240
+  s_9889166accae25::t_3330324de68453 92-98
+  s_9889166accae25::t_c1bb32c57f2c53 7
+tests/COOPBOLO_Collections_Test.php
+  s_9889166accae25::t_d8b85b025c80d7 30
+  s_9889166accae25::t_f79a460fd78c0a 27,32,38,49-50,59,65,69-70,81,86,92,99-100,104,110-111,115,121,125-126,131,135,142-143,149,156-157,164,170,175-176,181,185,189-190,195,209,211-287,291,294-295,297,300-301,308
+  s_9889166accae25::t_eb97727da6f006 13-14,16,18,23,39,45,52,66,73,78,84-85,93,96,122,141,159,171,178,184,198,296
+wiki/decisions/0007-coopbolo-prefix.md
+  s_9889166accae25::t_1b72d74f71569c 1-57
+tests/COOPBOLO_Bootstrap_Test.php
+  s_9889166accae25::t_bd21008de07d3c 18,27,44-45,47-68,76
+  s_9889166accae25::t_3b776b8f1fb15d 12,17,23-25,42,69
+wiki/entities/logo-collections.md
+  s_9889166accae25::t_c3e24e01fa1487 21-26,29-32,35-38
+  s_9889166accae25::t_d68c84a7e216f5 2,7-9,45
+wiki/sources/wporg-review-thread.md
+  s_9889166accae25::t_e31bb57bbdc78e 27,29-30
+  s_9889166accae25::t_3d4101a6ed1727 2,7-9
+tests/bootstrap.php
+  s_9889166accae25::t_e2e762aa88891e 281-300
+  s_9889166accae25::t_98fac077dd61f2 450-534
+  s_9889166accae25::t_057bcb6fb26298 3,14-15,18-19,535-538
+AGENTS.md
+  s_9889166accae25::t_fd03013152ab35 23-24,32
+AI_RUNBOOK.md
+  s_9889166accae25::t_a967939886b3f3 36-40,62,67,121,132,166
+README.md
+  s_9889166accae25::t_d26b2cede71f16 172
+admin/css/collection-editor.css
+  s_9889166accae25::t_5be01a4abdd0bc 208
+admin/js/collection-editor.js
+  s_9889166accae25::t_bdb3608b8ef1e8 82,87,90
+balanced-logos.php
+  s_9889166accae25::t_d35d8581bb0444 18-19
+build/block/block.json
+  s_9889166accae25::t_5e76c40b988adb 5
+build/collection-preview.asset.php
+  s_9889166accae25::t_ac6eeef0c5a604 1
+build/collection-preview.js
+  s_9889166accae25::t_9f19f8cd7ec947 1
+build/index.asset.php
+  s_9889166accae25::t_812a4d65c88014 1
+build/index.js
+  s_9889166accae25::t_f93e953d5c1c2c 1
+build/view.asset.php
+  s_9889166accae25::t_399fd3c41ff002 1
+build/view.js
+  s_9889166accae25::t_d37bfb7257f5c2 1
+cooper-bold-logo-wrangler.php
+  s_9889166accae25::t_8dd36ba107c60e 8,25,29-32,39-40,49-51,82-84,108,116-117,125,130,138,149,156-157,167,171,178-179,181,188,190,201,203-204
+includes/class-coopbolo-admin-branding.php
+  s_9889166accae25::t_92fd8c79c6e282 19,25,31,46,51-52,54,65,82
+includes/class-coopbolo-assets.php
+  s_9889166accae25::t_336bf855e55612 16,40,45,54-55,58-59,86,416,450
+includes/class-coopbolo-plugin.php
+  s_9889166accae25::t_e9e47df7472145 14-17,22,24-25,28,30,35-38,55-56
+includes/class-coopbolo-renderer.php
+  s_9889166accae25::t_a196c881c4ccc8 17,145,147,227,350
+package-lock.json
+  s_9889166accae25::t_17b505a1649274 3,9
+package.json
+  s_9889166accae25::t_d8c3617c06ec0d 3
+src/admin/collection-form-data.js
+  s_9889166accae25::t_fd2855e61a373e 55,61,66,70,74,79,84,87,89,91
+src/admin/collection-preview.test.js
+  s_9889166accae25::t_17557c9a90c709 29-31,38-43
+src/block/block.json
+  s_9889166accae25::t_342d283e951738 5
+src/block/edit.js
+  s_9889166accae25::t_2208a5e98f6104 95
+src/view.js
+  s_9889166accae25::t_c86a7b927db186 35,48
+tests/COOPBOLO_Admin_Branding_Test.php
+  s_9889166accae25::t_2d2d7185c6914d 13,15,19,22,41,48,51,62,68-71
+tests/COOPBOLO_Assets_Test.php
+  s_9889166accae25::t_0e70f3cdc00ac4 3,13,15,19,26,31,36,40-42,46-47,52,57
+tests/COOPBOLO_Renderer_Test.php
+  s_9889166accae25::t_e2e4af4b89d23f 3,13,15,17,22
+wiki/concepts/carousel-and-splide.md
+  s_9889166accae25::t_46b5a2515340d8 9,24,38,48
+wiki/concepts/rendering-pipeline.md
+  s_9889166accae25::t_7486045732df42 9,19-20
+wiki/entities/gutenberg-block-balanced-logos.md
+  s_9889166accae25::t_7c789427e7883f 11,24,28,30
+wiki/entities/rapidsos-site.md
+  s_9889166accae25::t_9294912e74fb39 7,37-38
+wiki/entities/wordpress-plugin.md
+  s_9889166accae25::t_6d75e1f08097ac 6-7,21-22,31-39
+wiki/gotchas.md
+  s_9889166accae25::t_37f360d8bf7e9f 7-8,37,43,45-47
+wiki/guides/rapidsos-deploy.md
+  s_9889166accae25::t_b6b9155865cd6a 10
+wiki/guides/wordpress-org-submission.md
+  s_9889166accae25::t_c20cbf784a667a 103
+wiki/guides/wp-env-smoke-test.md
+  s_9889166accae25::t_6a39963c166896 64-65,70
+wiki/index.md
+  s_9889166accae25::t_b4b9d11c2b65e3 7-8,17,32,49
+wiki/log.md
+  s_9889166accae25::t_890d871bc56950 150-153
+wiki/overview.md
+  s_9889166accae25::t_6bf57a511c4e8b 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a585da61aad4a76e6ce0a1608dcdb7785264dacc",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
