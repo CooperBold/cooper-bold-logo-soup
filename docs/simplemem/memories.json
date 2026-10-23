@@ -320,5 +320,29 @@
     },
     "namespace": "cooper-bold-logo-wrangler-wp-plugin",
     "timestamp": 1792665060.01915
+  },
+  {
+    "id": "local_1792751478527",
+    "text": "Wiki session: 1.3.5 coopbolo_ prefix for WP.org review (2026-10-22)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-10-22",
+      "verb": "session",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1792751478.527371
+  },
+  {
+    "id": "local_1792751478594",
+    "text": "Wiki gate: 1.3.5 migration hardened before merge (2026-10-22)",
+    "metadata": {
+      "type": "wiki_log",
+      "date": "2026-10-22",
+      "verb": "gate",
+      "source": "maintain_all_simplemem"
+    },
+    "namespace": "cooper-bold-logo-wrangler-wp-plugin",
+    "timestamp": 1792751478.59439
   }
 ]
