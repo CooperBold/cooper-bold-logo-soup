@@ -1,0 +1,21 @@
+AGENTS.md
+  s_6ce0bd7b9fff85::t_ac8b7cd2e3cdcc 51-78,81-109
+AI_RUNBOOK.md
+  s_6ce0bd7b9fff85::t_cd23304d036613 120,145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "486e9338494d122520305bfea832fec9b9916f7e",
+  "prompts": {},
+  "sessions": {
+    "s_6ce0bd7b9fff85": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b4acf90-9c77-4448-a59e-50dd53913067",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
