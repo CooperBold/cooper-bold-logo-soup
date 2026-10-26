@@ -1,0 +1,33 @@
+build/block/block.json
+  s_9889166accae25::t_368ded55ec3306 5
+build/index.asset.php
+  s_9889166accae25::t_d995bc941e6f4f 1
+build/index.js
+  s_9889166accae25::t_d6689495e06c75 1
+cooper-bold-logo-wrangler.php
+  s_9889166accae25::t_965134f07a5b78 8,29
+package-lock.json
+  s_9889166accae25::t_a128e5fe403792 3,9
+package.json
+  s_9889166accae25::t_277aa4c0b5de8d 3
+readme.txt
+  s_9889166accae25::t_503637dc8b0042 7,92-94,245-247
+src/block/block.json
+  s_9889166accae25::t_96eecb7aaad0c5 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0144b599b7436c3641ddda8223dc6a044822c7f6",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
