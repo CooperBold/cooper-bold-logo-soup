@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,10 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Cooper Bold Logo Wrangler scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.3.6 =
+* Replace `str_contains()` with `strpos()` in the Splide Auto Scroll duplicate check, so standalone carousels render on PHP 7.4 without relying on WordPress's PHP 8 polyfill
+* Add a test that fails if PHP 8-only string or array functions are added to the plugin code
 
 = 1.3.5 =
 * Use the `coopbolo_` / `COOPBOLO_` prefix for every PHP function, class, constant, the Logo Collections post type (`coopbolo_collection`), meta keys, the schema option, the collection form nonce and fields, list columns, and the REST route (`coopbolo/v1`)
@@ -234,6 +238,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.3.6 =
+PHP 7.4 compatibility fix for standalone carousels.
 
 = 1.3.5 =
 Renames internal names to the `coopbolo_` prefix. Existing logo collections move over automatically; shortcodes and CSS classes are unchanged.

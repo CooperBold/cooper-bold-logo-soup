@@ -65,6 +65,26 @@ final class COOPBOLO_Bootstrap_Test extends TestCase {
 		$this->assertStringContainsString( 'delete_option( COOPBOLO_Collections::SCHEMA_OPTION )', $src );
 	}
 
+	/**
+	 * The plugin declares PHP 7.4 support; WP.org activates it on 7.4 and fatals on PHP 8-only calls.
+	 */
+	public function test_plugin_code_avoids_php8_only_functions(): void {
+		$root  = dirname( __DIR__ );
+		$files = array_merge(
+			array( $root . '/cooper-bold-logo-wrangler.php', $root . '/balanced-logos.php' ),
+			glob( $root . '/includes/*.php' )
+		);
+		$found = array();
+		foreach ( $files as $file ) {
+			$src = file_get_contents( $file );
+			$this->assertNotFalse( $src );
+			if ( preg_match_all( '/(?<![\w>:$])(str_contains|str_starts_with|str_ends_with|array_is_list|get_debug_type|fdiv)\s*\(/', $src, $m ) ) {
+				$found[ basename( $file ) ] = array_unique( $m[1] );
+			}
+		}
+		$this->assertSame( array(), $found );
+	}
+
 	public function test_post_type_meta_and_option_names_use_plugin_prefix(): void {
 		$this->assertStringStartsWith( 'coopbolo_', COOPBOLO_Collections::POST_TYPE );
 		$this->assertLessThanOrEqual( 20, strlen( COOPBOLO_Collections::POST_TYPE ) );

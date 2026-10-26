@@ -222,7 +222,7 @@ final class COOPBOLO_Assets {
 				continue;
 			}
 			$src = (string) $script->src;
-			if ( '' !== $src && str_contains( $src, 'splide-extension-auto-scroll' ) ) {
+			if ( '' !== $src && false !== strpos( $src, 'splide-extension-auto-scroll' ) ) {
 				return true;
 			}
 		}
