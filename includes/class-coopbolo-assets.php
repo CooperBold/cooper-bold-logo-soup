@@ -29,6 +29,33 @@ final class COOPBOLO_Assets {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
+		add_action( 'wp_print_footer_scripts', array( $this, 'reconcile_autoscroll' ), 1 );
+	}
+
+	/**
+	 * Drop the bundled Auto Scroll when something else loads it.
+	 *
+	 * Block themes render content before wp_enqueue_scripts, so a theme that enqueues its own
+	 * Auto Scroll there is not visible yet when the carousel renders. Footer scripts print later,
+	 * when every handle is registered, so settle it here.
+	 */
+	public function reconcile_autoscroll(): void {
+		$external = self::external_autoscroll_handle();
+		if ( '' === $external ) {
+			return;
+		}
+
+		wp_dequeue_script( self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE );
+
+		$wp_scripts = wp_scripts();
+		if ( ! isset( $wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ] ) ) {
+			return;
+		}
+		$deps = array();
+		foreach ( $wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ]->deps as $dep ) {
+			$deps[] = self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE === $dep ? $external : $dep;
+		}
+		$wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ]->deps = array_values( array_unique( $deps ) );
 	}
 
 	/**
@@ -159,17 +186,14 @@ final class COOPBOLO_Assets {
 	}
 
 	/**
-	 * Enqueue Auto Scroll extension when not already registered with a src.
+	 * Enqueue Auto Scroll extension unless the theme or another plugin already provides it.
 	 *
 	 * @param string $splide_script_handle Resolved Splide core handle.
 	 */
 	private static function enqueue_splide_autoscroll_extension( string $splide_script_handle ): void {
-		if ( self::registered_script_has_src( 'splide-extension-auto-scroll' ) ) {
-			wp_enqueue_script( 'splide-extension-auto-scroll' );
-			return;
-		}
-
-		if ( self::page_already_loads_autoscroll_extension() ) {
+		$external = self::external_autoscroll_handle();
+		if ( '' !== $external ) {
+			wp_enqueue_script( $external );
 			return;
 		}
 
@@ -213,21 +237,27 @@ final class COOPBOLO_Assets {
 	}
 
 	/**
-	 * Theme/header may inject Auto Scroll before wp_footer (duplicate enqueue guard).
+	 * Handle of an Auto Scroll script that something else registered, or '' when there is none.
+	 *
+	 * Matches by src so a theme that registers the same file under its own handle is found.
+	 * The plugin's own handle never counts: its src contains the same file name.
 	 */
-	private static function page_already_loads_autoscroll_extension(): bool {
-		$wp_scripts = wp_scripts();
-		foreach ( $wp_scripts->registered as $script ) {
-			if ( ! $script instanceof _WP_Dependency ) {
+	private static function external_autoscroll_handle(): string {
+		if ( self::registered_script_has_src( 'splide-extension-auto-scroll' ) ) {
+			return 'splide-extension-auto-scroll';
+		}
+
+		foreach ( wp_scripts()->registered as $handle => $script ) {
+			if ( self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE === $handle || ! $script instanceof _WP_Dependency ) {
 				continue;
 			}
 			$src = (string) $script->src;
 			if ( '' !== $src && false !== strpos( $src, 'splide-extension-auto-scroll' ) ) {
-				return true;
+				return (string) $handle;
 			}
 		}
 
-		return false;
+		return '';
 	}
 
 	/**
@@ -268,9 +298,10 @@ final class COOPBOLO_Assets {
 		}
 
 		$splide_handle    = self::resolve_splide_script_handle();
-		$autoscroll_handle = self::registered_script_has_src( 'splide-extension-auto-scroll' )
-			? 'splide-extension-auto-scroll'
-			: self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE;
+		$autoscroll_handle = self::external_autoscroll_handle();
+		if ( '' === $autoscroll_handle ) {
+			$autoscroll_handle = self::SPLIDE_AUTOSCROLL_SCRIPT_HANDLE;
+		}
 		$deps             = $wp_scripts->registered[ self::VIEW_SCRIPT_HANDLE ]->deps;
 
 		foreach ( array( $splide_handle, $autoscroll_handle ) as $handle ) {

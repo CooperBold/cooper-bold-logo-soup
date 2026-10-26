@@ -367,7 +367,9 @@ if ( ! function_exists( 'wp_script_is' ) ) {
 	 * @param string $handle Script handle.
 	 */
 	function wp_script_is( $handle, $status = 'enqueued' ): bool {
-		unset( $handle, $status );
+		if ( 'registered' === $status ) {
+			return isset( wp_scripts()->registered[ $handle ] );
+		}
 		return false;
 	}
 }
@@ -388,6 +390,15 @@ if ( ! function_exists( 'wp_enqueue_script' ) ) {
 	 */
 	function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $args = false ): void {
 		unset( $handle, $src, $deps, $ver, $args );
+	}
+}
+
+if ( ! function_exists( 'wp_dequeue_script' ) ) {
+	/**
+	 * @param string $handle Script handle.
+	 */
+	function wp_dequeue_script( $handle ): void {
+		$GLOBALS['cb_test_dequeued'][] = $handle;
 	}
 }
 
@@ -543,6 +554,31 @@ if ( ! function_exists( 'get_post_type' ) ) {
 	 */
 	function get_post_type( $post_id ) {
 		return $GLOBALS['cb_test_posts'][ (int) $post_id ]->post_type ?? false;
+	}
+}
+
+if ( ! class_exists( '_WP_Dependency' ) ) {
+	/**
+	 * Minimal _WP_Dependency stub for script registry tests.
+	 */
+	class _WP_Dependency {
+		/** @var string */
+		public $handle;
+		/** @var string|false */
+		public $src;
+		/** @var array<int, string> */
+		public $deps;
+
+		/**
+		 * @param string       $handle Handle.
+		 * @param string|false $src    Source URL.
+		 * @param array        $deps   Dependencies.
+		 */
+		public function __construct( $handle = '', $src = false, $deps = array() ) {
+			$this->handle = $handle;
+			$this->src    = $src;
+			$this->deps   = $deps;
+		}
 	}
 }
 
