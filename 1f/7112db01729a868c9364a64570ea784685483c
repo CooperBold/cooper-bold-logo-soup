@@ -1,0 +1,23 @@
+includes/class-coopbolo-assets.php
+  s_9889166accae25::t_17c90becb2cd9b 32-58,189,194-196,240-243,245-251,256,260,301-304
+tests/COOPBOLO_Assets_Test.php
+  s_9889166accae25::t_2529cea197a4f2 19,60-139
+tests/bootstrap.php
+  s_9889166accae25::t_c9e7386212a5f9 370-372,396-404,560-584
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1f7112db01729a868c9364a64570ea784685483c",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
