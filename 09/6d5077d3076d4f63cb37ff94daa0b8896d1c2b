@@ -1,0 +1,37 @@
+includes/class-coopbolo-assets.php
+  s_9889166accae25::t_4f04c011d83bfa 225
+tests/COOPBOLO_Bootstrap_Test.php
+  s_9889166accae25::t_cee5e67b50f01c 68-87
+build/block/block.json
+  s_9889166accae25::t_425dc32d5ba477 5
+build/index.asset.php
+  s_9889166accae25::t_8ef72868413a90 1
+build/index.js
+  s_9889166accae25::t_bbf30603534677 1
+cooper-bold-logo-wrangler.php
+  s_9889166accae25::t_4e65044edebd44 8,29
+package-lock.json
+  s_9889166accae25::t_f9924b1c9c25c5 3,9
+package.json
+  s_9889166accae25::t_c3e6819a1852e4 3
+readme.txt
+  s_9889166accae25::t_9748c8649f9846 7,92-95,242-244
+src/block/block.json
+  s_9889166accae25::t_f010a8e63b7789 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "096d5077d3076d4f63cb37ff94daa0b8896d1c2b",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
