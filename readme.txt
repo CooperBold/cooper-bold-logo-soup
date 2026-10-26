@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Cooper Bold Logo Wrangler scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.3.7 =
+* Load the Splide Auto Scroll extension only once: when a theme or another plugin already loads it, the bundled copy is skipped
 
 = 1.3.6 =
 * Replace `str_contains()` with `strpos()` in the Splide Auto Scroll duplicate check, so standalone carousels render on PHP 7.4 without relying on WordPress's PHP 8 polyfill
@@ -238,6 +241,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.3.7 =
+Avoids loading the carousel Auto Scroll script twice on themes that already include it.
 
 = 1.3.6 =
 PHP 7.4 compatibility fix for standalone carousels.
