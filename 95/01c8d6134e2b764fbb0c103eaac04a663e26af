@@ -1,0 +1,35 @@
+admin/js/collection-editor.js
+  s_9889166accae25::t_c84298dbb79da9 72
+build/collection-preview.asset.php
+  s_9889166accae25::t_adec0e5abdb33b 1
+build/collection-preview.js
+  s_9889166accae25::t_8818010950dca5 1
+build/view.asset.php
+  s_9889166accae25::t_35a55b72502930 1
+build/view.js
+  s_9889166accae25::t_7edabcba984562 1
+src/admin/collection-preview.js
+  s_9889166accae25::t_ab0c8a325b17c1 17
+src/view.js
+  s_9889166accae25::t_c5b765d8ded2ad 23,367,369
+wiki/concepts/carousel-and-splide.md
+  s_9889166accae25::t_5fd5db56160975 48
+wiki/log.md
+  s_9889166accae25::t_8b0f092e609015 166-169
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9501c8d6134e2b764fbb0c103eaac04a663e26af",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
