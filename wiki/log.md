@@ -163,3 +163,7 @@ Adversarial gate (security, regression, edge-case personas): FIX REQUIRED → fi
 - clears the option on deactivate
 
 Rollback WP-CLI steps are in [[rapidsos-deploy]]. Verified in wp-env (rollback, then a re-upgrade with a hostile filter), PHPUnit 53, Plugin Check clean. Merged to `main`.
+
+## [2026-10-29] session | 1.3.7 uploaded; JS hook names prefixed on a branch
+
+Nicholas uploaded 1.3.7 and replied in the WP.org thread (4:28–4:29 PM); now waiting on the automated recheck. Pre-empting new reviewer notes, branch `fix/js-hook-prefix` (not merged) renames the JS event names and the localStorage key to `coopbolo-*` (`coopbolo-hydrated`, `coopbolo-preview-update`, `coopbolo-debug`) and drops the `cb-balanced-logos-hydrated` duplicate. RapidSOS's snippet already listens for `cb-logo-soup-hydrated`, which the plugin stopped firing earlier, so nothing live depends on these names. Left alone on purpose: `cb-lw-*` CSS classes and `data-cb-lw` (CSS is outside the prefix rule), and the legacy aliases below, pending Nicholas's call.

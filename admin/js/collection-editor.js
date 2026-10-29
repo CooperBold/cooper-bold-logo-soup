@@ -69,7 +69,7 @@
 
 	function dispatchPreviewUpdate() {
 		document.dispatchEvent(
-			new CustomEvent( 'cb-lw-preview-update' )
+			new CustomEvent( 'coopbolo-preview-update' )
 		);
 	}
 

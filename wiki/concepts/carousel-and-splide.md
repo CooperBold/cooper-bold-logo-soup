@@ -45,7 +45,7 @@ If hydration stalls, a timer shows the slides anyway. The changelog says 4 s (1.
 
 ## Debugging
 
-Turn on logs with `window.COOPBOLO_DEBUG = true`, `localStorage['cb-lw-debug']`, or `?coopbolo_debug=1` (1.2.10).
+Turn on logs with `window.COOPBOLO_DEBUG = true`, `localStorage['coopbolo-debug']`, or `?coopbolo_debug=1` (1.2.10).
 
 ## Related
 

@@ -20,7 +20,7 @@ const STANDALONE_SPLIDE_RETRY_MS = [ 0, 100, 500, 1500, 3000 ];
 const HYDRATION_FAIL_OPEN_MS = 800;
 const MIN_SLIDES_BEFORE_SPLIDE = 3;
 const SPLIDE_REFRESH_DEBOUNCE_MS = 150;
-const DEBUG_STORAGE_KEY = 'cb-lw-debug';
+const DEBUG_STORAGE_KEY = 'coopbolo-debug';
 const LOG_PREFIX = '[Cooper Bold Logo Wrangler]';
 
 /**
@@ -364,12 +364,9 @@ function mountCarouselReference( refContainer, groupId ) {
 
 		hydratedCarousels.add( carouselRoot );
 		carouselRoot.dispatchEvent(
-			new CustomEvent( 'cb-lw-hydrated', { bubbles: true } )
+			new CustomEvent( 'coopbolo-hydrated', { bubbles: true } )
 		);
-		carouselRoot.dispatchEvent(
-			new CustomEvent( 'cb-balanced-logos-hydrated', { bubbles: true } )
-		);
-		balancedLogosLog( 'cb-lw-hydrated fired', { groupId } );
+		balancedLogosLog( 'coopbolo-hydrated fired', { groupId } );
 	};
 
 	const distribute = () => {

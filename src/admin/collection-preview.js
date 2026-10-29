@@ -14,7 +14,7 @@ import { readAttributesFromDom } from './collection-form-data';
 import { useLogoSoupLifecycle } from '../shared/logo-soup-lifecycle';
 import { sanitizePreviewConfig, toLwProps } from '../shared/to-lw-props';
 
-export const PREVIEW_UPDATE_EVENT = 'cb-lw-preview-update';
+export const PREVIEW_UPDATE_EVENT = 'coopbolo-preview-update';
 
 const STRIP_PREVIEW_CONTEXT = { surface: 'collection-preview' };
 const CAROUSEL_PREVIEW_CONTEXT = { surface: 'collection-preview-carousel' };
