@@ -1,0 +1,67 @@
+AGENTS.md
+  s_9889166accae25::t_4fc326d1eb85d2 14,22,26
+build/block/block.json
+  s_9889166accae25::t_076e6637051648 5
+build/index.asset.php
+  s_9889166accae25::t_821b74c755ce96 1
+build/index.js
+  s_9889166accae25::t_5e7c70bbf8ae1a 1
+build/view.asset.php
+  s_9889166accae25::t_4aa70dbdf53f2b 1
+build/view.js
+  s_9889166accae25::t_552fcd35054e8c 1
+build/view.scss-rtl.css
+  s_9889166accae25::t_3b752dd3a66923 1
+build/view.scss.asset.php
+  s_9889166accae25::t_1c7b3fca7000e7 1
+build/view.scss.css
+  s_9889166accae25::t_65983e48651103 1
+cooper-bold-logo-wrangler.php
+  s_9889166accae25::t_218e95dcefa768 8,24,29,35-36
+includes/class-coopbolo-assets.php
+  s_9889166accae25::t_5b330e68da385d 329,362,382,406
+includes/class-coopbolo-collections.php
+  s_9889166accae25::t_9bfe15a133a12c 24,28
+includes/class-coopbolo-plugin.php
+  s_9889166accae25::t_fa24483a815695 61,77
+includes/class-coopbolo-renderer.php
+  s_9889166accae25::t_fcb3e27d277f4d 265,272,358,373,381,404,409
+package-lock.json
+  s_9889166accae25::t_14870cfde218d9 3,9
+package.json
+  s_9889166accae25::t_c04f272c8a32c3 3
+readme.txt
+  s_9889166accae25::t_abd13fd0b587fe 7,21,67,92-98,252-254
+src/block/block.json
+  s_9889166accae25::t_7d7b3be1cb625f 5
+src/view.js
+  s_9889166accae25::t_da9d449a1b8a36 59,70,106,162,181,220,242,288,303,307,314,333,335,347,365,392,420,424,454,479,525,562,571,578,596,603,609,622,664,676-677,679,691-693,699
+src/view.scss
+  s_9889166accae25::t_94f9d358a392d2 1,8,12,16,23,28,37,45,52,58,62,69
+tests/COOPBOLO_Assets_Test.php
+  s_9889166accae25::t_4c51ddcadabe7f 31,36,52,57
+tests/COOPBOLO_Bootstrap_Test.php
+  s_9889166accae25::t_fc88544613863b 14-23,26,31-53,59,101
+tests/COOPBOLO_Collections_Test.php
+  s_9889166accae25::t_ac2d3f62cf5ce5 152,157,160,179
+wiki/gotchas.md
+  s_9889166accae25::t_8c4369738d0dd4 25
+wiki/log.md
+  s_9889166accae25::t_f51b1da73a2d98 170-173
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a5bc12b9c227b2ce1e1625537561b91007a87e11",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
