@@ -85,7 +85,7 @@ Dated log for session context and handoffs.
 **State:**
 
 - Working tree clean; `main` matches `origin/main`.
-- GitHub remote: `CooperBold/cooper-bold-logo-soup` (repo slug still legacy; user-facing name is Cooper Bold Logo Wrangler).
+- GitHub remote: `CooperBold/cooper-bold-logo-wrangler` (renamed from cooper-bold-logo-soup on 2026-10-30; the old URL redirects).
 
 **Decisions:**
 

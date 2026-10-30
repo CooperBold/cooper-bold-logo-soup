@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /**
  * Plugin Name:       Cooper Bold Logo Wrangler
- * Plugin URI:        https://github.com/CooperBold/cooper-bold-logo-soup
+ * Plugin URI:        https://github.com/CooperBold/cooper-bold-logo-wrangler
  * Description:       Display client and partner logos in a balanced strip. Normalization powered by the open-source Sanity Labs logo-soup library.
  * Version:           1.4.0
  * Requires at least: 6.4

@@ -50,7 +50,7 @@ Leftover local branches `closeout/2026-08-17` and `feat/wporg-review-1.3.1` are 
 
 ## Key links
 
-- GitHub: <https://github.com/CooperBold/cooper-bold-logo-soup> (public; slug still the original name)
+- GitHub: <https://github.com/CooperBold/cooper-bold-logo-wrangler> (public; renamed from `cooper-bold-logo-soup` on 2026-10-30)
 - Upstream library: <https://github.com/sanity-labs/logo-soup> ([[sanity-logo-soup]])
 - Runbooks in `docs/`: `RAPIDSOS-DEPLOY.md`, `SMOKE-TEST.md`, `WORDPRESS-ORG-SUBMISSION.md`
 - Agent rules: `AGENTS.md`; procedures: `AI_RUNBOOK.md`

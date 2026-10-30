@@ -32,7 +32,7 @@ Logo normalization powered by [@sanity-labs/logo-soup](https://www.npmjs.com/pac
 
 Plugin source (including the unminified JavaScript that compiles to `build/`) is public:
 
-https://github.com/CooperBold/cooper-bold-logo-soup
+https://github.com/CooperBold/cooper-bold-logo-wrangler
 
 This ZIP also includes that source:
 

@@ -42,7 +42,7 @@ Bootstrap: `plugins_loaded` → `COOPBOLO_Plugin::instance()`. Legacy `balanced-
 
 - Block metadata: `src/block/block.json`
 - Build output: `build/` via `npm run build`
-- Repo remote: `github.com/CooperBold/cooper-bold-logo-soup` (slug still legacy)
+- Repo remote: `github.com/CooperBold/cooper-bold-logo-wrangler` (renamed from `cooper-bold-logo-soup` on 2026-10-30; the old URL redirects)
 - Frontend CSS: `.cb-lw-wrapper` / `.cb-lw-inner` (also emits legacy `.cb-balanced-logos-*`)
 
 ## Related

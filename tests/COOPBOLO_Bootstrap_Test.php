@@ -123,7 +123,7 @@ final class COOPBOLO_Bootstrap_Test extends TestCase {
 	public function test_readme_points_to_public_plugin_source(): void {
 		$readme = file_get_contents( dirname( __DIR__ ) . '/readme.txt' );
 		$this->assertNotFalse( $readme );
-		$this->assertStringContainsString( 'https://github.com/CooperBold/cooper-bold-logo-soup', $readme );
+		$this->assertStringContainsString( 'https://github.com/CooperBold/cooper-bold-logo-wrangler', $readme );
 		$this->assertStringContainsString( 'src/view.js', $readme );
 		$this->assertStringContainsString( 'src/admin/collection-preview.js', $readme );
 	}

@@ -52,7 +52,7 @@ The ZIP is written to `dist/cooper-bold-logo-wrangler-<version>.zip`. It respect
 
 After SVN access is granted:
 
-1. Open **GitHub → CooperBold/cooper-bold-logo-soup** (the repo slug was never renamed) **→ Settings → Secrets and variables → Actions**.
+1. Open **GitHub → CooperBold/cooper-bold-logo-wrangler** **→ Settings → Secrets and variables → Actions**.
 2. Add repository secrets:
    - `SVN_USERNAME` — your wordpress.org username.
    - `SVN_PASSWORD` — your [application password](https://make.wordpress.org/core/handbook/tutorials/generate-a-password-for-svn/) (not your login password).

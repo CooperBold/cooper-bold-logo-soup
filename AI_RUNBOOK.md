@@ -132,7 +132,7 @@ Pass = no errors (warnings may remain). Splide must load from `lib/splide/` only
 - Class prefix: `COOPBOLO_*` (functions `coopbolo_*`)
 - Hooks: minimal — `plugins_loaded`, `init` for block
 - SimpleMem namespace: `cooper-bold-logo-wrangler-wp-plugin`
-- GitHub remote: `https://github.com/CooperBold/cooper-bold-logo-soup` (user-facing plugin name: **Cooper Bold Logo Wrangler**)
+- GitHub remote: `https://github.com/CooperBold/cooper-bold-logo-wrangler` (user-facing plugin name: **Cooper Bold Logo Wrangler**)
 
 ---
 

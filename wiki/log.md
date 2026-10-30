@@ -171,3 +171,7 @@ Nicholas uploaded 1.3.7 and replied in the WP.org thread (4:28–4:29 PM); now w
 ## [2026-10-30] session | 1.4.0: old product names removed (branch, not merged)
 
 Branch `fix/remove-legacy-aliases` (on top of `fix/js-hook-prefix`) removes the `[logo_soup]`, `[balanced_logos]` and `[cooper-bold-logo-soup]` shortcodes, the two legacy blocks, `balanced-logos.php` and its `active_plugins` migration, the `cb-balanced-logos-*` classes and `data-cb-balanced-logos-*` attributes, and the `_cb_balanced_logos_*` / `_cb_logo_soup_*` meta fallbacks. The 1.3.x collection migration stays. Reason: "Logo Soup" was the first WP.org naming complaint, and the `active_plugins` rewrite was an Aug 6 flag. Nicholas confirmed RapidSOS (1.2.11) will not be upgraded, so nothing live loses content. Guard tests: `COOPBOLO_Bootstrap_Test::test_old_product_names_are_not_registered_or_emitted` and `test_plugin_never_rewrites_active_plugins`.
+
+## [2026-10-30] ops | GitHub repo renamed
+
+`CooperBold/cooper-bold-logo-soup` → `CooperBold/cooper-bold-logo-wrangler` (Nicholas asked; done with `gh repo rename`). GitHub redirects the old URL, local `origin` remotes were repointed, and the repo URL in the plugin header, readme and docs updates on branch `chore/repo-rename`. WP.org's reviewers were given the old URL; it still redirects. The new URL reaches WP.org only with the next uploaded version.

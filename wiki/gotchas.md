@@ -17,7 +17,7 @@ One line each: the trap, then the fix or the page with details.
 ## Names and history
 
 - **Old docs show today's name for past events.** Every rename was a repo-wide find/replace, including changelog and session memory. Use `git show <commit>:<file>` for history. See [[0003-plugin-name-cooper-bold-logo-wrangler]].
-- **The GitHub repo is `cooper-bold-logo-soup`**, not `cooper-bold-logo-wrangler`. The secrets path and support-forum URL in `docs/WORDPRESS-ORG-SUBMISSION.md` use wrong slugs. See [[wordpress-org-submission]].
+- **The GitHub repo is `cooper-bold-logo-wrangler` since 2026-10-30** (it was `cooper-bold-logo-soup`; GitHub redirects the old URL, and the WP.org review thread still links it). The secrets path and support-forum URL in `docs/WORDPRESS-ORG-SUBMISSION.md` use wrong slugs. See [[wordpress-org-submission]].
 - **Four paths, one checkout.** `~/Repos/logo-soup-wp-plugin`, `cooper-bold-logo-wrangler-wp-plugin`, and `logo-soup-wp-plugin-smoke` are symlinks to `~/Repos/Logo Soup WP Plugin`. An edit in one is an edit in all. See [[overview]].
 
 ## Code rules (from AGENTS.md, with the why)
