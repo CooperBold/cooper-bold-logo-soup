@@ -324,15 +324,9 @@ final class COOPBOLO_Assets {
 		}
 		$c             = self::get_post_content_for_detection( $post );
 		$has_shortcode = has_shortcode( $c, 'logo_wrangler' )
-			|| has_shortcode( $c, 'balanced_logos' )
-			|| has_shortcode( $c, 'logo_soup' )
-			|| has_shortcode( $c, 'cooper-bold-logo-soup' )
 			|| self::raw_content_has_logo_wrangler_shortcode( $c );
 
-		if ( ! has_block( 'cooper-bold/logo-wrangler', $post )
-			&& ! has_block( 'cooper-bold/balanced-logos', $post )
-			&& ! has_block( 'cooper-bold/logo-soup', $post )
-			&& ! $has_shortcode ) {
+		if ( ! has_block( 'cooper-bold/logo-wrangler', $post ) && ! $has_shortcode ) {
 			return;
 		}
 
@@ -365,7 +359,7 @@ final class COOPBOLO_Assets {
 			return false;
 		}
 
-		return (bool) preg_match( '/\[(?:logo_wrangler|balanced_logos|logo_soup|cooper-bold-logo-soup)(?:\s|])/i', $content );
+		return (bool) preg_match( '/\[logo_wrangler(?:\s|])/i', $content );
 	}
 
 	/**
@@ -385,7 +379,7 @@ final class COOPBOLO_Assets {
 			}
 		}
 
-		if ( preg_match_all( '/\[(?:logo_wrangler|balanced_logos|logo_soup|cooper-bold-logo-soup)([^\]]*)\]/i', $content, $matches ) ) {
+		if ( preg_match_all( '/\[logo_wrangler([^\]]*)\]/i', $content, $matches ) ) {
 			foreach ( $matches[1] as $attrs_fragment ) {
 				$attrs_fragment = (string) $attrs_fragment;
 				if ( self::shortcode_attrs_need_standalone_splide( $attrs_fragment ) ) {
@@ -409,7 +403,7 @@ final class COOPBOLO_Assets {
 				return true;
 			}
 
-			if ( ! in_array( ( $block['blockName'] ?? '' ), array( 'cooper-bold/logo-wrangler', 'cooper-bold/balanced-logos', 'cooper-bold/logo-soup' ), true ) ) {
+			if ( ! in_array( ( $block['blockName'] ?? '' ), array( 'cooper-bold/logo-wrangler' ), true ) ) {
 				continue;
 			}
 

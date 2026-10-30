@@ -28,12 +28,12 @@ final class COOPBOLO_Assets_Test extends TestCase {
 	}
 
 	public function test_content_skips_carousel_slides_wrapper(): void {
-		$content = '[logo_soup layout="carousel" wrapper="slides" logos="https://example.com/a.svg|A"]';
+		$content = '[logo_wrangler layout="carousel" wrapper="slides" logos="https://example.com/a.svg|A"]';
 		$this->assertFalse( COOPBOLO_Assets::content_needs_standalone_splide( $content ) );
 	}
 
 	public function test_content_skips_strip_layout(): void {
-		$content = '[logo_soup layout="strip" logos="https://example.com/a.svg|A"]';
+		$content = '[logo_wrangler layout="strip" logos="https://example.com/a.svg|A"]';
 		$this->assertFalse( COOPBOLO_Assets::content_needs_standalone_splide( $content ) );
 	}
 
@@ -49,12 +49,12 @@ final class COOPBOLO_Assets_Test extends TestCase {
 	}
 
 	public function test_raw_content_detects_shortcode_in_bricks_meta(): void {
-		$bricks_json = '{"name":"shortcode","settings":{"shortcode":"[logo_soup collection=\\"test-slide\\" layout=\\"carousel\\"]"}}';
+		$bricks_json = '{"name":"shortcode","settings":{"shortcode":"[logo_wrangler collection=\\"test-slide\\" layout=\\"carousel\\"]"}}';
 		$this->assertTrue( COOPBOLO_Assets::content_needs_standalone_splide( $bricks_json ) );
 	}
 
 	public function test_content_detects_collection_carousel_shortcode(): void {
-		$content = '[logo_soup collection="test-slide" layout="carousel"]';
+		$content = '[logo_wrangler collection="test-slide" layout="carousel"]';
 		$this->assertTrue( COOPBOLO_Assets::content_needs_standalone_splide( $content ) );
 	}
 

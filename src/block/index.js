@@ -15,15 +15,3 @@ const blockSettings = {
 };
 
 registerBlockType( metadata.name, blockSettings );
-
-// Keep editor support for posts that still store the old block names (hidden from inserter).
-[ 'cooper-bold/balanced-logos', 'cooper-bold/logo-soup' ].forEach( ( name ) => {
-	registerBlockType( name, {
-		...blockSettings,
-		name,
-		supports: {
-			...blockSettings.supports,
-			inserter: false,
-		},
-	} );
-} );

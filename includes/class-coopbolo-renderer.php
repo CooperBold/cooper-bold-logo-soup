@@ -262,14 +262,14 @@ final class COOPBOLO_Renderer {
 		$imgs = $this->render_strip_placeholder_logos( $attrs['logos'], $attrs['gap'] );
 
 		$inner_attributes = sprintf(
-			'class="cb-lw cb-lw-inner cb-balanced-logos cb-balanced-logos-inner" data-cb-lw="%1$s" data-cb-balanced-logos="%1$s" style="%2$s"%3$s',
+			'class="cb-lw cb-lw-inner" data-cb-lw="%1$s" style="%2$s"%3$s',
 			esc_attr( $json ),
 			esc_attr( $style ),
 			$aria ? ' aria-label="' . esc_attr( $aria ) . '"' : ''
 		);
 
 		if ( '' === $wrapper_attributes ) {
-			$classes = array( 'cb-lw', 'cb-lw-wrapper', 'cb-balanced-logos', 'cb-balanced-logos-wrapper' );
+			$classes = array( 'cb-lw', 'cb-lw-wrapper' );
 			foreach ( preg_split( '/\s+/', $attrs['className'] ) ?: array() as $part ) {
 				$class = sanitize_html_class( $part );
 				if ( '' !== $class ) {
@@ -282,7 +282,6 @@ final class COOPBOLO_Renderer {
 			);
 		} else {
 			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-lw-wrapper' );
-			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-balanced-logos-wrapper' );
 		}
 
 		return sprintf(
@@ -356,7 +355,7 @@ final class COOPBOLO_Renderer {
 
 		foreach ( array_keys( $attrs['logos'] ) as $index ) {
 			$slide_html .= sprintf(
-				'<li class="splide__slide logo-slider-slide cb-lw-slide cb-balanced-logos-slide" data-cb-lw-slide="%1$d" data-cb-balanced-logos-slide="%1$d" data-cb-lw-carousel="%2$s" data-cb-balanced-logos-carousel="%2$s" aria-label="%3$s"></li>',
+				'<li class="splide__slide logo-slider-slide cb-lw-slide" data-cb-lw-slide="%1$d" data-cb-lw-carousel="%2$s" aria-label="%3$s"></li>',
 				(int) $index,
 				esc_attr( $group_id ),
 				esc_attr( $attrs['logos'][ $index ]['alt'] ?? __( 'Logo', 'cooper-bold-logo-wrangler' ) )
@@ -371,7 +370,7 @@ final class COOPBOLO_Renderer {
 		);
 
 		$ref_host = sprintf(
-			'<div class="cb-lw-carousel-ref cb-balanced-logos-carousel-ref" aria-hidden="true"><div class="cb-lw cb-lw-inner cb-balanced-logos cb-balanced-logos-inner" data-cb-lw-ref="%1$s" data-cb-balanced-logos-ref="%1$s" data-cb-lw="%2$s" data-cb-balanced-logos="%2$s" style="%3$s"></div></div>',
+			'<div class="cb-lw-carousel-ref" aria-hidden="true"><div class="cb-lw cb-lw-inner" data-cb-lw-ref="%1$s" data-cb-lw="%2$s" style="%3$s"></div></div>',
 			esc_attr( $group_id ),
 			esc_attr( (string) $json ),
 			esc_attr( $ref_style )
@@ -379,7 +378,7 @@ final class COOPBOLO_Renderer {
 
 		if ( 'slides' === $attrs['wrapper'] ) {
 			return sprintf(
-				'<div class="cb-lw-carousel-host cb-balanced-logos-carousel-host" data-cb-lw-carousel="%1$s" data-cb-balanced-logos-carousel="%1$s" hidden>%2$s</div>%3$s',
+				'<div class="cb-lw-carousel-host" data-cb-lw-carousel="%1$s" hidden>%2$s</div>%3$s',
 				esc_attr( $group_id ),
 				$ref_host,
 				$slide_html
@@ -388,10 +387,8 @@ final class COOPBOLO_Renderer {
 
 		$classes = array(
 			'cb-lw-carousel',
-			'cb-balanced-logos-carousel',
 			'splide',
 			'cb-lw-wrapper',
-			'cb-balanced-logos-wrapper',
 		);
 		foreach ( preg_split( '/\s+/', $attrs['className'] ) ?: array() as $part ) {
 			$class = sanitize_html_class( $part );
@@ -402,15 +399,14 @@ final class COOPBOLO_Renderer {
 
 		if ( '' !== $wrapper_attributes ) {
 			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-lw-carousel' );
-			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'cb-balanced-logos-carousel' );
 			$wrapper_attributes = $this->ensure_wrapper_class( $wrapper_attributes, 'splide' );
 			$outer_attributes   = trim( $wrapper_attributes ) . sprintf(
-				' data-cb-lw-carousel="%1$s" data-cb-balanced-logos-carousel="%1$s" data-cb-lw-splide="1" data-cb-balanced-logos-splide="1"',
+				' data-cb-lw-carousel="%1$s" data-cb-lw-splide="1"',
 				esc_attr( $group_id )
 			);
 		} else {
 			$outer_attributes = sprintf(
-				'class="%1$s" data-cb-lw-carousel="%2$s" data-cb-balanced-logos-carousel="%2$s" data-cb-lw-splide="1" data-cb-balanced-logos-splide="1"',
+				'class="%1$s" data-cb-lw-carousel="%2$s" data-cb-lw-splide="1"',
 				esc_attr( implode( ' ', array_unique( $classes ) ) ),
 				esc_attr( $group_id )
 			);

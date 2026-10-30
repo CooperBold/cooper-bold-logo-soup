@@ -149,15 +149,15 @@ final class COOPBOLO_Collections_Test extends TestCase {
 		);
 	}
 
-	public function test_reads_balanced_logos_legacy_meta_keys(): void {
+	public function test_reads_1_3_x_meta_keys_until_saved(): void {
 		$post = $this->make_post(
 			15,
 			'legacy-partners',
 			array(
-				'_cb_balanced_logos_logos' => array(
+				'_cb_lw_logos' => array(
 					array( 'url' => 'https://example.com/legacy.svg', 'alt' => 'Legacy' ),
 				),
-				'_cb_balanced_logos_settings' => array(
+				'_cb_lw_settings' => array(
 					'gap' => 36,
 				),
 			)
@@ -176,7 +176,7 @@ final class COOPBOLO_Collections_Test extends TestCase {
 			'cleared-partners',
 			array(
 				COOPBOLO_Collections::META_LOGOS => array(),
-				'_cb_balanced_logos_logos'    => array(
+				'_cb_lw_logos'    => array(
 					array( 'url' => 'https://example.com/old.svg', 'alt' => 'Old' ),
 				),
 			)

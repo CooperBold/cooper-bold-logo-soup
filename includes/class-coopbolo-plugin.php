@@ -38,13 +38,6 @@ final class COOPBOLO_Plugin {
 		$this->renderer = new COOPBOLO_Renderer();
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_shortcode( 'logo_wrangler', array( $this, 'render_shortcode' ) );
-		// Legacy aliases from Balanced Logos / Logo Soup eras. Existing site content
-		// still uses them; never take one over from another plugin.
-		foreach ( array( 'balanced_logos', 'logo_soup', 'cooper-bold-logo-soup' ) as $legacy_tag ) {
-			if ( ! shortcode_exists( $legacy_tag ) ) {
-				add_shortcode( $legacy_tag, array( $this, 'render_shortcode' ) );
-			}
-		}
 	}
 
 	/**
@@ -65,23 +58,7 @@ final class COOPBOLO_Plugin {
 		if ( '' === $dir ) {
 			return;
 		}
-		$registered = register_block_type( $dir, array( 'render_callback' => array( $this, 'render_block' ) ) );
-		if ( $registered instanceof WP_Block_Type ) {
-			$legacy_args = array(
-				'render_callback' => array( $this, 'render_block' ),
-				'attributes'      => $registered->attributes,
-				'supports'        => $registered->supports,
-			);
-			// Keep editor assets so existing posts with legacy block names remain editable.
-			foreach ( array( 'editor_script_handles', 'editor_style_handles', 'script_handles', 'style_handles', 'view_script_handles', 'view_style_handles' ) as $handle_prop ) {
-				if ( ! empty( $registered->$handle_prop ) ) {
-					$legacy_args[ $handle_prop ] = $registered->$handle_prop;
-				}
-			}
-			foreach ( array( 'cooper-bold/balanced-logos', 'cooper-bold/logo-soup' ) as $legacy_name ) {
-				register_block_type( $legacy_name, $legacy_args );
-			}
-		}
+		register_block_type( $dir, array( 'render_callback' => array( $this, 'render_block' ) ) );
 	}
 
 	/**
@@ -97,7 +74,7 @@ final class COOPBOLO_Plugin {
 		return $this->renderer->render(
 			$attributes,
 			get_block_wrapper_attributes(
-				array( 'class' => 'cb-lw cb-lw-wrapper cb-balanced-logos cb-balanced-logos-wrapper' )
+				array( 'class' => 'cb-lw cb-lw-wrapper' )
 			)
 		);
 	}

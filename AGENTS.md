@@ -11,7 +11,7 @@ Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** norm
 
 ## Stack
 
-- PHP 7.4+ plugin bootstrap in `cooper-bold-logo-wrangler.php` + `includes/` (only that file has the Plugin Name header). Legacy `balanced-logos.php` is a headerless loader that requires the canonical file when the old path is still listed in `active_plugins`. Migrate that entry only on user-initiated **activate** or **plugin update** hooks — never on `plugins_loaded`.
+- PHP 7.4+ plugin bootstrap in `cooper-bold-logo-wrangler.php` + `includes/` (only that file has the Plugin Name header). The plugin never writes the `active_plugins` option.
 - Gutenberg block: `src/block/` → `build/index.js`
 - Frontend hydration: `src/view.js` → `build/view.js`
 - Build: `npm run build` (`@wordpress/scripts`; entry points are listed in the `build` script in `package.json`)
@@ -19,11 +19,11 @@ Wraps `@sanity-labs/logo-soup` for WordPress. **Cooper Bold Logo Wrangler** norm
 ## Key conventions
 
 - Block name: `cooper-bold/logo-wrangler`
-- Shortcode: `[logo_wrangler]` — prefer `collection="slug"` or `id="123"` from Logo Collections CPT. Legacy aliases: `[balanced_logos]`, `[logo_soup]`, `[cooper-bold-logo-soup]`.
+- Shortcode: `[logo_wrangler]` — prefer `collection="slug"` or `id="123"` from Logo Collections CPT.
 - Collections CPT: `coopbolo_collection` — admin menu **Logo Wrangler**. Through 1.3.4 it was `cb_logo_collection`; `COOPBOLO_Collections::maybe_migrate_legacy_data()` moves old posts and `_cb_lw_*` meta once (option `coopbolo_schema_version`)
 - PHP prefix: `coopbolo_` / `COOPBOLO_` for functions, classes, constants, options, meta keys, nonces, the CPT, and the REST route (`coopbolo/v1`). WP.org reads a prefix up to its first underscore, so `cb_lw_` was rejected as "cb". Frontend CSS classes and `data-cb-lw` keep `cb-lw` (themes target them)
 - Frontend mount selector: `[data-cb-lw]` on `.cb-lw-inner`
-- Frontend CSS targeting: `.cb-lw-wrapper` for outer spacing/margins; `.cb-lw-inner` for the logo row (legacy `.cb-balanced-logos-wrapper` / `.cb-balanced-logos-inner` still emitted)
+- Frontend CSS targeting: `.cb-lw-wrapper` for outer spacing/margins; `.cb-lw-inner` for the logo row
 - View script handle: `cooper-bold-logo-wrangler-view`
 - Assets enqueue only when block `render_callback` or shortcode runs
 

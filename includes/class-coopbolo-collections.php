@@ -21,17 +21,13 @@ final class COOPBOLO_Collections {
 	public const LEGACY_POST_TYPE = 'cb_logo_collection';
 	public const META_LOGOS    = '_coopbolo_logos';
 	public const META_SETTINGS = '_coopbolo_settings';
-	/** @var list<string> Older meta keys still read for existing installs. */
+	/** @var list<string> 1.3.x meta keys, still read until the collection is next saved. */
 	public const META_LOGOS_LEGACY_KEYS = array(
 		'_cb_lw_logos',
-		'_cb_balanced_logos_logos',
-		'_cb_logo_soup_logos',
 	);
-	/** @var list<string> Older settings meta keys still read for existing installs. */
+	/** @var list<string> 1.3.x settings meta keys, still read until the collection is next saved. */
 	public const META_SETTINGS_LEGACY_KEYS = array(
 		'_cb_lw_settings',
-		'_cb_balanced_logos_settings',
-		'_cb_logo_soup_settings',
 	);
 	public const SCHEMA_OPTION  = 'coopbolo_schema_version';
 	public const SCHEMA_VERSION = 1;

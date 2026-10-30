@@ -22,6 +22,7 @@ One line each: the trap, then the fix or the page with details.
 
 ## Code rules (from AGENTS.md, with the why)
 
+- **Old product names are gone as of 1.4.0 (branch `fix/remove-legacy-aliases`, not merged until Nicholas says).** No `[logo_soup]`/`[balanced_logos]` shortcodes, no legacy blocks, no `balanced-logos.php`, no `active_plugins` writes. Guard tests fail if they return. Older wiki pages that describe them are history. See `wiki/log.md` 2026-10-30.
 - **Never migrate `active_plugins` on `plugins_loaded`.** WP.org flagged writing that option on every load. Migrate on activate or update only, which a guard test enforces. See [[0002-migrate-legacy-plugin-path-activate-only]].
 - **No `viewScript` or `style` in `block.json`.** It double-enqueues with the shortcode path. See [[0006-php-owned-asset-enqueue]].
 - **Don't remove legacy shortcodes, blocks, meta keys, or classes.** Live content (RapidSOS uses `[logo_soup]`) still depends on them. Hide old blocks from the inserter; don't unregister them. See [[0002-migrate-legacy-plugin-path-activate-only]].

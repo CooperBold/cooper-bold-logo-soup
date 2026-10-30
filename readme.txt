@@ -4,7 +4,7 @@ Tags: logo, logos, partners, brands, block
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.7
+Stable tag: 1.4.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Cooper Bold Logo Wrangler is a WordPress plugin that wraps the open-source [logo
 
 * Gutenberg block with live editor preview
 * **Logo Collections** admin UI — build reusable logo sets with Media Library picker
-* `[logo_wrangler]` shortcode for classic content areas (legacy aliases: `[balanced_logos]`, `[logo_soup]`, `[cooper-bold-logo-soup]`)
+* `[logo_wrangler]` shortcode for classic content areas
 * Reference collections by slug (`collection="homepage-partners"`) or ID (`id="123"`)
 * Media library integration for logo selection
 * Tunable normalization controls (size, density, contrast, alignment)
@@ -64,7 +64,7 @@ No. Cooper Bold Logo Wrangler normalizes logo sizing and alignment in a static s
 
 = Which shortcode should I use? =
 
-Both `[logo_wrangler]` and the legacy `[balanced_logos]` / `[logo_soup]` / `[cooper-bold-logo-soup]` tags work. Pipe-delimited example:
+Use the `[logo_wrangler]` shortcode. Pipe-delimited example:
 
 `[logo_wrangler logos="/wp-content/uploads/acme.svg|Acme Corp" gap="28" base_size="48"]`
 
@@ -88,6 +88,13 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 2. Frontend — normalized logo strip after Cooper Bold Logo Wrangler scales and aligns each brand mark.
 
 == Changelog ==
+
+= 1.4.0 =
+* Remove the old product names: the `[balanced_logos]`, `[logo_soup]` and `[cooper-bold-logo-soup]` shortcodes, the `cooper-bold/balanced-logos` and `cooper-bold/logo-soup` blocks, and the `balanced-logos.php` loader. Use `[logo_wrangler]` and the Logo Wrangler block
+* The plugin no longer touches the `active_plugins` option
+* Remove the duplicate `cb-balanced-logos-*` CSS classes and `data-cb-balanced-logos-*` attributes; `cb-lw-*` and `data-cb-lw*` are unchanged
+* Stop reading the oldest collection meta keys (`_cb_balanced_logos_*`, `_cb_logo_soup_*`). Collections saved by 1.3.x still migrate automatically
+* Prefix the JavaScript event names and the debug localStorage key with `coopbolo-`
 
 = 1.3.7 =
 * Load the Splide Auto Scroll extension only once: when a theme or another plugin already loads it, the bundled copy is skipped
@@ -241,6 +248,9 @@ There is no built-in limit. Add as many logos as your collection or block needs;
 * Sanitized shortcode and block attributes
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Removes old shortcode, block and CSS-class aliases. If your content still uses [logo_soup] or [balanced_logos], change it to [logo_wrangler] before updating.
 
 = 1.3.7 =
 Avoids loading the carousel Auto Scroll script twice on themes that already include it.

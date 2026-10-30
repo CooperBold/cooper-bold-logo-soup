@@ -56,7 +56,7 @@ function isLWDebugEnabled() {
 /**
  * @param {...*} args Log arguments when debug is enabled.
  */
-function balancedLogosLog( ...args ) {
+function coopboLog( ...args ) {
 	if ( ! isLWDebugEnabled() ) {
 		return;
 	}
@@ -67,7 +67,7 @@ function balancedLogosLog( ...args ) {
 /**
  * @param {...*} args Error when debug is enabled.
  */
-function balancedLogosDebugError( ...args ) {
+function coopboDebugError( ...args ) {
 	if ( ! isLWDebugEnabled() ) {
 		return;
 	}
@@ -103,7 +103,7 @@ function logSlidesImageStatus( slides, context ) {
 			fail++;
 		}
 	} );
-	balancedLogosLog( 'slidesHaveLoadedImages', {
+	coopboLog( 'slidesHaveLoadedImages', {
 		context,
 		pass,
 		fail,
@@ -159,7 +159,7 @@ function standaloneSplideMounted( carouselRoot ) {
  */
 function slidesHaveLoadedImages( slides ) {
 	if ( ! slides.length ) {
-		balancedLogosLog( 'slidesHaveLoadedImages', {
+		coopboLog( 'slidesHaveLoadedImages', {
 			slideCount: 0,
 			ready: false,
 		} );
@@ -178,7 +178,7 @@ function slidesHaveLoadedImages( slides ) {
 		return typeof img.src === 'string' && img.src.startsWith( 'blob:' );
 	} );
 
-	balancedLogosLog( 'slidesHaveLoadedImages', {
+	coopboLog( 'slidesHaveLoadedImages', {
 		slideCount: slides.length,
 		ready,
 	} );
@@ -217,11 +217,7 @@ function carouselSplideInitialized( carouselRoot ) {
  * @return {string} Raw JSON attribute value.
  */
 function getConfigAttr( el ) {
-	return (
-		el.getAttribute( 'data-cb-lw' ) ||
-		el.getAttribute( 'data-cb-balanced-logos' ) ||
-		''
-	);
+	return el.getAttribute( 'data-cb-lw' ) || '';
 }
 
 /**
@@ -243,7 +239,7 @@ function mountLogoSoup( container ) {
 	try {
 		config = JSON.parse( raw );
 	} catch ( error ) {
-		balancedLogosDebugError( 'mountLogoSoup JSON parse failed', {
+		coopboDebugError( 'mountLogoSoup JSON parse failed', {
 			error: error instanceof Error ? error.message : String( error ),
 		} );
 		return;
@@ -289,7 +285,7 @@ function mountCarouselReference( refContainer, groupId ) {
 	try {
 		config = JSON.parse( raw );
 	} catch ( error ) {
-		balancedLogosDebugError( 'mountCarouselReference JSON parse failed', {
+		coopboDebugError( 'mountCarouselReference JSON parse failed', {
 			groupId,
 			error: error instanceof Error ? error.message : String( error ),
 		} );
@@ -304,18 +300,18 @@ function mountCarouselReference( refContainer, groupId ) {
 	// Cache slide nodes before Splide loop clones duplicate data attributes.
 	const slides = Array.from(
 		document.querySelectorAll(
-			`[data-cb-lw-slide][data-cb-lw-carousel="${ groupId }"], [data-cb-balanced-logos-slide][data-cb-balanced-logos-carousel="${ groupId }"]`
+			`[data-cb-lw-slide][data-cb-lw-carousel="${ groupId }"]`
 		)
 	);
 	if ( ! slides.length ) {
-		balancedLogosLog( 'mountCarouselReference: no slides', { groupId } );
+		coopboLog( 'mountCarouselReference: no slides', { groupId } );
 		return;
 	}
 
 	const configLogoCount = Array.isArray( config.logos )
 		? config.logos.length
 		: 0;
-	balancedLogosLog( 'mountCarouselReference', {
+	coopboLog( 'mountCarouselReference', {
 		groupId,
 		slideCount: slides.length,
 		configLogoCount,
@@ -334,9 +330,9 @@ function mountCarouselReference( refContainer, groupId ) {
 	);
 
 	const carouselRoot =
-		refContainer.closest( '[data-cb-lw-splide], [data-cb-balanced-logos-splide]' ) ||
+		refContainer.closest( '[data-cb-lw-splide]' ) ||
 		document.querySelector(
-			`[data-cb-lw-carousel="${ groupId }"][data-cb-lw-splide], [data-cb-balanced-logos-carousel="${ groupId }"][data-cb-balanced-logos-splide]`
+			`[data-cb-lw-carousel="${ groupId }"][data-cb-lw-splide]`
 		);
 	if ( carouselRoot ) {
 		carouselRoot.classList.add( HYDRATING_CLASS );
@@ -348,7 +344,7 @@ function mountCarouselReference( refContainer, groupId ) {
 		}
 
 		const snippetOwns = externalAutoscrollOwnsSplide( carouselRoot );
-		balancedLogosLog( 'externalAutoscrollOwnsSplide', {
+		coopboLog( 'externalAutoscrollOwnsSplide', {
 			groupId,
 			owns: snippetOwns,
 			snippetScriptPresent: !! document.getElementById(
@@ -366,7 +362,7 @@ function mountCarouselReference( refContainer, groupId ) {
 		carouselRoot.dispatchEvent(
 			new CustomEvent( 'coopbolo-hydrated', { bubbles: true } )
 		);
-		balancedLogosLog( 'coopbolo-hydrated fired', { groupId } );
+		coopboLog( 'coopbolo-hydrated fired', { groupId } );
 	};
 
 	const distribute = () => {
@@ -393,7 +389,7 @@ function mountCarouselReference( refContainer, groupId ) {
 			logoNodes.length >= slides.length &&
 			slides.every( ( slide ) => slide.children.length > 0 );
 
-		balancedLogosLog( 'distribute', {
+		coopboLog( 'distribute', {
 			groupId,
 			logoNodes: logoNodes.length,
 			slides: slides.length,
@@ -421,11 +417,11 @@ function mountCarouselReference( refContainer, groupId ) {
 			refreshTimer = null;
 			try {
 				carouselRoot.splide.refresh();
-				balancedLogosLog( 'splide refresh after progressive fill', {
+				coopboLog( 'splide refresh after progressive fill', {
 					groupId,
 				} );
 			} catch ( error ) {
-				balancedLogosDebugError( 'splide refresh failed', {
+				coopboDebugError( 'splide refresh failed', {
 					groupId,
 					error:
 						error instanceof Error
@@ -455,7 +451,7 @@ function mountCarouselReference( refContainer, groupId ) {
 			return;
 		}
 
-		balancedLogosLog( 'completeHydration (early start)', {
+		coopboLog( 'completeHydration (early start)', {
 			groupId,
 			filled: result.filled,
 			minSlides,
@@ -480,7 +476,7 @@ function mountCarouselReference( refContainer, groupId ) {
 			return;
 		}
 
-		balancedLogosLog( 'completeHydration (all slides)', { groupId } );
+		coopboLog( 'completeHydration (all slides)', { groupId } );
 		hydrationComplete = true;
 		if ( failOpenTimer ) {
 			window.clearTimeout( failOpenTimer );
@@ -526,7 +522,7 @@ function mountCarouselReference( refContainer, groupId ) {
 	observer.observe( refContainer, { childList: true, subtree: true } );
 
 	failOpenTimer = window.setTimeout( () => {
-		balancedLogosLog( 'fail-open timeout', {
+		coopboLog( 'fail-open timeout', {
 			groupId,
 			ms: HYDRATION_FAIL_OPEN_MS,
 		} );
@@ -563,7 +559,7 @@ function externalAutoscrollOwnsSplide( carouselRoot ) {
  * @param {HTMLElement} carouselRoot Splide root element.
  */
 function scheduleStandaloneSplideFallback( carouselRoot ) {
-	balancedLogosLog( 'scheduleStandaloneSplideFallback', {
+	coopboLog( 'scheduleStandaloneSplideFallback', {
 		retries: STANDALONE_SPLIDE_RETRY_MS,
 	} );
 	STANDALONE_SPLIDE_RETRY_MS.forEach( ( delay ) => {
@@ -572,14 +568,14 @@ function scheduleStandaloneSplideFallback( carouselRoot ) {
 				! carouselRoot.isConnected ||
 				carouselSplideInitialized( carouselRoot )
 			) {
-				balancedLogosLog( 'standalone Splide fallback retry skipped', {
+				coopboLog( 'standalone Splide fallback retry skipped', {
 					delay,
 					connected: carouselRoot.isConnected,
 					initialized: carouselSplideInitialized( carouselRoot ),
 				} );
 				return;
 			}
-			balancedLogosLog( 'standalone Splide fallback retry', { delay } );
+			coopboLog( 'standalone Splide fallback retry', { delay } );
 			maybeInitStandaloneSplide( carouselRoot );
 		}, delay );
 	} );
@@ -597,20 +593,20 @@ function maybeInitStandaloneSplide( carouselRoot ) {
 	const hasAutoScroll = !! ( extensions && extensions.AutoScroll );
 
 	if ( carouselRoot.closest( '.brxe-slider-nested' ) ) {
-		balancedLogosLog( 'maybeInitStandaloneSplide skipped (nested slider)', {
+		coopboLog( 'maybeInitStandaloneSplide skipped (nested slider)', {
 			splideAvailable,
 			hasAutoScroll,
 		} );
 		return false;
 	}
 	if ( ! splideAvailable ) {
-		balancedLogosLog( 'maybeInitStandaloneSplide: Splide unavailable', {
+		coopboLog( 'maybeInitStandaloneSplide: Splide unavailable', {
 			hasAutoScroll,
 		} );
 		return false;
 	}
 	if ( carouselSplideInitialized( carouselRoot ) ) {
-		balancedLogosLog( 'maybeInitStandaloneSplide: already initialized', {
+		coopboLog( 'maybeInitStandaloneSplide: already initialized', {
 			hasAutoScroll,
 		} );
 		return true;
@@ -623,7 +619,7 @@ function maybeInitStandaloneSplide( carouselRoot ) {
 		try {
 			carouselRoot.splide.destroy();
 		} catch ( error ) {
-			balancedLogosDebugError( 'splide destroy failed', {
+			coopboDebugError( 'splide destroy failed', {
 				error: error instanceof Error ? error.message : String( error ),
 			} );
 		}
@@ -665,7 +661,7 @@ function maybeInitStandaloneSplide( carouselRoot ) {
 		list.style.transition = 'none';
 	}
 	carouselRoot.classList.remove( HYDRATING_CLASS );
-	balancedLogosLog( 'maybeInitStandaloneSplide: mounted', {
+	coopboLog( 'maybeInitStandaloneSplide: mounted', {
 		splideAvailable,
 		hasAutoScroll,
 		mounted: true,
@@ -677,14 +673,10 @@ function maybeInitStandaloneSplide( carouselRoot ) {
  * Initialize hidden reference strips and standalone Splide carousels.
  */
 function initCarousels() {
-	const refs = document.querySelectorAll(
-		'[data-cb-lw-ref], [data-cb-balanced-logos-ref]'
-	);
-	balancedLogosLog( 'carousel groups found', refs.length );
+	const refs = document.querySelectorAll( '[data-cb-lw-ref]' );
+	coopboLog( 'carousel groups found', refs.length );
 	refs.forEach( ( refContainer ) => {
-		const groupId =
-			refContainer.getAttribute( 'data-cb-lw-ref' ) ||
-			refContainer.getAttribute( 'data-cb-balanced-logos-ref' );
+		const groupId = refContainer.getAttribute( 'data-cb-lw-ref' );
 		if ( ! groupId ) {
 			return;
 		}
@@ -696,22 +688,15 @@ function initCarousels() {
  * Mount all strip containers, then initialize carousels.
  */
 function init() {
-	const strips = document.querySelectorAll(
-		'[data-cb-lw], [data-cb-balanced-logos]'
-	);
-	const refs = document.querySelectorAll(
-		'[data-cb-lw-ref], [data-cb-balanced-logos-ref]'
-	);
-	balancedLogosLog( 'init', {
+	const strips = document.querySelectorAll( '[data-cb-lw]' );
+	const refs = document.querySelectorAll( '[data-cb-lw-ref]' );
+	coopboLog( 'init', {
 		stripCount: strips.length,
 		carouselRefCount: refs.length,
 	} );
 
 	strips.forEach( ( el ) => {
-		if (
-			el.hasAttribute( 'data-cb-lw-ref' ) ||
-			el.hasAttribute( 'data-cb-balanced-logos-ref' )
-		) {
+		if ( el.hasAttribute( 'data-cb-lw-ref' ) ) {
 			return;
 		}
 		mountLogoSoup( el );

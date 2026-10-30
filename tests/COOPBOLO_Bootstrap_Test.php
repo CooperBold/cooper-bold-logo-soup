@@ -11,25 +11,52 @@ use PHPUnit\Framework\TestCase;
 
 final class COOPBOLO_Bootstrap_Test extends TestCase {
 
-	public function test_bootstrap_does_not_migrate_active_plugins_on_plugins_loaded(): void {
-		$src = file_get_contents( dirname( __DIR__ ) . '/cooper-bold-logo-wrangler.php' );
-		$this->assertNotFalse( $src );
-		$this->assertStringNotContainsString( "add_action( 'plugins_loaded', 'coopbolo_migrate_legacy_bootstrap_entry'", $src );
+	public function test_plugin_never_rewrites_active_plugins(): void {
+		$root = dirname( __DIR__ );
+		$this->assertFileDoesNotExist( $root . '/balanced-logos.php' );
+		$files = array_merge( array( $root . '/cooper-bold-logo-wrangler.php' ), glob( $root . '/includes/*.php' ) );
+		foreach ( $files as $file ) {
+			$src = file_get_contents( $file );
+			$this->assertNotFalse( $src );
+			$this->assertStringNotContainsString( 'active_plugins', $src, basename( $file ) );
+			$this->assertStringNotContainsString( 'upgrader_process_complete', $src, basename( $file ) );
+		}
 	}
 
-	public function test_bootstrap_migrates_on_user_initiated_hooks_only(): void {
+	public function test_bootstrap_registers_activation_and_deactivation_hooks(): void {
 		$src = file_get_contents( dirname( __DIR__ ) . '/cooper-bold-logo-wrangler.php' );
 		$this->assertNotFalse( $src );
-		$this->assertStringContainsString( 'coopbolo_migrate_legacy_bootstrap_entry', $src );
 		$this->assertStringContainsString( 'register_activation_hook( COOPBOLO_FILE, \'coopbolo_activate\' )', $src );
 		$this->assertStringContainsString( 'register_deactivation_hook( COOPBOLO_FILE, \'coopbolo_deactivate\' )', $src );
-		$this->assertStringContainsString( 'upgrader_process_complete', $src );
+	}
+
+	/**
+	 * The plugin was renamed from Logo Soup / Balanced Logos. Those names (generic, or
+	 * the third-party project's) must not come back as shortcodes, blocks, or markup.
+	 */
+	public function test_old_product_names_are_not_registered_or_emitted(): void {
+		$root  = dirname( __DIR__ );
+		$files = array_merge(
+			array( $root . '/cooper-bold-logo-wrangler.php' ),
+			glob( $root . '/includes/*.php' ),
+			array( $root . '/src/view.js', $root . '/src/view.scss', $root . '/src/block/index.js', $root . '/src/block/block.json' )
+		);
+		$pattern = '/\[logo_soup|\[balanced_logos|\'logo_soup\'|\'balanced_logos\'|cooper-bold-logo-soup\'|cb-balanced-logos|cooper-bold\/balanced-logos|cooper-bold\/logo-soup/';
+		$found   = array();
+		foreach ( $files as $file ) {
+			$src = file_get_contents( $file );
+			$this->assertNotFalse( $src );
+			if ( preg_match( $pattern, $src, $m ) ) {
+				$found[ basename( $file ) ] = $m[0];
+			}
+		}
+		$this->assertSame( array(), $found );
 	}
 
 	public function test_global_functions_and_classes_use_plugin_prefix(): void {
 		$root  = dirname( __DIR__ );
 		$files = array_merge(
-			array( $root . '/cooper-bold-logo-wrangler.php', $root . '/balanced-logos.php' ),
+			array( $root . '/cooper-bold-logo-wrangler.php' ),
 			glob( $root . '/includes/*.php' )
 		);
 		$unprefixed = array();
@@ -71,7 +98,7 @@ final class COOPBOLO_Bootstrap_Test extends TestCase {
 	public function test_plugin_code_avoids_php8_only_functions(): void {
 		$root  = dirname( __DIR__ );
 		$files = array_merge(
-			array( $root . '/cooper-bold-logo-wrangler.php', $root . '/balanced-logos.php' ),
+			array( $root . '/cooper-bold-logo-wrangler.php' ),
 			glob( $root . '/includes/*.php' )
 		);
 		$found = array();
