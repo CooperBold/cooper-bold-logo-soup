@@ -1,0 +1,37 @@
+AI_RUNBOOK.md
+  s_9889166accae25::t_0e3fc004f9c0aa 135
+AI_SESSION_MEMORY.md
+  s_9889166accae25::t_a9649a64830590 88
+cooper-bold-logo-wrangler.php
+  s_9889166accae25::t_2c9e947e492f8e 6
+readme.txt
+  s_9889166accae25::t_b1b5d8188528f8 35
+tests/COOPBOLO_Bootstrap_Test.php
+  s_9889166accae25::t_55f5b6d3e076d1 126
+wiki/entities/wordpress-plugin.md
+  s_9889166accae25::t_d731ad815ba0fa 45
+wiki/gotchas.md
+  s_9889166accae25::t_1d017f37fc4210 20
+wiki/guides/wordpress-org-submission.md
+  s_9889166accae25::t_6f5487b544e544 55
+wiki/log.md
+  s_9889166accae25::t_d461bb61a0377e 174-177
+wiki/overview.md
+  s_9889166accae25::t_a0a7474e1d6623 53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3b97d4930e898f438952668ed8e9b53b1573a1af",
+  "prompts": {},
+  "sessions": {
+    "s_9889166accae25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2f65879d-aee4-4fde-aafb-9267abd5104d",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Nicholas Eymann <nicholas@cooperbold.com>"
+    }
+  }
+}
